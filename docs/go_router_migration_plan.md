@@ -192,18 +192,34 @@ MaterialApp.router(
 >
 > `StatefulShellRoute` ではタブ内の遷移は各ブランチの `Navigator` を通るため、トップレベルの `GoRouter.observers` だけではタブ配下の画面遷移が Analytics に記録されない可能性がある。各 `StatefulShellBranch` の `observers` にも `FirebaseAnalyticsObserver` を設定する必要がある。
 
-### 11. ディープリンク対応
+### 11. ディープリンク対応 — `app_links` の廃止
 
-現在 `app_links` パッケージで `uriLinkStream` を listen しているが、ルーティングとの連携はされていない（`root_viewmodel.dart:43-48` では listen のみで実質未使用）。Go Router はディープリンクをネイティブサポートしているため、`app_links` の直接利用は不要になる。
+現在 `app_links` パッケージで `uriLinkStream` を listen しているが、ルーティングとの連携はされていない（`root_viewmodel.dart:43-48` では listen のみで実質未使用）。
 
-> **注意: ネイティブ設定は別途必要**
->
-> Go Router のルート定義にパスを追加するだけではディープリンクは機能しない。以下のネイティブ側設定が別途必要:
->
-> - **iOS**: Associated Domains の設定（`apple-app-site-association` ファイル + Xcode の Entitlements）
-> - **Android**: `AndroidManifest.xml` への `intent-filter`（`autoVerify` 含む）+ `.well-known/assetlinks.json`
->
-> これらの設定は Phase 4 で対応する。
+**`app_links` パッケージは完全に廃止し、ディープリンク処理は `go_router` のみで完結させる。**
+
+Go Router は内部で `PlatformDispatcher` 経由の初回リンク取得とストリームリスニングを自動的に行うため、`app_links` が担っていた役割をすべて代替できる。具体的には:
+
+- **初回起動リンク（コールドスタート）**: Go Router が `initialLocation` 解決時にプラットフォームから取得
+- **バックグラウンド復帰リンク（ホットスタート）**: Go Router が内部の `WidgetsBindingObserver` で `didPushRouteInformation` を検知し、自動的にルーティング
+- **URL → 画面のマッピング**: ルート定義（`GoRoute.path`）に基づいて自動解決。手動パースは不要
+
+#### 廃止手順
+
+1. `root_viewmodel.dart` から `AppLinks().uriLinkStream.listen(...)` を削除
+2. `import 'package:app_links/app_links.dart'` を削除
+3. `pubspec.yaml` から `app_links: 7.0.0` を削除
+4. `flutter pub get` で依存を更新
+5. Go Router のルート定義が正しく設定されていることを確認（Phase 1〜2 完了後）
+
+#### ネイティブ設定（Go Router でも別途必要）
+
+Go Router に移行しても、以下のネイティブ側設定は別途必要（これは `app_links` 利用時と同様）:
+
+- **iOS**: Associated Domains の設定（`apple-app-site-association` ファイル + Xcode の Entitlements）
+- **Android**: `AndroidManifest.xml` への `intent-filter`（`autoVerify` 含む）+ `.well-known/assetlinks.json`
+
+これらの設定は Phase 4 で対応する。Go Router 側では `GoRouter(initialLocation: ..., routes: [...])` の定義のみで、リンク受信からルーティングまでがフレームワーク内で完結する。
 
 ### 12. オブジェクトパラメータの受け渡し
 
@@ -246,12 +262,12 @@ MaterialApp.router(
 2. `RootScreen` からガードロジックを削除
 3. `RootViewModel` の `navigatorKeys` 関連コードを削除
 
-### Phase 4: ディープリンク対応
+### Phase 4: ディープリンク対応・`app_links` 廃止
 
-1. iOS / Android のネイティブ設定（Associated Domains、intent-filter 等）
-2. Go Router のディープリンク設定
-3. `app_links` パッケージの利用箇所を Go Router に統合
-4. 不要になった `app_links` の listen 処理を削除
+1. `app_links` パッケージの完全削除（`pubspec.yaml`、import、`uriLinkStream.listen` の削除）
+2. iOS / Android のネイティブ設定（Associated Domains、intent-filter 等）
+3. Go Router のルート定義によるディープリンク動作確認
+4. コールドスタート・ホットスタート両方でのリンク受信テスト
 
 ### Phase 5: クリーンアップ
 
@@ -266,3 +282,4 @@ MaterialApp.router(
 - 各 Phase で全プラットフォーム（iOS / Android / Web）の動作確認を行う。
 - Analytics のスクリーン名が変わる可能性があるため、移行前後のデータ比較を行う。
 - `extra` でオブジェクトを渡しているルートは、ディープリンク対応時に ID ベースに変更する。
+- `app_links` パッケージは Go Router 移行に伴い完全に廃止する。ディープリンク処理は Go Router のみで完結させる。
