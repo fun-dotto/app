@@ -62,14 +62,11 @@ Future<int> checkDartFormat() async {
     return 0;
   }
 
-  // Run dart format check
+  // Run dart format check (only against staged files)
   final formatResult = await Process.run('dart', [
     'format',
     '--output=none',
     '--set-exit-if-changed',
-    'apps/dotto/',
-    'packages/dotto_design_system/',
-    'scripts/',
     ...stagedDartFiles,
   ]);
 
