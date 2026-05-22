@@ -40,11 +40,13 @@ jobs:
           cache: false
           working_directory: .
       - run: mise setup-ci
+      - run: git checkout -- Gemfile.lock
+      - run: mise build
       - run: mise format
       - name: Check for diff
         run: |
-          if [ -n "$(git diff --name-only)" ]; then
+          if [ -n "$(git diff --name-only -- ':!*.g.dart' ':!*.freezed.dart')" ]; then
             echo "::error::Code is not formatted. Run 'mise format' and commit the changes."
-            git diff --name-only
+            git diff --name-only -- ':!*.g.dart' ':!*.freezed.dart'
             exit 1
           fi
