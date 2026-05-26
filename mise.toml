@@ -41,7 +41,6 @@ run = [
 [tasks.build]
 run = "melos run gen:build_runner --no-select"
 
-
 [tasks.app]
 run = [
   "melos run gen:build_runner --no-select",
