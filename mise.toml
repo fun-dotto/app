@@ -45,7 +45,7 @@ run = "melos run gen:build_runner --no-select"
 run = [
   "melos run gen:build_runner --no-select",
   "cd apps/dotto/ios && xcodebuild -resolvePackageDependencies -workspace Runner.xcworkspace -scheme Runner",
-  "cd ../../apps/dotto && flutter run --dart-define-from-file=./dart_defines/development.json",
+  "cd apps/dotto && flutter run --dart-define-from-file=./dart_defines/development.json",
 ]
 
 [tasks.widgetbook]
