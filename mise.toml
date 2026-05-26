@@ -61,7 +61,7 @@ run = "melos run test:unit"
 run = "dart analyze apps/dotto/ packages/dotto_design_system/ scripts/"
 
 [tasks.format]
-run = "dart fix --apply && dart format apps/dotto/ packages/dotto_design_system/ scripts/"
+run = "dart fix --apply && dart format apps/dotto/lib/ apps/dotto/test/ packages/dotto_design_system/ scripts/"
 
 [tasks.generate-openapi]
 run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
