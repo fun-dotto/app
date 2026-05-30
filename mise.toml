@@ -23,8 +23,8 @@ run = "dart run scripts/pre_commit.dart"
 [tasks.setup]
 run = [
   "bundle install",
-  "dart pub global activate melos",
-  "dart pub global activate flutterfire_cli",
+  "dart pub global activate melos 7.8.0",
+  "dart pub global activate flutterfire_cli 1.3.2",
   "melos bootstrap",
   "melos run setup:flutterfire",
   "melos run fetch:dart_defines"
@@ -33,8 +33,7 @@ run = [
 [tasks.setup-ci]
 run = [
   "bundle install",
-  "dart pub global activate melos",
-  "dart pub global activate flutterfire_cli",
+  "dart pub global activate melos 7.8.0",
   "melos bootstrap"
 ]
 
