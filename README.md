@@ -1,6 +1,6 @@
 # Dotto
 
-[![Test Flutter App](https://github.com/fun-dotto/dotto-app/actions/workflows/test-flutter-app.yaml/badge.svg)](https://github.com/fun-dotto/dotto-app/actions/workflows/test-flutter-app.yaml)
+[![CI](https://github.com/fun-dotto/app/actions/workflows/ci.yml/badge.svg)](https://github.com/fun-dotto/app/actions/workflows/ci.yml)
 
 ## ようこそ、Dotto 開発チームへ！
 
