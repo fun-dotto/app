@@ -18,64 +18,38 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 defaults:
   run:
     shell: bash
     working-directory: .
 
+env:
+  BUNDLE_PATH: vendor/bundle
+  BUNDLE_JOBS: 4
+  BUNDLE_RETRY: 3
+
 jobs:
   test:
     name: Test
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - uses: jdx/mise-action@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          cache: false
-          working_directory: .
-      - run: mise setup-ci
+      - uses: ./.github/actions/setup-ci
       - run: mise test-unit
 
-  lint:
-    name: Lint
-    if: github.event.pull_request.draft == false
+  quality:
+    name: Quality
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - uses: jdx/mise-action@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          cache: false
-          working_directory: .
-      - run: mise setup-ci
+      - uses: ./.github/actions/setup-ci
       - run: mise build
       - run: mise analyze
-
-  format:
-    name: Format
-    if: github.event.pull_request.draft == false
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - uses: jdx/mise-action@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          cache: false
-          working_directory: .
-      - run: mise setup-ci
-      - run: mise build
       - run: mise format
       - name: Check for diff
         run: |
