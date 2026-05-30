@@ -5,7 +5,7 @@ runs:
   using: composite
   steps:
     - name: Cache Dart dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.pub-cache
         key: ${{ runner.os }}-pub-${{ hashFiles('mise.toml', 'pubspec.lock', 'pubspec.yaml', 'apps/**/pubspec.yaml', 'packages/**/pubspec.yaml') }}
@@ -13,7 +13,7 @@ runs:
           ${{ runner.os }}-pub-
 
     - name: Cache Bundler dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-bundler-${{ hashFiles('mise.toml', 'Gemfile.lock') }}
