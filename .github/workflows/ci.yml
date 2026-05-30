@@ -75,7 +75,6 @@ jobs:
           cache: false
           working_directory: .
       - run: mise setup-ci
-      - run: git checkout -- Gemfile.lock
       - run: mise build
       - run: mise format
       - name: Check for diff
