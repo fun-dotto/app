@@ -6,14 +6,8 @@ import 'package:dotto/controller/notification_status_controller.dart';
 import 'package:dotto/domain/notification_alert_status.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/bus/bus_screen.dart';
-import 'package:dotto/feature/course/course_screen.dart';
-import 'package:dotto/feature/funch/funch.dart';
-import 'package:dotto/feature/map/map_screen.dart';
 import 'package:dotto/feature/onboarding/onboarding_screen.dart';
 import 'package:dotto/feature/root/root_viewmodel.dart';
-import 'package:dotto/feature/setting/settings.dart';
-import 'package:dotto/feature/subject/search_subject_screen.dart';
 import 'package:dotto/helper/firebase_auth_provider.dart';
 import 'package:dotto/helper/firebase_messaging_provider.dart';
 import 'package:dotto/helper/logger.dart';
@@ -21,16 +15,20 @@ import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:dotto/repository/repository_provider.dart';
+import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto/widget/invalid_app_version_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class RootScreen extends HookConsumerWidget {
-  const RootScreen({super.key});
+  const RootScreen({required this.navigationShell, super.key});
+
+  final StatefulNavigationShell navigationShell;
 
   List<TabItem> _activeTabs({required bool isFunchEnabled}) {
     final baseTabs = TabItem.v2;
@@ -40,21 +38,6 @@ final class RootScreen extends HookConsumerWidget {
     return baseTabs
         .map((tab) => tab == TabItem.funch ? TabItem.subject : tab)
         .toList();
-  }
-
-  Widget _tabRoot({required TabItem tab, required WidgetRef ref}) {
-    return switch (tab) {
-      TabItem.course => const CourseScreen(),
-      TabItem.funch => const FunchScreen(),
-      TabItem.map => MapScreen(
-        onGoToSettingButtonTapped: () => ref
-            .read(rootViewModelProvider.notifier)
-            .onGoToSettingButtonTapped(),
-      ),
-      TabItem.bus => const BusScreen(),
-      TabItem.setting => const SettingsScreen(),
-      TabItem.subject => const SearchSubjectScreen(),
-    };
   }
 
   static const _notificationPromptCooldown = Duration(days: 7);
@@ -266,29 +249,24 @@ final class RootScreen extends HookConsumerWidget {
           }
         });
 
+        final selectedTab = tabForBranchIndex(navigationShell.currentIndex);
+        final selectedIndex = activeTabs.indexOf(selectedTab);
+        final navigationBarSelectedIndex = selectedIndex < 0
+            ? 0
+            : selectedIndex;
+
         return PopScope(
           canPop: Platform.isIOS,
           onPopInvokedWithResult: (didPop, result) async {
             if (didPop) return;
-            await value.navigatorKeys[value.selectedTab]?.currentState
-                ?.maybePop();
+            final router = GoRouter.of(context);
+            if (router.canPop()) {
+              router.pop();
+            }
           },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            body: IndexedStack(
-              index: activeTabs.indexOf(value.selectedTab),
-              children: activeTabs.map((tab) {
-                return Navigator(
-                  key: value.navigatorKeys[tab],
-                  onGenerateRoute: (settings) {
-                    return MaterialPageRoute(
-                      builder: (context) => _tabRoot(tab: tab, ref: ref),
-                      settings: RouteSettings(name: '/${tab.name}'),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
+            body: navigationShell,
             bottomNavigationBar: NavigationBar(
               backgroundColor: switch (environment) {
                 Environment.production => null,
@@ -296,10 +274,15 @@ final class RootScreen extends HookConsumerWidget {
                 Environment.development => Colors.blue.withValues(alpha: 0.15),
                 Environment.qa => Colors.purple.withValues(alpha: 0.15),
               },
-              onDestinationSelected: ref
-                  .read(rootViewModelProvider.notifier)
-                  .onTabItemTapped,
-              selectedIndex: activeTabs.indexOf(value.selectedTab),
+              onDestinationSelected: (index) {
+                final tab = activeTabs[index];
+                final branchIndex = branchIndexForTab(tab);
+                navigationShell.goBranch(
+                  branchIndex,
+                  initialLocation: branchIndex == navigationShell.currentIndex,
+                );
+              },
+              selectedIndex: navigationBarSelectedIndex,
               destinations: activeTabs.map((tab) {
                 return NavigationDestination(
                   selectedIcon: Icon(tab.selectedIcon),
