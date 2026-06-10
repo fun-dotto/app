@@ -2,6 +2,10 @@
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+[mcp_servers.dart]
+command = "dart"
+args = ["mcp-server"]
+
 [mcp_servers.dotto-figma]
 url = "https://mcp.figma.com/mcp"
 
