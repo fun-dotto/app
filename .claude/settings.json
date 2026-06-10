@@ -1,18 +1,29 @@
 {
-  "defaultMode": "plan",
+  "defaultMode": "default",
+  "enabledMcpjsonServers": [
+    "context7",
+    "dart-mcp-server",
+    "dotto-figma",
+    "dotto-notion",
+    "firebase-mcp-server"
+  ],
   "permissions": {
     "allow": [
       "Bash(* --version)",
       "Bash(* --help *)",
-      "Bash(echo:*)",
-      "Bash(find:*)",
-      "Bash(gh:*)",
-      "Bash(git:*)",
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(task:*)",
-      "Bash(wc:*)",
+      "Bash(cat *)",
+      "Bash(echo *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(ls *)",
+      "Bash(mise install)",
+      "Bash(mise run *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
       "Read(*)",
+      "mcp__context7__*",
+      "mcp__dart-mcp-server__*",
       "mcp__dotto-figma__*",
       "mcp__dotto-notion__*",
       "mcp__firebase-mcp-server__*"
