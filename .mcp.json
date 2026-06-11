@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"]
+    "dart-mcp-server": {
+      "command": "dart",
+      "args": ["mcp-server"]
     },
     "dotto-figma": {
       "url": "https://mcp.figma.com/mcp",
@@ -11,10 +11,6 @@
     "dotto-notion": {
       "url": "https://mcp.notion.com/mcp",
       "type": "http"
-    },
-    "firebase-mcp-server": {
-      "command": "npx",
-      "args": ["-y", "firebase-tools@latest", "mcp"]
     }
   }
 }
