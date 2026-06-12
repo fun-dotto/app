@@ -10,7 +10,6 @@ final class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-    ref.watch(appDeepLinkSubscriptionProvider);
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
