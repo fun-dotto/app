@@ -10,6 +10,9 @@ on:
       - ready_for_review
       - reopened
       - synchronize
+  merge_group:
+    types:
+      - checks_requested
   schedule:
     - cron: 0 15 * * *
   workflow_dispatch:
