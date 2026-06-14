@@ -9,7 +9,7 @@ workspace:
   - packages/dotto_api # openapi
   - packages/dotto_design_system # dotto_design_system
 dev_dependencies:
-  melos: 7.7.0
+  melos: 7.8.0
 
 melos:
   command:
@@ -45,7 +45,7 @@ melos:
       packageFilters:
         scope: dotto
     setup:flutterfire:
-      run: flutterfire configure --platforms="ios,android" --yes
+      run: flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
       exec:
         concurrency: 1
       packageFilters:

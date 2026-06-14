@@ -1,13 +1,15 @@
+[mcp_servers.dart]
+command = "dart"
+args = ["mcp-server"]
+
 [mcp_servers.dotto-figma]
 url = "https://mcp.figma.com/mcp"
 
 [mcp_servers.dotto-notion]
 url = "https://mcp.notion.com/mcp"
 
-[mcp_servers.firebase-mcp-server]
-command = "npx"
-args = ["-y", "firebase-tools@latest", "mcp"]
+[plugins."context7@context7-marketplace"]
+enabled = true
 
-[mcp_servers.xcode]
-command = "xcrun"
-args = ["mcpbridge"]
+[plugins."firebase@firebase"]
+enabled = true

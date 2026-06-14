@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "dart-mcp-server": {
+      "command": "dart",
+      "args": ["mcp-server"]
+    },
     "dotto-figma": {
       "url": "https://mcp.figma.com/mcp",
       "type": "http"
@@ -7,18 +11,6 @@
     "dotto-notion": {
       "url": "https://mcp.notion.com/mcp",
       "type": "http"
-    },
-    "firebase-mcp-server": {
-      "command": "npx",
-      "args": ["-y", "firebase-tools@latest", "mcp"]
-    },
-    "xcode": {
-      "type": "stdio",
-      "command": "xcrun",
-      "args": [
-        "mcpbridge"
-      ],
-      "env": {}
     }
   }
 }
