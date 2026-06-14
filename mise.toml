@@ -9,7 +9,7 @@ _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
 "aqua:go-task/task" = "3.50.0"
-flutter = "3.41.9"
+flutter = "3.44.0"
 gcloud = "567.0.0"
 java = "25.0.2"
 node = "24.15.0"
@@ -23,19 +23,20 @@ run = "dart run scripts/pre_commit.dart"
 [tasks.setup]
 run = [
   "bundle install",
-  "dart pub global activate melos",
-  "dart pub global activate flutterfire_cli",
+  "dart pub global activate melos 7.8.0",
+  "dart pub global activate flutterfire_cli 1.3.2",
   "melos bootstrap",
   "melos run setup:flutterfire",
-  "melos run fetch:dart_defines"
+  "melos run fetch:dart_defines",
 ]
 
 [tasks.setup-ci]
 run = [
   "bundle install",
-  "dart pub global activate melos",
-  "dart pub global activate flutterfire_cli",
-  "melos bootstrap"
+  "dart pub global activate melos 7.8.0",
+  "dart pub global activate flutterfire_cli 1.3.2",
+  "melos bootstrap",
+  "melos run setup:flutterfire",
 ]
 
 [tasks.build]

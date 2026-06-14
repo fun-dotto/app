@@ -5,6 +5,7 @@ import 'package:dotto/feature/bus/bus_timetable.dart';
 import 'package:dotto/repository/model/bus_type.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollCacheExtent;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -243,8 +244,8 @@ final class BusScreen extends HookConsumerWidget {
               children: [
                 _KeepAliveTab(
                   child: ListView.separated(
+                    scrollCacheExtent: const ScrollCacheExtent.pixels(10000),
                     controller: weekdayScrollController,
-                    cacheExtent: 10000,
                     itemCount: weekdayTripWidgets.length,
                     separatorBuilder: (_, _) => const Divider(height: 1),
                     itemBuilder: (_, index) => weekdayTripWidgets[index],
@@ -252,8 +253,8 @@ final class BusScreen extends HookConsumerWidget {
                 ),
                 _KeepAliveTab(
                   child: ListView.separated(
+                    scrollCacheExtent: const ScrollCacheExtent.pixels(10000),
                     controller: holidayScrollController,
-                    cacheExtent: 10000,
                     itemCount: holidayTripWidgets.length,
                     separatorBuilder: (_, _) => const Divider(height: 1),
                     itemBuilder: (_, index) => holidayTripWidgets[index],
