@@ -2,6 +2,7 @@ include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   exclude:
+    - apps/dotto/build/**
     - apps/dotto/lib/**/*.freezed.dart
     - apps/dotto/lib/**/*.g.dart
     - apps/dotto/test/**/*.mocks.dart
