@@ -26,6 +26,8 @@ final class SyllabusDatabaseHelper {
     }
     debugPrint('Opening database: $path');
     if (kDebugMode) {
+      // TODO(@kantacky): なんとかする
+      // ignore: experimental_member_use
       final dbFactory = SqfliteDatabaseFactoryLogger(
         databaseFactory,
         options: SqfliteLoggerOptions(
