@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
     "dotto-figma": {
       "url": "https://mcp.figma.com/mcp",
       "type": "http"
@@ -11,14 +15,6 @@
     "firebase-mcp-server": {
       "command": "npx",
       "args": ["-y", "firebase-tools@latest", "mcp"]
-    },
-    "xcode": {
-      "type": "stdio",
-      "command": "xcrun",
-      "args": [
-        "mcpbridge"
-      ],
-      "env": {}
     }
   }
 }
