@@ -10,6 +10,9 @@ on:
       - ready_for_review
       - reopened
       - synchronize
+  merge_group:
+    types:
+      - checks_requested
   schedule:
     - cron: 0 15 * * *
   workflow_dispatch:
@@ -20,6 +23,7 @@ concurrency:
 
 permissions:
   contents: read
+  id-token: write
 
 defaults:
   run:
@@ -38,15 +42,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - uses: ./.github/actions/setup-ci
       - run: mise test-unit
 
-  quality:
-    name: Quality
+  lint:
+    name: Lint
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - uses: ./.github/actions/setup-ci
       - run: mise build
       - run: mise analyze

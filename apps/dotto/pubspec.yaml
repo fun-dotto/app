@@ -7,9 +7,6 @@ environment:
   sdk: 3.12.0
 
 dependencies:
-  openapi: any
-  dotto_design_system: any
-
   app_settings: 7.0.0
   built_collection: 5.1.1
   carousel_slider: 5.1.2
@@ -17,6 +14,7 @@ dependencies:
   collection: 1.19.1
   cupertino_icons: 1.0.9
   dio: 5.9.2
+  dotto_design_system: any
   firebase_analytics: 12.4.1
   firebase_app_check: 0.4.4+1
   firebase_auth: 6.5.1
@@ -49,6 +47,7 @@ dependencies:
   intl: 0.20.2
   json_annotation: 4.11.0
   minio: 3.5.8
+  openapi: any
   package_info_plus: 9.0.1
   path: 1.9.1
   path_provider: 2.1.5
