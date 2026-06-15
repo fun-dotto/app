@@ -1,8 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/feature/bus/bus_reducer.dart';
-import 'package:dotto/feature/bus/bus_stop_select.dart';
-import 'package:dotto/feature/bus/bus_timetable.dart';
 import 'package:dotto/repository/model/bus_type.dart';
+import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ScrollCacheExtent;
@@ -62,12 +61,7 @@ final class BusScreen extends HookConsumerWidget {
       elevation: isTo ? 1 : 0,
       onTap: isTo
           ? () async {
-              await Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (context) => const BusStopSelectScreen(),
-                  settings: const RouteSettings(name: '/bus/select_stop'),
-                ),
-              );
+              await const BusStopSelectRouteData().push<void>(context);
             }
           : null,
     );
@@ -78,12 +72,7 @@ final class BusScreen extends HookConsumerWidget {
       onTap: isTo
           ? null
           : () async {
-              await Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (context) => const BusStopSelectScreen(),
-                  settings: const RouteSettings(name: '/bus/select_stop'),
-                ),
-              );
+              await const BusStopSelectRouteData().push<void>(context);
             },
     );
 
@@ -187,16 +176,10 @@ final class BusScreen extends HookConsumerWidget {
                       onTap: busTrip.route == '0'
                           ? null
                           : () async {
-                              await Navigator.of(context).push(
-                                MaterialPageRoute<void>(
-                                  builder: (context) =>
-                                      BusTimetableScreen(busTrip),
-                                  settings: RouteSettings(
-                                    name:
-                                        '/bus/timetable?route=${busTrip.route}',
-                                  ),
-                                ),
-                              );
+                              await BusTimetableRouteData(
+                                route: busTrip.route,
+                                $extra: busTrip,
+                              ).push<void>(context);
                             },
                     );
                   })

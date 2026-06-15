@@ -6,7 +6,7 @@ import 'package:dotto/domain/subject_filter.dart';
 import 'package:dotto/domain/subject_summary.dart';
 import 'package:dotto/feature/subject/search_subject_filter_section.dart';
 import 'package:dotto/feature/subject/search_subject_reducer.dart';
-import 'package:dotto/feature/subject/subject_detail_screen.dart';
+import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
@@ -125,12 +125,7 @@ class SearchSubjectScreen extends HookConsumerWidget {
           return Text(lines.join('\n'));
         }(),
         onTap: () async {
-          await Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (context) => SubjectDetailScreen(id: subject.id),
-              settings: RouteSettings(name: '/subjects/${subject.id}'),
-            ),
-          );
+          await SubjectDetailRouteData(id: subject.id).push<void>(context);
         },
         trailing: const Icon(Icons.chevron_right),
         leading: () {
