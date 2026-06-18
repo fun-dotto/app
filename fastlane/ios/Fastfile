@@ -229,7 +229,17 @@ platform :ios do
   lane :build_production do
     match_appstore_readonly
     pre_build
-    flutter_release_build
+    sh(
+      'melos',
+      'exec',
+      '--scope=dotto',
+      '--',
+      'flutter',
+      'build',
+      'ipa',
+      '--release',
+      "--dart-define-from-file=dart_defines/prd.json",
+    )
     build_app(
       workspace: "apps/dotto/ios/Runner.xcworkspace",
       scheme: "Runner",
