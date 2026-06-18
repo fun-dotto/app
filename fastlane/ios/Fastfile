@@ -96,7 +96,7 @@ platform :ios do
     sh(
       'melos',
       'exec',
-      '--scope=app',
+      '--scope=dotto',
       '--',
       'flutter',
       'build',

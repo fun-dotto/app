@@ -6,7 +6,7 @@ platform :android do
     sh(
       'melos',
       'exec',
-      '--scope=app',
+      '--scope=dotto',
       '--',
       'flutter',
       'build',
@@ -34,7 +34,7 @@ platform :android do
     sh(
       'melos',
       'exec',
-      '--scope=app',
+      '--scope=dotto',
       '--',
       'flutter',
       'build',
