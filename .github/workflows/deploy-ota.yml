@@ -50,7 +50,7 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.MATCH_GIT_APP_ID }}
+          client-id: ${{ vars.MATCH_GIT_APP_ID }}
           private-key: ${{ secrets.MATCH_GIT_APP_PRIVATE_KEY }}
           owner: fun-dotto
           repositories: apple-certificates
