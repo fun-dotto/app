@@ -128,7 +128,7 @@ platform :ios do
   end
 
   # 各フレーバー(dev/stg/prd)の設定
-  OTA_FLAVORS = {
+  IOS_OTA_FLAVORS = {
     "dev" => {
       app_identifier: "jp.ac.fun.dotto.dev",
       firebase_app_id_env: "FIREBASE_APP_ID_IOS_DEV",
@@ -144,8 +144,8 @@ platform :ios do
   }
 
   desc "Build OTA (per flavor)"
-  def build_ota_flavor(flavor)
-    config = OTA_FLAVORS.fetch(flavor)
+  def build_ios_ota_flavor(flavor)
+    config = IOS_OTA_FLAVORS.fetch(flavor)
     app_identifier = config[:app_identifier]
     sh(
       'melos',
@@ -176,8 +176,8 @@ platform :ios do
   end
 
   # 指定フレーバーをビルドしてFirebase App Distributionに配信し、リリース情報を返す
-  def distribute_ota_flavor(flavor)
-    config = OTA_FLAVORS.fetch(flavor)
+  def distribute_ios_ota_flavor(flavor)
+    config = IOS_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
 
     latest_release = firebase_app_distribution_get_latest_release(
@@ -192,7 +192,7 @@ platform :ios do
       )
     end
 
-    build_ota_flavor(flavor)
+    build_ios_ota_flavor(flavor)
 
     release = firebase_app_distribution(
       app: firebase_app_id,
@@ -207,8 +207,8 @@ platform :ios do
     match_adhoc_readonly
     pre_build
 
-    releases = OTA_FLAVORS.keys.map do |flavor|
-      [flavor, distribute_ota_flavor(flavor)]
+    releases = IOS_OTA_FLAVORS.keys.map do |flavor|
+      [flavor, distribute_ios_ota_flavor(flavor)]
     end
 
     payload = releases.to_h do |flavor, release|
