@@ -28,4 +28,4 @@ runs:
 
     - name: Bootstrap workspace
       shell: bash
-      run: mise setup-ci
+      run: mise setup
