@@ -6,5 +6,6 @@ end
 
 for_platform :ios do
   app_identifier("jp.ac.fun.dotto")
+  itc_team_id("441577")
   team_id("64LEQXTB98")
 end
