@@ -1,2 +1,16 @@
 import('android/Fastfile')
 import('ios/Fastfile')
+
+# OTA配信1件分のリリース情報を OTA_RESULT_FILE で指定されたファイルへ書き出す共通ヘルパー。
+# GitHub Actions のマトリクスジョブが成果物としてアップロードし、最後にまとめて Slack 通知するために利用する。
+def append_ota_result(platform_label:, flavor:, release:)
+  result_file = ENV["OTA_RESULT_FILE"]
+  return if result_file.nil? || result_file.empty?
+
+  line = [
+    "#{platform_label} (#{flavor})",
+    "#{release[:displayVersion]} (#{release[:buildVersion]})",
+    release[:testingUri],
+  ].join("\t")
+  File.write(result_file, "#{line}\n")
+end

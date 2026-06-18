@@ -59,6 +59,14 @@ platform :android do
     )
   end
 
+  desc "Deploy OTA (single flavor)"
+  lane :deploy_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    pre_build
+    release = distribute_android_ota_flavor(flavor)
+    append_ota_result(platform_label: "Android", flavor: flavor, release: release)
+  end
+
   desc "Deploy OTA (dev, stg, prd)"
   lane :deploy_ota do
     pre_build
