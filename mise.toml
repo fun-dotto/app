@@ -8,14 +8,13 @@ compile = false
 _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
-"aqua:go-task/task" = "3.50.0"
 flutter = "3.44.0"
-gcloud = "567.0.0"
+gcloud = "572.0.0"
 java = "25.0.2"
-node = "24.15.0"
+node = "24.16.0"
 "npm:firebase-tools" = "15.15.0"
 "npm:@openapitools/openapi-generator-cli" = "2.32.0"
-ruby = "4.0.4"
+ruby = "4.0.5"
 
 [tasks.pre-commit]
 run = "dart run scripts/pre_commit.dart"
