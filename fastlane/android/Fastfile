@@ -2,7 +2,7 @@ platform :android do
   ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
 
   # 各フレーバー(dev/stg/prd)の設定
-  OTA_FLAVORS = {
+  ANDROID_OTA_FLAVORS = {
     "dev" => {
       firebase_app_id_env: "FIREBASE_APP_ID_ANDROID_DEV",
     },
@@ -21,7 +21,7 @@ platform :android do
   end
 
   # 指定フレーバーの appbundle をビルドする
-  def build_ota_flavor(flavor, build_number)
+  def build_android_ota_flavor(flavor, build_number)
     sh(
       'melos',
       'exec',
@@ -38,8 +38,8 @@ platform :android do
   end
 
   # 指定フレーバーをビルドしてFirebase App Distributionに配信し、リリース情報を返す
-  def distribute_ota_flavor(flavor)
-    config = OTA_FLAVORS.fetch(flavor)
+  def distribute_android_ota_flavor(flavor)
+    config = ANDROID_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
 
     latest_release = firebase_app_distribution_get_latest_release(
@@ -47,7 +47,7 @@ platform :android do
     )
     build_number = latest_release.nil? ? 1 : latest_release[:buildVersion].to_i + 1
 
-    build_ota_flavor(flavor, build_number)
+    build_android_ota_flavor(flavor, build_number)
 
     firebase_app_distribution(
       app: firebase_app_id,
@@ -61,8 +61,8 @@ platform :android do
   lane :deploy_ota do
     pre_build
 
-    releases = OTA_FLAVORS.keys.map do |flavor|
-      [flavor, distribute_ota_flavor(flavor)]
+    releases = ANDROID_OTA_FLAVORS.keys.map do |flavor|
+      [flavor, distribute_android_ota_flavor(flavor)]
     end
 
     payload = releases.to_h do |flavor, release|
