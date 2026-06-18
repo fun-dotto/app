@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dotto/api/api_environment.dart';
+import 'package:dotto/domain/config.dart';
 import 'package:dotto/helper/logger.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,10 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openapi/openapi.dart';
 
 final apiClientProvider = Provider<Openapi>((ref) {
-  final basePath = ref.watch(apiEnvironmentProvider).basePath;
   final dio = Dio(
     BaseOptions(
-      baseUrl: basePath,
+      baseUrl: Config.appApiGatewayBaseUrl,
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 15),
     ),

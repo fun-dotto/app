@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dotto/api/api_environment.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/notification_status_controller.dart';
 import 'package:dotto/domain/notification_alert_status.dart';
@@ -21,6 +20,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -162,7 +162,6 @@ final class RootScreen extends HookConsumerWidget {
       });
 
     final viewModelAsync = ref.watch(rootViewModelProvider);
-    final environment = ref.watch(apiEnvironmentProvider);
     final isFunchEnabled = ref.watch(
       configProvider.select((config) => config.isFunchEnabled),
     );
@@ -268,11 +267,10 @@ final class RootScreen extends HookConsumerWidget {
             resizeToAvoidBottomInset: false,
             body: navigationShell,
             bottomNavigationBar: NavigationBar(
-              backgroundColor: switch (environment) {
-                Environment.production => null,
-                Environment.staging => Colors.orange.withValues(alpha: 0.15),
-                Environment.development => Colors.blue.withValues(alpha: 0.15),
-                Environment.qa => Colors.purple.withValues(alpha: 0.15),
+              backgroundColor: switch (appFlavor) {
+                'dev' => Colors.blue.withValues(alpha: 0.15),
+                'stg' => Colors.orange.withValues(alpha: 0.15),
+                _ => null,
               },
               onDestinationSelected: (index) {
                 final tab = activeTabs[index];

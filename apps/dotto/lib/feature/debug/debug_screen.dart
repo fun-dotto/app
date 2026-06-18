@@ -1,4 +1,3 @@
-import 'package:dotto/api/api_environment.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/remote_config_keys.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
@@ -24,57 +23,12 @@ final class DebugScreen extends HookConsumerWidget {
     final fcmToken = useFuture(
       useMemoized(() => FirebaseMessaging.instance.getToken()),
     );
-    final environment = ref.watch(apiEnvironmentProvider);
-    final apiEnvironmentNotifier = ref.read(apiEnvironmentProvider.notifier);
-    final environmentOverride = apiEnvironmentNotifier.environmentOverride;
     final config = ref.watch(configProvider);
     final configNotifier = ref.read(configProvider.notifier);
     final isFunchEnabledOverride = configNotifier.isFunchEnabledOverride;
     final remoteConfigIsFunchEnabled = ref
         .read(remoteConfigHelperProvider)
         .getBool(RemoteConfigKeys.isFunchEnabled);
-
-    Future<void> showEnvironmentPicker() async {
-      await showDialog<void>(
-        context: context,
-        builder: (dialogContext) => SimpleDialog(
-          title: const Text('API Environment Override'),
-          children: [
-            SimpleDialogOption(
-              onPressed: () async {
-                Navigator.of(dialogContext).pop();
-                await apiEnvironmentNotifier.setOverride(value: null);
-              },
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Use Default'),
-                subtitle: Text(
-                  'Default: ${apiEnvironmentNotifier.defaultEnvironment.label}',
-                ),
-                trailing: environmentOverride == null
-                    ? const Icon(Icons.check)
-                    : null,
-              ),
-            ),
-            ...Environment.values.map((env) {
-              return SimpleDialogOption(
-                onPressed: () async {
-                  Navigator.of(dialogContext).pop();
-                  await apiEnvironmentNotifier.setOverride(value: env);
-                },
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text('Force ${env.label}'),
-                  trailing: environmentOverride == env
-                      ? const Icon(Icons.check)
-                      : null,
-                ),
-              );
-            }),
-          ],
-        ),
-      );
-    }
 
     Future<void> showIsFunchEnabledOverridePicker() async {
       await showDialog<void>(
@@ -213,16 +167,9 @@ final class DebugScreen extends HookConsumerWidget {
               },
             ),
           ),
-          ListTile(
-            title: const Text('API Environment Override'),
-            subtitle: Text(switch (environmentOverride) {
-              null =>
-                'Use Default '
-                    '(${apiEnvironmentNotifier.defaultEnvironment.label})',
-              final value => 'Forced: ${value.label}',
-            }),
-            trailing: Text('Effective: ${environment.label}'),
-            onTap: showEnvironmentPicker,
+          const ListTile(
+            title: Text('Environment'),
+            trailing: Text(appFlavor ?? 'Default'),
           ),
           ListTile(
             title: const Text('isFunchEnabled Override'),

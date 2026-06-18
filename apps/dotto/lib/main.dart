@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dotto/api/api_environment.dart';
 import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options.dart';
 import 'package:dotto/helper/firebase_auth_helper.dart';
@@ -88,7 +87,6 @@ Future<void> main() async {
 
   // アプリの起動
   final container = ProviderContainer();
-  await container.read(apiEnvironmentProvider.notifier).loadOverride();
   runApp(UncontrolledProviderScope(container: container, child: const MyApp()));
 }
 
