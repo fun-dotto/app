@@ -20,7 +20,6 @@ defaults:
     working-directory: .
 
 env:
-  BUNDLE_PATH: vendor/bundle
   BUNDLE_JOBS: 4
   BUNDLE_RETRY: 3
   OTA_RESULT_FILE: ota-result.txt
