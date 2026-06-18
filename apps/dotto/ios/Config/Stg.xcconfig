@@ -1,0 +1,6 @@
+#include "Default.xcconfig"
+
+FLUTTER_FLAVOR=stg
+PRODUCT_BUNDLE_IDENTIFIER=jp.ac.fun.dotto.stg
+DISPLAY_NAME=Dotto Stg
+ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-stg
