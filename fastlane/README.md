@@ -15,13 +15,21 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
-### android deploy_firebase_app_distribution
+### android pre_build
 
 ```sh
-[bundle exec] fastlane android deploy_firebase_app_distribution
+[bundle exec] fastlane android pre_build
 ```
 
-Deploy to Firebase App Distribution
+Pre-build
+
+### android deploy_ota
+
+```sh
+[bundle exec] fastlane android deploy_ota
+```
+
+Deploy OTA (dev, stg, prd)
 
 ### android deploy_google_play
 
@@ -108,14 +116,6 @@ Reset build number
 
 Pre-build
 
-### ios build_production
-
-```sh
-[bundle exec] fastlane ios build_production
-```
-
-Build Production
-
 ### ios deploy_ota
 
 ```sh
@@ -125,6 +125,14 @@ Build Production
 Build OTA (per flavor)
 
 Deploy OTA (dev, stg, prd)
+
+### ios build_production
+
+```sh
+[bundle exec] fastlane ios build_production
+```
+
+Build Production
 
 ### ios deploy_to_testflight
 
