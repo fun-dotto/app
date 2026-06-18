@@ -44,7 +44,7 @@ run = "melos run gen:build_runner --no-select"
 [tasks.app]
 run = [
   "melos run gen:build_runner --no-select",
-  "cd apps/dotto && flutter run --flavor dev --dart-define-from-file　dart_defines/dev.json",
+  "cd apps/dotto && flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json",
 ]
 
 [tasks.widgetbook]
