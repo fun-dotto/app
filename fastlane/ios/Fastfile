@@ -125,6 +125,21 @@ platform :ios do
   lane :pre_build do
     sh('melos', 'bootstrap')
     sh('melos', 'run', 'gen:build_runner', '--no-select')
+    patch_crashlytics_build_phase
+  end
+
+  # Firebase iOS SDK 12+ では Crashlytics/run スクリプトが削除されたため、
+  # flutterfire configure が生成するビルドフェーズスクリプトにガードを追加する。
+  def patch_crashlytics_build_phase
+    pbxproj_path = "apps/dotto/ios/Runner.xcodeproj/project.pbxproj"
+    content = File.read(pbxproj_path)
+    marker = 'flutterfire upload-crashlytics-symbols'
+    guard = '[ ! -f \\"$PATH_TO_CRASHLYTICS_UPLOAD_SCRIPT\\" ] && exit 0; '
+    unless content.include?(guard + marker)
+      content.gsub!(marker, guard + marker)
+      File.write(pbxproj_path, content)
+      UI.message("Patched Crashlytics upload build phase for Firebase iOS SDK 12+ compatibility")
+    end
   end
 
   # 各フレーバー(dev/stg/prd)の設定
