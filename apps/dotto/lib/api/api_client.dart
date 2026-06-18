@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dotto/domain/config.dart';
 import 'package:dotto/helper/logger.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +10,9 @@ import 'package:openapi/openapi.dart';
 final apiClientProvider = Provider<Openapi>((ref) {
   final dio = Dio(
     BaseOptions(
+      // TODO(kantacky): 原因を調査する
+      // ignore: avoid_redundant_argument_values
+      baseUrl: Config.appApiGatewayBaseUrl,
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 15),
     ),
