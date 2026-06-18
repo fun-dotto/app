@@ -100,34 +100,50 @@ Register devices
 
 Reset build number
 
-### ios build_adhoc
+### ios pre_build
 
 ```sh
-[bundle exec] fastlane ios build_adhoc
+[bundle exec] fastlane ios pre_build
 ```
 
-Build for Ad Hoc
+Pre-build
 
-### ios build_appstore
+### ios flutter_release_build
 
 ```sh
-[bundle exec] fastlane ios build_appstore
+[bundle exec] fastlane ios flutter_release_build
 ```
 
-Build for App Store
+Flutter release build
 
-### ios deploy_app_firebase_app_distribution
+### ios build_ota
 
 ```sh
-[bundle exec] fastlane ios deploy_app_firebase_app_distribution
+[bundle exec] fastlane ios build_ota
 ```
 
-Deploy to Firebase App Distribution
+Build OTA
 
-### ios deploy_testflight
+### ios build_production
 
 ```sh
-[bundle exec] fastlane ios deploy_testflight
+[bundle exec] fastlane ios build_production
+```
+
+Build Production
+
+### ios deploy_ota
+
+```sh
+[bundle exec] fastlane ios deploy_ota
+```
+
+Deploy OTA
+
+### ios deploy_to_testflight
+
+```sh
+[bundle exec] fastlane ios deploy_to_testflight
 ```
 
 Deploy to TestFlight

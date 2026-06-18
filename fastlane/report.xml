@@ -5,27 +5,77 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: Switch to ios match_adhoc_readonly lane" time="8.6e-05">
+      <testcase classname="fastlane.lanes" name="00: firebase_app_distribution_get_latest_release" time="0.530017">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: match" time="3.373042">
+      <testcase classname="fastlane.lanes" name="01: increment_build_number" time="0.194277">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: melos bootstrap" time="1.875831">
+      <testcase classname="fastlane.lanes" name="02: Switch to ios build_ota lane" time="8.0e-05">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: melos run gen:build_runner --no-select" time="2.645978">
+      <testcase classname="fastlane.lanes" name="03: Switch to ios match_adhoc_readonly lane" time="5.4e-05">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: build_app" time="77.515202">
+      <testcase classname="fastlane.lanes" name="04: match" time="3.323813">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="05: Switch to ios pre_build lane" time="8.6e-05">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="06: melos bootstrap" time="2.386849">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="07: melos run gen:build_runner --no-select" time="2.899824">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="08: Switch to ios flutter_release_build lane" time="9.8e-05">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="09: melos exec --scope\=app -- flutter build ipa --release --dart-define-from-file\=dart_defines/production.json" time="0.214082">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="10: build_app" time="69.177339">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="11: firebase_app_distribution" time="10.554342">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="12: slack" time="0.93967">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="13: Switch to ios reset_build_number lane" time="0.00037">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="14: increment_build_number" time="0.237553">
         
       </testcase>
     
