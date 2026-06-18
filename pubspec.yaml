@@ -40,8 +40,9 @@ melos:
       steps:
         - rm -rf ./apps/dotto/dart_defines
         - mkdir -p ./apps/dotto/dart_defines
-        - gcloud secrets versions access latest --secret=app_dart_define_development --project=swift2023groupc > ./apps/dotto/dart_defines/development.json
-        - gcloud secrets versions access latest --secret=app_dart_define_production --project=swift2023groupc > ./apps/dotto/dart_defines/production.json
+        - gcloud secrets versions access latest --secret=app_dart_define_dev --project=swift2023groupc > ./apps/dotto/dart_defines/dev.json
+        - gcloud secrets versions access latest --secret=app_dart_define_stg --project=swift2023groupc > ./apps/dotto/dart_defines/stg.json
+        - gcloud secrets versions access latest --secret=app_dart_define_prd --project=swift2023groupc > ./apps/dotto/dart_defines/prd.json
       packageFilters:
         scope: dotto
     setup:flutterfire:
