@@ -17,10 +17,10 @@ platform :ios do
       force_for_new_devices: true,
       api_key: get_app_store_connect_api_key,
       app_identifier: [
-        'jp.ac.fun.dotto',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto.stg',
         'jp.ac.fun.dotto.dev',
+        'jp.ac.fun.dotto.stg',
+        'jp.ac.fun.dotto.prd',
+        'jp.ac.fun.dotto',
       ]
     )
   end
@@ -32,10 +32,10 @@ platform :ios do
       force_for_new_devices: true,
       api_key: get_app_store_connect_api_key,
       app_identifier: [
-        'jp.ac.fun.dotto',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto.stg',
         'jp.ac.fun.dotto.dev',
+        'jp.ac.fun.dotto.stg',
+        'jp.ac.fun.dotto.prd',
+        'jp.ac.fun.dotto',
       ]
     )
   end
@@ -47,10 +47,10 @@ platform :ios do
       force_for_new_devices: true,
       api_key: get_app_store_connect_api_key,
       app_identifier: [
-        'jp.ac.fun.dotto',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto.stg',
         'jp.ac.fun.dotto.dev',
+        'jp.ac.fun.dotto.stg',
+        'jp.ac.fun.dotto.prd',
+        'jp.ac.fun.dotto',
       ]
     )
   end
@@ -63,10 +63,10 @@ platform :ios do
       force_for_new_devices: true,
       readonly: true,
       app_identifier: [
-        'jp.ac.fun.dotto',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto.stg',
         'jp.ac.fun.dotto.dev',
+        'jp.ac.fun.dotto.stg',
+        'jp.ac.fun.dotto.prd',
+        'jp.ac.fun.dotto',
       ]
     )
   end
@@ -79,10 +79,10 @@ platform :ios do
       force_for_new_devices: true,
       readonly: true,
       app_identifier: [
-        'jp.ac.fun.dotto',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto.stg',
         'jp.ac.fun.dotto.dev',
+        'jp.ac.fun.dotto.stg',
+        'jp.ac.fun.dotto.prd',
+        'jp.ac.fun.dotto',
       ]
     )
   end
@@ -95,10 +95,10 @@ platform :ios do
       force_for_new_devices: true,
       readonly: true,
       app_identifier: [
-        'jp.ac.fun.dotto',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto.stg',
         'jp.ac.fun.dotto.dev',
+        'jp.ac.fun.dotto.stg',
+        'jp.ac.fun.dotto.prd',
+        'jp.ac.fun.dotto',
       ]
     )
   end
@@ -127,8 +127,8 @@ platform :ios do
     sh('melos', 'run', 'gen:build_runner', '--no-select')
   end
 
-  desc "Flutter release build"
-  lane :flutter_release_build do
+  desc "Flutter build (dev)"
+  lane :flutter_build_dev do
     sh(
       'melos',
       'exec',
@@ -138,7 +138,40 @@ platform :ios do
       'build',
       'ipa',
       '--release',
-      '--dart-define-from-file=dart_defines/production.json',
+      '--flavor=dev',
+      '--dart-define-from-file=dart_defines/dev.json',
+    )
+  end
+
+  desc "Flutter build (stg)"
+  lane :flutter_build_stg do
+    sh(
+      'melos',
+      'exec',
+      '--scope=dotto',
+      '--',
+      'flutter',
+      'build',
+      'ipa',
+      '--release',
+      '--flavor=stg',
+      '--dart-define-from-file=dart_defines/stg.json',
+    )
+  end
+
+  desc "Flutter build (prd)"
+  lane :flutter_build_prd do
+    sh(
+      'melos',
+      'exec',
+      '--scope=dotto',
+      '--',
+      'flutter',
+      'build',
+      'ipa',
+      '--release',
+      '--flavor=prd',
+      '--dart-define-from-file=dart_defines/prd.json',
     )
   end
 
@@ -157,7 +190,9 @@ platform :ios do
       export_method: "ad-hoc",
       export_options: {
         provisioningProfiles: {
-          "jp.ac.fun.dotto" => "match AdHoc jp.ac.fun.dotto",
+          "jp.ac.fun.dotto.prd" => "match AdHoc jp.ac.fun.dotto.prd",
+          "jp.ac.fun.dotto.stg" => "match AdHoc jp.ac.fun.dotto.stg",
+          "jp.ac.fun.dotto.dev" => "match AdHoc jp.ac.fun.dotto.dev",
         },
       },
     )

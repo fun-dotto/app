@@ -108,13 +108,29 @@ Reset build number
 
 Pre-build
 
-### ios flutter_release_build
+### ios flutter_build_dev
 
 ```sh
-[bundle exec] fastlane ios flutter_release_build
+[bundle exec] fastlane ios flutter_build_dev
 ```
 
-Flutter release build
+Flutter build (dev)
+
+### ios flutter_build_stg
+
+```sh
+[bundle exec] fastlane ios flutter_build_stg
+```
+
+Flutter build (stg)
+
+### ios flutter_build_prd
+
+```sh
+[bundle exec] fastlane ios flutter_build_prd
+```
+
+Flutter build (prd)
 
 ### ios build_ota
 
