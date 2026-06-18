@@ -108,38 +108,6 @@ Reset build number
 
 Pre-build
 
-### ios flutter_build_dev
-
-```sh
-[bundle exec] fastlane ios flutter_build_dev
-```
-
-Flutter build (dev)
-
-### ios flutter_build_stg
-
-```sh
-[bundle exec] fastlane ios flutter_build_stg
-```
-
-Flutter build (stg)
-
-### ios flutter_build_prd
-
-```sh
-[bundle exec] fastlane ios flutter_build_prd
-```
-
-Flutter build (prd)
-
-### ios build_ota
-
-```sh
-[bundle exec] fastlane ios build_ota
-```
-
-Build OTA
-
 ### ios build_production
 
 ```sh
@@ -154,7 +122,9 @@ Build Production
 [bundle exec] fastlane ios deploy_ota
 ```
 
-Deploy OTA
+Build OTA (per flavor)
+
+Deploy OTA (dev, stg, prd)
 
 ### ios deploy_to_testflight
 

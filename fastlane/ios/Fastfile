@@ -127,8 +127,26 @@ platform :ios do
     sh('melos', 'run', 'gen:build_runner', '--no-select')
   end
 
-  desc "Flutter build (dev)"
-  lane :flutter_build_dev do
+  # 各フレーバー(dev/stg/prd)の設定
+  OTA_FLAVORS = {
+    "dev" => {
+      app_identifier: "jp.ac.fun.dotto.dev",
+      firebase_app_id_env: "FIREBASE_APP_ID_IOS_DEV",
+    },
+    "stg" => {
+      app_identifier: "jp.ac.fun.dotto.stg",
+      firebase_app_id_env: "FIREBASE_APP_ID_IOS_STG",
+    },
+    "prd" => {
+      app_identifier: "jp.ac.fun.dotto.prd",
+      firebase_app_id_env: "FIREBASE_APP_ID_IOS_PRD",
+    },
+  }
+
+  desc "Build OTA (per flavor)"
+  def build_ota_flavor(flavor)
+    config = OTA_FLAVORS.fetch(flavor)
+    app_identifier = config[:app_identifier]
     sh(
       'melos',
       'exec',
@@ -138,63 +156,72 @@ platform :ios do
       'build',
       'ipa',
       '--release',
-      '--flavor=dev',
-      '--dart-define-from-file=dart_defines/dev.json',
+      "--flavor=#{flavor}",
+      "--dart-define-from-file=dart_defines/#{flavor}.json",
     )
-  end
-
-  desc "Flutter build (stg)"
-  lane :flutter_build_stg do
-    sh(
-      'melos',
-      'exec',
-      '--scope=dotto',
-      '--',
-      'flutter',
-      'build',
-      'ipa',
-      '--release',
-      '--flavor=stg',
-      '--dart-define-from-file=dart_defines/stg.json',
-    )
-  end
-
-  desc "Flutter build (prd)"
-  lane :flutter_build_prd do
-    sh(
-      'melos',
-      'exec',
-      '--scope=dotto',
-      '--',
-      'flutter',
-      'build',
-      'ipa',
-      '--release',
-      '--flavor=prd',
-      '--dart-define-from-file=dart_defines/prd.json',
-    )
-  end
-
-  desc "Build OTA"
-  lane :build_ota do
-    match_adhoc_readonly
-    pre_build
-    flutter_release_build
     build_app(
       workspace: "apps/dotto/ios/Runner.xcworkspace",
-      scheme: "Runner",
-      configuration: "Release",
+      scheme: flavor,
+      configuration: "Release-#{flavor}",
       clean: true,
       output_directory: "build",
-      output_name: "dotto.ipa",
+      output_name: "dotto-#{flavor}.ipa",
       export_method: "ad-hoc",
       export_options: {
         provisioningProfiles: {
-          "jp.ac.fun.dotto.prd" => "match AdHoc jp.ac.fun.dotto.prd",
-          "jp.ac.fun.dotto.stg" => "match AdHoc jp.ac.fun.dotto.stg",
-          "jp.ac.fun.dotto.dev" => "match AdHoc jp.ac.fun.dotto.dev",
+          app_identifier => "match AdHoc #{app_identifier}",
         },
       },
+    )
+  end
+
+  # 指定フレーバーをビルドしてFirebase App Distributionに配信し、リリース情報を返す
+  def distribute_ota_flavor(flavor)
+    config = OTA_FLAVORS.fetch(flavor)
+    firebase_app_id = ENV[config[:firebase_app_id_env]]
+
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: firebase_app_id,
+    )
+    if latest_release.nil?
+      reset_build_number
+    else
+      increment_build_number(
+        build_number: latest_release[:buildVersion].to_i + 1,
+        xcodeproj: "apps/dotto/ios/Runner.xcodeproj",
+      )
+    end
+
+    build_ota_flavor(flavor)
+
+    release = firebase_app_distribution(
+      app: firebase_app_id,
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+    )
+    reset_build_number
+    release
+  end
+
+  desc "Deploy OTA (dev, stg, prd)"
+  lane :deploy_ota do
+    match_adhoc_readonly
+    pre_build
+
+    releases = OTA_FLAVORS.keys.map do |flavor|
+      [flavor, distribute_ota_flavor(flavor)]
+    end
+
+    payload = releases.to_h do |flavor, release|
+      [
+        "iOS (#{flavor})",
+        "[#{release[:displayVersion]} (#{release[:buildVersion]})](#{release[:testingUri]})",
+      ]
+    end
+    slack(
+      message: "Dotto OTA (dev, stg, prd) deployed!",
+      payload: payload,
+      default_payloads: [:git_branch, :git_author, :last_git_commit, :last_git_commit_hash],
+      slack_url: ENV["SLACK_URL"],
     )
   end
 
@@ -218,38 +245,6 @@ platform :ios do
         },
       },
     )
-  end
-
-  desc "Deploy OTA"
-  lane :deploy_ota do
-    latest_release = firebase_app_distribution_get_latest_release(
-      app: ENV["FIREBASE_APP_ID_IOS"],
-    )
-    if latest_release.nil?
-      reset_build_number
-    else
-      increment_build_number(
-        build_number: latest_release[:buildVersion].to_i + 1,
-        xcodeproj: "apps/dotto/ios/Runner.xcodeproj",
-      )
-    end
-    build_ota
-    release = firebase_app_distribution(
-      app: ENV["FIREBASE_APP_ID_IOS"],
-      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-    )
-    slack(
-      message: "Dotto OTA #{release[:displayVersion]} (#{release[:buildVersion]}) deployed!",
-      payload: {
-        "iOS" => "[iOS #{release[:displayVersion]} (#{release[:buildVersion]})](#{release[:testingUri]})",
-      },
-      default_payloads: [:git_branch, :git_author, :last_git_commit, :last_git_commit_hash],
-      attachment_properties: {
-        image_url: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=#{release[:testingUri]}",
-      },
-      slack_url: ENV["SLACK_URL"],
-    )
-    reset_build_number
   end
 
   desc "Deploy to TestFlight"
