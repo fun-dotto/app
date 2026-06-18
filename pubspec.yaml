@@ -46,7 +46,40 @@ melos:
       packageFilters:
         scope: dotto
     setup:flutterfire:
-      run: flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+      # ストア版（flavor 指定なし / jp.ac.fun.dotto）と dev/stg/prd の計4アプリを設定する。
+      # `exec` で apps/dotto 配下を作業ディレクトリとするため、パスはパッケージ相対。
+      run: >-
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options.dart
+        --ios-bundle-id=jp.ac.fun.dotto
+        --android-package-name=jp.ac.fun.dotto
+        --ios-out=ios/Runner/GoogleService-Info.plist
+        --android-out=android/app/google-services.json
+        --ios-build-config=Release
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options_dev.dart
+        --ios-bundle-id=jp.ac.fun.dotto.dev
+        --android-package-name=jp.ac.fun.dotto.dev
+        --ios-out=ios/firebase/dev/GoogleService-Info.plist
+        --android-out=android/app/src/dev/google-services.json
+        --ios-build-config=Release-dev
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options_stg.dart
+        --ios-bundle-id=jp.ac.fun.dotto.stg
+        --android-package-name=jp.ac.fun.dotto.stg
+        --ios-out=ios/firebase/stg/GoogleService-Info.plist
+        --android-out=android/app/src/stg/google-services.json
+        --ios-build-config=Release-stg
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options_prd.dart
+        --ios-bundle-id=jp.ac.fun.dotto.prd
+        --android-package-name=jp.ac.fun.dotto.prd
+        --ios-out=ios/firebase/prd/GoogleService-Info.plist
+        --android-out=android/app/src/prd/google-services.json
+        --ios-build-config=Release-prd
       exec:
         concurrency: 1
       packageFilters:
