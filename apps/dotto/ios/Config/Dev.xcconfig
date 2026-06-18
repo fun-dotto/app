@@ -1,0 +1,6 @@
+#include "Default.xcconfig"
+
+FLUTTER_FLAVOR=dev
+PRODUCT_BUNDLE_IDENTIFIER=jp.ac.fun.dotto.dev
+DISPLAY_NAME=Dotto Dev
+ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-dev

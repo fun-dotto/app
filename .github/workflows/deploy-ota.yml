@@ -1,0 +1,149 @@
+name: Deploy OTA
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+env:
+  BUNDLE_PATH: vendor/bundle
+  BUNDLE_JOBS: 4
+  BUNDLE_RETRY: 3
+  OTA_RESULT_FILE: ota-result.txt
+  FIREBASE_APP_DISTRIBUTION_GROUPS: ${{ vars.FIREBASE_APP_DISTRIBUTION_GROUPS }}
+
+jobs:
+  ios:
+    name: Deploy iOS OTA (${{ matrix.flavor }})
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [dev, stg, prd]
+    env:
+      APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      FIREBASE_APP_ID_IOS_DEV: ${{ secrets.FIREBASE_APP_ID_IOS_DEV }}
+      FIREBASE_APP_ID_IOS_STG: ${{ secrets.FIREBASE_APP_ID_IOS_STG }}
+      FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - name: Generate token to access certificates repository
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.MATCH_GIT_APP_ID }}
+          private-key: ${{ secrets.MATCH_GIT_APP_PRIVATE_KEY }}
+          owner: fun-dotto
+          repositories: apple-certificates
+      - name: Set match git basic authorization
+        run: |
+          # GitHub App のインストールトークンを base64 化して match の HTTPS Basic 認証に渡す
+          echo "MATCH_GIT_BASIC_AUTHORIZATION=$(printf 'x-access-token:%s' '${{ steps.app-token.outputs.token }}' | base64 | tr -d '\n')" >> "$GITHUB_ENV"
+      - uses: ./.github/actions/setup-ci
+      - name: Deploy iOS OTA (${{ matrix.flavor }})
+        run: mise exec -- bundle exec fastlane ios deploy_ota_flavor flavor:${{ matrix.flavor }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ota-result-ios-${{ matrix.flavor }}
+          path: ${{ env.OTA_RESULT_FILE }}
+          if-no-files-found: error
+
+  android:
+    name: Deploy Android OTA (${{ matrix.flavor }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [dev, stg, prd]
+    env:
+      FIREBASE_APP_ID_ANDROID_DEV: ${{ secrets.FIREBASE_APP_ID_ANDROID_DEV }}
+      FIREBASE_APP_ID_ANDROID_STG: ${{ secrets.FIREBASE_APP_ID_ANDROID_STG }}
+      FIREBASE_APP_ID_ANDROID_PRD: ${{ secrets.FIREBASE_APP_ID_ANDROID_PRD }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - name: Deploy Android OTA (${{ matrix.flavor }})
+        run: mise exec -- bundle exec fastlane android deploy_ota_flavor flavor:${{ matrix.flavor }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ota-result-android-${{ matrix.flavor }}
+          path: ${{ env.OTA_RESULT_FILE }}
+          if-no-files-found: error
+
+  notify:
+    name: Notify Slack
+    needs: [ios, android]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: ota-results
+          pattern: ota-result-*
+          merge-multiple: true
+      - name: Send Slack notification
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
+          DEPLOY_RESULT: ${{ needs.ios.result == 'success' && needs.android.result == 'success' && 'success' || 'failure' }}
+        run: |
+          # 各マトリクスジョブが書き出した成果物(label\tversion\tURL)を集約し、Slack 通知用のフィールドを組み立てる
+          fields=$(mktemp)
+          if ls ota-results/*.txt >/dev/null 2>&1; then
+            cat ota-results/*.txt | sort | while IFS=$'\t' read -r label version url; do
+              [ -z "$label" ] && continue
+              jq -n --arg t "$label" --arg v "[$version](<$url|ダウンロード>)" \
+                '{type:"mrkdwn", text:("*" + $t + "*\n" + $v)}'
+            done | jq -s '.' > "$fields"
+          else
+            echo '[]' > "$fields"
+          fi
+
+          if [ "$DEPLOY_RESULT" = "success" ]; then
+            header=":rocket: Dotto OTA (dev, stg, prd) deployed!"
+          else
+            header=":x: Dotto OTA のデプロイに失敗しました (詳細は GitHub Actions を確認してください)"
+          fi
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          payload=$(jq -n \
+            --arg header "$header" \
+            --arg context "<$run_url|GitHub Actions の実行ログ> | ブランチ: $GITHUB_REF_NAME" \
+            --slurpfile fields "$fields" \
+            '{
+              blocks: (
+                [
+                  {type:"section", text:{type:"mrkdwn", text:$header}}
+                ]
+                + (if ($fields[0] | length) > 0 then [{type:"section", fields:$fields[0]}] else [] end)
+                + [{type:"context", elements:[{type:"mrkdwn", text:$context}]}]
+              )
+            }')
+
+          curl -fsSL -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_URL"

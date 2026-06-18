@@ -1,0 +1,6 @@
+require "yaml"
+
+for_platform :ios do
+  pubspec = YAML.load_file(File.expand_path("apps/dotto/pubspec.yaml", Dir.pwd))
+  app_version pubspec.fetch("version").to_s.split("+").first
+end

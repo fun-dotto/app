@@ -22,6 +22,9 @@ abstract class Config with _$Config {
     required String macSupportDeskUrl,
   }) = _Config;
 
+  static const String appApiGatewayBaseUrl = String.fromEnvironment(
+    'APP_API_GATEWAY_BASE_URL',
+  );
   static const String cloudflareR2Endpoint = String.fromEnvironment(
     'CLOUDFLARE_R2_ENDPOINT',
   );

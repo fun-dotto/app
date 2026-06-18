@@ -40,12 +40,102 @@ melos:
       steps:
         - rm -rf ./apps/dotto/dart_defines
         - mkdir -p ./apps/dotto/dart_defines
-        - gcloud secrets versions access latest --secret=app_dart_define_development --project=swift2023groupc > ./apps/dotto/dart_defines/development.json
-        - gcloud secrets versions access latest --secret=app_dart_define_production --project=swift2023groupc > ./apps/dotto/dart_defines/production.json
+        - gcloud secrets versions access latest --secret=app_dart_define_dev --project=swift2023groupc > ./apps/dotto/dart_defines/dev.json
+        - gcloud secrets versions access latest --secret=app_dart_define_stg --project=swift2023groupc > ./apps/dotto/dart_defines/stg.json
+        - gcloud secrets versions access latest --secret=app_dart_define_prd --project=swift2023groupc > ./apps/dotto/dart_defines/prd.json
       packageFilters:
         scope: dotto
     setup:flutterfire:
-      run: flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+      # ストア版（flavor 指定なし / jp.ac.fun.dotto）と dev/stg/prd の計4アプリを設定する。
+      # `exec` で apps/dotto 配下を作業ディレクトリとするため、パスはパッケージ相対。
+      #
+      # iOS の各 flavor は Release / Debug / Profile の3ビルド構成を持つため、
+      # それぞれを firebase.json の buildConfigurations に登録する。
+      # flutterfire configure は --ios-build-config を1回1つしか受け取れないが、
+      # 再実行で buildConfigurations へマージ追記されるため構成ごとに実行する。
+      # Release 系のみだと debug / profile ビルド時に
+      # `type 'Null' is not a subtype of type 'Map<String, dynamic>'` で失敗する。
+      # Android はビルド構成の概念がないため、追加実行は --platforms="ios" に限定する。
+      run: >-
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options.dart
+        --ios-bundle-id=jp.ac.fun.dotto
+        --android-package-name=jp.ac.fun.dotto
+        --ios-out=ios/Runner/GoogleService-Info.plist
+        --android-out=android/app/google-services.json
+        --ios-build-config=Release
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options.dart
+        --ios-bundle-id=jp.ac.fun.dotto
+        --ios-out=ios/Runner/GoogleService-Info.plist
+        --ios-build-config=Debug
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options.dart
+        --ios-bundle-id=jp.ac.fun.dotto
+        --ios-out=ios/Runner/GoogleService-Info.plist
+        --ios-build-config=Profile
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options_dev.dart
+        --ios-bundle-id=jp.ac.fun.dotto.dev
+        --android-package-name=jp.ac.fun.dotto.dev
+        --ios-out=ios/firebase/dev/GoogleService-Info.plist
+        --android-out=android/app/src/dev/google-services.json
+        --ios-build-config=Release-dev
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options_dev.dart
+        --ios-bundle-id=jp.ac.fun.dotto.dev
+        --ios-out=ios/firebase/dev/GoogleService-Info.plist
+        --ios-build-config=Debug-dev
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options_dev.dart
+        --ios-bundle-id=jp.ac.fun.dotto.dev
+        --ios-out=ios/firebase/dev/GoogleService-Info.plist
+        --ios-build-config=Profile-dev
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options_stg.dart
+        --ios-bundle-id=jp.ac.fun.dotto.stg
+        --android-package-name=jp.ac.fun.dotto.stg
+        --ios-out=ios/firebase/stg/GoogleService-Info.plist
+        --android-out=android/app/src/stg/google-services.json
+        --ios-build-config=Release-stg
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options_stg.dart
+        --ios-bundle-id=jp.ac.fun.dotto.stg
+        --ios-out=ios/firebase/stg/GoogleService-Info.plist
+        --ios-build-config=Debug-stg
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options_stg.dart
+        --ios-bundle-id=jp.ac.fun.dotto.stg
+        --ios-out=ios/firebase/stg/GoogleService-Info.plist
+        --ios-build-config=Profile-stg
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios,android" --yes
+        --out=lib/firebase_options_prd.dart
+        --ios-bundle-id=jp.ac.fun.dotto.prd
+        --android-package-name=jp.ac.fun.dotto.prd
+        --ios-out=ios/firebase/prd/GoogleService-Info.plist
+        --android-out=android/app/src/prd/google-services.json
+        --ios-build-config=Release-prd
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options_prd.dart
+        --ios-bundle-id=jp.ac.fun.dotto.prd
+        --ios-out=ios/firebase/prd/GoogleService-Info.plist
+        --ios-build-config=Debug-prd
+        &&
+        flutterfire configure --project=swift2023groupc --platforms="ios" --yes
+        --out=lib/firebase_options_prd.dart
+        --ios-bundle-id=jp.ac.fun.dotto.prd
+        --ios-out=ios/firebase/prd/GoogleService-Info.plist
+        --ios-build-config=Profile-prd
       exec:
         concurrency: 1
       packageFilters:

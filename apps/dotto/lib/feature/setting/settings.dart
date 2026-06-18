@@ -11,9 +11,9 @@ import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -80,29 +80,10 @@ final class SettingsScreen extends HookConsumerWidget {
     if (kDebugMode) {
       return true;
     }
-
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return false;
-    }
-
-    try {
-      final tokenResult = await user.getIdTokenResult(true);
-      final developerClaim = tokenResult.claims?['developer'];
-
-      if (developerClaim is bool) {
-        return developerClaim;
-      }
-      if (developerClaim is String) {
-        return developerClaim.toLowerCase() == 'true';
-      }
-      if (developerClaim is num) {
-        return developerClaim != 0;
-      }
-      return developerClaim != null;
-    } on Exception {
-      return false;
-    }
+    return switch (appFlavor) {
+      'prd' || 'stg' || 'dev' => true,
+      _ => false,
+    };
   }
 
   @override

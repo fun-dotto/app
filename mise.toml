@@ -8,14 +8,13 @@ compile = false
 _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
-"aqua:go-task/task" = "3.50.0"
 flutter = "3.44.0"
-gcloud = "567.0.0"
+gcloud = "572.0.0"
 java = "25.0.2"
-node = "24.15.0"
+node = "24.16.0"
 "npm:firebase-tools" = "15.15.0"
 "npm:@openapitools/openapi-generator-cli" = "2.32.0"
-ruby = "4.0.4"
+ruby = "4.0.5"
 
 [tasks.pre-commit]
 run = "dart run scripts/pre_commit.dart"
@@ -45,7 +44,7 @@ run = "melos run gen:build_runner --no-select"
 [tasks.app]
 run = [
   "melos run gen:build_runner --no-select",
-  "cd apps/dotto && flutter run --dart-define-from-file=./dart_defines/development.json",
+  "cd apps/dotto && flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json",
 ]
 
 [tasks.widgetbook]
@@ -61,7 +60,7 @@ run = "melos run test:unit"
 run = "dart analyze apps/dotto/ packages/dotto_design_system/ scripts/"
 
 [tasks.format]
-run = "dart fix --apply && dart format apps/dotto/ packages/dotto_design_system/ scripts/"
+run = "dart fix --apply && dart format apps/dotto/lib/ apps/dotto/test/ packages/dotto_design_system/lib/ scripts/"
 
 [tasks.generate-openapi]
 run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
