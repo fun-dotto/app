@@ -205,6 +205,7 @@ platform :ios do
   desc "Deploy OTA (single flavor)"
   lane :deploy_ota_flavor do |options|
     flavor = options.fetch(:flavor)
+    match_development_readonly
     match_adhoc_readonly
     pre_build
     release = distribute_ios_ota_flavor(flavor)
@@ -213,6 +214,7 @@ platform :ios do
 
   desc "Deploy OTA (dev, stg, prd)"
   lane :deploy_ota do
+    match_development_readonly
     match_adhoc_readonly
     pre_build
 
