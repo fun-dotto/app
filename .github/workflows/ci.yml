@@ -30,10 +30,6 @@ defaults:
     shell: bash
     working-directory: .
 
-env:
-  BUNDLE_JOBS: 4
-  BUNDLE_RETRY: 3
-
 jobs:
   test:
     name: Test
