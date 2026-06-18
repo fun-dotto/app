@@ -1,0 +1,2 @@
+import('android/Fastfile')
+import('ios/Fastfile')

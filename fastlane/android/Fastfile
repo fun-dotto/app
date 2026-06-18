@@ -1,0 +1,58 @@
+platform :android do
+  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+
+  desc "Deploy to Firebase App Distribution"
+  lane :deploy_firebase_app_distribution do
+    sh(
+      'melos',
+      'exec',
+      '--scope=app',
+      '--',
+      'flutter',
+      'build',
+      'appbundle',
+      '--release',
+      '--dart-define-from-file=dart_defines/production.json',
+    )
+
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID_ANDROID"],
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy_google_play do
+    pubspec = YAML.load_file(File.expand_path("apps/dotto/pubspec.yaml", Dir.pwd))
+    app_version pubspec.fetch("version").to_s.split("+").first
+
+    previous_build_number = google_play_track_version_codes(
+      json_key: ENV["GOOGLE_APPLICATION_CREDENTIALS"],
+    )[0]
+    new_version_code = previous_build_number + 1
+
+    sh(
+      'melos',
+      'exec',
+      '--scope=app',
+      '--',
+      'flutter',
+      'build',
+      'appbundle',
+      '--release',
+      '--dart-define-from-file=dart_defines/production.json',
+      "--build-number=#{new_version_code}",
+    )
+
+    upload_to_play_store(
+      version_name: "#{new_version_code}(#{app_version})",
+      json_key: ENV["GOOGLE_APPLICATION_CREDENTIALS"],
+      aab: "apps/dotto/build/app/outputs/bundle/release/app-release.aab",
+      release_status: "draft",
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+end

@@ -1,0 +1,10 @@
+for_platform :android do
+  for_lane :deploy_app_firebase_app_distribution do
+    package_name("jp.ac.fun.dotto")
+  end
+end
+
+for_platform :ios do
+  app_identifier("jp.ac.fun.dotto")
+  team_id("64LEQXTB98")
+end
