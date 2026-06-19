@@ -20,13 +20,13 @@ defaults:
     working-directory: .
 
 env:
-  OTA_RESULT_FILE: ota-result.txt
+  OTA_RESULT_FILE: ${{ github.workspace }}/ota-result.txt
   FIREBASE_APP_DISTRIBUTION_GROUPS: ${{ vars.FIREBASE_APP_DISTRIBUTION_GROUPS }}
 
 jobs:
   ios:
     name: Deploy iOS OTA (${{ matrix.flavor }})
-    runs-on: macos-latest
+    runs-on: macos-26
     strategy:
       fail-fast: false
       matrix:
@@ -41,6 +41,8 @@ jobs:
       FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
     steps:
       - uses: actions/checkout@v6
+      - name: Setup Xcode
+        run: xcodes select
       - uses: google-github-actions/auth@v3
         with:
           project_id: swift2023groupc
@@ -61,7 +63,7 @@ jobs:
       - uses: ./.github/actions/setup-ci
       - name: Deploy iOS OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane ios deploy_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: ota-result-ios-${{ matrix.flavor }}
           path: ${{ env.OTA_RESULT_FILE }}
@@ -88,7 +90,7 @@ jobs:
       - uses: ./.github/actions/setup-ci
       - name: Deploy Android OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane android deploy_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: ota-result-android-${{ matrix.flavor }}
           path: ${{ env.OTA_RESULT_FILE }}
@@ -100,7 +102,7 @@ jobs:
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
         with:
           path: ota-results
           pattern: ota-result-*
