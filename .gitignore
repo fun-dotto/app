@@ -110,10 +110,3 @@ Temporary Items
 **/dart_defines/**.json
 .claude/worktrees/
 .idea/
-firebase.json
-firebase_options.dart
-firebase_options_dev.dart
-firebase_options_stg.dart
-firebase_options_prd.dart
-google-services.json
-GoogleService-Info.plist
