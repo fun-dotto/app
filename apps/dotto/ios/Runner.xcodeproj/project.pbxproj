@@ -194,8 +194,8 @@
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				B523EDEAE46C655A5043B5D6 /* FlutterFire: "flutterfire bundle-service-file" */,
-				A64444522776AD1C3F8D2BEF /* FlutterFire: "flutterfire upload-crashlytics-symbols" */,
+				B523EDEAE46C655A5043B5D6 /* Bundle GoogleService-Info.plist */,
+				A64444522776AD1C3F8D2BEF /* Upload Crashlytics dSYM */,
 			);
 			buildRules = (
 			);
@@ -316,21 +316,23 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
 		};
-		A64444522776AD1C3F8D2BEF /* FlutterFire: "flutterfire upload-crashlytics-symbols" */ = {
+		A64444522776AD1C3F8D2BEF /* Upload Crashlytics dSYM */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).app/GoogleService-Info.plist",
+				"$(DWARF_DSYM_FOLDER_PATH)/$(DWARF_DSYM_FILE_NAME)",
 			);
-			name = "FlutterFire: \"flutterfire upload-crashlytics-symbols\"";
+			name = "Upload Crashlytics dSYM";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n#!/bin/bash\nPATH=\"${PATH}:$FLUTTER_ROOT/bin:${PUB_CACHE}/bin:$HOME/.pub-cache/bin\"\n\nif [ -z \"$PODS_ROOT\" ] || [ ! -d \"$PODS_ROOT/FirebaseCrashlytics\" ]; then\n  # Cannot use \"BUILD_DIR%/Build/*\" as per Firebase documentation, it points to \"flutter-project/build/ios/*\" path which doesn't have run script\n  DERIVED_DATA_PATH=$(echo \"$BUILD_ROOT\" | sed -E 's|(.*DerivedData/[^/]+).*|\\1|')\n  PATH_TO_CRASHLYTICS_UPLOAD_SCRIPT=\"${DERIVED_DATA_PATH}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nelse\n  PATH_TO_CRASHLYTICS_UPLOAD_SCRIPT=\"$PODS_ROOT/FirebaseCrashlytics/run\"\nfi\n\n# Command to upload symbols script used to upload symbols to Firebase server\nflutterfire upload-crashlytics-symbols --upload-symbols-script-path=\"$PATH_TO_CRASHLYTICS_UPLOAD_SCRIPT\" --platform=ios --apple-project-path=\"${SRCROOT}\" --env-platform-name=\"${PLATFORM_NAME}\" --env-configuration=\"${CONFIGURATION}\" --env-project-dir=\"${PROJECT_DIR}\" --env-built-products-dir=\"${BUILT_PRODUCTS_DIR}\" --env-dwarf-dsym-folder-path=\"${DWARF_DSYM_FOLDER_PATH}\" --env-dwarf-dsym-file-name=\"${DWARF_DSYM_FILE_NAME}\" --env-infoplist-path=\"${INFOPLIST_PATH}\" --target=Runner\n";
+			shellScript = "#!/bin/bash\nset -euo pipefail\nUPLOAD=\"\"\nif [ -n \"${PODS_ROOT:-}\" ] && [ -f \"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" ]; then\n  UPLOAD=\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\"\nelse\n  DERIVED_DATA_PATH=$(echo \"$BUILD_ROOT\" | sed -E 's|(.*DerivedData/[^/]+).*|\\1|')\n  CANDIDATE=\"${DERIVED_DATA_PATH}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\"\n  [ -f \"$CANDIDATE\" ] && UPLOAD=\"$CANDIDATE\"\nfi\nif [ -z \"$UPLOAD\" ]; then\n  echo \"warning: Crashlytics upload-symbols not found, skipping dSYM upload\"\n  exit 0\nfi\n\"$UPLOAD\" -gsp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
-		B523EDEAE46C655A5043B5D6 /* FlutterFire: "flutterfire bundle-service-file" */ = {
+		B523EDEAE46C655A5043B5D6 /* Bundle GoogleService-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -338,15 +340,20 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Runner/GoogleService-Info.plist",
+				"$(SRCROOT)/Firebase/dev/GoogleService-Info.plist",
+				"$(SRCROOT)/Firebase/stg/GoogleService-Info.plist",
+				"$(SRCROOT)/Firebase/prd/GoogleService-Info.plist",
 			);
-			name = "FlutterFire: \"flutterfire bundle-service-file\"";
+			name = "Bundle GoogleService-Info.plist";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).app/GoogleService-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n#!/bin/bash\nPATH=\"${PATH}:$FLUTTER_ROOT/bin:${PUB_CACHE}/bin:$HOME/.pub-cache/bin\"\nflutterfire bundle-service-file --plist-destination=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\" --build-configuration=${CONFIGURATION} --platform=ios --apple-project-path=\"${SRCROOT}\"\n";
+			shellScript = "#!/bin/bash\nset -euo pipefail\nFLAVOR=\"${CONFIGURATION#*-}\"\ncase \"$FLAVOR\" in\n  dev|stg|prd) SRC=\"${SRCROOT}/Firebase/${FLAVOR}/GoogleService-Info.plist\" ;;\n  *)           SRC=\"${SRCROOT}/Runner/GoogleService-Info.plist\" ;;\nesac\nif [ ! -f \"$SRC\" ]; then\n  echo \"error: GoogleService-Info.plist not found at $SRC\" >&2\n  exit 1\nfi\ncp \"$SRC\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
