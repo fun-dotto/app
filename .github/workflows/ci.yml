@@ -35,6 +35,7 @@ jobs:
     name: Test
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: google-github-actions/auth@v3
@@ -49,6 +50,7 @@ jobs:
     name: Lint
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: google-github-actions/auth@v3

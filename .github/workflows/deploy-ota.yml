@@ -27,6 +27,7 @@ jobs:
   ios-build:
     name: Build iOS OTA (${{ matrix.flavor }})
     runs-on: macos-26
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -73,6 +74,7 @@ jobs:
   android-build:
     name: Build Android OTA (${{ matrix.flavor }})
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -116,6 +118,7 @@ jobs:
     name: Ready to distribute
     needs: [ios-build, android-build]
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - run: echo "iOS/Android 全フレーバーのビルドに成功。配信を開始します。"
 
@@ -123,6 +126,7 @@ jobs:
     name: Distribute iOS OTA (${{ matrix.flavor }})
     needs: ready-to-distribute
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -155,6 +159,7 @@ jobs:
     name: Distribute Android OTA (${{ matrix.flavor }})
     needs: ready-to-distribute
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -188,6 +193,7 @@ jobs:
     needs: [ios-build, android-build, ios-distribute, android-distribute]
     if: ${{ always() }}
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/download-artifact@v7
         with:
