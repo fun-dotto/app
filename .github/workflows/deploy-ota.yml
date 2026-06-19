@@ -26,7 +26,7 @@ env:
 jobs:
   ios:
     name: Deploy iOS OTA (${{ matrix.flavor }})
-    runs-on: macos-latest
+    runs-on: macos-26
     strategy:
       fail-fast: false
       matrix:
@@ -41,6 +41,8 @@ jobs:
       FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
     steps:
       - uses: actions/checkout@v6
+      - name: Setup Xcode
+        run: xcodes select
       - uses: google-github-actions/auth@v3
         with:
           project_id: swift2023groupc
