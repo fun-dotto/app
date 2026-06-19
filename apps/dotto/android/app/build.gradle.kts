@@ -45,10 +45,8 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "jp.ac.fun.dotto"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        manifestPlaceholders["appName"] = "Dotto"
         minSdk = 30
         targetSdk = 36
         versionCode = flutterVersionCode.toInt()
@@ -81,14 +79,17 @@ android {
         create("dev") {
             dimension = "default"
             applicationIdSuffix = ".dev"
+            manifestPlaceholders["appName"] = "Dotto Dev"
         }
         create("stg") {
             dimension = "default"
             applicationIdSuffix = ".stg"
+            manifestPlaceholders["appName"] = "Dotto Stg"
         }
         create("prd") {
             dimension = "default"
             applicationIdSuffix = ".prd"
+            manifestPlaceholders["appName"] = "Dotto Prd"
         }
     }
 
