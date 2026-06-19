@@ -190,8 +190,8 @@ platform :ios do
     )
   end
 
-  # 指定フレーバーをビルドしてFirebase App Distributionに配信し、リリース情報を返す
-  def distribute_ios_ota_flavor(flavor)
+  # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、IPAをビルドする
+  def prepare_ios_ota_flavor(flavor)
     config = IOS_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
 
@@ -208,13 +208,28 @@ platform :ios do
     end
 
     build_ios_ota_flavor(flavor)
+  end
 
+  desc "Build OTA (single flavor)"
+  lane :build_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    match_development_readonly
+    match_adhoc_readonly
+    pre_build
+    prepare_ios_ota_flavor(flavor)
+  end
+
+  desc "Distribute OTA (single flavor)"
+  lane :distribute_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    config = IOS_OTA_FLAVORS.fetch(flavor)
+    firebase_app_id = ENV[config[:firebase_app_id_env]]
     release = firebase_app_distribution(
       app: firebase_app_id,
+      ipa_path: "build/dotto-#{flavor}.ipa",
       groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
     )
-    reset_build_number
-    release
+    append_ota_result(platform_label: "iOS", flavor: flavor, release: release)
   end
 
   desc "Deploy OTA (single flavor)"
@@ -223,7 +238,15 @@ platform :ios do
     match_development_readonly
     match_adhoc_readonly
     pre_build
-    release = distribute_ios_ota_flavor(flavor)
+    prepare_ios_ota_flavor(flavor)
+    config = IOS_OTA_FLAVORS.fetch(flavor)
+    firebase_app_id = ENV[config[:firebase_app_id_env]]
+    release = firebase_app_distribution(
+      app: firebase_app_id,
+      ipa_path: "build/dotto-#{flavor}.ipa",
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+    )
+    reset_build_number
     append_ota_result(platform_label: "iOS", flavor: flavor, release: release)
   end
 
@@ -234,7 +257,15 @@ platform :ios do
     pre_build
 
     releases = IOS_OTA_FLAVORS.keys.map do |flavor|
-      [flavor, distribute_ios_ota_flavor(flavor)]
+      prepare_ios_ota_flavor(flavor)
+      config = IOS_OTA_FLAVORS.fetch(flavor)
+      release = firebase_app_distribution(
+        app: ENV[config[:firebase_app_id_env]],
+        ipa_path: "build/dotto-#{flavor}.ipa",
+        groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+      )
+      reset_build_number
+      [flavor, release]
     end
 
     payload = releases.to_h do |flavor, release|

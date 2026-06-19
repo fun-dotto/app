@@ -39,8 +39,8 @@ platform :android do
     )
   end
 
-  # 指定フレーバーをビルドしてFirebase App Distributionに配信し、リリース情報を返す
-  def distribute_android_ota_flavor(flavor)
+  # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、APKをビルドする
+  def prepare_android_ota_flavor(flavor)
     config = ANDROID_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
 
@@ -50,19 +50,37 @@ platform :android do
     build_number = latest_release.nil? ? 1 : latest_release[:buildVersion].to_i + 1
 
     build_android_ota_flavor(flavor, build_number)
+  end
 
+  def distribute_android_ota_flavor(flavor)
+    config = ANDROID_OTA_FLAVORS.fetch(flavor)
     firebase_app_distribution(
-      app: firebase_app_id,
+      app: ENV[config[:firebase_app_id_env]],
       android_artifact_type: "APK",
       android_artifact_path: "apps/dotto/build/app/outputs/flutter-apk/app-#{flavor}-release.apk",
       groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
     )
   end
 
+  desc "Build OTA (single flavor)"
+  lane :build_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    pre_build
+    prepare_android_ota_flavor(flavor)
+  end
+
+  desc "Distribute OTA (single flavor)"
+  lane :distribute_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    release = distribute_android_ota_flavor(flavor)
+    append_ota_result(platform_label: "Android", flavor: flavor, release: release)
+  end
+
   desc "Deploy OTA (single flavor)"
   lane :deploy_ota_flavor do |options|
     flavor = options.fetch(:flavor)
     pre_build
+    prepare_android_ota_flavor(flavor)
     release = distribute_android_ota_flavor(flavor)
     append_ota_result(platform_label: "Android", flavor: flavor, release: release)
   end
@@ -72,6 +90,7 @@ platform :android do
     pre_build
 
     releases = ANDROID_OTA_FLAVORS.keys.map do |flavor|
+      prepare_android_ota_flavor(flavor)
       [flavor, distribute_android_ota_flavor(flavor)]
     end
 
