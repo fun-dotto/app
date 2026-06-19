@@ -131,7 +131,7 @@ platform :ios do
   # Firebase iOS SDK 12+ では Crashlytics/run スクリプトが削除されたため、
   # flutterfire configure が生成するビルドフェーズスクリプトにガードを追加する。
   def patch_crashlytics_build_phase
-    pbxproj_path = "apps/dotto/ios/Runner.xcodeproj/project.pbxproj"
+    pbxproj_path = File.expand_path("../../apps/dotto/ios/Runner.xcodeproj/project.pbxproj", __dir__)
     content = File.read(pbxproj_path)
     marker = 'flutterfire upload-crashlytics-symbols'
     guard = '[ ! -f \\"$PATH_TO_CRASHLYTICS_UPLOAD_SCRIPT\\" ] && exit 0; '
