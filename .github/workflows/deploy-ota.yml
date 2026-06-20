@@ -226,15 +226,18 @@ jobs:
           fi
 
           if [ "$DEPLOY_RESULT" = "success" ]; then
-            header=":rocket: Dotto OTA (dev, stg, prd) deployed!"
+            header=":rocket: Dotto OTA deployed!"
           else
-            header=":x: Dotto OTA のデプロイに失敗しました (詳細は GitHub Actions を確認してください)"
+            header=":x: Dotto OTA failed to deploy."
           fi
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          branch_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_REF_NAME}"
+          commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+          commit_short="${GITHUB_SHA:0:7}"
 
           payload=$(jq -n \
             --arg header "$header" \
-            --arg context "<$run_url|GitHub Actions の実行ログ> | ブランチ: $GITHUB_REF_NAME" \
+            --arg context "<$run_url|GitHub Actions> | Branch: <$branch_url|$GITHUB_REF_NAME> | Commit: <$commit_url|$commit_short>" \
             --slurpfile fields "$fields" \
             '{
               blocks: (
