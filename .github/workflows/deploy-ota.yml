@@ -199,18 +199,26 @@ jobs:
         with:
           path: ota-results
           pattern: ota-result-*
-          merge-multiple: true
       - name: Send Slack notification
         env:
           SLACK_URL: ${{ secrets.SLACK_URL }}
           DEPLOY_RESULT: ${{ needs.ios-build.result == 'success' && needs.android-build.result == 'success' && needs.ios-distribute.result == 'success' && needs.android-distribute.result == 'success' && 'success' || 'failure' }}
         run: |
           # 各マトリクスジョブが書き出した成果物(label\tversion\tURL)を集約し、Slack 通知用のフィールドを組み立てる
+          # アーティファクトごとに同名ファイル(ota-result.txt)が含まれるため、merge-multiple は使わず
+          # アーティファクト別のサブディレクトリに展開し、再帰的に収集する
           fields=$(mktemp)
-          if ls ota-results/*.txt >/dev/null 2>&1; then
-            cat ota-results/*.txt | sort | while IFS=$'\t' read -r label version url; do
+          result_files=$(find ota-results -type f -name '*.txt' | sort)
+          if [ -n "$result_files" ]; then
+            # 表示順: 環境を prd→stg→dev、各環境内は iOS→Android で並べる
+            # (section.fields は 2 列で折り返されるため、左=iOS / 右=Android になる)
+            cat $result_files | awk -F'\t' '{
+              p = ($1 ~ /^iOS/) ? 0 : 1
+              f = ($1 ~ /\(prd\)/) ? 0 : ($1 ~ /\(stg\)/) ? 1 : 2
+              print f "\t" p "\t" $0
+            }' | sort -k1,1n -k2,2n | cut -f3- | while IFS=$'\t' read -r label version url; do
               [ -z "$label" ] && continue
-              jq -n --arg t "$label" --arg v "[$version](<$url|ダウンロード>)" \
+              jq -n --arg t "$label" --arg v "<$url|$version>" \
                 '{type:"mrkdwn", text:("*" + $t + "*\n" + $v)}'
             done | jq -s '.' > "$fields"
           else
