@@ -60,7 +60,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C2C91F342FE62B63008F093A /* Config */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Config; sourceTree = "<group>"; };
 		C2C91F4D2FE62BA6008F093A /* Runner */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (C2C91F552FE62BA6008F093A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Runner; sourceTree = "<group>"; };
-		C2C91F5C2FE62BE1008F093A /* Firebase */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Firebase; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +104,6 @@
 			children = (
 				52F96A0E2BD43A6700EB59DE /* PrivacyInfo.xcprivacy */,
 				C2C91F342FE62B63008F093A /* Config */,
-				C2C91F5C2FE62BE1008F093A /* Firebase */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				C2C91F4D2FE62BA6008F093A /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -165,7 +163,6 @@
 			fileSystemSynchronizedGroups = (
 				C2C91F342FE62B63008F093A /* Config */,
 				C2C91F4D2FE62BA6008F093A /* Runner */,
-				C2C91F5C2FE62BE1008F093A /* Firebase */,
 			);
 			name = Runner;
 			packageProductDependencies = (
@@ -278,10 +275,6 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Runner/GoogleService-Info.plist",
-				"$(SRCROOT)/Firebase/dev/GoogleService-Info.plist",
-				"$(SRCROOT)/Firebase/stg/GoogleService-Info.plist",
-				"$(SRCROOT)/Firebase/prd/GoogleService-Info.plist",
 			);
 			name = "Run Script - Copy GoogleService-Info.plist";
 			outputFileListPaths = (
@@ -291,7 +284,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nINFO_PLIST=\"GoogleService-Info.plist\"\nFLAVOR=\"${CONFIGURATION#*-}\"\necho \"Flavor: ${FLAVOR}\"\ncase \"$FLAVOR\" in\n  dev|stg|prd) SRC=\"${SRCROOT}/Firebase/${FLAVOR}/${INFO_PLIST}\" ;;\n  *)           SRC=\"${SRCROOT}/Runner/${INFO_PLIST}\" ;;\nesac\nDST=\"${SRCROOT}/Runner/${INFO_PLIST}\"\necho \"Copying ${SRC} to ${DST}\"\ncp \"$SRC\" \"$DST\"\n";
+			shellScript = "#!/bin/sh\n\nINFO_PLIST=\"GoogleService-Info.plist\"\nSRC=\"${FIREBASE_DIR}/${INFO_PLIST}\"\nDST=\"${PROJECT_DIR}/${PROJECT_NAME}/${INFO_PLIST}\"\necho \"Copying ${SRC} to ${DST}\"\ncp \"$SRC\" \"$DST\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
