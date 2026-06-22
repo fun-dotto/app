@@ -23,6 +23,30 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Pre-build
 
+### android build_ota_flavor
+
+```sh
+[bundle exec] fastlane android build_ota_flavor
+```
+
+Build OTA (single flavor)
+
+### android distribute_ota_flavor
+
+```sh
+[bundle exec] fastlane android distribute_ota_flavor
+```
+
+Distribute OTA (single flavor)
+
+### android deploy_ota_flavor
+
+```sh
+[bundle exec] fastlane android deploy_ota_flavor
+```
+
+Deploy OTA (single flavor)
+
 ### android deploy_ota
 
 ```sh
@@ -116,13 +140,37 @@ Reset build number
 
 Pre-build
 
+### ios build_ota_flavor
+
+```sh
+[bundle exec] fastlane ios build_ota_flavor
+```
+
+Build OTA (per flavor)
+
+Build OTA (single flavor)
+
+### ios distribute_ota_flavor
+
+```sh
+[bundle exec] fastlane ios distribute_ota_flavor
+```
+
+Distribute OTA (single flavor)
+
+### ios deploy_ota_flavor
+
+```sh
+[bundle exec] fastlane ios deploy_ota_flavor
+```
+
+Deploy OTA (single flavor)
+
 ### ios deploy_ota
 
 ```sh
 [bundle exec] fastlane ios deploy_ota
 ```
-
-Build OTA (per flavor)
 
 Deploy OTA (dev, stg, prd)
 
