@@ -12,14 +12,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pub-
 
-    - name: Cache Bundler dependencies
-      uses: actions/cache@v5
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-bundler-${{ hashFiles('mise.toml', 'Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-bundler-
-
     - uses: jdx/mise-action@v4
       with:
         github_token: ${{ github.token }}
@@ -28,4 +20,4 @@ runs:
 
     - name: Bootstrap workspace
       shell: bash
-      run: mise setup-ci
+      run: mise setup

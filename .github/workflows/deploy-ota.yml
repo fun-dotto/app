@@ -1,0 +1,252 @@
+name: Deploy OTA
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+env:
+  OTA_RESULT_FILE: ${{ github.workspace }}/ota-result.txt
+  FIREBASE_APP_DISTRIBUTION_GROUPS: ${{ vars.FIREBASE_APP_DISTRIBUTION_GROUPS }}
+
+jobs:
+  ios-build:
+    name: Build iOS OTA (${{ matrix.flavor }})
+    runs-on: macos-26
+    timeout-minutes: 60
+    strategy:
+      fail-fast: true
+      matrix:
+        flavor: [dev, stg, prd]
+    env:
+      APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      FIREBASE_APP_ID_IOS_DEV: ${{ secrets.FIREBASE_APP_ID_IOS_DEV }}
+      FIREBASE_APP_ID_IOS_STG: ${{ secrets.FIREBASE_APP_ID_IOS_STG }}
+      FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup Xcode
+        run: xcodes select
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - name: Generate token to access certificates repository
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.MATCH_GIT_APP_ID }}
+          private-key: ${{ secrets.MATCH_GIT_APP_PRIVATE_KEY }}
+          owner: fun-dotto
+          repositories: apple-certificates
+      - name: Set match git basic authorization
+        run: |
+          # GitHub App のインストールトークンを base64 化して match の HTTPS Basic 認証に渡す
+          echo "MATCH_GIT_BASIC_AUTHORIZATION=$(printf 'x-access-token:%s' '${{ steps.app-token.outputs.token }}' | base64 | tr -d '\n')" >> "$GITHUB_ENV"
+      - uses: ./.github/actions/setup-ci
+      - name: Build iOS OTA (${{ matrix.flavor }})
+        run: mise exec -- bundle exec fastlane ios build_ota_flavor flavor:${{ matrix.flavor }}
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ota-ipa-${{ matrix.flavor }}
+          path: build/dotto-${{ matrix.flavor }}.ipa
+          if-no-files-found: error
+          retention-days: 1
+
+  android-build:
+    name: Build Android OTA (${{ matrix.flavor }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: true
+      matrix:
+        flavor: [dev, stg, prd]
+    env:
+      FIREBASE_APP_ID_ANDROID_DEV: ${{ secrets.FIREBASE_APP_ID_ANDROID_DEV }}
+      FIREBASE_APP_ID_ANDROID_STG: ${{ secrets.FIREBASE_APP_ID_ANDROID_STG }}
+      FIREBASE_APP_ID_ANDROID_PRD: ${{ secrets.FIREBASE_APP_ID_ANDROID_PRD }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - name: Setup Android keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_OTA_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_OTA_KEY_PASSWORD }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/dotto/android/app/release.jks
+          cat > apps/dotto/android/key.properties <<EOF
+          storeFile=release.jks
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          keyPassword=$ANDROID_KEY_PASSWORD
+          EOF
+      - name: Build Android OTA (${{ matrix.flavor }})
+        run: mise exec -- bundle exec fastlane android build_ota_flavor flavor:${{ matrix.flavor }}
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ota-apk-${{ matrix.flavor }}
+          path: apps/dotto/build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+          if-no-files-found: error
+          retention-days: 1
+
+  ready-to-distribute:
+    name: Ready to distribute
+    needs: [ios-build, android-build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - run: echo "iOS/Android 全フレーバーのビルドに成功。配信を開始します。"
+
+  ios-distribute:
+    name: Distribute iOS OTA (${{ matrix.flavor }})
+    needs: ready-to-distribute
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [dev, stg, prd]
+    env:
+      FIREBASE_APP_ID_IOS_DEV: ${{ secrets.FIREBASE_APP_ID_IOS_DEV }}
+      FIREBASE_APP_ID_IOS_STG: ${{ secrets.FIREBASE_APP_ID_IOS_STG }}
+      FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - uses: actions/download-artifact@v7
+        with:
+          name: ota-ipa-${{ matrix.flavor }}
+          path: build
+      - name: Distribute iOS OTA (${{ matrix.flavor }})
+        run: mise exec -- bundle exec fastlane ios distribute_ota_flavor flavor:${{ matrix.flavor }}
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ota-result-ios-${{ matrix.flavor }}
+          path: ${{ env.OTA_RESULT_FILE }}
+          if-no-files-found: error
+
+  android-distribute:
+    name: Distribute Android OTA (${{ matrix.flavor }})
+    needs: ready-to-distribute
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [dev, stg, prd]
+    env:
+      FIREBASE_APP_ID_ANDROID_DEV: ${{ secrets.FIREBASE_APP_ID_ANDROID_DEV }}
+      FIREBASE_APP_ID_ANDROID_STG: ${{ secrets.FIREBASE_APP_ID_ANDROID_STG }}
+      FIREBASE_APP_ID_ANDROID_PRD: ${{ secrets.FIREBASE_APP_ID_ANDROID_PRD }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - uses: actions/download-artifact@v7
+        with:
+          name: ota-apk-${{ matrix.flavor }}
+          path: apps/dotto/build/app/outputs/flutter-apk
+      - name: Distribute Android OTA (${{ matrix.flavor }})
+        run: mise exec -- bundle exec fastlane android distribute_ota_flavor flavor:${{ matrix.flavor }}
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ota-result-android-${{ matrix.flavor }}
+          path: ${{ env.OTA_RESULT_FILE }}
+          if-no-files-found: error
+
+  notify:
+    name: Notify Slack
+    needs: [ios-build, android-build, ios-distribute, android-distribute]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          path: ota-results
+          pattern: ota-result-*
+      - name: Send Slack notification
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
+          DEPLOY_RESULT: ${{ needs.ios-build.result == 'success' && needs.android-build.result == 'success' && needs.ios-distribute.result == 'success' && needs.android-distribute.result == 'success' && 'success' || 'failure' }}
+        run: |
+          # 各マトリクスジョブが書き出した成果物(label\tversion\tURL)を集約し、Slack 通知用のフィールドを組み立てる
+          # アーティファクトごとに同名ファイル(ota-result.txt)が含まれるため、merge-multiple は使わず
+          # アーティファクト別のサブディレクトリに展開し、再帰的に収集する
+          fields=$(mktemp)
+          result_files=$(find ota-results -type f -name '*.txt' | sort)
+          if [ -n "$result_files" ]; then
+            # 表示順: 環境を prd→stg→dev、各環境内は iOS→Android で並べる
+            # (section.fields は 2 列で折り返されるため、左=iOS / 右=Android になる)
+            cat $result_files | awk -F'\t' '{
+              p = ($1 ~ /^iOS/) ? 0 : 1
+              f = ($1 ~ /\(prd\)/) ? 0 : ($1 ~ /\(stg\)/) ? 1 : 2
+              print f "\t" p "\t" $0
+            }' | sort -k1,1n -k2,2n | cut -f3- | while IFS=$'\t' read -r label version url; do
+              [ -z "$label" ] && continue
+              jq -n --arg t "$label" --arg v "<$url|$version>" \
+                '{type:"mrkdwn", text:("*" + $t + "*\n" + $v)}'
+            done | jq -s '.' > "$fields"
+          else
+            echo '[]' > "$fields"
+          fi
+
+          if [ "$DEPLOY_RESULT" = "success" ]; then
+            header=":rocket: Dotto OTA deployed!"
+          else
+            header=":x: Dotto OTA failed to deploy."
+          fi
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          branch_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_REF_NAME}"
+          commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+          commit_short="${GITHUB_SHA:0:7}"
+
+          payload=$(jq -n \
+            --arg header "$header" \
+            --arg context "<$run_url|GitHub Actions> | Branch: <$branch_url|$GITHUB_REF_NAME> | Commit: <$commit_url|$commit_short>" \
+            --slurpfile fields "$fields" \
+            '{
+              blocks: (
+                [
+                  {type:"section", text:{type:"mrkdwn", text:$header}}
+                ]
+                + (if ($fields[0] | length) > 0 then [{type:"section", fields:$fields[0]}] else [] end)
+                + [{type:"context", elements:[{type:"mrkdwn", text:$context}]}]
+              )
+            }')
+
+          curl -fsSL -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_URL"

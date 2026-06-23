@@ -1,0 +1,243 @@
+{
+  "project_info": {
+    "project_number": "107577467292",
+    "firebase_url": "https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "swift2023groupc",
+    "storage_bucket": "swift2023groupc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107577467292:android:bf5758604cdceb8506e859",
+        "android_client_info": {
+          "package_name": "jp.ac.fun.dotto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107577467292-gm7tuc9to1f5bk02pp5l52gejd4u5m5c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto",
+            "certificate_hash": "95beb41300bf49c6f0d216d427e8e25938077270"
+          }
+        },
+        {
+          "client_id": "107577467292-orlrrbfji430j5uki53accrgfr3ibi0f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto",
+            "certificate_hash": "611fbdf49f5a6fd105a70154b56913a3f32c4773"
+          }
+        },
+        {
+          "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsc1j7yHtPUjdhOJsNaCKy3b_SKo7d25Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "107577467292-510n4pml484vk7on3nkul49173uejuoe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.ac.fun.dotto.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107577467292:android:e07ef0167a67daf106e859",
+        "android_client_info": {
+          "package_name": "jp.ac.fun.dotto.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107577467292-7usl261ac8m4t2dfgr9nb0hmrttv7u0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.dev",
+            "certificate_hash": "611fbdf49f5a6fd105a70154b56913a3f32c4773"
+          }
+        },
+        {
+          "client_id": "107577467292-8j7h25pdaqarl0p8cqj5i999qvq7orpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.dev",
+            "certificate_hash": "95beb41300bf49c6f0d216d427e8e25938077270"
+          }
+        },
+        {
+          "client_id": "107577467292-qkkd7d5t71k0iv8ngkqp75t87chlltpd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.dev",
+            "certificate_hash": "4b058d5581c7473b536ba9cc8c4972cc5b0ad7df"
+          }
+        },
+        {
+          "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsc1j7yHtPUjdhOJsNaCKy3b_SKo7d25Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "107577467292-510n4pml484vk7on3nkul49173uejuoe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.ac.fun.dotto.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107577467292:android:fbc3e8fc5e706c0906e859",
+        "android_client_info": {
+          "package_name": "jp.ac.fun.dotto.prd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107577467292-ecdigj4r7uvfcd3dmeh82j0l8ltak8m5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.prd",
+            "certificate_hash": "95beb41300bf49c6f0d216d427e8e25938077270"
+          }
+        },
+        {
+          "client_id": "107577467292-g3gogfgnlh5vg9iajn54qu5qkh6rh4ob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.prd",
+            "certificate_hash": "611fbdf49f5a6fd105a70154b56913a3f32c4773"
+          }
+        },
+        {
+          "client_id": "107577467292-q402krviesbfqnm4l0kkugjll66bn4d2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.prd",
+            "certificate_hash": "4b058d5581c7473b536ba9cc8c4972cc5b0ad7df"
+          }
+        },
+        {
+          "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsc1j7yHtPUjdhOJsNaCKy3b_SKo7d25Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "107577467292-510n4pml484vk7on3nkul49173uejuoe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.ac.fun.dotto.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107577467292:android:99fa38c96f4496aa06e859",
+        "android_client_info": {
+          "package_name": "jp.ac.fun.dotto.stg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107577467292-32g7q4gijnkkdb0lperb3jdjtbvbidgr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.stg",
+            "certificate_hash": "611fbdf49f5a6fd105a70154b56913a3f32c4773"
+          }
+        },
+        {
+          "client_id": "107577467292-f3vgqk1fk3dqu5a7bch4g8p0vsheo95d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.stg",
+            "certificate_hash": "95beb41300bf49c6f0d216d427e8e25938077270"
+          }
+        },
+        {
+          "client_id": "107577467292-mrbrfe1hdk4gs3b5ag89a9dk4tl0t5a9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.ac.fun.dotto.stg",
+            "certificate_hash": "4b058d5581c7473b536ba9cc8c4972cc5b0ad7df"
+          }
+        },
+        {
+          "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsc1j7yHtPUjdhOJsNaCKy3b_SKo7d25Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107577467292-10sqodijnvb7qn0rnjoda8q0tvq4ebrr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "107577467292-510n4pml484vk7on3nkul49173uejuoe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.ac.fun.dotto.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

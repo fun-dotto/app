@@ -1,0 +1,145 @@
+platform :android do
+  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+
+  # 各フレーバー(dev/stg/prd)の設定
+  ANDROID_OTA_FLAVORS = {
+    "dev" => {
+      firebase_app_id_env: "FIREBASE_APP_ID_ANDROID_DEV",
+    },
+    "stg" => {
+      firebase_app_id_env: "FIREBASE_APP_ID_ANDROID_STG",
+    },
+    "prd" => {
+      firebase_app_id_env: "FIREBASE_APP_ID_ANDROID_PRD",
+    },
+  }
+
+  desc "Pre-build"
+  lane :pre_build do
+    sh('melos', 'bootstrap')
+    sh('melos', 'run', 'gen:build_runner', '--no-select')
+  end
+
+  # 指定フレーバーの apk をビルドする
+  # Firebase App Distribution は AAB の配信時に Google Play 連携を要求するため、
+  # OTA では連携不要な APK を配信する
+  def build_android_ota_flavor(flavor, build_number)
+    sh(
+      'melos',
+      'exec',
+      '--scope=dotto',
+      '--',
+      'flutter',
+      'build',
+      'apk',
+      '--release',
+      "--flavor=#{flavor}",
+      "--dart-define-from-file=dart_defines/#{flavor}.json",
+      "--build-number=#{build_number}",
+    )
+  end
+
+  # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、APKをビルドする
+  def prepare_android_ota_flavor(flavor)
+    config = ANDROID_OTA_FLAVORS.fetch(flavor)
+    firebase_app_id = ENV[config[:firebase_app_id_env]]
+
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: firebase_app_id,
+    )
+    build_number = latest_release.nil? ? 1 : latest_release[:buildVersion].to_i + 1
+
+    build_android_ota_flavor(flavor, build_number)
+  end
+
+  def distribute_android_ota_flavor(flavor)
+    config = ANDROID_OTA_FLAVORS.fetch(flavor)
+    firebase_app_distribution(
+      app: ENV[config[:firebase_app_id_env]],
+      android_artifact_type: "APK",
+      android_artifact_path: "apps/dotto/build/app/outputs/flutter-apk/app-#{flavor}-release.apk",
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+    )
+  end
+
+  desc "Build OTA (single flavor)"
+  lane :build_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    pre_build
+    prepare_android_ota_flavor(flavor)
+  end
+
+  desc "Distribute OTA (single flavor)"
+  lane :distribute_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    release = distribute_android_ota_flavor(flavor)
+    append_ota_result(platform_label: "Android", flavor: flavor, release: release)
+  end
+
+  desc "Deploy OTA (single flavor)"
+  lane :deploy_ota_flavor do |options|
+    flavor = options.fetch(:flavor)
+    pre_build
+    prepare_android_ota_flavor(flavor)
+    release = distribute_android_ota_flavor(flavor)
+    append_ota_result(platform_label: "Android", flavor: flavor, release: release)
+  end
+
+  desc "Deploy OTA (dev, stg, prd)"
+  lane :deploy_ota do
+    pre_build
+
+    releases = ANDROID_OTA_FLAVORS.keys.map do |flavor|
+      prepare_android_ota_flavor(flavor)
+      [flavor, distribute_android_ota_flavor(flavor)]
+    end
+
+    payload = releases.to_h do |flavor, release|
+      [
+        "Android (#{flavor})",
+        "[#{release[:displayVersion]} (#{release[:buildVersion]})](#{release[:testingUri]})",
+      ]
+    end
+    slack(
+      message: "Dotto OTA (dev, stg, prd) deployed!",
+      payload: payload,
+      default_payloads: [:git_branch, :git_author, :last_git_commit, :last_git_commit_hash],
+      slack_url: ENV["SLACK_URL"],
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy_google_play do
+    pubspec = YAML.load_file(File.expand_path("apps/dotto/pubspec.yaml", Dir.pwd))
+    app_version pubspec.fetch("version").to_s.split("+").first
+
+    previous_build_number = google_play_track_version_codes(
+      json_key: ENV["GOOGLE_APPLICATION_CREDENTIALS"],
+    )[0]
+    new_version_code = previous_build_number + 1
+
+    sh(
+      'melos',
+      'exec',
+      '--scope=dotto',
+      '--',
+      'flutter',
+      'build',
+      'appbundle',
+      '--release',
+      '--dart-define-from-file=dart_defines/production.json',
+      "--build-number=#{new_version_code}",
+    )
+
+    upload_to_play_store(
+      version_name: "#{new_version_code}(#{app_version})",
+      json_key: ENV["GOOGLE_APPLICATION_CREDENTIALS"],
+      aab: "apps/dotto/build/app/outputs/bundle/release/app-release.aab",
+      release_status: "draft",
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+end

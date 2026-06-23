@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:dotto/api/api_environment.dart';
 import 'package:dotto/app.dart';
-import 'package:dotto/firebase_options.dart';
+import 'package:dotto/firebase_options_flavor.dart';
 import 'package:dotto/helper/firebase_auth_helper.dart';
 import 'package:dotto/helper/firebase_storage_repository.dart';
 import 'package:dotto/helper/location_helper.dart';
@@ -22,7 +21,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: FlavoredFirebaseOptions.currentPlatform,
+  );
 
   // Firebase Crashlytics
   // Debugモードではクラッシュレポートを送信しない
@@ -88,7 +89,6 @@ Future<void> main() async {
 
   // アプリの起動
   final container = ProviderContainer();
-  await container.read(apiEnvironmentProvider.notifier).loadOverride();
   runApp(UncontrolledProviderScope(container: container, child: const MyApp()));
 }
 
