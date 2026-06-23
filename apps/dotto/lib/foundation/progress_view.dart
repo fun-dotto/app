@@ -27,21 +27,18 @@ class _ProgressViewState extends State<ProgressView>
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      // 背面のタップを遮りつつ、画面全体を覆う。
-      child: ColoredBox(
-        color: const Color(0x66000000),
-        child: Center(
-          child: RepaintBoundary(
-            child: RotationTransition(
-              turns: _controller,
-              child: const SizedBox.square(
-                dimension: 36,
-                child: CustomPaint(
-                  painter: _SpinnerPainter(
-                    color: Color(0xFFFFFFFF),
-                    strokeWidth: 4,
-                  ),
+    return ColoredBox(
+      color: const Color(0x66000000),
+      child: Center(
+        child: RepaintBoundary(
+          child: RotationTransition(
+            turns: _controller,
+            child: const SizedBox.square(
+              dimension: 36,
+              child: CustomPaint(
+                painter: _SpinnerPainter(
+                  color: Color(0xFFFFFFFF),
+                  strokeWidth: 4,
                 ),
               ),
             ),
