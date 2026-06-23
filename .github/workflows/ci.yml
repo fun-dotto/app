@@ -30,16 +30,12 @@ defaults:
     shell: bash
     working-directory: .
 
-env:
-  BUNDLE_PATH: vendor/bundle
-  BUNDLE_JOBS: 4
-  BUNDLE_RETRY: 3
-
 jobs:
   test:
     name: Test
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: google-github-actions/auth@v3
@@ -54,6 +50,7 @@ jobs:
     name: Lint
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: google-github-actions/auth@v3

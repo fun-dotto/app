@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app_links/app_links.dart';
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/app_version_evaluator.dart';
 import 'package:dotto/domain/tab_item.dart';
@@ -39,14 +38,6 @@ class RootViewModel extends _$RootViewModel {
     await ref.read(notificationHelperProvider).setupInteractedMessage();
     // Setup Logger
     await ref.read(loggerProvider).setup();
-    // Setup Universal Links
-    AppLinks().uriLinkStream.listen((event) {}).onError((
-      Object error,
-      StackTrace stack,
-    ) async {
-      await ref.read(loggerProvider).logError(error, stack);
-    });
-
     final hasShownAppTutorial =
         await UserPreferenceRepository.getBool(
           UserPreferenceKeys.isAppTutorialComplete,

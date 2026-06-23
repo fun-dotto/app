@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>107577467292-pu651ukbgkes48ussv1bp6p50s28lb7n.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.107577467292-pu651ukbgkes48ussv1bp6p50s28lb7n</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>107577467292-29qkb9uv90ftvfvlubgu32kkv6ho5prl.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAL8312t_Wnd1skH2u9TOVYZR3hQuDNc5A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>107577467292</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>jp.ac.fun.dotto.stg</string>
+	<key>PROJECT_ID</key>
+	<string>swift2023groupc</string>
+	<key>STORAGE_BUCKET</key>
+	<string>swift2023groupc.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:107577467292:ios:b60af28764a55b0a06e859</string>
+	<key>DATABASE_URL</key>
+	<string>https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

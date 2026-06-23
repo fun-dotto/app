@@ -1,5 +1,5 @@
 import 'package:dotto/helper/s3_repository.dart';
-import 'package:dotto/widget/cloudflare_pdf_viewer.dart';
+import 'package:dotto/router/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -49,16 +49,11 @@ final class SubjectDetailPastExamScreen extends HookWidget {
       children: [
         TextButton(
           onPressed: () async {
-            await Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) =>
-                    CloudflarePdfViewer(url: url, filename: filename),
-                settings: RouteSettings(
-                  // TODO(kantacky): /subjects/${subjectId}/past_exams/${pastExamId} にする
-                  name: '/subjects/$pastExamId/past_exams/$filename',
-                ),
-              ),
-            );
+            await SubjectPastExamPdfRouteData(
+              id: pastExamId,
+              url: url,
+              filename: filename,
+            ).push<void>(context);
           },
           child: ListTile(title: Text(filename)),
         ),

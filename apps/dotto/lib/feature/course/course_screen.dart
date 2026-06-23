@@ -2,17 +2,12 @@ import 'dart:async';
 
 import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/feature/course/course_cancellation_screen.dart';
-import 'package:dotto/feature/course/course_customize_screen.dart';
 import 'package:dotto/feature/course/course_reducer.dart';
-import 'package:dotto/feature/course/course_registration_screen.dart';
 import 'package:dotto/feature/course/course_state.dart';
 import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
 import 'package:dotto/feature/course/quick_button.dart';
-import 'package:dotto/feature/subject/search_subject_screen.dart';
-import 'package:dotto/feature/subject/subject_detail_screen.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
-import 'package:dotto/widget/web_pdf_viewer.dart';
+import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
@@ -38,24 +33,15 @@ final class CourseScreen extends HookConsumerWidget {
           label: '科目検索',
           iconUrl: null,
           fallbackIcon: Icons.search,
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (context) => const SearchSubjectScreen(),
-              settings: const RouteSettings(name: '/course/subjects'),
-            ),
-          ),
+          onPressed: () => const CourseSubjectsRouteData().push<void>(context),
         ),
       if (isAuthenticated)
         QuickButton(
           label: '休講・補講',
           iconUrl: null,
           fallbackIcon: Icons.cached,
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (context) => const CourseCancellationScreen(),
-              settings: const RouteSettings(name: '/course/irregular_classes'),
-            ),
-          ),
+          onPressed: () =>
+              const CourseCancellationRouteData().push<void>(context),
         ),
     ];
 
@@ -64,46 +50,28 @@ final class CourseScreen extends HookConsumerWidget {
         label: '学年歴',
         iconUrl: null,
         fallbackIcon: Icons.event_note,
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => WebPdfViewer(
-              url: config.officialCalendarPdfUrl,
-              filename: '学年暦',
-            ),
-            settings: RouteSettings(
-              name:
-                  '/course/web_pdf_viewer?url=${config.officialCalendarPdfUrl}',
-            ),
-          ),
-        ),
+        onPressed: () => CourseWebPdfViewerRouteData(
+          url: config.officialCalendarPdfUrl,
+          filename: '学年暦',
+        ).push<void>(context),
       ),
       QuickButton(
         label: '時間割 前期',
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) =>
-                WebPdfViewer(url: config.timetable1PdfUrl, filename: '時間割 前期'),
-            settings: RouteSettings(
-              name: '/course/web_pdf_viewer?url=${config.timetable1PdfUrl}',
-            ),
-          ),
-        ),
+        onPressed: () => CourseWebPdfViewerRouteData(
+          url: config.timetable1PdfUrl,
+          filename: '時間割 前期',
+        ).push<void>(context),
       ),
       QuickButton(
         label: '時間割 後期',
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) =>
-                WebPdfViewer(url: config.timetable2PdfUrl, filename: '時間割 後期'),
-            settings: RouteSettings(
-              name: '/course/web_pdf_viewer?url=${config.timetable2PdfUrl}',
-            ),
-          ),
-        ),
+        onPressed: () => CourseWebPdfViewerRouteData(
+          url: config.timetable2PdfUrl,
+          filename: '時間割 後期',
+        ).push<void>(context),
       ),
     ];
 
@@ -197,13 +165,8 @@ final class CourseScreen extends HookConsumerWidget {
         centerTitle: false,
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                fullscreenDialog: true,
-                builder: (context) => const CourseCustomizeScreen(),
-                settings: const RouteSettings(name: '/course/preferences'),
-              ),
-            ),
+            onPressed: () =>
+                const CourseCustomizeRouteData().push<void>(context),
             icon: const Icon(Icons.tune),
           ),
         ],
@@ -274,16 +237,9 @@ final class CourseScreen extends HookConsumerWidget {
                                 onDateSelected: (newDate) =>
                                     selectedDate.value = newDate,
                                 onSubjectSelected: (subject) =>
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute<void>(
-                                        builder: (context) =>
-                                            SubjectDetailScreen(id: subject.id),
-                                        settings: RouteSettings(
-                                          name:
-                                              '/course/subjects/${subject.id}',
-                                        ),
-                                      ),
-                                    ),
+                                    CourseSubjectDetailRouteData(
+                                      id: subject.id,
+                                    ).push<void>(context),
                               ),
                             ),
                             Row(
@@ -291,15 +247,8 @@ final class CourseScreen extends HookConsumerWidget {
                               children: [
                                 DottoButton(
                                   onPressed: () async {
-                                    await Navigator.of(context).push(
-                                      MaterialPageRoute<void>(
-                                        builder: (context) =>
-                                            const CourseRegistrationScreen(),
-                                        settings: const RouteSettings(
-                                          name: '/course/registration',
-                                        ),
-                                      ),
-                                    );
+                                    await const CourseRegistrationRouteData()
+                                        .push<void>(context);
                                     if (!context.mounted) {
                                       return;
                                     }

@@ -6,18 +6,14 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/academic_area.dart';
 import 'package:dotto/domain/academic_class.dart';
 import 'package:dotto/domain/grade.dart';
-import 'package:dotto/feature/announcement/announcement_screen.dart';
-import 'package:dotto/feature/debug/debug_screen.dart';
-import 'package:dotto/feature/github_contributor/github_contributor_screen.dart';
-import 'package:dotto/feature/onboarding/onboarding_screen.dart';
-import 'package:dotto/feature/setting/widget/license.dart';
 import 'package:dotto/feature/setting/widget/user_info_tile.dart';
 import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
+import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -84,29 +80,10 @@ final class SettingsScreen extends HookConsumerWidget {
     if (kDebugMode) {
       return true;
     }
-
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return false;
-    }
-
-    try {
-      final tokenResult = await user.getIdTokenResult(true);
-      final developerClaim = tokenResult.claims?['developer'];
-
-      if (developerClaim is bool) {
-        return developerClaim;
-      }
-      if (developerClaim is String) {
-        return developerClaim.toLowerCase() == 'true';
-      }
-      if (developerClaim is num) {
-        return developerClaim != 0;
-      }
-      return developerClaim != null;
-    } on Exception {
-      return false;
-    }
+    return switch (appFlavor) {
+      'prd' || 'stg' || 'dev' => true,
+      _ => false,
+    };
   }
 
   @override
@@ -366,13 +343,8 @@ final class SettingsScreen extends HookConsumerWidget {
                       title: const Text('お知らせ'),
                       leading: const Icon(Icons.notifications),
                       onPressed: (_) async {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => const AnnouncementScreen(),
-                            settings: const RouteSettings(
-                              name: '/setting/announcements',
-                            ),
-                          ),
+                        await const AnnouncementsRouteData().push<void>(
+                          context,
                         );
                       },
                     ),
@@ -401,14 +373,7 @@ final class SettingsScreen extends HookConsumerWidget {
                       title: const Text('開発者'),
                       leading: const Icon(Icons.person),
                       onPressed: (_) async {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => const GitHubContributorScreen(),
-                            settings: const RouteSettings(
-                              name: '/setting/developers',
-                            ),
-                          ),
-                        );
+                        await const DevelopersRouteData().push<void>(context);
                       },
                     ),
                     // アプリの使い方
@@ -416,15 +381,8 @@ final class SettingsScreen extends HookConsumerWidget {
                       title: const Text('アプリの使い方'),
                       leading: const Icon(Icons.assignment),
                       onPressed: (_) async {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => OnboardingScreen(
-                              onDismissed: () => Navigator.of(context).pop(),
-                            ),
-                            settings: const RouteSettings(
-                              name: '/setting/onboarding',
-                            ),
-                          ),
+                        await const SettingOnboardingRouteData().push<void>(
+                          context,
                         );
                       },
                     ),
@@ -447,13 +405,8 @@ final class SettingsScreen extends HookConsumerWidget {
                       title: const Text('ライセンス'),
                       leading: const Icon(Icons.info),
                       onPressed: (_) async {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => const SettingsLicenseScreen(),
-                            settings: const RouteSettings(
-                              name: '/setting/licenses',
-                            ),
-                          ),
+                        await const SettingsLicenseRouteData().push<void>(
+                          context,
                         );
                       },
                       // バージョン
@@ -463,16 +416,7 @@ final class SettingsScreen extends HookConsumerWidget {
                           if (!canOpen || !context.mounted) {
                             return;
                           }
-                          unawaited(
-                            Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (_) => const DebugScreen(),
-                                settings: const RouteSettings(
-                                  name: '/setting/debug',
-                                ),
-                              ),
-                            ),
-                          );
+                          unawaited(const DebugRouteData().push<void>(context));
                         },
                         child: FutureBuilder(
                           future: PackageInfo.fromPlatform(),

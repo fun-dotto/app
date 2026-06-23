@@ -3,10 +3,10 @@ import 'package:dotto/asset.dart';
 import 'package:dotto/feature/funch/controller/funch_mypage_card_index_controller.dart';
 import 'package:dotto/feature/funch/controller/funch_today_daily_menu_controller.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/funch/funch.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/datetime.dart';
+import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -163,13 +163,7 @@ final class FunchMyPageCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
-        await Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => const FunchScreen(),
-            // TODO(kantacky): Home廃止に伴う変更
-            settings: const RouteSettings(name: '/home/funch'),
-          ),
-        );
+        await const FunchRouteData().push<void>(context);
       },
       child: _buildMenuCard(context, ref),
     );
