@@ -1,4 +1,4 @@
-import 'package:dotto/foundation/progress_view.dart';
+import 'package:dotto/foundation/progress_indicator.dart';
 import 'package:dotto/foundation/screen_states.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +16,7 @@ final class ScreenContainer extends ConsumerWidget {
 
   Widget _screenLoading() {
     if (states.isRequiredStatesLoading) {
-      return const ProgressView();
+      return const ProgressIndicator();
     }
     return const SizedBox();
   }

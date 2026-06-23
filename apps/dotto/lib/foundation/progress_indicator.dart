@@ -1,38 +1,29 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-/// ローディング中に画面全体を覆うインジケーター。
-///
-/// Material / Cupertino に依存せず、`flutter/widgets` のみで実装している。
-final class ProgressView extends StatefulWidget {
-  const ProgressView({super.key});
-
-  @override
-  State<ProgressView> createState() => _ProgressViewState();
-}
-
-class _ProgressViewState extends State<ProgressView>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1200),
-  )..repeat();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+final class ProgressIndicator extends HookWidget {
+  const ProgressIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: const Color(0x66000000),
-      child: Center(
+    final animationController = useAnimationController(
+      duration: const Duration(milliseconds: 1200),
+    );
+    unawaited(animationController.repeat());
+
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0x66000000),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.all(16),
         child: RepaintBoundary(
           child: RotationTransition(
-            turns: _controller,
+            turns: animationController,
             child: const SizedBox.square(
               dimension: 36,
               child: CustomPaint(
