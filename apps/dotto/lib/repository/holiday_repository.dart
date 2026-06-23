@@ -59,6 +59,12 @@ final class HolidayRepositoryImpl implements HolidayRepository {
       final stale = await _readStaleCache(file);
       if (stale != null) return stale;
       throw DomainError.fromException(e: e, stackTrace: st);
+    } catch (e, stackTrace) {
+      throw DomainError(
+        type: DomainErrorType.unknown,
+        message: e.toString(),
+        stackTrace: stackTrace,
+      );
     }
   }
 

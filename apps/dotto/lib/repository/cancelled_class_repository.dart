@@ -47,6 +47,12 @@ final class CancelledClassRepositoryImpl implements CancelledClassRepository {
       rethrow;
     } on Exception catch (e, stackTrace) {
       throw DomainError.fromException(e: e, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      throw DomainError(
+        type: DomainErrorType.unknown,
+        message: e.toString(),
+        stackTrace: stackTrace,
+      );
     }
   }
 }
