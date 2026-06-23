@@ -1,5 +1,6 @@
+import 'package:dotto/foundation/progress_view.dart';
 import 'package:dotto/foundation/screen_states.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class ScreenContainer extends ConsumerWidget {
@@ -10,6 +11,13 @@ final class ScreenContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return child;
+    return Stack(children: [child, _screenLoading()]);
+  }
+
+  Widget _screenLoading() {
+    if (states.isRequiredStatesLoading) {
+      return const ProgressView();
+    }
+    return const SizedBox();
   }
 }
