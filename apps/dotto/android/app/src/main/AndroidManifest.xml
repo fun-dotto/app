@@ -54,10 +54,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Do not include other schemes. -->
-                <data android:scheme="http" />
-                <data android:scheme="https" android:host="dotto.web.app" android:pathPrefix="/config" />
-
+                <data
+                    android:scheme="https"
+                    android:host="${serviceHost}"
+                    android:pathPrefix="/" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

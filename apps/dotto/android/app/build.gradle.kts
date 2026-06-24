@@ -47,6 +47,7 @@ android {
     defaultConfig {
         applicationId = "jp.ac.fun.dotto"
         manifestPlaceholders["appName"] = "Dotto"
+        manifestPlaceholders["serviceHost"] = "dotto.furari.co"
         minSdk = 30
         targetSdk = 36
         versionCode = flutterVersionCode.toInt()
@@ -80,16 +81,19 @@ android {
             dimension = "default"
             applicationIdSuffix = ".dev"
             manifestPlaceholders["appName"] = "Dotto Dev"
+            manifestPlaceholders["serviceHost"] = "dev.dotto.furari.co"
         }
         create("stg") {
             dimension = "default"
             applicationIdSuffix = ".stg"
             manifestPlaceholders["appName"] = "Dotto Stg"
+            manifestPlaceholders["serviceHost"] = "stg.dotto.furari.co"
         }
         create("prd") {
             dimension = "default"
             applicationIdSuffix = ".prd"
             manifestPlaceholders["appName"] = "Dotto Prd"
+            manifestPlaceholders["serviceHost"] = "dotto.furari.co"
         }
     }
 
