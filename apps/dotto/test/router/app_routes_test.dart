@@ -1,3 +1,4 @@
+import 'package:dotto/router/app_router.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -42,6 +43,18 @@ void main() {
         const BusTimetableRouteData(route: 'L-1').location,
         '/bus/timetable?route=L-1',
       );
+    });
+
+    test('root deep links redirect to the default tab', () {
+      final uri = Uri.parse('https://dotto.furari.co/');
+
+      expect(appRedirectLocation(uri), const CourseRouteData().location);
+    });
+
+    test('deep links with app paths are not redirected', () {
+      final uri = Uri.parse('https://dotto.furari.co/subjects/subject-1');
+
+      expect(appRedirectLocation(uri), isNull);
     });
   });
 }

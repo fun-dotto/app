@@ -15,9 +15,17 @@ GoRouter appRouter(Ref ref) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: const CourseRouteData().location,
+    redirect: (context, state) => appRedirectLocation(state.uri),
     routes: $appRoutes,
     observers: [
       FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
     ],
   );
+}
+
+String? appRedirectLocation(Uri uri) {
+  if (uri.path == '/') {
+    return const CourseRouteData().location;
+  }
+  return null;
 }
