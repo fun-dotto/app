@@ -7,7 +7,7 @@
     ":timezone(Asia/Tokyo)"
   ],
   "schedule": [
-    "after 0am and before 4am on monday"
+    "before 4:00am on Monday"
   ],
   "major": {
     "minimumReleaseAge": "14 days"
@@ -22,7 +22,7 @@
     "enabled": true,
     "automerge": true,
     "schedule": [
-      "after 0am and before 4am on monday"
+      "before 4:00am on Monday"
     ]
   },
   "packageRules": [
@@ -52,7 +52,7 @@
         "patch"
       ],
       "schedule": [
-        "after 0am and before 4am on monday"
+        "before 4:00am on Monday"
       ]
     },
     {
@@ -79,7 +79,7 @@
         "patch"
       ],
       "schedule": [
-        "after 0am and before 4am on monday"
+        "before 4:00am on Monday"
       ]
     },
     {
