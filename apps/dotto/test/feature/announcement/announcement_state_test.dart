@@ -48,18 +48,25 @@ void main() {
     ),
   ];
 
-  test('build 直後は status=loading の AsyncEntity を返す', () async {
-    final repository = FakeAnnouncementRepository();
-    final container = createContainer(repository);
+  test(
+    'build 直後は status=idle の AsyncEntity を返し、microtask で loading に遷移する',
+    () async {
+      final repository = FakeAnnouncementRepository();
+      final container = createContainer(repository);
 
-    final initial = container.read(announcementStateProvider);
-    expect(initial.status, AsyncStatus.loading);
-    expect(initial.entity, isNull);
+      final initial = container.read(announcementStateProvider);
+      expect(initial.status, AsyncStatus.idle);
+      expect(initial.entity, isNull);
 
-    // microtask での初回ロードがスケジュールされていること
-    await Future<void>.value();
-    expect(repository.callCount, 1);
-  });
+      // microtask での初回ロードがスケジュールされていること
+      await Future<void>.value();
+      expect(repository.callCount, 1);
+
+      final loading = container.read(announcementStateProvider);
+      expect(loading.status, AsyncStatus.loading);
+      expect(loading.entity, isNull);
+    },
+  );
 
   test('fetch 成功時に status=success と entity が反映される', () async {
     final repository = FakeAnnouncementRepository();
