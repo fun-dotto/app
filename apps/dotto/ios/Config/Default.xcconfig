@@ -5,3 +5,4 @@ DISPLAY_NAME=Dotto
 ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon
 GOOGLE_REVERSED_CLIENT_ID=com.googleusercontent.apps.107577467292-gj27cmokt31u9s4vef4hajp9gl26fofp
 FIREBASE_DIR=$PROJECT_DIR/Firebase/default
+SERVICE_HOST=dotto.furari.co

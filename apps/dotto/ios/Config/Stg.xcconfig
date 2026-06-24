@@ -6,3 +6,4 @@ DISPLAY_NAME=Dotto Stg
 ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-stg
 GOOGLE_REVERSED_CLIENT_ID=com.googleusercontent.apps.107577467292-pu651ukbgkes48ussv1bp6p50s28lb7n
 FIREBASE_DIR=$PROJECT_DIR/Firebase/stg
+SERVICE_HOST=stg.dotto.furari.co
