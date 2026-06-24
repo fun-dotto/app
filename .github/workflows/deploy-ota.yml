@@ -99,7 +99,7 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_OTA_KEY_PASSWORD }}
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/dotto/android/app/release.jks
-          cat > apps/dotto/android/key.properties <<EOF
+          cat > apps/dotto/android/release.properties <<EOF
           storeFile=release.jks
           storePassword=$ANDROID_KEYSTORE_PASSWORD
           keyAlias=$ANDROID_KEY_ALIAS
