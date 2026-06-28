@@ -67,7 +67,7 @@ dev_dependencies:
   firebase_core_platform_interface: 7.0.1
   flutter_launcher_icons: 0.14.4
   flutter_lints: 6.0.0
-  flutter_native_splash: 2.4.7
+  flutter_native_splash: 2.4.8
   flutter_test:
     sdk: flutter
   freezed: 3.2.5
