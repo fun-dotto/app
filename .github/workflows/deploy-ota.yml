@@ -95,15 +95,16 @@ jobs:
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_OTA_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_OTA_KEY_PASSWORD }}
+          ANDROID_OTA_KEY_ALIAS: ${{ secrets.ANDROID_OTA_KEY_ALIAS }}
+          ANDROID_OTA_KEY_PASSWORD: ${{ secrets.ANDROID_OTA_KEY_PASSWORD }}
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/dotto/android/app/release.jks
+
           cat > apps/dotto/android/release.properties <<EOF
           storeFile=release.jks
           storePassword=$ANDROID_KEYSTORE_PASSWORD
-          keyAlias=$ANDROID_KEY_ALIAS
-          keyPassword=$ANDROID_KEY_PASSWORD
+          keyAlias=$ANDROID_OTA_KEY_ALIAS
+          keyPassword=$ANDROID_OTA_KEY_PASSWORD
           EOF
       - name: Build Android OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane android build_ota_flavor flavor:${{ matrix.flavor }}
