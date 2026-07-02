@@ -1,5 +1,6 @@
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 final class _CircularProgressIndicatorInButton extends StatelessWidget {
   const _CircularProgressIndicatorInButton();
@@ -260,3 +261,171 @@ enum DottoButtonType { contained, outlined, text }
 enum DottoButtonShape { rectangle, circle }
 
 enum DottoButtonSize { small, medium }
+
+@widgetbook.UseCase(name: 'Contained', type: DottoButton)
+Widget buttonContained(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 16,
+      children: [
+        DottoButton(onPressed: () {}, child: const Text('Button')),
+        const DottoButton(onPressed: null, child: Text('Button')),
+        const DottoButton(onPressed: null, child: null),
+      ],
+    ),
+  );
+}
+
+@widgetbook.UseCase(name: 'Outlined', type: DottoButton)
+Widget buttonOutlined(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 16,
+      children: [
+        DottoButton(
+          onPressed: () {},
+          type: DottoButtonType.outlined,
+          child: const Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.outlined,
+          child: Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.outlined,
+          child: null,
+        ),
+      ],
+    ),
+  );
+}
+
+@widgetbook.UseCase(name: 'Text', type: DottoButton)
+Widget buttonText(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 16,
+      children: [
+        DottoButton(
+          onPressed: () {},
+          type: DottoButtonType.text,
+          child: const Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.text,
+          child: Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.text,
+          child: null,
+        ),
+      ],
+    ),
+  );
+}
+
+@widgetbook.UseCase(name: 'Contained Circle', type: DottoButton)
+Widget buttonContainedCircle(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 16,
+      children: [
+        DottoButton(
+          onPressed: () {},
+          shape: DottoButtonShape.circle,
+          child: const Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          shape: DottoButtonShape.circle,
+          child: Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          shape: DottoButtonShape.circle,
+          child: null,
+        ),
+      ],
+    ),
+  );
+}
+
+@widgetbook.UseCase(name: 'Outlined Circle', type: DottoButton)
+Widget buttonOutlinedCircle(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 16,
+      children: [
+        DottoButton(
+          onPressed: () {},
+          type: DottoButtonType.outlined,
+          shape: DottoButtonShape.circle,
+          child: const Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.outlined,
+          shape: DottoButtonShape.circle,
+          child: Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.outlined,
+          shape: DottoButtonShape.circle,
+          child: null,
+        ),
+      ],
+    ),
+  );
+}
+
+@widgetbook.UseCase(name: 'Text Circle', type: DottoButton)
+Widget buttonTextCircle(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 16,
+      children: [
+        DottoButton(
+          onPressed: () {},
+          type: DottoButtonType.text,
+          shape: DottoButtonShape.circle,
+          child: const Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.text,
+          shape: DottoButtonShape.circle,
+          child: Text('Button'),
+        ),
+        const DottoButton(
+          onPressed: null,
+          type: DottoButtonType.text,
+          shape: DottoButtonShape.circle,
+          child: null,
+        ),
+      ],
+    ),
+  );
+}
