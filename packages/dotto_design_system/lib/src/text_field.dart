@@ -1,5 +1,5 @@
 import 'package:dotto_design_system/component/text_field.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 final class DottoTextFieldOverview extends StatelessWidget {

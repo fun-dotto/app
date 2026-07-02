@@ -1,5 +1,5 @@
 import 'package:dotto_design_system/component/button.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 final class DottoButtonOverview extends StatelessWidget {

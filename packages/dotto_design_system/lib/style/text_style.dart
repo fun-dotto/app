@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 abstract final class DottoTextStyle {
   static const displayLarge = TextStyle(
