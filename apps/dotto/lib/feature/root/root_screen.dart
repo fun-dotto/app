@@ -6,7 +6,13 @@ import 'package:dotto/domain/notification_alert_status.dart';
 import 'package:dotto/domain/tab_item.dart';
 import 'package:dotto/domain/user_preference_keys.dart';
 import 'package:dotto/feature/onboarding/onboarding_screen.dart';
-import 'package:dotto/feature/root/root_viewmodel.dart';
+import 'package:dotto/feature/root/root_alert_state.dart';
+import 'package:dotto/feature/root/root_app_tutorial_state.dart';
+import 'package:dotto/feature/root/root_app_version.dart';
+import 'package:dotto/feature/root/root_app_version_state.dart';
+import 'package:dotto/feature/root/root_initialization_state.dart';
+import 'package:dotto/foundation/screen_container.dart';
+import 'package:dotto/foundation/screen_states.dart';
 import 'package:dotto/helper/firebase_auth_provider.dart';
 import 'package:dotto/helper/firebase_messaging_provider.dart';
 import 'package:dotto/helper/logger.dart';
@@ -114,6 +120,141 @@ final class RootScreen extends HookConsumerWidget {
     );
   }
 
+  void _scheduleAlertsIfNeeded(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // 同一フレーム内で複数のコールバックが積まれたときに重複表示しない
+      // よう、コールバック実行時点の最新状態を再取得して判定する。
+      final latest = ref.read(rootAppVersionStateProvider).entity;
+      if (latest == null) return;
+
+      final alerts = ref.read(rootAlertStateProvider);
+      if (!latest.isLatestAppVersion && !alerts.hasShownUpdateAlert) {
+        ref.read(rootAlertStateProvider.notifier).onUpdateAlertShown();
+        await showDialog<void>(
+          context: context,
+          builder: (context) => _updateAlertDialog(
+            context: context,
+            appStorePageUrl: latest.appStorePageUrl,
+            currentAppVersion: latest.currentAppVersion,
+            latestAppVersion: latest.latestAppVersion,
+          ),
+        );
+      }
+
+      if (!context.mounted) return;
+      if (ref.read(rootAlertStateProvider).hasShownNotificationAlert) {
+        return;
+      }
+
+      try {
+        final status = await ref.read(notificationStatusProvider.future);
+        if (!context.mounted) return;
+        if (ref.read(rootAlertStateProvider).hasShownNotificationAlert) {
+          return;
+        }
+        if (await _shouldPromptNotification(status)) {
+          if (!context.mounted) return;
+          ref
+              .read(rootAlertStateProvider.notifier)
+              .markNotificationAlertShown();
+          await showDialog<void>(
+            context: context,
+            builder: (context) => _notificationAlertDialog(
+              context: context,
+              ref: ref,
+              status: status,
+            ),
+          );
+        } else {
+          ref
+              .read(rootAlertStateProvider.notifier)
+              .markNotificationAlertEvaluated();
+        }
+      } on Object catch (error, stackTrace) {
+        await ref
+            .read(loggerProvider)
+            .logError(
+              error,
+              stackTrace,
+              reason: 'notificationStatusProvider read failed',
+            );
+        ref
+            .read(rootAlertStateProvider.notifier)
+            .markNotificationAlertEvaluated();
+      }
+    });
+  }
+
+  Widget _body(
+    BuildContext context,
+    WidgetRef ref, {
+    required bool? hasShownAppTutorial,
+    required RootAppVersion? appVersion,
+    required List<TabItem> activeTabs,
+  }) {
+    if (hasShownAppTutorial == null || appVersion == null) {
+      return const Scaffold(resizeToAvoidBottomInset: false);
+    }
+    if (!hasShownAppTutorial) {
+      return OnboardingScreen(
+        onDismissed: ref
+            .read(rootAppTutorialStateProvider.notifier)
+            .onAppTutorialDismissed,
+      );
+    }
+    if (!appVersion.isValidAppVersion) {
+      return InvalidAppVersionScreen(
+        appStorePageUrl: appVersion.appStorePageUrl,
+        currentAppVersion: appVersion.currentAppVersion,
+        latestAppVersion: appVersion.latestAppVersion,
+      );
+    }
+
+    _scheduleAlertsIfNeeded(context, ref);
+
+    final selectedTab = tabForBranchIndex(navigationShell.currentIndex);
+    final selectedIndex = activeTabs.indexOf(selectedTab);
+    final navigationBarSelectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
+
+    return PopScope(
+      canPop: Platform.isIOS,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final router = GoRouter.of(context);
+        if (router.canPop()) {
+          router.pop();
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: navigationShell,
+        bottomNavigationBar: NavigationBar(
+          backgroundColor: switch (appFlavor) {
+            'dev' => Colors.blue.withValues(alpha: 0.15),
+            'stg' => Colors.orange.withValues(alpha: 0.15),
+            _ => null,
+          },
+          onDestinationSelected: (index) {
+            final tab = activeTabs[index];
+            final branchIndex = branchIndexForTab(tab);
+            navigationShell.goBranch(
+              branchIndex,
+              initialLocation: branchIndex == navigationShell.currentIndex,
+            );
+          },
+          selectedIndex: navigationBarSelectedIndex,
+          destinations: activeTabs.map((tab) {
+            return NavigationDestination(
+              selectedIcon: Icon(tab.selectedIcon),
+              icon: Icon(tab.icon),
+              label: tab.label,
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
@@ -161,150 +302,23 @@ final class RootScreen extends HookConsumerWidget {
         }
       });
 
-    final viewModelAsync = ref.watch(rootViewModelProvider);
+    final initialization = ref.watch(rootInitializationStateProvider);
+    final appTutorial = ref.watch(rootAppTutorialStateProvider);
+    final appVersion = ref.watch(rootAppVersionStateProvider);
     final isFunchEnabled = ref.watch(
       configProvider.select((config) => config.isFunchEnabled),
     );
     final activeTabs = _activeTabs(isFunchEnabled: isFunchEnabled);
 
-    switch (viewModelAsync) {
-      case AsyncData(:final value):
-        if (!value.hasShownAppTutorial) {
-          return OnboardingScreen(
-            onDismissed: ref
-                .read(rootViewModelProvider.notifier)
-                .onAppTutorialDismissed,
-          );
-        }
-        if (!value.isValidAppVersion) {
-          return InvalidAppVersionScreen(
-            appStorePageUrl: value.appStorePageUrl,
-            currentAppVersion: value.currentAppVersion,
-            latestAppVersion: value.latestAppVersion,
-          );
-        }
-
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          // 同一フレーム内で複数のコールバックが積まれたときに重複表示しない
-          // よう、コールバック実行時点の最新状態を再取得して判定する。
-          final latest = ref.read(rootViewModelProvider).value;
-          if (latest == null) return;
-
-          if (!latest.isLatestAppVersion && !latest.hasShownUpdateAlert) {
-            ref.read(rootViewModelProvider.notifier).onUpdateAlertShown();
-            await showDialog<void>(
-              context: context,
-              builder: (context) => _updateAlertDialog(
-                context: context,
-                appStorePageUrl: latest.appStorePageUrl,
-                currentAppVersion: latest.currentAppVersion,
-                latestAppVersion: latest.latestAppVersion,
-              ),
-            );
-          }
-
-          if (!context.mounted) return;
-          final afterUpdate = ref.read(rootViewModelProvider).value;
-          if (afterUpdate == null || afterUpdate.hasShownNotificationAlert) {
-            return;
-          }
-
-          try {
-            final status = await ref.read(notificationStatusProvider.future);
-            if (!context.mounted) return;
-            final current = ref.read(rootViewModelProvider).value;
-            if (current == null || current.hasShownNotificationAlert) {
-              return;
-            }
-            if (await _shouldPromptNotification(status)) {
-              if (!context.mounted) return;
-              ref
-                  .read(rootViewModelProvider.notifier)
-                  .markNotificationAlertShown();
-              await showDialog<void>(
-                context: context,
-                builder: (context) => _notificationAlertDialog(
-                  context: context,
-                  ref: ref,
-                  status: status,
-                ),
-              );
-            } else {
-              ref
-                  .read(rootViewModelProvider.notifier)
-                  .markNotificationAlertEvaluated();
-            }
-          } on Object catch (error, stackTrace) {
-            await ref
-                .read(loggerProvider)
-                .logError(
-                  error,
-                  stackTrace,
-                  reason: 'notificationStatusProvider read failed',
-                );
-            ref
-                .read(rootViewModelProvider.notifier)
-                .markNotificationAlertEvaluated();
-          }
-        });
-
-        final selectedTab = tabForBranchIndex(navigationShell.currentIndex);
-        final selectedIndex = activeTabs.indexOf(selectedTab);
-        final navigationBarSelectedIndex = selectedIndex < 0
-            ? 0
-            : selectedIndex;
-
-        return PopScope(
-          canPop: Platform.isIOS,
-          onPopInvokedWithResult: (didPop, result) async {
-            if (didPop) return;
-            final router = GoRouter.of(context);
-            if (router.canPop()) {
-              router.pop();
-            }
-          },
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: navigationShell,
-            bottomNavigationBar: NavigationBar(
-              backgroundColor: switch (appFlavor) {
-                'dev' => Colors.blue.withValues(alpha: 0.15),
-                'stg' => Colors.orange.withValues(alpha: 0.15),
-                _ => null,
-              },
-              onDestinationSelected: (index) {
-                final tab = activeTabs[index];
-                final branchIndex = branchIndexForTab(tab);
-                navigationShell.goBranch(
-                  branchIndex,
-                  initialLocation: branchIndex == navigationShell.currentIndex,
-                );
-              },
-              selectedIndex: navigationBarSelectedIndex,
-              destinations: activeTabs.map((tab) {
-                return NavigationDestination(
-                  selectedIcon: Icon(tab.selectedIcon),
-                  icon: Icon(tab.icon),
-                  label: tab.label,
-                );
-              }).toList(),
-            ),
-          ),
-        );
-
-      case AsyncError():
-        return const Center(
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Text('データの読み込みに失敗しました'),
-          ),
-        );
-
-      case AsyncLoading():
-        return const Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Center(child: CircularProgressIndicator()),
-        );
-    }
+    return ScreenContainer(
+      states: ScreenStates(states: [initialization, appTutorial, appVersion]),
+      child: _body(
+        context,
+        ref,
+        hasShownAppTutorial: appTutorial.entity,
+        appVersion: appVersion.entity,
+        activeTabs: activeTabs,
+      ),
+    );
   }
 }
