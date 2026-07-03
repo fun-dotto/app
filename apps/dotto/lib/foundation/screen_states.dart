@@ -20,4 +20,9 @@ abstract class ScreenStates<T extends Object> with _$ScreenStates<T> {
   bool get isRequiredStatesLoading => states
       .where((item) => !optionalStates.contains(item))
       .any((state) => state.status == AsyncStatus.loading);
+
+  /// 必須の状態に失敗したものが含まれているか
+  bool get isRequiredStatesFailure => states
+      .where((item) => !optionalStates.contains(item))
+      .any((state) => state.status == AsyncStatus.failure);
 }
