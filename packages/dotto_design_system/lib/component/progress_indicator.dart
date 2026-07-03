@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
-final class ProgressIndicator extends HookWidget {
-  const ProgressIndicator({super.key});
+final class DottoProgressIndicator extends HookWidget {
+  const DottoProgressIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +15,12 @@ final class ProgressIndicator extends HookWidget {
     );
     unawaited(animationController.repeat());
 
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0x66000000),
-          borderRadius: BorderRadius.circular(12),
-        ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: const Color(0x66000000),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
         padding: const EdgeInsets.all(16),
         child: RepaintBoundary(
           child: RotationTransition(
@@ -28,7 +29,7 @@ final class ProgressIndicator extends HookWidget {
               dimension: 36,
               child: CustomPaint(
                 painter: _SpinnerPainter(
-                  color: Color(0xFFFFFFFF),
+                  color: Colors.white,
                   strokeWidth: 4,
                 ),
               ),
@@ -74,4 +75,24 @@ class _SpinnerPainter extends CustomPainter {
   @override
   bool shouldRepaint(_SpinnerPainter oldDelegate) =>
       oldDelegate.color != color || oldDelegate.strokeWidth != strokeWidth;
+}
+
+final class _Demo extends StatelessWidget {
+  const _Demo({
+    //
+    // ignore: unused_element_parameter
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: DottoProgressIndicator()),
+    );
+  }
+}
+
+@widgetbook.UseCase(name: 'ProgressIndicator', type: DottoProgressIndicator)
+Widget progressIndicator(BuildContext context) {
+  return const _Demo();
 }
