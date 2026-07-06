@@ -50,7 +50,7 @@ dependencies:
   openapi: any
   package_info_plus: 9.0.1
   path: 1.9.1
-  path_provider: 2.1.5
+  path_provider: 2.1.6
   riverpod_annotation: 4.0.2
   settings_ui: 3.0.1
   share_plus: 12.0.2
