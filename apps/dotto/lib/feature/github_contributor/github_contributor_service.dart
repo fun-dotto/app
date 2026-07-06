@@ -8,7 +8,12 @@ final class GitHubContributorService {
 
   Future<List<GitHubProfile>> getContributors() async {
     final contributors = await gitHubContributorRepository.getContributors();
-    contributors.sort((a, b) => b.contributions.compareTo(a.contributions));
-    return contributors;
+    final filteredContributors = contributors
+        .where((contributor) => contributor.type == 'User')
+        .toList();
+    filteredContributors.sort(
+      (a, b) => b.contributions.compareTo(a.contributions),
+    );
+    return filteredContributors;
   }
 }

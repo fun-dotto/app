@@ -10,5 +10,6 @@ abstract class GitHubProfile with _$GitHubProfile {
     required String avatarUrl,
     required String htmlUrl,
     required int contributions,
+    required String type,
   }) = _GitHubProfile;
 }
