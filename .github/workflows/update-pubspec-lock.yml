@@ -1,0 +1,43 @@
+name: Update pubspec.lock
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-lock:
+    name: Update pubspec.lock
+    if: github.event.pull_request.user.login == 'renovate[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+        with:
+          github_token: ${{ github.token }}
+          cache: true
+          working_directory: .
+      - name: Update pubspec.lock
+        run: flutter pub get
+      - name: Commit pubspec.lock
+        run: |
+          if git diff --quiet -- pubspec.lock; then
+            echo "pubspec.lock に差分はありません。"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pubspec.lock
+          git commit -m "pubspec.lockを更新"
+          git push
