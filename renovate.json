@@ -118,6 +118,16 @@
       ]
     },
     {
+      "groupName": "plus plugins",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "package_info_plus",
+        "share_plus"
+      ]
+    },
+    {
       "groupName": "riverpod",
       "matchManagers": [
         "pub"
@@ -137,6 +147,36 @@
       "matchPackageNames": [
         "freezed",
         "freezed_annotation"
+      ]
+    },
+    {
+      "groupName": "json serialization",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "json_annotation",
+        "json_serializable"
+      ]
+    },
+    {
+      "groupName": "go router",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "go_router",
+        "go_router_builder"
+      ]
+    },
+    {
+      "groupName": "one of",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "one_of",
+        "one_of_serializer"
       ]
     },
     {
