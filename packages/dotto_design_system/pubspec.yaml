@@ -7,6 +7,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_hooks: 0.21.3+1
   widgetbook: 3.23.0
   widgetbook_annotation: 3.11.0
 

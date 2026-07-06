@@ -7,7 +7,9 @@
     ":timezone(Asia/Tokyo)"
   ],
   "schedule": [
-    "before 4:00am on Monday"
+    "before 4:00am on Monday",
+    "before 4:00am on Wednesday",
+    "before 4:00am on Friday"
   ],
   "major": {
     "minimumReleaseAge": "14 days"
@@ -22,10 +24,19 @@
     "enabled": true,
     "automerge": true,
     "schedule": [
-      "before 4:00am on Monday"
+      "before 4:00am on Monday",
+      "before 4:00am on Wednesday",
+      "before 4:00am on Friday"
     ]
   },
   "packageRules": [
+    {
+      "description": "Update pubspec.lock together with Pub dependency updates",
+      "matchManagers": [
+        "pub"
+      ],
+      "skipArtifactsUpdate": false
+    },
     {
       "matchManagers": [
         "mise"
@@ -52,7 +63,9 @@
         "patch"
       ],
       "schedule": [
-        "before 4:00am on Monday"
+        "before 4:00am on Monday",
+        "before 4:00am on Wednesday",
+        "before 4:00am on Friday"
       ]
     },
     {
@@ -79,7 +92,9 @@
         "patch"
       ],
       "schedule": [
-        "before 4:00am on Monday"
+        "before 4:00am on Monday",
+        "before 4:00am on Wednesday",
+        "before 4:00am on Friday"
       ]
     },
     {
