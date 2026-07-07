@@ -199,6 +199,56 @@
         "sqflite",
         "sqflite_common"
       ]
+    },
+    {
+      "description": "Keep analyzer-constrained Dart dev tools in the same update PR",
+      "groupName": "dart analyzer toolchain",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "build_runner",
+        "built_value_generator",
+        "freezed",
+        "go_router_builder",
+        "json_serializable",
+        "mockito",
+        "riverpod_generator",
+        "test",
+        "widgetbook_generator"
+      ]
+    },
+    {
+      "description": "Keep geolocator updates with package_info_plus when transitive plugin constraints move together",
+      "groupName": "geolocator",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "geolocator",
+        "package_info_plus"
+      ]
+    },
+    {
+      "description": "Keep Melos updates with CLI-related tooling when shared transitive constraints move together",
+      "groupName": "melos toolchain",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "flutter_launcher_icons",
+        "melos"
+      ]
+    },
+    {
+      "description": "intl is pinned by flutter_localizations and must wait for a Flutter SDK update",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "intl"
+      ],
+      "enabled": false
     }
   ]
 }
