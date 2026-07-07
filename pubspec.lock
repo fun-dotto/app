@@ -1902,10 +1902,10 @@ packages:
     dependency: transitive
     description:
       name: widgetbook
-      sha256: "4ff857b441b7fc43432a69ec6fe56494184c895e36cec502e400648024710b9c"
+      sha256: "88b10102d294d0bec64ca294c81f15b1a620ce66df950067ff8f89274f1c95e8"
       url: "https://pub.dev"
     source: hosted
-    version: "3.23.0"
+    version: "3.25.0"
   widgetbook_annotation:
     dependency: transitive
     description:
@@ -1918,10 +1918,10 @@ packages:
     dependency: transitive
     description:
       name: widgetbook_generator
-      sha256: "8f7d6157f95d4406876088152d374e64c6632df32abe9b7ac27f95202996ae13"
+      sha256: "8fd3b4208bb74cbe60cd6fc99b443561b65542658b20d6dd700a2496edbd5647"
       url: "https://pub.dev"
     source: hosted
-    version: "3.23.0"
+    version: "3.24.0"
   win32:
     dependency: transitive
     description:
@@ -1964,4 +1964,4 @@ packages:
     version: "2.2.4"
 sdks:
   dart: "3.12.0"
-  flutter: ">=3.38.4"
+  flutter: ">=3.44.0"
