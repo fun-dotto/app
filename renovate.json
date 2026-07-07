@@ -208,13 +208,20 @@
       ],
       "matchPackageNames": [
         "build_runner",
+        "built_value",
         "built_value_generator",
         "freezed",
+        "freezed_annotation",
+        "flutter_riverpod",
         "go_router_builder",
+        "hooks_riverpod",
+        "json_annotation",
         "json_serializable",
         "mockito",
+        "riverpod_annotation",
         "riverpod_generator",
         "test",
+        "widgetbook_annotation",
         "widgetbook_generator"
       ]
     },
