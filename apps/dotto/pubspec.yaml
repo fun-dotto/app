@@ -58,7 +58,7 @@ dependencies:
   shimmer_animation: 2.2.2+1
   sqflite: 2.4.3
   sqflite_common: 2.5.11
-  timezone: 0.11.0
+  timezone: 0.11.1
   url_launcher: 6.3.2
 
 dev_dependencies:
