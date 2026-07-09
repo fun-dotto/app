@@ -4,8 +4,10 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/course/course_reducer.dart';
 import 'package:dotto/feature/course/course_state.dart';
+import 'package:dotto/domain/remote_config_keys.dart';
 import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
 import 'package:dotto/feature/course/quick_button.dart';
+import 'package:dotto/foundation/use_flag.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -21,6 +23,7 @@ final class CourseScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(configProvider);
+    final flag = useFlag(ref);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     final state = isAuthenticated
         ? ref.watch(courseReducerProvider)
@@ -28,13 +31,19 @@ final class CourseScreen extends HookConsumerWidget {
     final selectedDate = useState<DateTime?>(null);
 
     final quickFeatures = [
-      if (config.isFunchEnabled)
-        QuickButton(
-          label: '科目検索',
-          iconUrl: null,
-          fallbackIcon: Icons.search,
-          onPressed: () => const CourseSubjectsRouteData().push<void>(context),
-        ),
+      ...flag.switchOn<List<QuickButton>>(
+        RemoteConfigKeys.isFunchEnabled,
+        onTrue: () => [
+          QuickButton(
+            label: '科目検索',
+            iconUrl: null,
+            fallbackIcon: Icons.search,
+            onPressed: () =>
+                const CourseSubjectsRouteData().push<void>(context),
+          ),
+        ],
+        onFalse: () => const [],
+      ),
       if (isAuthenticated)
         QuickButton(
           label: '休講・補講',
