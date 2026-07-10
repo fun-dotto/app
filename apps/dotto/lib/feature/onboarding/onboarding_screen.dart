@@ -1,6 +1,7 @@
 import 'package:dotto/asset.dart';
-import 'package:dotto/controller/config_controller.dart';
+import 'package:dotto/controller/feature_flag_controller.dart';
 import 'package:dotto/feature/onboarding/domain/onboarding_page.dart';
+import 'package:dotto/foundation/flags.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
@@ -256,9 +257,7 @@ final class OnboardingScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isFunchEnabled = ref.watch(
-      configProvider.select((config) => config.isFunchEnabled),
-    );
+    final isFunchEnabled = ref.watch(featureFlagProvider(Flags.funch));
     final pages = OnboardingPage.pages(isFunchEnabled: isFunchEnabled);
     final pageController = usePageController();
     final currentPage = useState(0);
