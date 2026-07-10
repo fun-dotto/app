@@ -24,10 +24,10 @@ final class DebugScreen extends HookConsumerWidget {
     final fcmToken = useFuture(
       useMemoized(() => FirebaseMessaging.instance.getToken()),
     );
-    final overrides = ref.watch(featureFlagNotifierProvider);
+    final overrides = ref.watch(flagOverridesProvider);
 
     Future<void> showFlagOverridePicker(Flag<bool> flag) async {
-      final notifier = ref.read(featureFlagNotifierProvider.notifier);
+      final notifier = ref.read(flagOverridesProvider.notifier);
       final override = overrides[flag.key];
       final remoteConfigValue = ref
           .read(featureFlagRepositoryProvider)

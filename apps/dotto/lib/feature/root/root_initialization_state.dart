@@ -24,7 +24,7 @@ final class RootInitializationState extends _$RootInitializationState
     ref.read(configProvider.notifier).refresh();
     ref.invalidate(featureFlagRepositoryProvider);
     // Load local debug overrides
-    await ref.read(featureFlagNotifierProvider.notifier).loadOverrides();
+    await ref.read(flagOverridesProvider.notifier).loadOverrides();
     // Setup Notification
     await ref.read(notificationHelperProvider).setupInteractedMessage();
     // Setup Logger
