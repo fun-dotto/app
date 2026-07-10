@@ -9,7 +9,7 @@ workspace:
   - packages/dotto_api # openapi
   - packages/dotto_design_system # dotto_design_system
 dev_dependencies:
-  melos: 7.8.0
+  melos: 7.8.1
 
 melos:
   command:
