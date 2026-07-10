@@ -73,7 +73,7 @@ dev_dependencies:
   freezed: 3.2.5
   go_router_builder: 4.3.0
   json_serializable: 6.14.0
-  mockito: 5.7.0
+  mockito: 5.6.3
   riverpod_generator: 4.0.4
   very_good_analysis: 10.3.0
 
