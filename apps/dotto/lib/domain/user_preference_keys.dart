@@ -10,7 +10,6 @@ enum UserPreferenceKeys {
   isAppTutorialComplete(key: 'isAppTutorialCompleted', type: bool),
   myBusStop(key: 'myBusStop', type: int),
   timetablePeriodStyle(key: 'timetablePeriodStyle', type: String),
-  isFunchEnabledOverride(key: 'isFunchEnabledOverride', type: bool),
   notificationPromptLastShownAt(
     key: 'notificationPromptLastShownAt',
     type: int,

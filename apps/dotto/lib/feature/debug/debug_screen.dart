@@ -1,6 +1,7 @@
-import 'package:dotto/controller/config_controller.dart';
-import 'package:dotto/domain/remote_config_keys.dart';
-import 'package:dotto/helper/remote_config_helper.dart';
+import 'package:dotto/controller/feature_flag_controller.dart';
+import 'package:dotto/foundation/flag.dart';
+import 'package:dotto/foundation/flags.dart';
+import 'package:dotto/repository/feature_flag_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,61 +24,71 @@ final class DebugScreen extends HookConsumerWidget {
     final fcmToken = useFuture(
       useMemoized(() => FirebaseMessaging.instance.getToken()),
     );
-    final config = ref.watch(configProvider);
-    final configNotifier = ref.read(configProvider.notifier);
-    final isFunchEnabledOverride = configNotifier.isFunchEnabledOverride;
-    final remoteConfigIsFunchEnabled = ref
-        .read(remoteConfigHelperProvider)
-        .getBool(RemoteConfigKeys.isFunchEnabled);
+    final overrides = ref.watch(flagOverridesProvider);
 
-    Future<void> showIsFunchEnabledOverridePicker() async {
+    Future<void> showFlagOverridePicker(Flag<bool> flag) async {
+      final notifier = ref.read(flagOverridesProvider.notifier);
+      final override = overrides[flag.key];
+      final remoteConfigValue = ref
+          .read(featureFlagRepositoryProvider)
+          .get(flag);
+
       await showDialog<void>(
         context: context,
         builder: (dialogContext) => SimpleDialog(
-          title: const Text('isFunchEnabled Override'),
+          title: Text('${flag.description} Override'),
           children: [
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.of(dialogContext).pop();
-                await configNotifier.setIsFunchEnabledOverride(value: null);
+                await notifier.setOverride(flag, value: null);
               },
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Use Remote Config'),
-                subtitle: Text('Remote Config: $remoteConfigIsFunchEnabled'),
-                trailing: isFunchEnabledOverride == null
-                    ? const Icon(Icons.check)
-                    : null,
+                subtitle: Text('Remote Config: $remoteConfigValue'),
+                trailing: override == null ? const Icon(Icons.check) : null,
               ),
             ),
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.of(dialogContext).pop();
-                await configNotifier.setIsFunchEnabledOverride(value: true);
+                await notifier.setOverride(flag, value: true);
               },
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Force true'),
-                trailing: isFunchEnabledOverride ?? false
-                    ? const Icon(Icons.check)
-                    : null,
+                trailing: override == true ? const Icon(Icons.check) : null,
               ),
             ),
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.of(dialogContext).pop();
-                await configNotifier.setIsFunchEnabledOverride(value: false);
+                await notifier.setOverride(flag, value: false);
               },
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Force false'),
-                trailing: isFunchEnabledOverride == false
-                    ? const Icon(Icons.check)
-                    : null,
+                trailing: override == false ? const Icon(Icons.check) : null,
               ),
             ),
           ],
         ),
+      );
+    }
+
+    Widget flagTile(Flag<Object> flag) {
+      final override = overrides[flag.key];
+      final effectiveValue = ref.watch(featureFlagProvider(flag));
+
+      return ListTile(
+        title: Text('${flag.description} Flag'),
+        subtitle: Text(switch (override) {
+          null => 'Use Remote Config',
+          _ => 'Forced: $override',
+        }),
+        trailing: Text('Effective: $effectiveValue'),
+        onTap: flag is Flag<bool> ? () => showFlagOverridePicker(flag) : null,
       );
     }
 
@@ -171,16 +182,7 @@ final class DebugScreen extends HookConsumerWidget {
             title: Text('Environment'),
             trailing: Text(appFlavor ?? 'Default'),
           ),
-          ListTile(
-            title: const Text('isFunchEnabled Override'),
-            subtitle: Text(switch (isFunchEnabledOverride) {
-              true => 'Forced: true',
-              false => 'Forced: false',
-              null => 'Use Remote Config ($remoteConfigIsFunchEnabled)',
-            }),
-            trailing: Text('Effective: ${config.isFunchEnabled}'),
-            onTap: showIsFunchEnabledOverridePicker,
-          ),
+          ...Flags.all.map(flagTile),
         ],
       ),
     );

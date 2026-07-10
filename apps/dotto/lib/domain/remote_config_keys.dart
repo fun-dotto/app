@@ -1,7 +1,4 @@
 final class RemoteConfigKeys {
-  /// Funch feature flag
-  static const String isFunchEnabled = 'is_funch_enabled';
-
   /// サポート対象の最小バージョン
   ///
   /// 現在のアプリバージョンがこの値より小さい場合: 強制アップデート対象

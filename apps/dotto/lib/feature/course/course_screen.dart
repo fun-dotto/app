@@ -6,6 +6,8 @@ import 'package:dotto/feature/course/course_reducer.dart';
 import 'package:dotto/feature/course/course_state.dart';
 import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
 import 'package:dotto/feature/course/quick_button.dart';
+import 'package:dotto/foundation/flags.dart';
+import 'package:dotto/foundation/use_flag.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -21,6 +23,7 @@ final class CourseScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(configProvider);
+    final isFunchEnabled = useFlag(Flags.funch);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     final state = isAuthenticated
         ? ref.watch(courseReducerProvider)
@@ -28,7 +31,7 @@ final class CourseScreen extends HookConsumerWidget {
     final selectedDate = useState<DateTime?>(null);
 
     final quickFeatures = [
-      if (config.isFunchEnabled)
+      if (isFunchEnabled)
         QuickButton(
           label: '科目検索',
           iconUrl: null,

@@ -1,13 +1,13 @@
 import 'package:dotto/asset.dart';
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/feature/onboarding/domain/onboarding_page.dart';
+import 'package:dotto/foundation/flags.dart';
+import 'package:dotto/foundation/use_flag.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final class OnboardingScreen extends HookConsumerWidget {
+final class OnboardingScreen extends HookWidget {
   const OnboardingScreen({required this.onDismissed, super.key});
 
   final void Function() onDismissed;
@@ -255,10 +255,8 @@ final class OnboardingScreen extends HookConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isFunchEnabled = ref.watch(
-      configProvider.select((config) => config.isFunchEnabled),
-    );
+  Widget build(BuildContext context) {
+    final isFunchEnabled = useFlag(Flags.funch);
     final pages = OnboardingPage.pages(isFunchEnabled: isFunchEnabled);
     final pageController = usePageController();
     final currentPage = useState(0);

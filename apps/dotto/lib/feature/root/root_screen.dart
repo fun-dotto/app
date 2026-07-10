@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/notification_status_controller.dart';
 import 'package:dotto/domain/notification_alert_status.dart';
 import 'package:dotto/domain/tab_item.dart';
@@ -11,8 +10,10 @@ import 'package:dotto/feature/root/root_app_tutorial_state.dart';
 import 'package:dotto/feature/root/root_app_version.dart';
 import 'package:dotto/feature/root/root_app_version_state.dart';
 import 'package:dotto/feature/root/root_initialization_state.dart';
+import 'package:dotto/foundation/flags.dart';
 import 'package:dotto/foundation/screen_container.dart';
 import 'package:dotto/foundation/screen_states.dart';
+import 'package:dotto/foundation/use_flag.dart';
 import 'package:dotto/helper/firebase_auth_provider.dart';
 import 'package:dotto/helper/firebase_messaging_provider.dart';
 import 'package:dotto/helper/logger.dart';
@@ -305,9 +306,7 @@ final class RootScreen extends HookConsumerWidget {
     final initialization = ref.watch(rootInitializationStateProvider);
     final appTutorial = ref.watch(rootAppTutorialStateProvider);
     final appVersion = ref.watch(rootAppVersionStateProvider);
-    final isFunchEnabled = ref.watch(
-      configProvider.select((config) => config.isFunchEnabled),
-    );
+    final isFunchEnabled = useFlag(Flags.funch);
     final activeTabs = _activeTabs(isFunchEnabled: isFunchEnabled);
 
     return ScreenContainer(
