@@ -118,14 +118,17 @@
       ]
     },
     {
+      "description": "win32 / geolocator_linux の制約で lockstep 更新が必要なため、メジャーも含めて1つのPRにまとめる",
       "groupName": "plus plugins",
       "matchManagers": [
         "pub"
       ],
       "matchPackageNames": [
+        "geolocator",
         "package_info_plus",
         "share_plus"
-      ]
+      ],
+      "separateMajorMinor": false
     },
     {
       "groupName": "riverpod",
@@ -226,17 +229,6 @@
       ]
     },
     {
-      "description": "Keep geolocator updates with package_info_plus when transitive plugin constraints move together",
-      "groupName": "geolocator",
-      "matchManagers": [
-        "pub"
-      ],
-      "matchPackageNames": [
-        "geolocator",
-        "package_info_plus"
-      ]
-    },
-    {
       "description": "Keep Melos updates with CLI-related tooling when shared transitive constraints move together",
       "groupName": "melos toolchain",
       "matchManagers": [
@@ -246,6 +238,27 @@
         "flutter_launcher_icons",
         "melos"
       ]
+    },
+    {
+      "description": "melos >=7.8.2 は cli_util ^0.5.0 を要求し、flutter_launcher_icons (cli_util ^0.4.1) と競合するため保留",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "melos"
+      ],
+      "allowedVersions": "<7.8.2"
+    },
+    {
+      "description": "built_value(_generator) >=8.12.6 は analyzer ^13 を要求し、riverpod_generator (analyzer ^12) と競合するため保留",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "built_value",
+        "built_value_generator"
+      ],
+      "allowedVersions": "<8.12.6"
     },
     {
       "description": "intl is pinned by flutter_localizations and must wait for a Flutter SDK update",
