@@ -261,6 +261,16 @@
       "allowedVersions": "<8.12.6"
     },
     {
+      "description": "test >=1.31.2 は analyzer >=13 を要求し、built_value_generator <8.12.6 (analyzer <13) と競合するため保留",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "test"
+      ],
+      "allowedVersions": "<1.31.2"
+    },
+    {
       "description": "intl is pinned by flutter_localizations and must wait for a Flutter SDK update",
       "matchManagers": [
         "pub"
