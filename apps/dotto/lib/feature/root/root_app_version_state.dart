@@ -31,7 +31,7 @@ final class RootAppVersionState extends _$RootAppVersionState
     });
 
     if (initialization.status != AsyncStatus.success) {
-      return AsyncEntity(status: AsyncStatus.loading);
+      return const AsyncEntity(status: AsyncStatus.loading);
     }
     return initialState();
   }
