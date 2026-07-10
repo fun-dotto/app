@@ -29,6 +29,7 @@ final class DomainError implements Exception {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
       case DioExceptionType.connectionError:
         return DomainError.network(e: e, stackTrace: stackTrace);
       case DioExceptionType.badResponse:
