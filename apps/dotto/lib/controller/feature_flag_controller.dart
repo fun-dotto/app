@@ -9,7 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'feature_flag_controller.g.dart';
 
 /// Debug用overrideの一覧 (フラグのkey -> override値) を保持するNotifier。
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, name: 'featureFlagNotifierProvider')
 final class FeatureFlagNotifier extends _$FeatureFlagNotifier {
   @override
   Map<String, Object?> build() {
@@ -34,9 +34,7 @@ final class FeatureFlagNotifier extends _$FeatureFlagNotifier {
 /// FeatureFlagの実効値 (Debug用override > Remote Config) を返す。
 @Riverpod(keepAlive: true)
 T featureFlag<T>(Ref ref, Flag<T> flag) {
-  final override = ref.watch(
-    featureFlagNotifierProvider.select((overrides) => overrides[flag.key]),
-  );
+  final override = ref.watch(featureFlagNotifierProvider)[flag.key];
   if (override is T) return override;
   return ref.watch(featureFlagRepositoryProvider).get(flag);
 }
