@@ -4,9 +4,9 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/course/course_reducer.dart';
 import 'package:dotto/feature/course/course_state.dart';
-import 'package:dotto/domain/remote_config_keys.dart';
 import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
 import 'package:dotto/feature/course/quick_button.dart';
+import 'package:dotto/foundation/flags.dart';
 import 'package:dotto/foundation/use_flag.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/router/routes/app_routes.dart';
@@ -32,7 +32,7 @@ final class CourseScreen extends HookConsumerWidget {
 
     final quickFeatures = [
       ...flag.switchOn<List<QuickButton>>(
-        RemoteConfigKeys.isFunchEnabled,
+        Flags.funch,
         onTrue: () => [
           QuickButton(
             label: '科目検索',
