@@ -70,9 +70,8 @@ void main() {
 
   test('fetch 成功時に status=success と entity が反映される', () async {
     final repository = FakeAnnouncementRepository();
-    final container = createContainer(repository);
-
-    container.read(announcementStateProvider);
+    final container = createContainer(repository)
+      ..read(announcementStateProvider);
     await Future<void>.value();
     repository.resolve(sampleAnnouncements);
     await Future<void>.value();
@@ -101,9 +100,8 @@ void main() {
 
   test('refresh は status=refreshing → success と遷移し、前回の entity を保持する', () async {
     final repository = FakeAnnouncementRepository();
-    final container = createContainer(repository);
-
-    container.read(announcementStateProvider);
+    final container = createContainer(repository)
+      ..read(announcementStateProvider);
     await Future<void>.value();
     repository.resolve(sampleAnnouncements);
     await Future<void>.value();
@@ -135,9 +133,8 @@ void main() {
 
   test('refresh 失敗時は status=failure と error が反映される', () async {
     final repository = FakeAnnouncementRepository();
-    final container = createContainer(repository);
-
-    container.read(announcementStateProvider);
+    final container = createContainer(repository)
+      ..read(announcementStateProvider);
     await Future<void>.value();
     repository.resolve(sampleAnnouncements);
     await Future<void>.value();
