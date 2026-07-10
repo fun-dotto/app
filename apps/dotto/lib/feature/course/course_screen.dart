@@ -23,7 +23,7 @@ final class CourseScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(configProvider);
-    final flag = useFlag(ref);
+    final isFunchEnabled = useFlag(Flags.funch);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     final state = isAuthenticated
         ? ref.watch(courseReducerProvider)
@@ -31,19 +31,13 @@ final class CourseScreen extends HookConsumerWidget {
     final selectedDate = useState<DateTime?>(null);
 
     final quickFeatures = [
-      ...flag.switchOn<List<QuickButton>>(
-        Flags.funch,
-        onTrue: () => [
-          QuickButton(
-            label: '科目検索',
-            iconUrl: null,
-            fallbackIcon: Icons.search,
-            onPressed: () =>
-                const CourseSubjectsRouteData().push<void>(context),
-          ),
-        ],
-        onFalse: () => const [],
-      ),
+      if (isFunchEnabled)
+        QuickButton(
+          label: '科目検索',
+          iconUrl: null,
+          fallbackIcon: Icons.search,
+          onPressed: () => const CourseSubjectsRouteData().push<void>(context),
+        ),
       if (isAuthenticated)
         QuickButton(
           label: '休講・補講',
