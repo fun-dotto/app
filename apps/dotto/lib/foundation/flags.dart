@@ -11,7 +11,7 @@ abstract final class Flags {
   /// Opinion box feature flag
   static const opinionBox = Flag<bool>(
     key: 'is_opinion_box_enabled',
-    description: 'Opinion Box',
+    description: '意見箱',
     defaultValue: false,
   );
 
