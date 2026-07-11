@@ -8,6 +8,13 @@ abstract final class Flags {
     defaultValue: false,
   );
 
+  /// Opinion box feature flag
+  static const opinionBox = Flag<bool>(
+    key: 'is_opinion_box_enabled',
+    description: 'Opinion Box',
+    defaultValue: false,
+  );
+
   /// Debug画面の一覧表示用。新しいフラグを追加したらここにも追記する。
-  static const List<Flag<Object>> all = [funch];
+  static const List<Flag<Object>> all = [funch, opinionBox];
 }
