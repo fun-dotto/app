@@ -12,7 +12,6 @@ flutter = "3.44.0"
 gcloud = "572.0.0"
 java = "21.0.2"
 node = "24.16.0"
-"npm:firebase-tools" = "15.15.0"
 "npm:@openapitools/openapi-generator-cli" = "2.32.0"
 ruby = "4.0.5"
 
