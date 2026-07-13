@@ -128,7 +128,7 @@ final class CourseScreen extends HookConsumerWidget {
         QuickButton(
           label: '大学への意見',
           iconUrl: null,
-          fallbackIcon: Icons.edit_square,
+          fallbackIcon: Icons.inventory_2_outlined,
           onPressed: () {},
         ),
     ];
