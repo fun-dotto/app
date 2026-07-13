@@ -13,26 +13,38 @@ part 'timetable_items_v1_list200_response.g.dart';
 /// TimetableItemsV1List200Response
 ///
 /// Properties:
-/// * [timetableItems] 
+/// * [timetableItems]
 @BuiltValue()
-abstract class TimetableItemsV1List200Response implements Built<TimetableItemsV1List200Response, TimetableItemsV1List200ResponseBuilder> {
+abstract class TimetableItemsV1List200Response
+    implements
+        Built<
+          TimetableItemsV1List200Response,
+          TimetableItemsV1List200ResponseBuilder
+        > {
   @BuiltValueField(wireName: r'timetableItems')
   BuiltList<TimetableItem> get timetableItems;
 
   TimetableItemsV1List200Response._();
 
-  factory TimetableItemsV1List200Response([void updates(TimetableItemsV1List200ResponseBuilder b)]) = _$TimetableItemsV1List200Response;
+  factory TimetableItemsV1List200Response([
+    void updates(TimetableItemsV1List200ResponseBuilder b),
+  ]) = _$TimetableItemsV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TimetableItemsV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TimetableItemsV1List200Response> get serializer => _$TimetableItemsV1List200ResponseSerializer();
+  static Serializer<TimetableItemsV1List200Response> get serializer =>
+      _$TimetableItemsV1List200ResponseSerializer();
 }
 
-class _$TimetableItemsV1List200ResponseSerializer implements PrimitiveSerializer<TimetableItemsV1List200Response> {
+class _$TimetableItemsV1List200ResponseSerializer
+    implements PrimitiveSerializer<TimetableItemsV1List200Response> {
   @override
-  final Iterable<Type> types = const [TimetableItemsV1List200Response, _$TimetableItemsV1List200Response];
+  final Iterable<Type> types = const [
+    TimetableItemsV1List200Response,
+    _$TimetableItemsV1List200Response,
+  ];
 
   @override
   final String wireName = r'TimetableItemsV1List200Response';
@@ -55,7 +67,11 @@ class _$TimetableItemsV1List200ResponseSerializer implements PrimitiveSerializer
     TimetableItemsV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +87,14 @@ class _$TimetableItemsV1List200ResponseSerializer implements PrimitiveSerializer
       final value = serializedList[i + 1];
       switch (key) {
         case r'timetableItems':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(TimetableItem)]),
-          ) as BuiltList<TimetableItem>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(TimetableItem),
+                    ]),
+                  )
+                  as BuiltList<TimetableItem>;
           result.timetableItems.replace(valueDes);
           break;
         default:
@@ -105,4 +125,3 @@ class _$TimetableItemsV1List200ResponseSerializer implements PrimitiveSerializer
     return result.build();
   }
 }
-

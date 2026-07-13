@@ -11,11 +11,12 @@ part 'faculty_service_faculty.g.dart';
 /// 教員
 ///
 /// Properties:
-/// * [id] 
-/// * [name] 
-/// * [email] 
+/// * [id]
+/// * [name]
+/// * [email]
 @BuiltValue()
-abstract class FacultyServiceFaculty implements Built<FacultyServiceFaculty, FacultyServiceFacultyBuilder> {
+abstract class FacultyServiceFaculty
+    implements Built<FacultyServiceFaculty, FacultyServiceFacultyBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -27,18 +28,25 @@ abstract class FacultyServiceFaculty implements Built<FacultyServiceFaculty, Fac
 
   FacultyServiceFaculty._();
 
-  factory FacultyServiceFaculty([void updates(FacultyServiceFacultyBuilder b)]) = _$FacultyServiceFaculty;
+  factory FacultyServiceFaculty([
+    void updates(FacultyServiceFacultyBuilder b),
+  ]) = _$FacultyServiceFaculty;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FacultyServiceFacultyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FacultyServiceFaculty> get serializer => _$FacultyServiceFacultySerializer();
+  static Serializer<FacultyServiceFaculty> get serializer =>
+      _$FacultyServiceFacultySerializer();
 }
 
-class _$FacultyServiceFacultySerializer implements PrimitiveSerializer<FacultyServiceFaculty> {
+class _$FacultyServiceFacultySerializer
+    implements PrimitiveSerializer<FacultyServiceFaculty> {
   @override
-  final Iterable<Type> types = const [FacultyServiceFaculty, _$FacultyServiceFaculty];
+  final Iterable<Type> types = const [
+    FacultyServiceFaculty,
+    _$FacultyServiceFaculty,
+  ];
 
   @override
   final String wireName = r'FacultyServiceFaculty';
@@ -71,7 +79,11 @@ class _$FacultyServiceFacultySerializer implements PrimitiveSerializer<FacultySe
     FacultyServiceFaculty object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -87,24 +99,30 @@ class _$FacultyServiceFacultySerializer implements PrimitiveSerializer<FacultySe
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.name = valueDes;
           break;
         case r'email':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.email = valueDes;
           break;
         default:
@@ -135,4 +153,3 @@ class _$FacultyServiceFacultySerializer implements PrimitiveSerializer<FacultySe
     return result.build();
   }
 }
-

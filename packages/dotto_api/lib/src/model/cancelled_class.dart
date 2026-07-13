@@ -14,13 +14,14 @@ part 'cancelled_class.g.dart';
 /// 休講
 ///
 /// Properties:
-/// * [id] 
-/// * [subject] 
-/// * [date] 
-/// * [period] 
-/// * [comment] 
+/// * [id]
+/// * [subject]
+/// * [date]
+/// * [period]
+/// * [comment]
 @BuiltValue()
-abstract class CancelledClass implements Built<CancelledClass, CancelledClassBuilder> {
+abstract class CancelledClass
+    implements Built<CancelledClass, CancelledClassBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -39,16 +40,19 @@ abstract class CancelledClass implements Built<CancelledClass, CancelledClassBui
 
   CancelledClass._();
 
-  factory CancelledClass([void updates(CancelledClassBuilder b)]) = _$CancelledClass;
+  factory CancelledClass([void updates(CancelledClassBuilder b)]) =
+      _$CancelledClass;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CancelledClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CancelledClass> get serializer => _$CancelledClassSerializer();
+  static Serializer<CancelledClass> get serializer =>
+      _$CancelledClassSerializer();
 }
 
-class _$CancelledClassSerializer implements PrimitiveSerializer<CancelledClass> {
+class _$CancelledClassSerializer
+    implements PrimitiveSerializer<CancelledClass> {
   @override
   final Iterable<Type> types = const [CancelledClass, _$CancelledClass];
 
@@ -93,7 +97,11 @@ class _$CancelledClassSerializer implements PrimitiveSerializer<CancelledClass> 
     CancelledClass object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -109,38 +117,48 @@ class _$CancelledClassSerializer implements PrimitiveSerializer<CancelledClass> 
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'subject':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(SubjectSummary),
-          ) as SubjectSummary;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SubjectSummary),
+                  )
+                  as SubjectSummary;
           result.subject.replace(valueDes);
           break;
         case r'date':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Date),
-          ) as Date;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Date),
+                  )
+                  as Date;
           result.date = valueDes;
           break;
         case r'period':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Period),
-          ) as DottoFoundationV1Period;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Period),
+                  )
+                  as DottoFoundationV1Period;
           result.period = valueDes;
           break;
         case r'comment':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.comment = valueDes;
           break;
         default:
@@ -171,4 +189,3 @@ class _$CancelledClassSerializer implements PrimitiveSerializer<CancelledClass> 
     return result.build();
   }
 }
-

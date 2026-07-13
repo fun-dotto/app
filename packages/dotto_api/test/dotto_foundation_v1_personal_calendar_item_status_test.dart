@@ -3,7 +3,5 @@ import 'package:openapi/openapi.dart';
 
 // tests for DottoFoundationV1PersonalCalendarItemStatus
 void main() {
-
-  group(DottoFoundationV1PersonalCalendarItemStatus, () {
-  });
+  group(DottoFoundationV1PersonalCalendarItemStatus, () {});
 }

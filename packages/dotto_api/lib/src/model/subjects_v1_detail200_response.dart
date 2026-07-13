@@ -12,26 +12,35 @@ part 'subjects_v1_detail200_response.g.dart';
 /// SubjectsV1Detail200Response
 ///
 /// Properties:
-/// * [subject] 
+/// * [subject]
 @BuiltValue()
-abstract class SubjectsV1Detail200Response implements Built<SubjectsV1Detail200Response, SubjectsV1Detail200ResponseBuilder> {
+abstract class SubjectsV1Detail200Response
+    implements
+        Built<SubjectsV1Detail200Response, SubjectsV1Detail200ResponseBuilder> {
   @BuiltValueField(wireName: r'subject')
   SubjectDetail get subject;
 
   SubjectsV1Detail200Response._();
 
-  factory SubjectsV1Detail200Response([void updates(SubjectsV1Detail200ResponseBuilder b)]) = _$SubjectsV1Detail200Response;
+  factory SubjectsV1Detail200Response([
+    void updates(SubjectsV1Detail200ResponseBuilder b),
+  ]) = _$SubjectsV1Detail200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SubjectsV1Detail200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SubjectsV1Detail200Response> get serializer => _$SubjectsV1Detail200ResponseSerializer();
+  static Serializer<SubjectsV1Detail200Response> get serializer =>
+      _$SubjectsV1Detail200ResponseSerializer();
 }
 
-class _$SubjectsV1Detail200ResponseSerializer implements PrimitiveSerializer<SubjectsV1Detail200Response> {
+class _$SubjectsV1Detail200ResponseSerializer
+    implements PrimitiveSerializer<SubjectsV1Detail200Response> {
   @override
-  final Iterable<Type> types = const [SubjectsV1Detail200Response, _$SubjectsV1Detail200Response];
+  final Iterable<Type> types = const [
+    SubjectsV1Detail200Response,
+    _$SubjectsV1Detail200Response,
+  ];
 
   @override
   final String wireName = r'SubjectsV1Detail200Response';
@@ -54,7 +63,11 @@ class _$SubjectsV1Detail200ResponseSerializer implements PrimitiveSerializer<Sub
     SubjectsV1Detail200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -70,10 +83,12 @@ class _$SubjectsV1Detail200ResponseSerializer implements PrimitiveSerializer<Sub
       final value = serializedList[i + 1];
       switch (key) {
         case r'subject':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(SubjectDetail),
-          ) as SubjectDetail;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SubjectDetail),
+                  )
+                  as SubjectDetail;
           result.subject.replace(valueDes);
           break;
         default:
@@ -104,4 +119,3 @@ class _$SubjectsV1Detail200ResponseSerializer implements PrimitiveSerializer<Sub
     return result.build();
   }
 }
-

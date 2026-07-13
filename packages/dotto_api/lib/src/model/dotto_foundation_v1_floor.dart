@@ -10,7 +10,6 @@ import 'package:built_value/serializer.dart';
 part 'dotto_foundation_v1_floor.g.dart';
 
 class DottoFoundationV1Floor extends EnumClass {
-
   @BuiltValueEnumConst(wireName: r'Floor1')
   static const DottoFoundationV1Floor floor1 = _$floor1;
   @BuiltValueEnumConst(wireName: r'Floor2')
@@ -28,9 +27,10 @@ class DottoFoundationV1Floor extends EnumClass {
   @BuiltValueEnumConst(wireName: r'Virtual')
   static const DottoFoundationV1Floor virtual = _$virtual;
 
-  static Serializer<DottoFoundationV1Floor> get serializer => _$dottoFoundationV1FloorSerializer;
+  static Serializer<DottoFoundationV1Floor> get serializer =>
+      _$dottoFoundationV1FloorSerializer;
 
-  const DottoFoundationV1Floor._(String name): super(name);
+  const DottoFoundationV1Floor._(String name) : super(name);
 
   static BuiltSet<DottoFoundationV1Floor> get values => _$values;
   static DottoFoundationV1Floor valueOf(String name) => _$valueOf(name);
@@ -42,5 +42,5 @@ class DottoFoundationV1Floor extends EnumClass {
 /// corresponding Angular template.
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
-abstract class DottoFoundationV1FloorMixin = Object with _$DottoFoundationV1FloorMixin;
-
+abstract class DottoFoundationV1FloorMixin = Object
+    with _$DottoFoundationV1FloorMixin;

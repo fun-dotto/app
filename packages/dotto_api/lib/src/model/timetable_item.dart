@@ -15,12 +15,13 @@ part 'timetable_item.g.dart';
 /// TimetableItem
 ///
 /// Properties:
-/// * [id] 
-/// * [subject] 
+/// * [id]
+/// * [subject]
 /// * [slot] - 集中講義など、時間割に含まれていない場合はnull
-/// * [rooms] 
+/// * [rooms]
 @BuiltValue()
-abstract class TimetableItem implements Built<TimetableItem, TimetableItemBuilder> {
+abstract class TimetableItem
+    implements Built<TimetableItem, TimetableItemBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -36,13 +37,15 @@ abstract class TimetableItem implements Built<TimetableItem, TimetableItemBuilde
 
   TimetableItem._();
 
-  factory TimetableItem([void updates(TimetableItemBuilder b)]) = _$TimetableItem;
+  factory TimetableItem([void updates(TimetableItemBuilder b)]) =
+      _$TimetableItem;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TimetableItemBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TimetableItem> get serializer => _$TimetableItemSerializer();
+  static Serializer<TimetableItem> get serializer =>
+      _$TimetableItemSerializer();
 }
 
 class _$TimetableItemSerializer implements PrimitiveSerializer<TimetableItem> {
@@ -87,7 +90,11 @@ class _$TimetableItemSerializer implements PrimitiveSerializer<TimetableItem> {
     TimetableItem object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -103,31 +110,41 @@ class _$TimetableItemSerializer implements PrimitiveSerializer<TimetableItem> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'subject':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(SubjectSummary),
-          ) as SubjectSummary;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SubjectSummary),
+                  )
+                  as SubjectSummary;
           result.subject.replace(valueDes);
           break;
         case r'slot':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1TimetableSlot),
-          ) as DottoFoundationV1TimetableSlot;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(
+                      DottoFoundationV1TimetableSlot,
+                    ),
+                  )
+                  as DottoFoundationV1TimetableSlot;
           result.slot.replace(valueDes);
           break;
         case r'rooms':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(Room)]),
-          ) as BuiltList<Room>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [FullType(Room)]),
+                  )
+                  as BuiltList<Room>;
           result.rooms.replace(valueDes);
           break;
         default:
@@ -158,4 +175,3 @@ class _$TimetableItemSerializer implements PrimitiveSerializer<TimetableItem> {
     return result.build();
   }
 }
-

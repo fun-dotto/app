@@ -13,26 +13,38 @@ part 'cancelled_classes_v1_list200_response.g.dart';
 /// CancelledClassesV1List200Response
 ///
 /// Properties:
-/// * [cancelledClasses] 
+/// * [cancelledClasses]
 @BuiltValue()
-abstract class CancelledClassesV1List200Response implements Built<CancelledClassesV1List200Response, CancelledClassesV1List200ResponseBuilder> {
+abstract class CancelledClassesV1List200Response
+    implements
+        Built<
+          CancelledClassesV1List200Response,
+          CancelledClassesV1List200ResponseBuilder
+        > {
   @BuiltValueField(wireName: r'cancelledClasses')
   BuiltList<CancelledClass> get cancelledClasses;
 
   CancelledClassesV1List200Response._();
 
-  factory CancelledClassesV1List200Response([void updates(CancelledClassesV1List200ResponseBuilder b)]) = _$CancelledClassesV1List200Response;
+  factory CancelledClassesV1List200Response([
+    void updates(CancelledClassesV1List200ResponseBuilder b),
+  ]) = _$CancelledClassesV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CancelledClassesV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CancelledClassesV1List200Response> get serializer => _$CancelledClassesV1List200ResponseSerializer();
+  static Serializer<CancelledClassesV1List200Response> get serializer =>
+      _$CancelledClassesV1List200ResponseSerializer();
 }
 
-class _$CancelledClassesV1List200ResponseSerializer implements PrimitiveSerializer<CancelledClassesV1List200Response> {
+class _$CancelledClassesV1List200ResponseSerializer
+    implements PrimitiveSerializer<CancelledClassesV1List200Response> {
   @override
-  final Iterable<Type> types = const [CancelledClassesV1List200Response, _$CancelledClassesV1List200Response];
+  final Iterable<Type> types = const [
+    CancelledClassesV1List200Response,
+    _$CancelledClassesV1List200Response,
+  ];
 
   @override
   final String wireName = r'CancelledClassesV1List200Response';
@@ -55,7 +67,11 @@ class _$CancelledClassesV1List200ResponseSerializer implements PrimitiveSerializ
     CancelledClassesV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +87,14 @@ class _$CancelledClassesV1List200ResponseSerializer implements PrimitiveSerializ
       final value = serializedList[i + 1];
       switch (key) {
         case r'cancelledClasses':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(CancelledClass)]),
-          ) as BuiltList<CancelledClass>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(CancelledClass),
+                    ]),
+                  )
+                  as BuiltList<CancelledClass>;
           result.cancelledClasses.replace(valueDes);
           break;
         default:
@@ -105,4 +125,3 @@ class _$CancelledClassesV1List200ResponseSerializer implements PrimitiveSerializ
     return result.build();
   }
 }
-

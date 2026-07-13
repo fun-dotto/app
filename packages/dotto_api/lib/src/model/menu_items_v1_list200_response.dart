@@ -13,26 +13,35 @@ part 'menu_items_v1_list200_response.g.dart';
 /// MenuItemsV1List200Response
 ///
 /// Properties:
-/// * [menuItems] 
+/// * [menuItems]
 @BuiltValue()
-abstract class MenuItemsV1List200Response implements Built<MenuItemsV1List200Response, MenuItemsV1List200ResponseBuilder> {
+abstract class MenuItemsV1List200Response
+    implements
+        Built<MenuItemsV1List200Response, MenuItemsV1List200ResponseBuilder> {
   @BuiltValueField(wireName: r'menuItems')
   BuiltList<MenuItem> get menuItems;
 
   MenuItemsV1List200Response._();
 
-  factory MenuItemsV1List200Response([void updates(MenuItemsV1List200ResponseBuilder b)]) = _$MenuItemsV1List200Response;
+  factory MenuItemsV1List200Response([
+    void updates(MenuItemsV1List200ResponseBuilder b),
+  ]) = _$MenuItemsV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(MenuItemsV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MenuItemsV1List200Response> get serializer => _$MenuItemsV1List200ResponseSerializer();
+  static Serializer<MenuItemsV1List200Response> get serializer =>
+      _$MenuItemsV1List200ResponseSerializer();
 }
 
-class _$MenuItemsV1List200ResponseSerializer implements PrimitiveSerializer<MenuItemsV1List200Response> {
+class _$MenuItemsV1List200ResponseSerializer
+    implements PrimitiveSerializer<MenuItemsV1List200Response> {
   @override
-  final Iterable<Type> types = const [MenuItemsV1List200Response, _$MenuItemsV1List200Response];
+  final Iterable<Type> types = const [
+    MenuItemsV1List200Response,
+    _$MenuItemsV1List200Response,
+  ];
 
   @override
   final String wireName = r'MenuItemsV1List200Response';
@@ -55,7 +64,11 @@ class _$MenuItemsV1List200ResponseSerializer implements PrimitiveSerializer<Menu
     MenuItemsV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +84,14 @@ class _$MenuItemsV1List200ResponseSerializer implements PrimitiveSerializer<Menu
       final value = serializedList[i + 1];
       switch (key) {
         case r'menuItems':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(MenuItem)]),
-          ) as BuiltList<MenuItem>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(MenuItem),
+                    ]),
+                  )
+                  as BuiltList<MenuItem>;
           result.menuItems.replace(valueDes);
           break;
         default:
@@ -105,4 +122,3 @@ class _$MenuItemsV1List200ResponseSerializer implements PrimitiveSerializer<Menu
     return result.build();
   }
 }
-

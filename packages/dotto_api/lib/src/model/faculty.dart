@@ -11,9 +11,9 @@ part 'faculty.g.dart';
 /// Faculty
 ///
 /// Properties:
-/// * [id] 
-/// * [name] 
-/// * [email] 
+/// * [id]
+/// * [name]
+/// * [email]
 @BuiltValue()
 abstract class Faculty implements Built<Faculty, FacultyBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -71,7 +71,11 @@ class _$FacultySerializer implements PrimitiveSerializer<Faculty> {
     Faculty object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -87,24 +91,30 @@ class _$FacultySerializer implements PrimitiveSerializer<Faculty> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.name = valueDes;
           break;
         case r'email':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.email = valueDes;
           break;
         default:
@@ -135,4 +145,3 @@ class _$FacultySerializer implements PrimitiveSerializer<Faculty> {
     return result.build();
   }
 }
-

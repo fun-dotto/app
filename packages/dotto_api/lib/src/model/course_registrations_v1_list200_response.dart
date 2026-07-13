@@ -13,26 +13,38 @@ part 'course_registrations_v1_list200_response.g.dart';
 /// CourseRegistrationsV1List200Response
 ///
 /// Properties:
-/// * [courseRegistrations] 
+/// * [courseRegistrations]
 @BuiltValue()
-abstract class CourseRegistrationsV1List200Response implements Built<CourseRegistrationsV1List200Response, CourseRegistrationsV1List200ResponseBuilder> {
+abstract class CourseRegistrationsV1List200Response
+    implements
+        Built<
+          CourseRegistrationsV1List200Response,
+          CourseRegistrationsV1List200ResponseBuilder
+        > {
   @BuiltValueField(wireName: r'courseRegistrations')
   BuiltList<CourseRegistration> get courseRegistrations;
 
   CourseRegistrationsV1List200Response._();
 
-  factory CourseRegistrationsV1List200Response([void updates(CourseRegistrationsV1List200ResponseBuilder b)]) = _$CourseRegistrationsV1List200Response;
+  factory CourseRegistrationsV1List200Response([
+    void updates(CourseRegistrationsV1List200ResponseBuilder b),
+  ]) = _$CourseRegistrationsV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CourseRegistrationsV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CourseRegistrationsV1List200Response> get serializer => _$CourseRegistrationsV1List200ResponseSerializer();
+  static Serializer<CourseRegistrationsV1List200Response> get serializer =>
+      _$CourseRegistrationsV1List200ResponseSerializer();
 }
 
-class _$CourseRegistrationsV1List200ResponseSerializer implements PrimitiveSerializer<CourseRegistrationsV1List200Response> {
+class _$CourseRegistrationsV1List200ResponseSerializer
+    implements PrimitiveSerializer<CourseRegistrationsV1List200Response> {
   @override
-  final Iterable<Type> types = const [CourseRegistrationsV1List200Response, _$CourseRegistrationsV1List200Response];
+  final Iterable<Type> types = const [
+    CourseRegistrationsV1List200Response,
+    _$CourseRegistrationsV1List200Response,
+  ];
 
   @override
   final String wireName = r'CourseRegistrationsV1List200Response';
@@ -55,7 +67,11 @@ class _$CourseRegistrationsV1List200ResponseSerializer implements PrimitiveSeria
     CourseRegistrationsV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +87,14 @@ class _$CourseRegistrationsV1List200ResponseSerializer implements PrimitiveSeria
       final value = serializedList[i + 1];
       switch (key) {
         case r'courseRegistrations':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(CourseRegistration)]),
-          ) as BuiltList<CourseRegistration>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(CourseRegistration),
+                    ]),
+                  )
+                  as BuiltList<CourseRegistration>;
           result.courseRegistrations.replace(valueDes);
           break;
         default:
@@ -105,4 +125,3 @@ class _$CourseRegistrationsV1List200ResponseSerializer implements PrimitiveSeria
     return result.build();
   }
 }
-

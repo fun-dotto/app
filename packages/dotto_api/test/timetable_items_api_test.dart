@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for TimetableItemsApi
 void main() {
   final instance = Openapi().getTimetableItemsApi();
@@ -13,6 +12,5 @@ void main() {
     test('test timetableItemsV1List', () async {
       // TODO
     });
-
   });
 }

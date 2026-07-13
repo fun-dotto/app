@@ -13,26 +13,38 @@ part 'makeup_classes_v1_list200_response.g.dart';
 /// MakeupClassesV1List200Response
 ///
 /// Properties:
-/// * [makeupClasses] 
+/// * [makeupClasses]
 @BuiltValue()
-abstract class MakeupClassesV1List200Response implements Built<MakeupClassesV1List200Response, MakeupClassesV1List200ResponseBuilder> {
+abstract class MakeupClassesV1List200Response
+    implements
+        Built<
+          MakeupClassesV1List200Response,
+          MakeupClassesV1List200ResponseBuilder
+        > {
   @BuiltValueField(wireName: r'makeupClasses')
   BuiltList<MakeupClass> get makeupClasses;
 
   MakeupClassesV1List200Response._();
 
-  factory MakeupClassesV1List200Response([void updates(MakeupClassesV1List200ResponseBuilder b)]) = _$MakeupClassesV1List200Response;
+  factory MakeupClassesV1List200Response([
+    void updates(MakeupClassesV1List200ResponseBuilder b),
+  ]) = _$MakeupClassesV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(MakeupClassesV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MakeupClassesV1List200Response> get serializer => _$MakeupClassesV1List200ResponseSerializer();
+  static Serializer<MakeupClassesV1List200Response> get serializer =>
+      _$MakeupClassesV1List200ResponseSerializer();
 }
 
-class _$MakeupClassesV1List200ResponseSerializer implements PrimitiveSerializer<MakeupClassesV1List200Response> {
+class _$MakeupClassesV1List200ResponseSerializer
+    implements PrimitiveSerializer<MakeupClassesV1List200Response> {
   @override
-  final Iterable<Type> types = const [MakeupClassesV1List200Response, _$MakeupClassesV1List200Response];
+  final Iterable<Type> types = const [
+    MakeupClassesV1List200Response,
+    _$MakeupClassesV1List200Response,
+  ];
 
   @override
   final String wireName = r'MakeupClassesV1List200Response';
@@ -55,7 +67,11 @@ class _$MakeupClassesV1List200ResponseSerializer implements PrimitiveSerializer<
     MakeupClassesV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +87,14 @@ class _$MakeupClassesV1List200ResponseSerializer implements PrimitiveSerializer<
       final value = serializedList[i + 1];
       switch (key) {
         case r'makeupClasses':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(MakeupClass)]),
-          ) as BuiltList<MakeupClass>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(MakeupClass),
+                    ]),
+                  )
+                  as BuiltList<MakeupClass>;
           result.makeupClasses.replace(valueDes);
           break;
         default:
@@ -105,4 +125,3 @@ class _$MakeupClassesV1List200ResponseSerializer implements PrimitiveSerializer<
     return result.build();
   }
 }
-

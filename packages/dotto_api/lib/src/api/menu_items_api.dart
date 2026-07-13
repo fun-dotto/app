@@ -13,7 +13,6 @@ import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/menu_items_v1_list200_response.dart';
 
 class MenuItemsApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -34,7 +33,7 @@ class MenuItemsApi {
   ///
   /// Returns a [Future] containing a [Response] with a [MenuItemsV1List200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<MenuItemsV1List200Response>> menuItemsV1List({ 
+  Future<Response<MenuItemsV1List200Response>> menuItemsV1List({
     required Date date,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -46,9 +45,7 @@ class MenuItemsApi {
     final _path = r'/v1/menuItems';
     final _options = Options(
       method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
+      headers: <String, dynamic>{...?headers},
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -80,11 +77,13 @@ class MenuItemsApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(MenuItemsV1List200Response),
-      ) as MenuItemsV1List200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+                  rawResponse,
+                  specifiedType: const FullType(MenuItemsV1List200Response),
+                )
+                as MenuItemsV1List200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -106,5 +105,4 @@ class MenuItemsApi {
       extra: _response.extra,
     );
   }
-
 }

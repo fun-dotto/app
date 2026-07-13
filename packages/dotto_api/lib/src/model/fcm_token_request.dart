@@ -11,24 +11,28 @@ part 'fcm_token_request.g.dart';
 /// FCMTokenRequest
 ///
 /// Properties:
-/// * [token] 
+/// * [token]
 @BuiltValue()
-abstract class FCMTokenRequest implements Built<FCMTokenRequest, FCMTokenRequestBuilder> {
+abstract class FCMTokenRequest
+    implements Built<FCMTokenRequest, FCMTokenRequestBuilder> {
   @BuiltValueField(wireName: r'token')
   String get token;
 
   FCMTokenRequest._();
 
-  factory FCMTokenRequest([void updates(FCMTokenRequestBuilder b)]) = _$FCMTokenRequest;
+  factory FCMTokenRequest([void updates(FCMTokenRequestBuilder b)]) =
+      _$FCMTokenRequest;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FCMTokenRequestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FCMTokenRequest> get serializer => _$FCMTokenRequestSerializer();
+  static Serializer<FCMTokenRequest> get serializer =>
+      _$FCMTokenRequestSerializer();
 }
 
-class _$FCMTokenRequestSerializer implements PrimitiveSerializer<FCMTokenRequest> {
+class _$FCMTokenRequestSerializer
+    implements PrimitiveSerializer<FCMTokenRequest> {
   @override
   final Iterable<Type> types = const [FCMTokenRequest, _$FCMTokenRequest];
 
@@ -53,7 +57,11 @@ class _$FCMTokenRequestSerializer implements PrimitiveSerializer<FCMTokenRequest
     FCMTokenRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -69,10 +77,12 @@ class _$FCMTokenRequestSerializer implements PrimitiveSerializer<FCMTokenRequest
       final value = serializedList[i + 1];
       switch (key) {
         case r'token':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.token = valueDes;
           break;
         default:
@@ -103,4 +113,3 @@ class _$FCMTokenRequestSerializer implements PrimitiveSerializer<FCMTokenRequest
     return result.build();
   }
 }
-

@@ -14,11 +14,11 @@ part 'makeup_class.g.dart';
 /// 補講
 ///
 /// Properties:
-/// * [id] 
-/// * [subject] 
-/// * [date] 
-/// * [period] 
-/// * [comment] 
+/// * [id]
+/// * [subject]
+/// * [date]
+/// * [period]
+/// * [comment]
 @BuiltValue()
 abstract class MakeupClass implements Built<MakeupClass, MakeupClassBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -93,7 +93,11 @@ class _$MakeupClassSerializer implements PrimitiveSerializer<MakeupClass> {
     MakeupClass object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -109,38 +113,48 @@ class _$MakeupClassSerializer implements PrimitiveSerializer<MakeupClass> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'subject':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(SubjectSummary),
-          ) as SubjectSummary;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SubjectSummary),
+                  )
+                  as SubjectSummary;
           result.subject.replace(valueDes);
           break;
         case r'date':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Date),
-          ) as Date;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Date),
+                  )
+                  as Date;
           result.date = valueDes;
           break;
         case r'period':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Period),
-          ) as DottoFoundationV1Period;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Period),
+                  )
+                  as DottoFoundationV1Period;
           result.period = valueDes;
           break;
         case r'comment':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.comment = valueDes;
           break;
         default:
@@ -171,4 +185,3 @@ class _$MakeupClassSerializer implements PrimitiveSerializer<MakeupClass> {
     return result.build();
   }
 }
-
