@@ -24,6 +24,7 @@ final class CourseScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(configProvider);
     final isFunchEnabled = useFlag(Flags.funch);
+    final isOpinionBoxEnabled = useFlag(Flags.opinionBox);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     final state = isAuthenticated
         ? ref.watch(courseReducerProvider)
@@ -122,6 +123,13 @@ final class CourseScreen extends HookConsumerWidget {
             url: config.macSupportDeskUrl,
             label: 'Macサポート',
           ),
+        ),
+      if (isAuthenticated && isOpinionBoxEnabled)
+        QuickButton(
+          label: '大学への意見',
+          iconUrl: null,
+          fallbackIcon: Icons.edit_square,
+          onPressed: () {},
         ),
     ];
 
