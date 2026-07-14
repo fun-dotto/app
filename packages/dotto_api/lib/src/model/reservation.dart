@@ -12,11 +12,11 @@ part 'reservation.g.dart';
 /// Reservation
 ///
 /// Properties:
-/// * [id] 
-/// * [room] 
-/// * [startAt] 
-/// * [endAt] 
-/// * [title] 
+/// * [id]
+/// * [room]
+/// * [startAt]
+/// * [endAt]
+/// * [title]
 @BuiltValue()
 abstract class Reservation implements Built<Reservation, ReservationBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -90,7 +90,11 @@ class _$ReservationSerializer implements PrimitiveSerializer<Reservation> {
     Reservation object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -106,38 +110,48 @@ class _$ReservationSerializer implements PrimitiveSerializer<Reservation> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'room':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Room),
-          ) as Room;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Room),
+                  )
+                  as Room;
           result.room.replace(valueDes);
           break;
         case r'startAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )
+                  as DateTime;
           result.startAt = valueDes;
           break;
         case r'endAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )
+                  as DateTime;
           result.endAt = valueDes;
           break;
         case r'title':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.title = valueDes;
           break;
         default:
@@ -168,4 +182,3 @@ class _$ReservationSerializer implements PrimitiveSerializer<Reservation> {
     return result.build();
   }
 }
-

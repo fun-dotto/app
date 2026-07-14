@@ -13,26 +13,38 @@ part 'personal_calendar_items_v1_list200_response.g.dart';
 /// PersonalCalendarItemsV1List200Response
 ///
 /// Properties:
-/// * [personalCalendarItems] 
+/// * [personalCalendarItems]
 @BuiltValue()
-abstract class PersonalCalendarItemsV1List200Response implements Built<PersonalCalendarItemsV1List200Response, PersonalCalendarItemsV1List200ResponseBuilder> {
+abstract class PersonalCalendarItemsV1List200Response
+    implements
+        Built<
+          PersonalCalendarItemsV1List200Response,
+          PersonalCalendarItemsV1List200ResponseBuilder
+        > {
   @BuiltValueField(wireName: r'personalCalendarItems')
   BuiltList<PersonalCalendarItem> get personalCalendarItems;
 
   PersonalCalendarItemsV1List200Response._();
 
-  factory PersonalCalendarItemsV1List200Response([void updates(PersonalCalendarItemsV1List200ResponseBuilder b)]) = _$PersonalCalendarItemsV1List200Response;
+  factory PersonalCalendarItemsV1List200Response([
+    void updates(PersonalCalendarItemsV1List200ResponseBuilder b),
+  ]) = _$PersonalCalendarItemsV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PersonalCalendarItemsV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PersonalCalendarItemsV1List200Response> get serializer => _$PersonalCalendarItemsV1List200ResponseSerializer();
+  static Serializer<PersonalCalendarItemsV1List200Response> get serializer =>
+      _$PersonalCalendarItemsV1List200ResponseSerializer();
 }
 
-class _$PersonalCalendarItemsV1List200ResponseSerializer implements PrimitiveSerializer<PersonalCalendarItemsV1List200Response> {
+class _$PersonalCalendarItemsV1List200ResponseSerializer
+    implements PrimitiveSerializer<PersonalCalendarItemsV1List200Response> {
   @override
-  final Iterable<Type> types = const [PersonalCalendarItemsV1List200Response, _$PersonalCalendarItemsV1List200Response];
+  final Iterable<Type> types = const [
+    PersonalCalendarItemsV1List200Response,
+    _$PersonalCalendarItemsV1List200Response,
+  ];
 
   @override
   final String wireName = r'PersonalCalendarItemsV1List200Response';
@@ -45,7 +57,9 @@ class _$PersonalCalendarItemsV1List200ResponseSerializer implements PrimitiveSer
     yield r'personalCalendarItems';
     yield serializers.serialize(
       object.personalCalendarItems,
-      specifiedType: const FullType(BuiltList, [FullType(PersonalCalendarItem)]),
+      specifiedType: const FullType(BuiltList, [
+        FullType(PersonalCalendarItem),
+      ]),
     );
   }
 
@@ -55,7 +69,11 @@ class _$PersonalCalendarItemsV1List200ResponseSerializer implements PrimitiveSer
     PersonalCalendarItemsV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +89,14 @@ class _$PersonalCalendarItemsV1List200ResponseSerializer implements PrimitiveSer
       final value = serializedList[i + 1];
       switch (key) {
         case r'personalCalendarItems':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(PersonalCalendarItem)]),
-          ) as BuiltList<PersonalCalendarItem>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(PersonalCalendarItem),
+                    ]),
+                  )
+                  as BuiltList<PersonalCalendarItem>;
           result.personalCalendarItems.replace(valueDes);
           break;
         default:
@@ -105,4 +127,3 @@ class _$PersonalCalendarItemsV1List200ResponseSerializer implements PrimitiveSer
     return result.build();
   }
 }
-

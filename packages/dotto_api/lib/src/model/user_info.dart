@@ -14,9 +14,9 @@ part 'user_info.g.dart';
 /// UserInfo
 ///
 /// Properties:
-/// * [grade] 
-/// * [course] 
-/// * [class_] 
+/// * [grade]
+/// * [course]
+/// * [class_]
 @BuiltValue()
 abstract class UserInfo implements Built<UserInfo, UserInfoBuilder> {
   @BuiltValueField(wireName: r'grade')
@@ -83,7 +83,11 @@ class _$UserInfoSerializer implements PrimitiveSerializer<UserInfo> {
     UserInfo object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -99,24 +103,30 @@ class _$UserInfoSerializer implements PrimitiveSerializer<UserInfo> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'grade':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Grade),
-          ) as DottoFoundationV1Grade;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Grade),
+                  )
+                  as DottoFoundationV1Grade;
           result.grade = valueDes;
           break;
         case r'course':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Course),
-          ) as DottoFoundationV1Course;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Course),
+                  )
+                  as DottoFoundationV1Course;
           result.course = valueDes;
           break;
         case r'class':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Class),
-          ) as DottoFoundationV1Class;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Class),
+                  )
+                  as DottoFoundationV1Class;
           result.class_ = valueDes;
           break;
         default:
@@ -147,4 +157,3 @@ class _$UserInfoSerializer implements PrimitiveSerializer<UserInfo> {
     return result.build();
   }
 }
-

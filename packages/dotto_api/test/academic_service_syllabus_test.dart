@@ -168,6 +168,5 @@ void main() {
     test('to test the property `dsopSubject`', () async {
       // TODO
     });
-
   });
 }

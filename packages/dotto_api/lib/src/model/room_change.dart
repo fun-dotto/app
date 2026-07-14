@@ -15,12 +15,12 @@ part 'room_change.g.dart';
 /// 教室変更
 ///
 /// Properties:
-/// * [id] 
-/// * [subject] 
-/// * [date] 
-/// * [period] 
-/// * [originalRoom] 
-/// * [newRoom] 
+/// * [id]
+/// * [subject]
+/// * [date]
+/// * [period]
+/// * [originalRoom]
+/// * [newRoom]
 @BuiltValue()
 abstract class RoomChange implements Built<RoomChange, RoomChangeBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -103,7 +103,11 @@ class _$RoomChangeSerializer implements PrimitiveSerializer<RoomChange> {
     RoomChange object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -119,45 +123,57 @@ class _$RoomChangeSerializer implements PrimitiveSerializer<RoomChange> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'subject':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(SubjectSummary),
-          ) as SubjectSummary;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SubjectSummary),
+                  )
+                  as SubjectSummary;
           result.subject.replace(valueDes);
           break;
         case r'date':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Date),
-          ) as Date;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Date),
+                  )
+                  as Date;
           result.date = valueDes;
           break;
         case r'period':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Period),
-          ) as DottoFoundationV1Period;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Period),
+                  )
+                  as DottoFoundationV1Period;
           result.period = valueDes;
           break;
         case r'originalRoom':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Room),
-          ) as Room;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Room),
+                  )
+                  as Room;
           result.originalRoom.replace(valueDes);
           break;
         case r'newRoom':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Room),
-          ) as Room;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Room),
+                  )
+                  as Room;
           result.newRoom.replace(valueDes);
           break;
         default:
@@ -188,4 +204,3 @@ class _$RoomChangeSerializer implements PrimitiveSerializer<RoomChange> {
     return result.build();
   }
 }
-

@@ -14,7 +14,6 @@ import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/personal_calendar_items_v1_list200_response.dart';
 
 class PersonalCalendarItemsApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -35,7 +34,8 @@ class PersonalCalendarItemsApi {
   ///
   /// Returns a [Future] containing a [Response] with a [PersonalCalendarItemsV1List200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PersonalCalendarItemsV1List200Response>> personalCalendarItemsV1List({ 
+  Future<Response<PersonalCalendarItemsV1List200Response>>
+  personalCalendarItemsV1List({
     required BuiltList<Date> dates,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -47,9 +47,7 @@ class PersonalCalendarItemsApi {
     final _path = r'/v1/personalCalendarItems';
     final _options = Options(
       method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
+      headers: <String, dynamic>{...?headers},
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -57,11 +55,8 @@ class PersonalCalendarItemsApi {
             'name': 'FirebaseAppCheckAuth',
             'keyName': 'X-Firebase-AppCheck',
             'where': 'header',
-          },{
-            'type': 'http',
-            'scheme': 'Bearer',
-            'name': 'BearerAuth',
           },
+          {'type': 'http', 'scheme': 'Bearer', 'name': 'BearerAuth'},
         ],
         ...?extra,
       },
@@ -69,7 +64,12 @@ class PersonalCalendarItemsApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'dates': encodeCollectionQueryParameter<Date>(_serializers, dates, const FullType(BuiltList, [FullType(Date)]), format: ListFormat.csv,),
+      r'dates': encodeCollectionQueryParameter<Date>(
+        _serializers,
+        dates,
+        const FullType(BuiltList, [FullType(Date)]),
+        format: ListFormat.csv,
+      ),
     };
 
     final _response = await _dio.request<Object>(
@@ -85,11 +85,15 @@ class PersonalCalendarItemsApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PersonalCalendarItemsV1List200Response),
-      ) as PersonalCalendarItemsV1List200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+                  rawResponse,
+                  specifiedType: const FullType(
+                    PersonalCalendarItemsV1List200Response,
+                  ),
+                )
+                as PersonalCalendarItemsV1List200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -111,5 +115,4 @@ class PersonalCalendarItemsApi {
       extra: _response.extra,
     );
   }
-
 }

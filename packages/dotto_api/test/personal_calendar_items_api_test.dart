@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for PersonalCalendarItemsApi
 void main() {
   final instance = Openapi().getPersonalCalendarItemsApi();
@@ -13,6 +12,5 @@ void main() {
     test('test personalCalendarItemsV1List', () async {
       // TODO
     });
-
   });
 }

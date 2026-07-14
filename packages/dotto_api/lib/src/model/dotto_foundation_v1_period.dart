@@ -10,7 +10,6 @@ import 'package:built_value/serializer.dart';
 part 'dotto_foundation_v1_period.g.dart';
 
 class DottoFoundationV1Period extends EnumClass {
-
   @BuiltValueEnumConst(wireName: r'Period1')
   static const DottoFoundationV1Period period1 = _$period1;
   @BuiltValueEnumConst(wireName: r'Period2')
@@ -24,9 +23,10 @@ class DottoFoundationV1Period extends EnumClass {
   @BuiltValueEnumConst(wireName: r'Period6')
   static const DottoFoundationV1Period period6 = _$period6;
 
-  static Serializer<DottoFoundationV1Period> get serializer => _$dottoFoundationV1PeriodSerializer;
+  static Serializer<DottoFoundationV1Period> get serializer =>
+      _$dottoFoundationV1PeriodSerializer;
 
-  const DottoFoundationV1Period._(String name): super(name);
+  const DottoFoundationV1Period._(String name) : super(name);
 
   static BuiltSet<DottoFoundationV1Period> get values => _$values;
   static DottoFoundationV1Period valueOf(String name) => _$valueOf(name);
@@ -38,5 +38,5 @@ class DottoFoundationV1Period extends EnumClass {
 /// corresponding Angular template.
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
-abstract class DottoFoundationV1PeriodMixin = Object with _$DottoFoundationV1PeriodMixin;
-
+abstract class DottoFoundationV1PeriodMixin = Object
+    with _$DottoFoundationV1PeriodMixin;

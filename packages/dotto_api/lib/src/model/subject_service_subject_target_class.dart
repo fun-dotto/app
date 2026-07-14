@@ -13,10 +13,15 @@ part 'subject_service_subject_target_class.g.dart';
 /// 対象学年・クラス
 ///
 /// Properties:
-/// * [grade] 
+/// * [grade]
 /// * [class_] - 修士課程・博士課程対象の場合はnull
 @BuiltValue()
-abstract class SubjectServiceSubjectTargetClass implements Built<SubjectServiceSubjectTargetClass, SubjectServiceSubjectTargetClassBuilder> {
+abstract class SubjectServiceSubjectTargetClass
+    implements
+        Built<
+          SubjectServiceSubjectTargetClass,
+          SubjectServiceSubjectTargetClassBuilder
+        > {
   @BuiltValueField(wireName: r'grade')
   DottoFoundationV1Grade get grade;
   // enum gradeEnum {  B1,  B2,  B3,  B4,  M1,  M2,  D1,  D2,  D3,  };
@@ -28,18 +33,25 @@ abstract class SubjectServiceSubjectTargetClass implements Built<SubjectServiceS
 
   SubjectServiceSubjectTargetClass._();
 
-  factory SubjectServiceSubjectTargetClass([void updates(SubjectServiceSubjectTargetClassBuilder b)]) = _$SubjectServiceSubjectTargetClass;
+  factory SubjectServiceSubjectTargetClass([
+    void updates(SubjectServiceSubjectTargetClassBuilder b),
+  ]) = _$SubjectServiceSubjectTargetClass;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SubjectServiceSubjectTargetClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SubjectServiceSubjectTargetClass> get serializer => _$SubjectServiceSubjectTargetClassSerializer();
+  static Serializer<SubjectServiceSubjectTargetClass> get serializer =>
+      _$SubjectServiceSubjectTargetClassSerializer();
 }
 
-class _$SubjectServiceSubjectTargetClassSerializer implements PrimitiveSerializer<SubjectServiceSubjectTargetClass> {
+class _$SubjectServiceSubjectTargetClassSerializer
+    implements PrimitiveSerializer<SubjectServiceSubjectTargetClass> {
   @override
-  final Iterable<Type> types = const [SubjectServiceSubjectTargetClass, _$SubjectServiceSubjectTargetClass];
+  final Iterable<Type> types = const [
+    SubjectServiceSubjectTargetClass,
+    _$SubjectServiceSubjectTargetClass,
+  ];
 
   @override
   final String wireName = r'SubjectServiceSubjectTargetClass';
@@ -69,7 +81,11 @@ class _$SubjectServiceSubjectTargetClassSerializer implements PrimitiveSerialize
     SubjectServiceSubjectTargetClass object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -85,17 +101,21 @@ class _$SubjectServiceSubjectTargetClassSerializer implements PrimitiveSerialize
       final value = serializedList[i + 1];
       switch (key) {
         case r'grade':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Grade),
-          ) as DottoFoundationV1Grade;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Grade),
+                  )
+                  as DottoFoundationV1Grade;
           result.grade = valueDes;
           break;
         case r'class':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Class),
-          ) as DottoFoundationV1Class;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Class),
+                  )
+                  as DottoFoundationV1Class;
           result.class_ = valueDes;
           break;
         default:
@@ -126,4 +146,3 @@ class _$SubjectServiceSubjectTargetClassSerializer implements PrimitiveSerialize
     return result.build();
   }
 }
-

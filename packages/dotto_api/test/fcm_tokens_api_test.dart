@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for FCMTokensApi
 void main() {
   final instance = Openapi().getFCMTokensApi();
@@ -13,6 +12,5 @@ void main() {
     test('test fCMTokenV1Upsert', () async {
       // TODO
     });
-
   });
 }

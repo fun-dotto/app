@@ -17,17 +17,18 @@ part 'subject_detail.g.dart';
 /// SubjectDetail
 ///
 /// Properties:
-/// * [id] 
-/// * [name] 
-/// * [faculties] 
+/// * [id]
+/// * [name]
+/// * [faculties]
 /// * [year] - 開講年度
 /// * [semester] - 開講時期
 /// * [credit] - 単位数
 /// * [eligibleAttributes] - 授業名末尾の`学年-クラス`をもとに決定
 /// * [requirements] - 科目群・科目区分をもとに決定
-/// * [syllabus] 
+/// * [syllabus]
 @BuiltValue()
-abstract class SubjectDetail implements Built<SubjectDetail, SubjectDetailBuilder> {
+abstract class SubjectDetail
+    implements Built<SubjectDetail, SubjectDetailBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -63,13 +64,15 @@ abstract class SubjectDetail implements Built<SubjectDetail, SubjectDetailBuilde
 
   SubjectDetail._();
 
-  factory SubjectDetail([void updates(SubjectDetailBuilder b)]) = _$SubjectDetail;
+  factory SubjectDetail([void updates(SubjectDetailBuilder b)]) =
+      _$SubjectDetail;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SubjectDetailBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SubjectDetail> get serializer => _$SubjectDetailSerializer();
+  static Serializer<SubjectDetail> get serializer =>
+      _$SubjectDetailSerializer();
 }
 
 class _$SubjectDetailSerializer implements PrimitiveSerializer<SubjectDetail> {
@@ -117,12 +120,16 @@ class _$SubjectDetailSerializer implements PrimitiveSerializer<SubjectDetail> {
     yield r'eligibleAttributes';
     yield serializers.serialize(
       object.eligibleAttributes,
-      specifiedType: const FullType(BuiltList, [FullType(AcademicServiceSubjectTargetClass)]),
+      specifiedType: const FullType(BuiltList, [
+        FullType(AcademicServiceSubjectTargetClass),
+      ]),
     );
     yield r'requirements';
     yield serializers.serialize(
       object.requirements,
-      specifiedType: const FullType(BuiltList, [FullType(AcademicServiceSubjectRequirement)]),
+      specifiedType: const FullType(BuiltList, [
+        FullType(AcademicServiceSubjectRequirement),
+      ]),
     );
     yield r'syllabus';
     yield serializers.serialize(
@@ -137,7 +144,11 @@ class _$SubjectDetailSerializer implements PrimitiveSerializer<SubjectDetail> {
     SubjectDetail object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -153,66 +164,86 @@ class _$SubjectDetailSerializer implements PrimitiveSerializer<SubjectDetail> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.name = valueDes;
           break;
         case r'faculties':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(SubjectFaculty)]),
-          ) as BuiltList<SubjectFaculty>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(SubjectFaculty),
+                    ]),
+                  )
+                  as BuiltList<SubjectFaculty>;
           result.faculties.replace(valueDes);
           break;
         case r'year':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
+          final valueDes =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int;
           result.year = valueDes;
           break;
         case r'semester':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1CourseSemester),
-          ) as DottoFoundationV1CourseSemester;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(
+                      DottoFoundationV1CourseSemester,
+                    ),
+                  )
+                  as DottoFoundationV1CourseSemester;
           result.semester = valueDes;
           break;
         case r'credit':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
+          final valueDes =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int;
           result.credit = valueDes;
           break;
         case r'eligibleAttributes':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(AcademicServiceSubjectTargetClass)]),
-          ) as BuiltList<AcademicServiceSubjectTargetClass>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(AcademicServiceSubjectTargetClass),
+                    ]),
+                  )
+                  as BuiltList<AcademicServiceSubjectTargetClass>;
           result.eligibleAttributes.replace(valueDes);
           break;
         case r'requirements':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(AcademicServiceSubjectRequirement)]),
-          ) as BuiltList<AcademicServiceSubjectRequirement>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(AcademicServiceSubjectRequirement),
+                    ]),
+                  )
+                  as BuiltList<AcademicServiceSubjectRequirement>;
           result.requirements.replace(valueDes);
           break;
         case r'syllabus':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(AcademicServiceSyllabus),
-          ) as AcademicServiceSyllabus;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(AcademicServiceSyllabus),
+                  )
+                  as AcademicServiceSyllabus;
           result.syllabus.replace(valueDes);
           break;
         default:
@@ -243,4 +274,3 @@ class _$SubjectDetailSerializer implements PrimitiveSerializer<SubjectDetail> {
     return result.build();
   }
 }
-

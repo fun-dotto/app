@@ -30,13 +30,13 @@ final class TimetableRepositoryImpl implements TimetableRepository {
         semesters: BuiltList<DottoFoundationV1CourseSemester>(
           semesters.map(
             (e) => switch (e) {
-              Semester.h1 => DottoFoundationV1CourseSemester.h1,
-              Semester.h2 => DottoFoundationV1CourseSemester.h2,
+              Semester.h1 => DottoFoundationV1CourseSemester.H1,
+              Semester.h2 => DottoFoundationV1CourseSemester.H2,
               Semester.allYear => DottoFoundationV1CourseSemester.allYear,
-              Semester.q1 => DottoFoundationV1CourseSemester.q1,
-              Semester.q2 => DottoFoundationV1CourseSemester.q2,
-              Semester.q3 => DottoFoundationV1CourseSemester.q3,
-              Semester.q4 => DottoFoundationV1CourseSemester.q4,
+              Semester.q1 => DottoFoundationV1CourseSemester.Q1,
+              Semester.q2 => DottoFoundationV1CourseSemester.Q2,
+              Semester.q3 => DottoFoundationV1CourseSemester.Q3,
+              Semester.q4 => DottoFoundationV1CourseSemester.Q4,
               Semester.summerIntensive =>
                 DottoFoundationV1CourseSemester.summerIntensive,
               Semester.winterIntensive =>

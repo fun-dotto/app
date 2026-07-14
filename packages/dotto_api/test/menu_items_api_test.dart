@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for MenuItemsApi
 void main() {
   final instance = Openapi().getMenuItemsApi();
@@ -13,6 +12,5 @@ void main() {
     test('test menuItemsV1List', () async {
       // TODO
     });
-
   });
 }

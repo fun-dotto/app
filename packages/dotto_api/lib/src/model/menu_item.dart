@@ -15,12 +15,12 @@ part 'menu_item.g.dart';
 /// MenuItem
 ///
 /// Properties:
-/// * [id] 
-/// * [date] 
-/// * [name] 
-/// * [imageUrl] 
-/// * [category] 
-/// * [prices] 
+/// * [id]
+/// * [date]
+/// * [name]
+/// * [imageUrl]
+/// * [category]
+/// * [prices]
 @BuiltValue()
 abstract class MenuItem implements Built<MenuItem, MenuItemBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -103,7 +103,11 @@ class _$MenuItemSerializer implements PrimitiveSerializer<MenuItem> {
     MenuItem object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -119,45 +123,57 @@ class _$MenuItemSerializer implements PrimitiveSerializer<MenuItem> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'date':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Date),
-          ) as Date;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Date),
+                  )
+                  as Date;
           result.date = valueDes;
           break;
         case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.name = valueDes;
           break;
         case r'imageUrl':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.imageUrl = valueDes;
           break;
         case r'category':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Category),
-          ) as Category;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Category),
+                  )
+                  as Category;
           result.category = valueDes;
           break;
         case r'prices':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(Price)]),
-          ) as BuiltList<Price>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [FullType(Price)]),
+                  )
+                  as BuiltList<Price>;
           result.prices.replace(valueDes);
           break;
         default:
@@ -188,4 +204,3 @@ class _$MenuItemSerializer implements PrimitiveSerializer<MenuItem> {
     return result.build();
   }
 }
-

@@ -3,7 +3,5 @@ import 'package:openapi/openapi.dart';
 
 // tests for DottoFoundationV1DayOfWeek
 void main() {
-
-  group(DottoFoundationV1DayOfWeek, () {
-  });
+  group(DottoFoundationV1DayOfWeek, () {});
 }

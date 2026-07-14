@@ -13,10 +13,15 @@ part 'academic_service_subject_requirement.g.dart';
 /// AcademicServiceSubjectRequirement
 ///
 /// Properties:
-/// * [course] 
-/// * [requirementType] 
+/// * [course]
+/// * [requirementType]
 @BuiltValue()
-abstract class AcademicServiceSubjectRequirement implements Built<AcademicServiceSubjectRequirement, AcademicServiceSubjectRequirementBuilder> {
+abstract class AcademicServiceSubjectRequirement
+    implements
+        Built<
+          AcademicServiceSubjectRequirement,
+          AcademicServiceSubjectRequirementBuilder
+        > {
   @BuiltValueField(wireName: r'course')
   DottoFoundationV1Course get course;
   // enum courseEnum {  InformationSystem,  InformationDesign,  AdvancedICT,  ComplexSystem,  IntelligentSystem,  };
@@ -27,18 +32,25 @@ abstract class AcademicServiceSubjectRequirement implements Built<AcademicServic
 
   AcademicServiceSubjectRequirement._();
 
-  factory AcademicServiceSubjectRequirement([void updates(AcademicServiceSubjectRequirementBuilder b)]) = _$AcademicServiceSubjectRequirement;
+  factory AcademicServiceSubjectRequirement([
+    void updates(AcademicServiceSubjectRequirementBuilder b),
+  ]) = _$AcademicServiceSubjectRequirement;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AcademicServiceSubjectRequirementBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AcademicServiceSubjectRequirement> get serializer => _$AcademicServiceSubjectRequirementSerializer();
+  static Serializer<AcademicServiceSubjectRequirement> get serializer =>
+      _$AcademicServiceSubjectRequirementSerializer();
 }
 
-class _$AcademicServiceSubjectRequirementSerializer implements PrimitiveSerializer<AcademicServiceSubjectRequirement> {
+class _$AcademicServiceSubjectRequirementSerializer
+    implements PrimitiveSerializer<AcademicServiceSubjectRequirement> {
   @override
-  final Iterable<Type> types = const [AcademicServiceSubjectRequirement, _$AcademicServiceSubjectRequirement];
+  final Iterable<Type> types = const [
+    AcademicServiceSubjectRequirement,
+    _$AcademicServiceSubjectRequirement,
+  ];
 
   @override
   final String wireName = r'AcademicServiceSubjectRequirement';
@@ -66,7 +78,11 @@ class _$AcademicServiceSubjectRequirementSerializer implements PrimitiveSerializ
     AcademicServiceSubjectRequirement object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -82,17 +98,23 @@ class _$AcademicServiceSubjectRequirementSerializer implements PrimitiveSerializ
       final value = serializedList[i + 1];
       switch (key) {
         case r'course':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Course),
-          ) as DottoFoundationV1Course;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Course),
+                  )
+                  as DottoFoundationV1Course;
           result.course = valueDes;
           break;
         case r'requirementType':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1SubjectRequirementType),
-          ) as DottoFoundationV1SubjectRequirementType;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(
+                      DottoFoundationV1SubjectRequirementType,
+                    ),
+                  )
+                  as DottoFoundationV1SubjectRequirementType;
           result.requirementType = valueDes;
           break;
         default:
@@ -123,4 +145,3 @@ class _$AcademicServiceSubjectRequirementSerializer implements PrimitiveSerializ
     return result.build();
   }
 }
-

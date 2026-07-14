@@ -3,7 +3,5 @@ import 'package:openapi/openapi.dart';
 
 // tests for DottoFoundationV1Class
 void main() {
-
-  group(DottoFoundationV1Class, () {
-  });
+  group(DottoFoundationV1Class, () {});
 }

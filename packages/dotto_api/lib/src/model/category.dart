@@ -10,7 +10,6 @@ import 'package:built_value/serializer.dart';
 part 'category.g.dart';
 
 class Category extends EnumClass {
-
   @BuiltValueEnumConst(wireName: r'SetAndSingle')
   static const Category setAndSingle = _$setAndSingle;
   @BuiltValueEnumConst(wireName: r'BowlAndCurry')
@@ -24,7 +23,7 @@ class Category extends EnumClass {
 
   static Serializer<Category> get serializer => _$categorySerializer;
 
-  const Category._(String name): super(name);
+  const Category._(String name) : super(name);
 
   static BuiltSet<Category> get values => _$values;
   static Category valueOf(String name) => _$valueOf(name);
@@ -37,4 +36,3 @@ class Category extends EnumClass {
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
 abstract class CategoryMixin = Object with _$CategoryMixin;
-
