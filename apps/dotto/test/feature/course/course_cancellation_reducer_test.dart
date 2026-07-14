@@ -93,7 +93,7 @@ CancelledClass _createCancelledClass({
             ..name = subjectName
             ..faculties = ListBuilder<SubjectFaculty>()
             ..year = 2026
-            ..semester = DottoFoundationV1CourseSemester.h1
+            ..semester = DottoFoundationV1CourseSemester.H1
             ..credit = 2,
         ),
       )
@@ -118,7 +118,7 @@ MakeupClass _createMakeupClass({
             ..name = subjectName
             ..faculties = ListBuilder<SubjectFaculty>()
             ..year = 2026
-            ..semester = DottoFoundationV1CourseSemester.h1
+            ..semester = DottoFoundationV1CourseSemester.H1
             ..credit = 2,
         ),
       )
