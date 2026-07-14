@@ -23,58 +23,63 @@ final class DottoDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: SemanticColor.light.backgroundSecondary,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 32,
-          children: [
-            Column(
-              spacing: 24,
-              children: [
-                Column(
-                  spacing: 16,
-                  children: [
-                    Text(
-                      title,
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: SemanticColor.light.labelPrimary,
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      insetPadding: const EdgeInsets.all(16),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: SemanticColor.light.backgroundSecondary,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 32,
+            children: [
+              Column(
+                spacing: 24,
+                children: [
+                  Column(
+                    spacing: 16,
+                    children: [
+                      Text(
+                        title,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: SemanticColor.light.labelPrimary,
+                        ),
                       ),
-                    ),
-                    Text(
-                      message,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: SemanticColor.light.labelSecondary,
+                      Text(
+                        message,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: SemanticColor.light.labelSecondary,
+                        ),
                       ),
+                    ],
+                  ),
+                  switch (type) {
+                    DottoDialogType.alert => Icon(
+                      Icons.error_outline,
+                      color: SemanticColor.light.accentError,
+                      size: 64,
                     ),
-                  ],
-                ),
-                switch (type) {
-                  DottoDialogType.alert => Icon(
-                    Icons.error_outline,
-                    color: SemanticColor.light.accentError,
-                    size: 64,
-                  ),
-                  DottoDialogType.confirmation => Icon(
-                    Icons.error_outline,
-                    color: SemanticColor.light.accentWarning,
-                    size: 64,
-                  ),
-                  _ => const SizedBox.shrink(),
-                },
-              ],
-            ),
-            Column(
-              spacing: 16,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: actionButtons,
-            ),
-          ],
+                    DottoDialogType.confirmation => Icon(
+                      Icons.error_outline,
+                      color: SemanticColor.light.accentWarning,
+                      size: 64,
+                    ),
+                    _ => const SizedBox.shrink(),
+                  },
+                ],
+              ),
+              Column(
+                spacing: 16,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: actionButtons,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -98,16 +103,11 @@ final class _Demo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: SemanticColor.light.backgroundQuaternary,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: DottoDialog(
-            type: type,
-            title: title,
-            message: message,
-            actionButtons: actionButtons,
-          ),
-        ),
+      body: DottoDialog(
+        type: type,
+        title: title,
+        message: message,
+        actionButtons: actionButtons,
       ),
     );
   }

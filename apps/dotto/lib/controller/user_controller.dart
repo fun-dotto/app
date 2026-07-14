@@ -52,6 +52,7 @@ final class UserNotifier extends _$UserNotifier {
       await FirebaseAuthHelper.signIn();
       await logger.logLogin();
     } on Object catch (error, stackTrace) {
+      await logger.logError(error, stackTrace, reason: 'signIn failed');
       state = AsyncValue.error(error, stackTrace);
     }
   }
