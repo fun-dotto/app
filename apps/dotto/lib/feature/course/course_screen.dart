@@ -24,6 +24,7 @@ final class CourseScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(configProvider);
     final isFunchEnabled = useFlag(Flags.funch);
+    final isWebEnabled = useFlag(Flags.web);
     final isOpinionBoxEnabled = useFlag(Flags.opinionBox);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     final state = isAuthenticated
@@ -102,17 +103,17 @@ final class CourseScreen extends HookConsumerWidget {
           label: '学生ポータル',
         ),
       ),
-      // if (isAuthenticated)
-      //   QuickButton(
-      //     label: 'Dotto Web',
-      //     iconUrl: '${config.dottoWebUrl}/favicon.ico',
-      //     fallbackIcon: Icons.language,
-      //     onPressed: () => _launchQuickLink(
-      //       context,
-      //       url: config.dottoWebUrl,
-      //       label: 'Dotto Web',
-      //     ),
-      //   ),
+      if (isAuthenticated && isWebEnabled)
+        QuickButton(
+          label: 'Dotto Web',
+          iconUrl: '${config.dottoWebUrl}/favicon.ico',
+          fallbackIcon: Icons.language,
+          onPressed: () => _launchQuickLink(
+            context,
+            url: config.dottoWebUrl,
+            label: 'Dotto Web',
+          ),
+        ),
       if (isAuthenticated)
         QuickButton(
           label: 'Macサポート',
