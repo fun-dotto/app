@@ -1,16 +1,14 @@
 import 'package:dotto/foundation/flag/flag.dart';
 
 abstract final class Flags {
-  /// Funch feature flag
   static const funch = Flag<bool>(
-    key: 'is_funch_enabled',
+    key: 'funch',
     description: 'Funch',
     defaultValue: false,
   );
 
-  /// Opinion box feature flag
   static const opinionBox = Flag<bool>(
-    key: 'is_opinion_box_enabled',
+    key: 'opinion_box',
     description: '意見箱',
     defaultValue: false,
   );
