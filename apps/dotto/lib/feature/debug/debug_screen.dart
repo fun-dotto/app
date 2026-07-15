@@ -1,5 +1,6 @@
+import 'package:dotto/foundation/flag/feature_flag.dart';
 import 'package:dotto/foundation/flag/flag.dart';
-import 'package:dotto/foundation/flag/flag_overrides_notifier.dart';
+import 'package:dotto/foundation/flag/flag_overrides.dart';
 import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/repository/feature_flag_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';

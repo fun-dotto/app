@@ -1,5 +1,5 @@
+import 'package:dotto/foundation/flag/feature_flag.dart';
 import 'package:dotto/foundation/flag/flag.dart';
-import 'package:dotto/foundation/flag/flag_overrides_notifier.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
