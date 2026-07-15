@@ -6,10 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final loggerProvider = Provider<Logger>((ref) => LoggerImpl());
 
+enum AnalyticsEventKey { macSupportButtonTapped }
+
 abstract class Logger {
   Future<void> setup();
   Future<void> logAppOpen();
-  Future<void> logEvent(String name, {Map<String, Object>? parameters});
+  Future<void> logEvent(
+    AnalyticsEventKey key, {
+    Map<String, Object>? parameters,
+  });
   Future<void> logLogin();
   Future<void> logLogout();
   Future<void> logError(
@@ -45,12 +50,15 @@ final class LoggerImpl implements Logger {
   }
 
   @override
-  Future<void> logEvent(String name, {Map<String, Object>? parameters}) async {
+  Future<void> logEvent(
+    AnalyticsEventKey key, {
+    Map<String, Object>? parameters,
+  }) async {
     await FirebaseAnalytics.instance.logEvent(
-      name: name,
+      name: key.name,
       parameters: parameters,
     );
-    debugPrint('[Logger] $name: $parameters');
+    debugPrint('[Logger] ${key.name}: $parameters');
   }
 
   @override
