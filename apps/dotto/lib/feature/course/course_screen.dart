@@ -129,7 +129,12 @@ final class CourseScreen extends HookConsumerWidget {
           label: '大学への意見',
           iconUrl: null,
           fallbackIcon: Icons.inventory_2_outlined,
-          onPressed: () {},
+          onPressed: () => _launchQuickLink(
+            context,
+            url:
+                'https://docs.google.com/forms/d/e/1FAIpQLSd00eif5MVTkH4zZUaDI5sLqOyG3JAp0vH9-2x_Cepy1QwQBQ/viewform?usp=dialog',
+            label: '大学への意見',
+          ),
         ),
     ];
 
