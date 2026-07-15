@@ -1,4 +1,4 @@
-import 'package:dotto/helper/analytics_event_key.dart';
+import 'package:dotto/foundation/log/analytics_event_key.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

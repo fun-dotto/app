@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dotto/domain/config.dart';
-import 'package:dotto/helper/logger.dart';
+import 'package:dotto/foundation/log/logger.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';

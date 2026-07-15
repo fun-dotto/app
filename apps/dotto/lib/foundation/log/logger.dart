@@ -1,4 +1,4 @@
-import 'package:dotto/helper/analytics_event_key.dart';
+import 'package:dotto/foundation/log/analytics_event_key.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';

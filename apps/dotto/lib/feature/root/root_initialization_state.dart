@@ -2,7 +2,7 @@ import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/foundation/container/async_entity.dart';
 import 'package:dotto/foundation/container/async_entity_notifier.dart';
 import 'package:dotto/foundation/flag/flag_overrides_notifier.dart';
-import 'package:dotto/helper/logger.dart';
+import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:dotto/repository/feature_flag_repository.dart';
