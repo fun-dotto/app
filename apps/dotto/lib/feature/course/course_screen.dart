@@ -8,6 +8,7 @@ import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
 import 'package:dotto/feature/course/quick_button.dart';
 import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/foundation/flag/use_flag.dart';
+import 'package:dotto/foundation/log/use_logger.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -27,6 +28,7 @@ final class CourseScreen extends HookConsumerWidget {
     final isWebEnabled = useFlag(Flags.web);
     final isOpinionBoxEnabled = useFlag(Flags.opinionBox);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
+    final logger = useLogger();
     final state = isAuthenticated
         ? ref.watch(courseReducerProvider)
         : const AsyncData(CourseState());
@@ -108,22 +110,34 @@ final class CourseScreen extends HookConsumerWidget {
           label: 'Dotto Web',
           iconUrl: '${config.dottoWebUrl}/favicon.ico',
           fallbackIcon: Icons.language,
-          onPressed: () => _launchQuickLink(
-            context,
-            url: config.dottoWebUrl,
-            label: 'Dotto Web',
-          ),
+          onPressed: () async {
+            await logger.logEvent(.dottoWebButtonTapped);
+            if (!context.mounted) {
+              return;
+            }
+            await _launchQuickLink(
+              context,
+              url: config.dottoWebUrl,
+              label: 'Dotto Web',
+            );
+          },
         ),
       if (isAuthenticated)
         QuickButton(
           label: 'Macサポート',
           iconUrl: null,
           fallbackIcon: Icons.laptop_mac,
-          onPressed: () => _launchQuickLink(
-            context,
-            url: config.macSupportDeskUrl,
-            label: 'Macサポート',
-          ),
+          onPressed: () async {
+            await logger.logEvent(.macSupportButtonTapped);
+            if (!context.mounted) {
+              return;
+            }
+            await _launchQuickLink(
+              context,
+              url: config.macSupportDeskUrl,
+              label: 'Macサポート',
+            );
+          },
         ),
       if (isAuthenticated && isOpinionBoxEnabled)
         QuickButton(
