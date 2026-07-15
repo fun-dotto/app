@@ -1,3 +1,4 @@
+import 'package:dotto/helper/analytics_event_key.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -5,8 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final loggerProvider = Provider<Logger>((ref) => LoggerImpl());
-
-enum AnalyticsEventKey { macSupportButtonTapped }
 
 abstract class Logger {
   Future<void> setup();
@@ -55,10 +54,10 @@ final class LoggerImpl implements Logger {
     Map<String, Object>? parameters,
   }) async {
     await FirebaseAnalytics.instance.logEvent(
-      name: key.name,
+      name: key.value,
       parameters: parameters,
     );
-    debugPrint('[Logger] ${key.name}: $parameters');
+    debugPrint('[Logger] ${key.value}: $parameters');
   }
 
   @override
