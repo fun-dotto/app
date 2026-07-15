@@ -1,7 +1,7 @@
 import 'package:dotto/domain/announcement.dart';
 import 'package:dotto/feature/announcement/announcement_state.dart';
-import 'package:dotto/foundation/screen_container.dart';
-import 'package:dotto/foundation/screen_states.dart';
+import 'package:dotto/foundation/container/screen_container.dart';
+import 'package:dotto/foundation/container/screen_states.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:flutter/material.dart';

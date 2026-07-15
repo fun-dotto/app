@@ -3,9 +3,9 @@ import 'package:dotto/domain/app_version_evaluator.dart';
 import 'package:dotto/domain/config.dart';
 import 'package:dotto/feature/root/root_app_version.dart';
 import 'package:dotto/feature/root/root_initialization_state.dart';
-import 'package:dotto/foundation/async_entity.dart';
-import 'package:dotto/foundation/async_entity_notifier.dart';
-import 'package:dotto/foundation/async_status.dart';
+import 'package:dotto/foundation/container/async_entity.dart';
+import 'package:dotto/foundation/container/async_entity_notifier.dart';
+import 'package:dotto/foundation/container/async_status.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

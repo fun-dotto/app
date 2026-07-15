@@ -1,4 +1,4 @@
-import 'package:dotto/foundation/screen_states.dart';
+import 'package:dotto/foundation/container/screen_states.dart';
 import 'package:dotto_design_system/component/error_alert.dart';
 import 'package:dotto_design_system/component/progress_indicator.dart';
 import 'package:flutter/widgets.dart';
