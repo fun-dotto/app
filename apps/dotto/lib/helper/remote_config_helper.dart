@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dotto/domain/remote_config_keys.dart';
-import 'package:dotto/foundation/flags.dart';
+import 'package:dotto/foundation/flag/flags.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

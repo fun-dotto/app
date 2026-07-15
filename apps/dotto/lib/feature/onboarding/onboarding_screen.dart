@@ -1,7 +1,7 @@
 import 'package:dotto/asset.dart';
 import 'package:dotto/feature/onboarding/domain/onboarding_page.dart';
-import 'package:dotto/foundation/flags.dart';
-import 'package:dotto/foundation/use_flag.dart';
+import 'package:dotto/foundation/flag/flags.dart';
+import 'package:dotto/foundation/flag/use_flag.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';

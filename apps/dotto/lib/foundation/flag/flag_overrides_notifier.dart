@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:dotto/foundation/flag.dart';
-import 'package:dotto/foundation/flags.dart';
+import 'package:dotto/foundation/flag/flag.dart';
+import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/repository/feature_flag_repository.dart';
 import 'package:dotto/repository/flag_override_store.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'feature_flag_controller.g.dart';
+part 'flag_overrides_notifier.g.dart';
 
 /// Debug用overrideの一覧 (フラグのkey -> override値) を保持するNotifier。
 @Riverpod(keepAlive: true)

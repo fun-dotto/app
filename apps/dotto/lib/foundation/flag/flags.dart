@@ -1,4 +1,4 @@
-import 'package:dotto/foundation/flag.dart';
+import 'package:dotto/foundation/flag/flag.dart';
 
 abstract final class Flags {
   /// Funch feature flag
