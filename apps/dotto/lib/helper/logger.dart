@@ -9,6 +9,7 @@ final loggerProvider = Provider<Logger>((ref) => LoggerImpl());
 abstract class Logger {
   Future<void> setup();
   Future<void> logAppOpen();
+  Future<void> logEvent(String name, {Map<String, Object>? parameters});
   Future<void> logLogin();
   Future<void> logLogout();
   Future<void> logError(
@@ -41,6 +42,15 @@ final class LoggerImpl implements Logger {
   Future<void> logAppOpen() async {
     await FirebaseAnalytics.instance.logAppOpen();
     debugPrint('[Logger] app_open');
+  }
+
+  @override
+  Future<void> logEvent(String name, {Map<String, Object>? parameters}) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: name,
+      parameters: parameters,
+    );
+    debugPrint('[Logger] $name: $parameters');
   }
 
   @override
