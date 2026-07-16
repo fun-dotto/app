@@ -1,5 +1,5 @@
-import 'package:dotto/foundation/flag.dart';
-import 'package:dotto/foundation/flags.dart';
+import 'package:dotto/foundation/flag/flag.dart';
+import 'package:dotto/foundation/flag/flags.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

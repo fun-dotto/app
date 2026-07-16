@@ -1,3 +1,4 @@
+import 'package:dotto/foundation/log/analytics_event_key.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -9,6 +10,10 @@ final loggerProvider = Provider<Logger>((ref) => LoggerImpl());
 abstract class Logger {
   Future<void> setup();
   Future<void> logAppOpen();
+  Future<void> logEvent(
+    AnalyticsEventKey key, {
+    Map<String, Object>? parameters,
+  });
   Future<void> logLogin();
   Future<void> logLogout();
   Future<void> logError(
@@ -41,6 +46,18 @@ final class LoggerImpl implements Logger {
   Future<void> logAppOpen() async {
     await FirebaseAnalytics.instance.logAppOpen();
     debugPrint('[Logger] app_open');
+  }
+
+  @override
+  Future<void> logEvent(
+    AnalyticsEventKey key, {
+    Map<String, Object>? parameters,
+  }) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: key.value,
+      parameters: parameters,
+    );
+    debugPrint('[Logger] ${key.value}: $parameters');
   }
 
   @override

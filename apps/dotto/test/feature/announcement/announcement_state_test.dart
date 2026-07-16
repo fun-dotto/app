@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dotto/domain/announcement.dart';
 import 'package:dotto/feature/announcement/announcement_state.dart';
-import 'package:dotto/foundation/async_status.dart';
+import 'package:dotto/foundation/container/async_status.dart';
 import 'package:dotto/repository/announcement_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

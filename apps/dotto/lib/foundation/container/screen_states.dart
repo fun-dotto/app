@@ -1,5 +1,5 @@
-import 'package:dotto/foundation/async_entity.dart';
-import 'package:dotto/foundation/async_status.dart';
+import 'package:dotto/foundation/container/async_entity.dart';
+import 'package:dotto/foundation/container/async_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'screen_states.freezed.dart';

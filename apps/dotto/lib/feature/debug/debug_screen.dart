@@ -1,6 +1,7 @@
-import 'package:dotto/controller/feature_flag_controller.dart';
-import 'package:dotto/foundation/flag.dart';
-import 'package:dotto/foundation/flags.dart';
+import 'package:dotto/foundation/flag/feature_flag.dart';
+import 'package:dotto/foundation/flag/flag.dart';
+import 'package:dotto/foundation/flag/flag_overrides.dart';
+import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/repository/feature_flag_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';

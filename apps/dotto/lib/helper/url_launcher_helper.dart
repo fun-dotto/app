@@ -1,4 +1,4 @@
-import 'package:dotto/helper/logger.dart';
+import 'package:dotto/foundation/log/logger.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 Future<bool> launchUrlSafely(

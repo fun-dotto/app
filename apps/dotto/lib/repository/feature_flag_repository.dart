@@ -1,4 +1,4 @@
-import 'package:dotto/foundation/flag.dart';
+import 'package:dotto/foundation/flag/flag.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
