@@ -21,8 +21,9 @@ final class RootInitializationState extends _$RootInitializationState
     // Setup Remote Config
     await ref.read(remoteConfigHelperProvider).setup();
     // Remote Configのfetch結果をConfigとFeatureFlagへ反映
-    ref.read(configProvider.notifier).refresh();
-    ref.invalidate(featureFlagRepositoryProvider);
+    ref
+      ..invalidate(configProvider)
+      ..invalidate(featureFlagRepositoryProvider);
     // Load local debug overrides
     await ref.read(flagOverridesProvider.notifier).loadOverrides();
     // Setup Notification

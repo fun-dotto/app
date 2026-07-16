@@ -106,7 +106,7 @@ final class SettingsScreen extends HookConsumerWidget {
     // 設定を取得（初回マウント時のみ）
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(configProvider.notifier).refresh();
+        ref.invalidate(configProvider);
       });
       return null;
     }, const []);
