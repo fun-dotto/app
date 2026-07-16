@@ -7,8 +7,10 @@ import 'package:dotto/domain/academic_area.dart';
 import 'package:dotto/domain/academic_class.dart';
 import 'package:dotto/domain/grade.dart';
 import 'package:dotto/feature/setting/widget/user_info_tile.dart';
+import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
+import 'package:dotto/repository/config_repository.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dialog.dart';
@@ -99,14 +101,22 @@ final class SettingsScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
-    final config = ref.watch(configProvider);
+    final feedbackFormUrl = ref.watch(
+      configProvider(RemoteConfigs.feedbackFormUrl),
+    );
+    final termsOfServiceUrl = ref.watch(
+      configProvider(RemoteConfigs.termsOfServiceUrl),
+    );
+    final privacyPolicyUrl = ref.watch(
+      configProvider(RemoteConfigs.privacyPolicyUrl),
+    );
     final notificationStatus = ref.watch(notificationStatusProvider);
     final isAuthenticated = user.value != null;
 
     // 設定を取得（初回マウント時のみ）
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.invalidate(configProvider);
+        ref.invalidate(configRepositoryProvider);
       });
       return null;
     }, const []);
@@ -384,8 +394,7 @@ final class SettingsScreen extends HookConsumerWidget {
                     SettingsTile.navigation(
                       title: const Text('フィードバックを送る'),
                       leading: const Icon(Icons.messenger_rounded),
-                      onPressed: (_) async =>
-                          launchUrlSafely(config.feedbackFormUrl),
+                      onPressed: (_) async => launchUrlSafely(feedbackFormUrl),
                     ),
                     // Contributors表示
                     SettingsTile.navigation(
@@ -410,14 +419,13 @@ final class SettingsScreen extends HookConsumerWidget {
                       title: const Text('利用規約'),
                       leading: const Icon(Icons.verified_user),
                       onPressed: (_) async =>
-                          launchUrlSafely(config.termsOfServiceUrl),
+                          launchUrlSafely(termsOfServiceUrl),
                     ),
                     // プライバシーポリシー
                     SettingsTile.navigation(
                       title: const Text('プライバシーポリシー'),
                       leading: const Icon(Icons.admin_panel_settings),
-                      onPressed: (_) async =>
-                          launchUrlSafely(config.privacyPolicyUrl),
+                      onPressed: (_) async => launchUrlSafely(privacyPolicyUrl),
                     ),
                     // ライセンス
                     SettingsTile.navigation(

@@ -1,26 +1,4 @@
-import 'package:dotto/domain/breaking_announcement.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'config.freezed.dart';
-
-@freezed
-abstract class Config with _$Config {
-  const factory Config({
-    required String validAppVersion,
-    required String latestAppVersion,
-    required bool isUnderMaintenance,
-    required String feedbackFormUrl,
-    required String termsOfServiceUrl,
-    required String privacyPolicyUrl,
-    required String appStorePageUrl,
-    required String officialCalendarPdfUrl,
-    required String timetable1PdfUrl,
-    required String timetable2PdfUrl,
-    required BreakingAnnouncement? breakingAnnouncement,
-    required String dottoWebUrl,
-    required String macSupportDeskUrl,
-  }) = _Config;
-
+abstract final class Config {
   static const String appApiGatewayBaseUrl = String.fromEnvironment(
     'APP_API_GATEWAY_BASE_URL',
   );

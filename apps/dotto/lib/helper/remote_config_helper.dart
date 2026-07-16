@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dotto/domain/remote_config_keys.dart';
+import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/foundation/flag/flags.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
@@ -40,20 +40,7 @@ final class _RemoteConfigHelperImpl implements RemoteConfigHelper {
 
     await FirebaseRemoteConfig.instance.setDefaults({
       for (final flag in Flags.all) flag.key: flag.defaultValue,
-      RemoteConfigKeys.validAppVersion: '0.0.0',
-      RemoteConfigKeys.latestAppVersion: '0.0.0',
-      RemoteConfigKeys.isUnderMaintenance: false,
-      RemoteConfigKeys.feedbackFormUrl: 'https://forms.gle/ruo8iBxLMmvScNMFA',
-      RemoteConfigKeys.appStorePageUrl: 'https://fun-dotto.github.io',
-      RemoteConfigKeys.officialCalendarPdfUrl:
-          'https://fun-dotto.github.io/files/official_calendar_2026.pdf',
-      RemoteConfigKeys.timetable1PdfUrl:
-          'https://fun-dotto.github.io/files/timetable_2026_1.pdf',
-      RemoteConfigKeys.timetable2PdfUrl:
-          'https://fun-dotto.github.io/files/timetable_2026_2.pdf',
-      RemoteConfigKeys.breakingAnnouncement: '',
-      RemoteConfigKeys.dottoWebUrl: 'https://dotto.web.app',
-      RemoteConfigKeys.macSupportDeskUrl: 'https://dotto.web.app/mac',
+      for (final config in RemoteConfigs.all) config.key: config.defaultValue,
     });
 
     await FirebaseRemoteConfig.instance.fetchAndActivate();
