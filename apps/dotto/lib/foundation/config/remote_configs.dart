@@ -9,6 +9,7 @@ abstract final class RemoteConfigs {
   static const validAppVersion = RemoteConfig<String>(
     key: 'valid_app_version',
     defaultValue: '0.0.0',
+    remoteDefaultValue: '0.0.0',
     getValue: _getString,
   );
 
@@ -18,6 +19,7 @@ abstract final class RemoteConfigs {
   static const latestAppVersion = RemoteConfig<String>(
     key: 'latest_app_version',
     defaultValue: '0.0.0',
+    remoteDefaultValue: '0.0.0',
     getValue: _getString,
   );
 
@@ -25,6 +27,7 @@ abstract final class RemoteConfigs {
   static const isUnderMaintenance = RemoteConfig<bool>(
     key: 'is_under_maintenance',
     defaultValue: false,
+    remoteDefaultValue: false,
     getValue: _getBool,
   );
 
@@ -32,6 +35,7 @@ abstract final class RemoteConfigs {
   static const feedbackFormUrl = RemoteConfig<String>(
     key: 'feedback_form_url',
     defaultValue: 'https://forms.gle/ruo8iBxLMmvScNMFA',
+    remoteDefaultValue: 'https://forms.gle/ruo8iBxLMmvScNMFA',
     getValue: _getString,
   );
 
@@ -39,6 +43,7 @@ abstract final class RemoteConfigs {
   static const termsOfServiceUrl = RemoteConfig<String>(
     key: 'terms_of_service_url',
     defaultValue: '',
+    remoteDefaultValue: '',
     getValue: _getString,
   );
 
@@ -46,6 +51,7 @@ abstract final class RemoteConfigs {
   static const privacyPolicyUrl = RemoteConfig<String>(
     key: 'privacy_policy_url',
     defaultValue: '',
+    remoteDefaultValue: '',
     getValue: _getString,
   );
 
@@ -53,6 +59,7 @@ abstract final class RemoteConfigs {
   static const appStorePageUrl = RemoteConfig<String>(
     key: 'app_store_page_url',
     defaultValue: 'https://fun-dotto.github.io',
+    remoteDefaultValue: 'https://fun-dotto.github.io',
     getValue: _getString,
   );
 
@@ -61,6 +68,8 @@ abstract final class RemoteConfigs {
     key: 'official_calendar_pdf_url',
     defaultValue:
         'https://fun-dotto.github.io/files/official_calendar_2026.pdf',
+    remoteDefaultValue:
+        'https://fun-dotto.github.io/files/official_calendar_2026.pdf',
     getValue: _getString,
   );
 
@@ -68,6 +77,8 @@ abstract final class RemoteConfigs {
   static const timetable1PdfUrl = RemoteConfig<String>(
     key: 'timetable_1_pdf_url',
     defaultValue: 'https://fun-dotto.github.io/files/timetable_2026_1.pdf',
+    remoteDefaultValue:
+        'https://fun-dotto.github.io/files/timetable_2026_1.pdf',
     getValue: _getString,
   );
 
@@ -75,13 +86,16 @@ abstract final class RemoteConfigs {
   static const timetable2PdfUrl = RemoteConfig<String>(
     key: 'timetable_2_pdf_url',
     defaultValue: 'https://fun-dotto.github.io/files/timetable_2026_2.pdf',
+    remoteDefaultValue:
+        'https://fun-dotto.github.io/files/timetable_2026_2.pdf',
     getValue: _getString,
   );
 
   /// 緊急告知。
   static const breakingAnnouncement = RemoteConfig<BreakingAnnouncement?>(
     key: 'breaking_announcement',
-    defaultValue: '',
+    defaultValue: null,
+    remoteDefaultValue: '',
     getValue: _getBreakingAnnouncement,
   );
 
@@ -89,6 +103,7 @@ abstract final class RemoteConfigs {
   static const dottoWebUrl = RemoteConfig<String>(
     key: 'dotto_web_url',
     defaultValue: 'https://dotto.web.app',
+    remoteDefaultValue: 'https://dotto.web.app',
     getValue: _getString,
   );
 
@@ -96,6 +111,7 @@ abstract final class RemoteConfigs {
   static const macSupportDeskUrl = RemoteConfig<String>(
     key: 'mac_support_desk_url',
     defaultValue: 'https://dotto.web.app/mac',
+    remoteDefaultValue: 'https://dotto.web.app/mac',
     getValue: _getString,
   );
 

@@ -7,10 +7,12 @@ final class RemoteConfig<T> {
   const RemoteConfig({
     required this.key,
     required this.defaultValue,
+    required this.remoteDefaultValue,
     required this.getValue,
   });
 
   final String key;
-  final Object defaultValue;
+  final T defaultValue;
+  final Object remoteDefaultValue;
   final RemoteConfigGetter<T> getValue;
 }

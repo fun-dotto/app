@@ -40,7 +40,8 @@ final class _RemoteConfigHelperImpl implements RemoteConfigHelper {
 
     await FirebaseRemoteConfig.instance.setDefaults({
       for (final flag in Flags.all) flag.key: flag.defaultValue,
-      for (final config in RemoteConfigs.all) config.key: config.defaultValue,
+      for (final config in RemoteConfigs.all)
+        config.key: config.remoteDefaultValue,
     });
 
     await FirebaseRemoteConfig.instance.fetchAndActivate();
