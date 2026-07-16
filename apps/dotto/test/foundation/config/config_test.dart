@@ -1,4 +1,4 @@
-import 'package:dotto/controller/config_controller.dart';
+import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:dotto/repository/config_repository.dart';

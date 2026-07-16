@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/course/course_reducer.dart';
 import 'package:dotto/feature/course/course_state.dart';
 import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
 import 'package:dotto/feature/course/quick_button.dart';
+import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/foundation/flag/use_flag.dart';

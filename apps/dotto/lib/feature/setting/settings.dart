@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/notification_status_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/academic_area.dart';
 import 'package:dotto/domain/academic_class.dart';
 import 'package:dotto/domain/grade.dart';
 import 'package:dotto/feature/setting/widget/user_info_tile.dart';
+import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';

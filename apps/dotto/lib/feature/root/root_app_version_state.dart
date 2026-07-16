@@ -1,7 +1,7 @@
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/domain/app_version_evaluator.dart';
 import 'package:dotto/feature/root/root_app_version.dart';
 import 'package:dotto/feature/root/root_initialization_state.dart';
+import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/foundation/container/async_entity.dart';
 import 'package:dotto/foundation/container/async_entity_notifier.dart';
