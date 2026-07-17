@@ -40,6 +40,9 @@ final class CourseScreen extends HookConsumerWidget {
     final macSupportDeskUrl = ref.watch(
       configProvider(RemoteConfigs.macSupportDeskUrl),
     );
+    final opinionBoxUrl = ref.watch(
+      configProvider(RemoteConfigs.opinionBoxUrl),
+    );
     final isFunchEnabled = useFlag(Flags.funch);
     final isWebEnabled = useFlag(Flags.web);
     final isOpinionBoxEnabled = useFlag(Flags.opinionBox);
@@ -157,15 +160,11 @@ final class CourseScreen extends HookConsumerWidget {
         ),
       if (isAuthenticated && isOpinionBoxEnabled)
         QuickButton(
-          label: '大学への意見',
+          label: '大学ポスト',
           iconUrl: null,
-          fallbackIcon: Icons.inventory_2_outlined,
-          onPressed: () => _launchQuickLink(
-            context,
-            url:
-                'https://docs.google.com/forms/d/e/1FAIpQLSd00eif5MVTkH4zZUaDI5sLqOyG3JAp0vH9-2x_Cepy1QwQBQ/viewform?usp=dialog',
-            label: '大学への意見',
-          ),
+          fallbackIcon: Icons.send_rounded,
+          onPressed: () =>
+              _launchQuickLink(context, url: opinionBoxUrl, label: '大学ポスト'),
         ),
     ];
 
