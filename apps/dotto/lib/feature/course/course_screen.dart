@@ -168,11 +168,7 @@ final class CourseScreen extends HookConsumerWidget {
             if (!context.mounted) {
               return;
             }
-            await _launchQuickLink(
-              context,
-              url: opinionBoxUrl,
-              label: '大学ポスト',
-            );
+            await _launchQuickLink(context, url: opinionBoxUrl, label: '大学ポスト');
           },
         ),
     ];
