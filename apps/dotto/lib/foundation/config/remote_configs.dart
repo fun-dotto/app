@@ -115,7 +115,7 @@ abstract final class RemoteConfigs {
     getValue: _getString,
   );
 
-  /// 意見箱フォーム URL
+  /// 意見箱フォームURL。
   static const opinionBoxUrl = RemoteConfig<String>(
     key: 'opinion_box_url',
     defaultValue: 'https://forms.gle/Y5xh3mNH1YptocSu7',
