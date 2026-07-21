@@ -162,7 +162,7 @@ final class CourseScreen extends HookConsumerWidget {
         QuickButton(
           label: '大学ポスト',
           iconUrl: null,
-          fallbackIcon: Icons.send_rounded,
+          fallbackIcon: Icons.forward_to_inbox_rounded,
           onPressed: () async {
             await logger.logEvent(.opinionBoxButtonTapped);
             if (!context.mounted) {
