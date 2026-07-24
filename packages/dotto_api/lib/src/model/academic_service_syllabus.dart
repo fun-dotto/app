@@ -39,7 +39,8 @@ part 'academic_service_syllabus.g.dart';
 /// * [teachingAndExamForm] - 授業・試験の形式
 /// * [dsopSubject] - DSOP対象科目
 @BuiltValue()
-abstract class AcademicServiceSyllabus implements Built<AcademicServiceSyllabus, AcademicServiceSyllabusBuilder> {
+abstract class AcademicServiceSyllabus
+    implements Built<AcademicServiceSyllabus, AcademicServiceSyllabusBuilder> {
   /// 教務システムのシラバスID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -150,18 +151,25 @@ abstract class AcademicServiceSyllabus implements Built<AcademicServiceSyllabus,
 
   AcademicServiceSyllabus._();
 
-  factory AcademicServiceSyllabus([void updates(AcademicServiceSyllabusBuilder b)]) = _$AcademicServiceSyllabus;
+  factory AcademicServiceSyllabus([
+    void updates(AcademicServiceSyllabusBuilder b),
+  ]) = _$AcademicServiceSyllabus;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AcademicServiceSyllabusBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AcademicServiceSyllabus> get serializer => _$AcademicServiceSyllabusSerializer();
+  static Serializer<AcademicServiceSyllabus> get serializer =>
+      _$AcademicServiceSyllabusSerializer();
 }
 
-class _$AcademicServiceSyllabusSerializer implements PrimitiveSerializer<AcademicServiceSyllabus> {
+class _$AcademicServiceSyllabusSerializer
+    implements PrimitiveSerializer<AcademicServiceSyllabus> {
   @override
-  final Iterable<Type> types = const [AcademicServiceSyllabus, _$AcademicServiceSyllabus];
+  final Iterable<Type> types = const [
+    AcademicServiceSyllabus,
+    _$AcademicServiceSyllabus,
+  ];
 
   @override
   final String wireName = r'AcademicServiceSyllabus';
@@ -314,7 +322,11 @@ class _$AcademicServiceSyllabusSerializer implements PrimitiveSerializer<Academi
     AcademicServiceSyllabus object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -330,192 +342,243 @@ class _$AcademicServiceSyllabusSerializer implements PrimitiveSerializer<Academi
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.name = valueDes;
           break;
         case r'enName':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.enName = valueDes;
           break;
         case r'grades':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.grades = valueDes;
           break;
         case r'credit':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
+          final valueDes =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int;
           result.credit = valueDes;
           break;
         case r'facultyNames':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.facultyNames = valueDes;
           break;
         case r'practicalHomeFacultyCategory':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.practicalHomeFacultyCategory = valueDes;
           break;
         case r'multiplePersonTeachingForm':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.multiplePersonTeachingForm = valueDes;
           break;
         case r'teachingForm':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.teachingForm = valueDes;
           break;
         case r'summary':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.summary = valueDes;
           break;
         case r'learningOutcomes':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.learningOutcomes = valueDes;
           break;
         case r'assignments':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.assignments = valueDes;
           break;
         case r'evaluationMethod':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.evaluationMethod = valueDes;
           break;
         case r'textbooks':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.textbooks = valueDes;
           break;
         case r'referenceBooks':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.referenceBooks = valueDes;
           break;
         case r'prerequisites':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.prerequisites = valueDes;
           break;
         case r'preLearning':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.preLearning = valueDes;
           break;
         case r'postLearning':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.postLearning = valueDes;
           break;
         case r'notes':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.notes = valueDes;
           break;
         case r'keywords':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.keywords = valueDes;
           break;
         case r'targetCourses':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.targetCourses = valueDes;
           break;
         case r'targetAreas':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.targetAreas = valueDes;
           break;
         case r'classifications':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.classifications = valueDes;
           break;
         case r'teachingLanguage':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.teachingLanguage = valueDes;
           break;
         case r'contentsAndSchedule':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.contentsAndSchedule = valueDes;
           break;
         case r'teachingAndExamForm':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.teachingAndExamForm = valueDes;
           break;
         case r'dsopSubject':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.dsopSubject = valueDes;
           break;
         default:
@@ -546,4 +609,3 @@ class _$AcademicServiceSyllabusSerializer implements PrimitiveSerializer<Academi
     return result.build();
   }
 }
-

@@ -52,15 +52,15 @@ final class SubjectRepositoryImpl implements SubjectRepository {
         q: query,
         grades: filter.grades.mapToBuiltListOrNull(
           (e) => switch (e) {
-            Grade.b1 => DottoFoundationV1Grade.b1,
-            Grade.b2 => DottoFoundationV1Grade.b2,
-            Grade.b3 => DottoFoundationV1Grade.b3,
-            Grade.b4 => DottoFoundationV1Grade.b4,
-            Grade.m1 => DottoFoundationV1Grade.m1,
-            Grade.m2 => DottoFoundationV1Grade.m2,
-            Grade.d1 => DottoFoundationV1Grade.d1,
-            Grade.d2 => DottoFoundationV1Grade.d2,
-            Grade.d3 => DottoFoundationV1Grade.d3,
+            Grade.b1 => DottoFoundationV1Grade.B1,
+            Grade.b2 => DottoFoundationV1Grade.B2,
+            Grade.b3 => DottoFoundationV1Grade.B3,
+            Grade.b4 => DottoFoundationV1Grade.B4,
+            Grade.m1 => DottoFoundationV1Grade.M1,
+            Grade.m2 => DottoFoundationV1Grade.M2,
+            Grade.d1 => DottoFoundationV1Grade.D1,
+            Grade.d2 => DottoFoundationV1Grade.D2,
+            Grade.d3 => DottoFoundationV1Grade.D3,
           },
         ),
         courses: filter.courses.mapToBuiltListOrNull(
@@ -116,13 +116,13 @@ final class SubjectRepositoryImpl implements SubjectRepository {
             : BuiltList<DottoFoundationV1CourseSemester>(
                 filter.semesters.map(
                   (e) => switch (e) {
-                    Semester.h1 => DottoFoundationV1CourseSemester.h1,
-                    Semester.h2 => DottoFoundationV1CourseSemester.h2,
+                    Semester.h1 => DottoFoundationV1CourseSemester.H1,
+                    Semester.h2 => DottoFoundationV1CourseSemester.H2,
                     Semester.allYear => DottoFoundationV1CourseSemester.allYear,
-                    Semester.q1 => DottoFoundationV1CourseSemester.q1,
-                    Semester.q2 => DottoFoundationV1CourseSemester.q2,
-                    Semester.q3 => DottoFoundationV1CourseSemester.q3,
-                    Semester.q4 => DottoFoundationV1CourseSemester.q4,
+                    Semester.q1 => DottoFoundationV1CourseSemester.Q1,
+                    Semester.q2 => DottoFoundationV1CourseSemester.Q2,
+                    Semester.q3 => DottoFoundationV1CourseSemester.Q3,
+                    Semester.q4 => DottoFoundationV1CourseSemester.Q4,
                     Semester.summerIntensive =>
                       DottoFoundationV1CourseSemester.summerIntensive,
                     Semester.winterIntensive =>
@@ -195,13 +195,13 @@ final class SubjectRepositoryImpl implements SubjectRepository {
                   .toList(),
               credit: e.credit,
               semester: switch (e.semester) {
-                DottoFoundationV1CourseSemester.h1 => Semester.h1,
-                DottoFoundationV1CourseSemester.h2 => Semester.h2,
+                DottoFoundationV1CourseSemester.H1 => Semester.h1,
+                DottoFoundationV1CourseSemester.H2 => Semester.h2,
                 DottoFoundationV1CourseSemester.allYear => Semester.allYear,
-                DottoFoundationV1CourseSemester.q1 => Semester.q1,
-                DottoFoundationV1CourseSemester.q2 => Semester.q2,
-                DottoFoundationV1CourseSemester.q3 => Semester.q3,
-                DottoFoundationV1CourseSemester.q4 => Semester.q4,
+                DottoFoundationV1CourseSemester.Q1 => Semester.q1,
+                DottoFoundationV1CourseSemester.Q2 => Semester.q2,
+                DottoFoundationV1CourseSemester.Q3 => Semester.q3,
+                DottoFoundationV1CourseSemester.Q4 => Semester.q4,
                 DottoFoundationV1CourseSemester.summerIntensive =>
                   Semester.summerIntensive,
                 DottoFoundationV1CourseSemester.winterIntensive =>
@@ -270,13 +270,13 @@ final class SubjectRepositoryImpl implements SubjectRepository {
             .toList(),
         year: subject.year,
         semester: switch (subject.semester) {
-          DottoFoundationV1CourseSemester.h1 => Semester.h1,
-          DottoFoundationV1CourseSemester.h2 => Semester.h2,
+          DottoFoundationV1CourseSemester.H1 => Semester.h1,
+          DottoFoundationV1CourseSemester.H2 => Semester.h2,
           DottoFoundationV1CourseSemester.allYear => Semester.allYear,
-          DottoFoundationV1CourseSemester.q1 => Semester.q1,
-          DottoFoundationV1CourseSemester.q2 => Semester.q2,
-          DottoFoundationV1CourseSemester.q3 => Semester.q3,
-          DottoFoundationV1CourseSemester.q4 => Semester.q4,
+          DottoFoundationV1CourseSemester.Q1 => Semester.q1,
+          DottoFoundationV1CourseSemester.Q2 => Semester.q2,
+          DottoFoundationV1CourseSemester.Q3 => Semester.q3,
+          DottoFoundationV1CourseSemester.Q4 => Semester.q4,
           DottoFoundationV1CourseSemester.summerIntensive =>
             Semester.summerIntensive,
           DottoFoundationV1CourseSemester.winterIntensive =>
@@ -291,15 +291,15 @@ final class SubjectRepositoryImpl implements SubjectRepository {
             .map(
               (e) => SubjectEligibleAttribute(
                 grade: switch (e.grade) {
-                  DottoFoundationV1Grade.b1 => Grade.b1,
-                  DottoFoundationV1Grade.b2 => Grade.b2,
-                  DottoFoundationV1Grade.b3 => Grade.b3,
-                  DottoFoundationV1Grade.b4 => Grade.b4,
-                  DottoFoundationV1Grade.m1 => Grade.m1,
-                  DottoFoundationV1Grade.m2 => Grade.m2,
-                  DottoFoundationV1Grade.d1 => Grade.d1,
-                  DottoFoundationV1Grade.d2 => Grade.d2,
-                  DottoFoundationV1Grade.d3 => Grade.d3,
+                  DottoFoundationV1Grade.B1 => Grade.b1,
+                  DottoFoundationV1Grade.B2 => Grade.b2,
+                  DottoFoundationV1Grade.B3 => Grade.b3,
+                  DottoFoundationV1Grade.B4 => Grade.b4,
+                  DottoFoundationV1Grade.M1 => Grade.m1,
+                  DottoFoundationV1Grade.M2 => Grade.m2,
+                  DottoFoundationV1Grade.D1 => Grade.d1,
+                  DottoFoundationV1Grade.D2 => Grade.d2,
+                  DottoFoundationV1Grade.D3 => Grade.d3,
                   _ => throw DomainError(
                     type: DomainErrorType.invalidData,
                     message: 'Invalid grade: ${e.grade}',

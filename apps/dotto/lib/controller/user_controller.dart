@@ -2,9 +2,9 @@ import 'package:dotto/domain/academic_area.dart';
 import 'package:dotto/domain/academic_class.dart';
 import 'package:dotto/domain/dotto_user.dart';
 import 'package:dotto/domain/grade.dart';
+import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/helper/firebase_auth_helper.dart';
 import 'package:dotto/helper/firebase_auth_provider.dart';
-import 'package:dotto/helper/logger.dart';
 import 'package:dotto/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -52,6 +52,7 @@ final class UserNotifier extends _$UserNotifier {
       await FirebaseAuthHelper.signIn();
       await logger.logLogin();
     } on Object catch (error, stackTrace) {
+      await logger.logError(error, stackTrace, reason: 'signIn failed');
       state = AsyncValue.error(error, stackTrace);
     }
   }

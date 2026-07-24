@@ -13,26 +13,38 @@ part 'announcements_v1_list200_response.g.dart';
 /// AnnouncementsV1List200Response
 ///
 /// Properties:
-/// * [announcements] 
+/// * [announcements]
 @BuiltValue()
-abstract class AnnouncementsV1List200Response implements Built<AnnouncementsV1List200Response, AnnouncementsV1List200ResponseBuilder> {
+abstract class AnnouncementsV1List200Response
+    implements
+        Built<
+          AnnouncementsV1List200Response,
+          AnnouncementsV1List200ResponseBuilder
+        > {
   @BuiltValueField(wireName: r'announcements')
   BuiltList<Announcement> get announcements;
 
   AnnouncementsV1List200Response._();
 
-  factory AnnouncementsV1List200Response([void updates(AnnouncementsV1List200ResponseBuilder b)]) = _$AnnouncementsV1List200Response;
+  factory AnnouncementsV1List200Response([
+    void updates(AnnouncementsV1List200ResponseBuilder b),
+  ]) = _$AnnouncementsV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AnnouncementsV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AnnouncementsV1List200Response> get serializer => _$AnnouncementsV1List200ResponseSerializer();
+  static Serializer<AnnouncementsV1List200Response> get serializer =>
+      _$AnnouncementsV1List200ResponseSerializer();
 }
 
-class _$AnnouncementsV1List200ResponseSerializer implements PrimitiveSerializer<AnnouncementsV1List200Response> {
+class _$AnnouncementsV1List200ResponseSerializer
+    implements PrimitiveSerializer<AnnouncementsV1List200Response> {
   @override
-  final Iterable<Type> types = const [AnnouncementsV1List200Response, _$AnnouncementsV1List200Response];
+  final Iterable<Type> types = const [
+    AnnouncementsV1List200Response,
+    _$AnnouncementsV1List200Response,
+  ];
 
   @override
   final String wireName = r'AnnouncementsV1List200Response';
@@ -55,7 +67,11 @@ class _$AnnouncementsV1List200ResponseSerializer implements PrimitiveSerializer<
     AnnouncementsV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +87,14 @@ class _$AnnouncementsV1List200ResponseSerializer implements PrimitiveSerializer<
       final value = serializedList[i + 1];
       switch (key) {
         case r'announcements':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(Announcement)]),
-          ) as BuiltList<Announcement>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(Announcement),
+                    ]),
+                  )
+                  as BuiltList<Announcement>;
           result.announcements.replace(valueDes);
           break;
         default:
@@ -105,4 +125,3 @@ class _$AnnouncementsV1List200ResponseSerializer implements PrimitiveSerializer<
     return result.build();
   }
 }
-

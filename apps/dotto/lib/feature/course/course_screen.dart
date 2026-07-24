@@ -1,11 +1,15 @@
 import 'dart:async';
 
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/course/course_reducer.dart';
 import 'package:dotto/feature/course/course_state.dart';
 import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
 import 'package:dotto/feature/course/quick_button.dart';
+import 'package:dotto/foundation/config/config.dart';
+import 'package:dotto/foundation/config/remote_configs.dart';
+import 'package:dotto/foundation/flag/flags.dart';
+import 'package:dotto/foundation/flag/use_flag.dart';
+import 'package:dotto/foundation/log/use_logger.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -20,15 +24,37 @@ final class CourseScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(configProvider);
+    final officialCalendarPdfUrl = ref.watch(
+      configProvider(RemoteConfigs.officialCalendarPdfUrl),
+    );
+    final timetable1PdfUrl = ref.watch(
+      configProvider(RemoteConfigs.timetable1PdfUrl),
+    );
+    final timetable2PdfUrl = ref.watch(
+      configProvider(RemoteConfigs.timetable2PdfUrl),
+    );
+    final breakingAnnouncement = ref.watch(
+      configProvider(RemoteConfigs.breakingAnnouncement),
+    );
+    final dottoWebUrl = ref.watch(configProvider(RemoteConfigs.dottoWebUrl));
+    final macSupportDeskUrl = ref.watch(
+      configProvider(RemoteConfigs.macSupportDeskUrl),
+    );
+    final opinionBoxUrl = ref.watch(
+      configProvider(RemoteConfigs.opinionBoxUrl),
+    );
+    final isFunchEnabled = useFlag(Flags.funch);
+    final isWebEnabled = useFlag(Flags.web);
+    final isOpinionBoxEnabled = useFlag(Flags.opinionBox);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
+    final logger = useLogger();
     final state = isAuthenticated
         ? ref.watch(courseReducerProvider)
         : const AsyncData(CourseState());
     final selectedDate = useState<DateTime?>(null);
 
     final quickFeatures = [
-      if (config.isFunchEnabled)
+      if (isFunchEnabled)
         QuickButton(
           label: '科目検索',
           iconUrl: null,
@@ -51,7 +77,7 @@ final class CourseScreen extends HookConsumerWidget {
         iconUrl: null,
         fallbackIcon: Icons.event_note,
         onPressed: () => CourseWebPdfViewerRouteData(
-          url: config.officialCalendarPdfUrl,
+          url: officialCalendarPdfUrl,
           filename: '学年暦',
         ).push<void>(context),
       ),
@@ -60,7 +86,7 @@ final class CourseScreen extends HookConsumerWidget {
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
         onPressed: () => CourseWebPdfViewerRouteData(
-          url: config.timetable1PdfUrl,
+          url: timetable1PdfUrl,
           filename: '時間割 前期',
         ).push<void>(context),
       ),
@@ -69,7 +95,7 @@ final class CourseScreen extends HookConsumerWidget {
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
         onPressed: () => CourseWebPdfViewerRouteData(
-          url: config.timetable2PdfUrl,
+          url: timetable2PdfUrl,
           filename: '時間割 後期',
         ).push<void>(context),
       ),
@@ -98,27 +124,52 @@ final class CourseScreen extends HookConsumerWidget {
           label: '学生ポータル',
         ),
       ),
-      // if (isAuthenticated)
-      //   QuickButton(
-      //     label: 'Dotto Web',
-      //     iconUrl: '${config.dottoWebUrl}/favicon.ico',
-      //     fallbackIcon: Icons.language,
-      //     onPressed: () => _launchQuickLink(
-      //       context,
-      //       url: config.dottoWebUrl,
-      //       label: 'Dotto Web',
-      //     ),
-      //   ),
+      if (isAuthenticated && isWebEnabled)
+        QuickButton(
+          label: 'Dotto Web',
+          iconUrl: '$dottoWebUrl/favicon.ico',
+          fallbackIcon: Icons.language,
+          onPressed: () async {
+            await logger.logEvent(.dottoWebButtonTapped);
+            if (!context.mounted) {
+              return;
+            }
+            await _launchQuickLink(
+              context,
+              url: dottoWebUrl,
+              label: 'Dotto Web',
+            );
+          },
+        ),
       if (isAuthenticated)
         QuickButton(
           label: 'Macサポート',
           iconUrl: null,
           fallbackIcon: Icons.laptop_mac,
-          onPressed: () => _launchQuickLink(
-            context,
-            url: config.macSupportDeskUrl,
-            label: 'Macサポート',
-          ),
+          onPressed: () async {
+            await logger.logEvent(.macSupportButtonTapped);
+            if (!context.mounted) {
+              return;
+            }
+            await _launchQuickLink(
+              context,
+              url: macSupportDeskUrl,
+              label: 'Macサポート',
+            );
+          },
+        ),
+      if (isAuthenticated && isOpinionBoxEnabled)
+        QuickButton(
+          label: '大学ポスト',
+          iconUrl: null,
+          fallbackIcon: Icons.forward_to_inbox_rounded,
+          onPressed: () async {
+            await logger.logEvent(.opinionBoxButtonTapped);
+            if (!context.mounted) {
+              return;
+            }
+            await _launchQuickLink(context, url: opinionBoxUrl, label: '大学ポスト');
+          },
         ),
     ];
 
@@ -171,7 +222,7 @@ final class CourseScreen extends HookConsumerWidget {
           ),
         ],
         bottom: () {
-          final announcement = config.breakingAnnouncement;
+          final announcement = breakingAnnouncement;
           if (announcement == null) {
             return null;
           }

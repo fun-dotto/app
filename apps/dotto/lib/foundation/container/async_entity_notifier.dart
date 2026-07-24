@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dotto/foundation/async_entity.dart';
-import 'package:dotto/foundation/async_status.dart';
+import 'package:dotto/foundation/container/async_entity.dart';
+import 'package:dotto/foundation/container/async_status.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 mixin AsyncEntityNotifierMixin<T extends Object> on $Notifier<AsyncEntity<T>> {

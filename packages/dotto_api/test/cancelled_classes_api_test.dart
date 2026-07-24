@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for CancelledClassesApi
 void main() {
   final instance = Openapi().getCancelledClassesApi();
@@ -13,6 +12,5 @@ void main() {
     test('test cancelledClassesV1List', () async {
       // TODO
     });
-
   });
 }

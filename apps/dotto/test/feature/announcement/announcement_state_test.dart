@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dotto/domain/announcement.dart';
 import 'package:dotto/feature/announcement/announcement_state.dart';
-import 'package:dotto/foundation/async_status.dart';
+import 'package:dotto/foundation/container/async_status.dart';
 import 'package:dotto/repository/announcement_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -70,9 +70,8 @@ void main() {
 
   test('fetch 成功時に status=success と entity が反映される', () async {
     final repository = FakeAnnouncementRepository();
-    final container = createContainer(repository);
-
-    container.read(announcementStateProvider);
+    final container = createContainer(repository)
+      ..read(announcementStateProvider);
     await Future<void>.value();
     repository.resolve(sampleAnnouncements);
     await Future<void>.value();
@@ -101,9 +100,8 @@ void main() {
 
   test('refresh は status=refreshing → success と遷移し、前回の entity を保持する', () async {
     final repository = FakeAnnouncementRepository();
-    final container = createContainer(repository);
-
-    container.read(announcementStateProvider);
+    final container = createContainer(repository)
+      ..read(announcementStateProvider);
     await Future<void>.value();
     repository.resolve(sampleAnnouncements);
     await Future<void>.value();
@@ -135,9 +133,8 @@ void main() {
 
   test('refresh 失敗時は status=failure と error が反映される', () async {
     final repository = FakeAnnouncementRepository();
-    final container = createContainer(repository);
-
-    container.read(announcementStateProvider);
+    final container = createContainer(repository)
+      ..read(announcementStateProvider);
     await Future<void>.value();
     repository.resolve(sampleAnnouncements);
     await Future<void>.value();

@@ -1,4 +1,4 @@
-import 'package:dotto/domain/config.dart';
+import 'package:dotto/foundation/config/environment_configs.dart';
 import 'package:minio/minio.dart';
 import 'package:minio/models.dart';
 
@@ -8,11 +8,11 @@ final class S3Repository {
   }
   S3Repository._internal() {
     _s3 = Minio(
-      endPoint: Config.cloudflareR2Endpoint,
-      accessKey: Config.cloudflareR2AccessKeyId,
-      secretKey: Config.cloudflareR2SecretAccessKey,
+      endPoint: EnvironmentConfigs.cloudflareR2Endpoint,
+      accessKey: EnvironmentConfigs.cloudflareR2AccessKeyId,
+      secretKey: EnvironmentConfigs.cloudflareR2SecretAccessKey,
     );
-    _bucketName = Config.cloudflareR2BucketName;
+    _bucketName = EnvironmentConfigs.cloudflareR2BucketName;
   }
   static final S3Repository _instance = S3Repository._internal();
 

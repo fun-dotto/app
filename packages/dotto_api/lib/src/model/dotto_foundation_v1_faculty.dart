@@ -11,11 +11,13 @@ part 'dotto_foundation_v1_faculty.g.dart';
 /// 教員
 ///
 /// Properties:
-/// * [id] 
-/// * [name] 
-/// * [email] 
+/// * [id]
+/// * [name]
+/// * [email]
 @BuiltValue()
-abstract class DottoFoundationV1Faculty implements Built<DottoFoundationV1Faculty, DottoFoundationV1FacultyBuilder> {
+abstract class DottoFoundationV1Faculty
+    implements
+        Built<DottoFoundationV1Faculty, DottoFoundationV1FacultyBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -27,18 +29,25 @@ abstract class DottoFoundationV1Faculty implements Built<DottoFoundationV1Facult
 
   DottoFoundationV1Faculty._();
 
-  factory DottoFoundationV1Faculty([void updates(DottoFoundationV1FacultyBuilder b)]) = _$DottoFoundationV1Faculty;
+  factory DottoFoundationV1Faculty([
+    void updates(DottoFoundationV1FacultyBuilder b),
+  ]) = _$DottoFoundationV1Faculty;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DottoFoundationV1FacultyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DottoFoundationV1Faculty> get serializer => _$DottoFoundationV1FacultySerializer();
+  static Serializer<DottoFoundationV1Faculty> get serializer =>
+      _$DottoFoundationV1FacultySerializer();
 }
 
-class _$DottoFoundationV1FacultySerializer implements PrimitiveSerializer<DottoFoundationV1Faculty> {
+class _$DottoFoundationV1FacultySerializer
+    implements PrimitiveSerializer<DottoFoundationV1Faculty> {
   @override
-  final Iterable<Type> types = const [DottoFoundationV1Faculty, _$DottoFoundationV1Faculty];
+  final Iterable<Type> types = const [
+    DottoFoundationV1Faculty,
+    _$DottoFoundationV1Faculty,
+  ];
 
   @override
   final String wireName = r'DottoFoundationV1Faculty';
@@ -71,7 +80,11 @@ class _$DottoFoundationV1FacultySerializer implements PrimitiveSerializer<DottoF
     DottoFoundationV1Faculty object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -87,24 +100,30 @@ class _$DottoFoundationV1FacultySerializer implements PrimitiveSerializer<DottoF
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.name = valueDes;
           break;
         case r'email':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.email = valueDes;
           break;
         default:
@@ -135,4 +154,3 @@ class _$DottoFoundationV1FacultySerializer implements PrimitiveSerializer<DottoF
     return result.build();
   }
 }
-

@@ -8,12 +8,11 @@ compile = false
 _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
-flutter = "3.44.0"
-gcloud = "572.0.0"
+flutter = "3.44.6"
+gcloud = "575.0.0"
 java = "21.0.2"
-node = "24.16.0"
-"npm:firebase-tools" = "15.15.0"
-"npm:@openapitools/openapi-generator-cli" = "2.32.0"
+node = "24.18.0"
+"npm:@openapitools/openapi-generator-cli" = "2.39.1"
 ruby = "4.0.5"
 
 [tasks.pre-commit]
@@ -22,7 +21,7 @@ run = "dart run scripts/pre_commit.dart"
 [tasks.setup]
 run = [
   "bundle install",
-  "dart pub global activate melos 7.8.0",
+  "dart pub global activate melos 7.8.1",
   "melos bootstrap",
   "melos run fetch:dart_defines",
 ]

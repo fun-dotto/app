@@ -13,7 +13,7 @@ part 'room.g.dart';
 /// Room
 ///
 /// Properties:
-/// * [id] 
+/// * [id]
 /// * [name] - 部屋名
 /// * [floor] - フロア  オンラインなどの仮想教室の場合はVirtualを使用
 /// * [faculty] - 教員  空室の教員室や教員室でない場合は省略
@@ -88,7 +88,11 @@ class _$RoomSerializer implements PrimitiveSerializer<Room> {
     Room object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -104,31 +108,39 @@ class _$RoomSerializer implements PrimitiveSerializer<Room> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.id = valueDes;
           break;
         case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           result.name = valueDes;
           break;
         case r'floor':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Floor),
-          ) as DottoFoundationV1Floor;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Floor),
+                  )
+                  as DottoFoundationV1Floor;
           result.floor = valueDes;
           break;
         case r'faculty':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Faculty),
-          ) as Faculty;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Faculty),
+                  )
+                  as Faculty;
           result.faculty.replace(valueDes);
           break;
         default:
@@ -159,4 +171,3 @@ class _$RoomSerializer implements PrimitiveSerializer<Room> {
     return result.build();
   }
 }
-

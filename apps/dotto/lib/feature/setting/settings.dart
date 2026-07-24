@@ -1,15 +1,19 @@
 import 'dart:async';
 
-import 'package:dotto/controller/config_controller.dart';
 import 'package:dotto/controller/notification_status_controller.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/academic_area.dart';
 import 'package:dotto/domain/academic_class.dart';
 import 'package:dotto/domain/grade.dart';
 import 'package:dotto/feature/setting/widget/user_info_tile.dart';
+import 'package:dotto/foundation/config/config.dart';
+import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
+import 'package:dotto/repository/config_repository.dart';
 import 'package:dotto/router/routes/app_routes.dart';
+import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dialog.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,33 +46,41 @@ final class SettingsScreen extends HookConsumerWidget {
     await showDialog<void>(
       context: context,
       builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(
-            'ログアウトしますか？',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          actions: [
-            Row(
-              spacing: 12,
-              children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
-                    },
-                    child: const Text('キャンセル'),
-                  ),
-                ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
-                      onLogout();
-                    },
-                    child: const Text('ログアウト'),
-                  ),
-                ),
-              ],
+        return DottoDialog(
+          type: .plain,
+          title: 'ログアウトしますか？',
+          message: '',
+          actionButtons: [
+            DottoButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              type: .outlined,
+              child: const Text('キャンセル'),
+            ),
+            DottoButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                onLogout();
+              },
+              child: const Text('ログアウト'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showLoginErrorDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return DottoDialog(
+          type: .alert,
+          title: 'ログインに失敗しました',
+          message: '時間をおいてもう一度お試しください。',
+          actionButtons: [
+            DottoButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -89,17 +101,34 @@ final class SettingsScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
-    final config = ref.watch(configProvider);
+    final feedbackFormUrl = ref.watch(
+      configProvider(RemoteConfigs.feedbackFormUrl),
+    );
+    final termsOfServiceUrl = ref.watch(
+      configProvider(RemoteConfigs.termsOfServiceUrl),
+    );
+    final privacyPolicyUrl = ref.watch(
+      configProvider(RemoteConfigs.privacyPolicyUrl),
+    );
     final notificationStatus = ref.watch(notificationStatusProvider);
     final isAuthenticated = user.value != null;
 
     // 設定を取得（初回マウント時のみ）
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(configProvider.notifier).refresh();
+        ref.invalidate(configRepositoryProvider);
       });
       return null;
     }, const []);
+
+    // ログイン失敗時にエラーダイアログを表示する
+    ref.listen<AsyncValue<dynamic>>(userProvider, (previous, next) {
+      final wasUnauthenticated =
+          previous?.value == null && !(previous?.hasError ?? false);
+      if (wasUnauthenticated && next.hasError) {
+        unawaited(_showLoginErrorDialog(context));
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -365,8 +394,7 @@ final class SettingsScreen extends HookConsumerWidget {
                     SettingsTile.navigation(
                       title: const Text('フィードバックを送る'),
                       leading: const Icon(Icons.messenger_rounded),
-                      onPressed: (_) async =>
-                          launchUrlSafely(config.feedbackFormUrl),
+                      onPressed: (_) async => launchUrlSafely(feedbackFormUrl),
                     ),
                     // Contributors表示
                     SettingsTile.navigation(
@@ -391,14 +419,13 @@ final class SettingsScreen extends HookConsumerWidget {
                       title: const Text('利用規約'),
                       leading: const Icon(Icons.verified_user),
                       onPressed: (_) async =>
-                          launchUrlSafely(config.termsOfServiceUrl),
+                          launchUrlSafely(termsOfServiceUrl),
                     ),
                     // プライバシーポリシー
                     SettingsTile.navigation(
                       title: const Text('プライバシーポリシー'),
                       leading: const Icon(Icons.admin_panel_settings),
-                      onPressed: (_) async =>
-                          launchUrlSafely(config.privacyPolicyUrl),
+                      onPressed: (_) async => launchUrlSafely(privacyPolicyUrl),
                     ),
                     // ライセンス
                     SettingsTile.navigation(

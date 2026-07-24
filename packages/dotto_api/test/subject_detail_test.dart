@@ -49,6 +49,5 @@ void main() {
     test('to test the property `syllabus`', () async {
       // TODO
     });
-
   });
 }

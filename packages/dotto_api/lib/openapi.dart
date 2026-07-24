@@ -74,4 +74,3 @@ export 'package:openapi/src/model/timetable_item.dart';
 export 'package:openapi/src/model/timetable_items_v1_list200_response.dart';
 export 'package:openapi/src/model/user_info.dart';
 export 'package:openapi/src/model/users_v1_detail200_response.dart';
-

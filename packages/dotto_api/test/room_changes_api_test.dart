@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for RoomChangesApi
 void main() {
   final instance = Openapi().getRoomChangesApi();
@@ -13,6 +12,5 @@ void main() {
     test('test roomChangesV1List', () async {
       // TODO
     });
-
   });
 }

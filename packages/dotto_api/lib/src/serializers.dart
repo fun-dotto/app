@@ -121,48 +121,57 @@ part 'serializers.g.dart';
   UserInfo,
   UsersV1Detail200Response,
 ])
-Serializers serializers = (_$serializers.toBuilder()
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(DottoFoundationV1SubjectRequirementType)]),
-        () => ListBuilder<DottoFoundationV1SubjectRequirementType>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(DottoFoundationV1CourseSemester)]),
-        () => ListBuilder<DottoFoundationV1CourseSemester>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(DottoFoundationV1Class)]),
-        () => ListBuilder<DottoFoundationV1Class>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(Date)]),
-        () => ListBuilder<Date>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(DottoFoundationV1Grade)]),
-        () => ListBuilder<DottoFoundationV1Grade>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(String)]),
-        () => ListBuilder<String>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(DottoFoundationV1SubjectClassification)]),
-        () => ListBuilder<DottoFoundationV1SubjectClassification>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(DottoFoundationV1CulturalSubjectCategory)]),
-        () => ListBuilder<DottoFoundationV1CulturalSubjectCategory>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(DottoFoundationV1Course)]),
-        () => ListBuilder<DottoFoundationV1Course>(),
-      )
-      ..add(const OneOfSerializer())
-      ..add(const AnyOfSerializer())
-      ..add(const DateSerializer())
-      ..add(Iso8601DateTimeSerializer())
-    ).build();
+Serializers serializers =
+    (_$serializers.toBuilder()
+          ..addBuilderFactory(
+            const FullType(BuiltList, [
+              FullType(DottoFoundationV1SubjectRequirementType),
+            ]),
+            () => ListBuilder<DottoFoundationV1SubjectRequirementType>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [
+              FullType(DottoFoundationV1CourseSemester),
+            ]),
+            () => ListBuilder<DottoFoundationV1CourseSemester>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DottoFoundationV1Class)]),
+            () => ListBuilder<DottoFoundationV1Class>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(Date)]),
+            () => ListBuilder<Date>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DottoFoundationV1Grade)]),
+            () => ListBuilder<DottoFoundationV1Grade>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(String)]),
+            () => ListBuilder<String>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [
+              FullType(DottoFoundationV1SubjectClassification),
+            ]),
+            () => ListBuilder<DottoFoundationV1SubjectClassification>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [
+              FullType(DottoFoundationV1CulturalSubjectCategory),
+            ]),
+            () => ListBuilder<DottoFoundationV1CulturalSubjectCategory>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DottoFoundationV1Course)]),
+            () => ListBuilder<DottoFoundationV1Course>(),
+          )
+          ..add(const OneOfSerializer())
+          ..add(const AnyOfSerializer())
+          ..add(const DateSerializer())
+          ..add(Iso8601DateTimeSerializer()))
+        .build();
 
 Serializers standardSerializers =
     (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

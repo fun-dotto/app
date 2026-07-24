@@ -13,26 +13,38 @@ part 'room_changes_v1_list200_response.g.dart';
 /// RoomChangesV1List200Response
 ///
 /// Properties:
-/// * [roomChanges] 
+/// * [roomChanges]
 @BuiltValue()
-abstract class RoomChangesV1List200Response implements Built<RoomChangesV1List200Response, RoomChangesV1List200ResponseBuilder> {
+abstract class RoomChangesV1List200Response
+    implements
+        Built<
+          RoomChangesV1List200Response,
+          RoomChangesV1List200ResponseBuilder
+        > {
   @BuiltValueField(wireName: r'roomChanges')
   BuiltList<RoomChange> get roomChanges;
 
   RoomChangesV1List200Response._();
 
-  factory RoomChangesV1List200Response([void updates(RoomChangesV1List200ResponseBuilder b)]) = _$RoomChangesV1List200Response;
+  factory RoomChangesV1List200Response([
+    void updates(RoomChangesV1List200ResponseBuilder b),
+  ]) = _$RoomChangesV1List200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RoomChangesV1List200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RoomChangesV1List200Response> get serializer => _$RoomChangesV1List200ResponseSerializer();
+  static Serializer<RoomChangesV1List200Response> get serializer =>
+      _$RoomChangesV1List200ResponseSerializer();
 }
 
-class _$RoomChangesV1List200ResponseSerializer implements PrimitiveSerializer<RoomChangesV1List200Response> {
+class _$RoomChangesV1List200ResponseSerializer
+    implements PrimitiveSerializer<RoomChangesV1List200Response> {
   @override
-  final Iterable<Type> types = const [RoomChangesV1List200Response, _$RoomChangesV1List200Response];
+  final Iterable<Type> types = const [
+    RoomChangesV1List200Response,
+    _$RoomChangesV1List200Response,
+  ];
 
   @override
   final String wireName = r'RoomChangesV1List200Response';
@@ -55,7 +67,11 @@ class _$RoomChangesV1List200ResponseSerializer implements PrimitiveSerializer<Ro
     RoomChangesV1List200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -71,10 +87,14 @@ class _$RoomChangesV1List200ResponseSerializer implements PrimitiveSerializer<Ro
       final value = serializedList[i + 1];
       switch (key) {
         case r'roomChanges':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(RoomChange)]),
-          ) as BuiltList<RoomChange>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [
+                      FullType(RoomChange),
+                    ]),
+                  )
+                  as BuiltList<RoomChange>;
           result.roomChanges.replace(valueDes);
           break;
         default:
@@ -105,4 +125,3 @@ class _$RoomChangesV1List200ResponseSerializer implements PrimitiveSerializer<Ro
     return result.build();
   }
 }
-

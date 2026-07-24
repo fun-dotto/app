@@ -17,13 +17,14 @@ part 'personal_calendar_item.g.dart';
 /// PersonalCalendarItem
 ///
 /// Properties:
-/// * [date] 
-/// * [period] 
-/// * [subject] 
-/// * [rooms] 
-/// * [status] 
+/// * [date]
+/// * [period]
+/// * [subject]
+/// * [rooms]
+/// * [status]
 @BuiltValue()
-abstract class PersonalCalendarItem implements Built<PersonalCalendarItem, PersonalCalendarItemBuilder> {
+abstract class PersonalCalendarItem
+    implements Built<PersonalCalendarItem, PersonalCalendarItemBuilder> {
   @BuiltValueField(wireName: r'date')
   Date get date;
 
@@ -43,18 +44,24 @@ abstract class PersonalCalendarItem implements Built<PersonalCalendarItem, Perso
 
   PersonalCalendarItem._();
 
-  factory PersonalCalendarItem([void updates(PersonalCalendarItemBuilder b)]) = _$PersonalCalendarItem;
+  factory PersonalCalendarItem([void updates(PersonalCalendarItemBuilder b)]) =
+      _$PersonalCalendarItem;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PersonalCalendarItemBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PersonalCalendarItem> get serializer => _$PersonalCalendarItemSerializer();
+  static Serializer<PersonalCalendarItem> get serializer =>
+      _$PersonalCalendarItemSerializer();
 }
 
-class _$PersonalCalendarItemSerializer implements PrimitiveSerializer<PersonalCalendarItem> {
+class _$PersonalCalendarItemSerializer
+    implements PrimitiveSerializer<PersonalCalendarItem> {
   @override
-  final Iterable<Type> types = const [PersonalCalendarItem, _$PersonalCalendarItem];
+  final Iterable<Type> types = const [
+    PersonalCalendarItem,
+    _$PersonalCalendarItem,
+  ];
 
   @override
   final String wireName = r'PersonalCalendarItem';
@@ -87,7 +94,9 @@ class _$PersonalCalendarItemSerializer implements PrimitiveSerializer<PersonalCa
     yield r'status';
     yield serializers.serialize(
       object.status,
-      specifiedType: const FullType(DottoFoundationV1PersonalCalendarItemStatus),
+      specifiedType: const FullType(
+        DottoFoundationV1PersonalCalendarItemStatus,
+      ),
     );
   }
 
@@ -97,7 +106,11 @@ class _$PersonalCalendarItemSerializer implements PrimitiveSerializer<PersonalCa
     PersonalCalendarItem object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -113,38 +126,50 @@ class _$PersonalCalendarItemSerializer implements PrimitiveSerializer<PersonalCa
       final value = serializedList[i + 1];
       switch (key) {
         case r'date':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Date),
-          ) as Date;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Date),
+                  )
+                  as Date;
           result.date = valueDes;
           break;
         case r'period':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Period),
-          ) as DottoFoundationV1Period;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Period),
+                  )
+                  as DottoFoundationV1Period;
           result.period = valueDes;
           break;
         case r'subject':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(SubjectSummary),
-          ) as SubjectSummary;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SubjectSummary),
+                  )
+                  as SubjectSummary;
           result.subject.replace(valueDes);
           break;
         case r'rooms':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(Room)]),
-          ) as BuiltList<Room>;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, [FullType(Room)]),
+                  )
+                  as BuiltList<Room>;
           result.rooms.replace(valueDes);
           break;
         case r'status':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1PersonalCalendarItemStatus),
-          ) as DottoFoundationV1PersonalCalendarItemStatus;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(
+                      DottoFoundationV1PersonalCalendarItemStatus,
+                    ),
+                  )
+                  as DottoFoundationV1PersonalCalendarItemStatus;
           result.status = valueDes;
           break;
         default:
@@ -175,4 +200,3 @@ class _$PersonalCalendarItemSerializer implements PrimitiveSerializer<PersonalCa
     return result.build();
   }
 }
-

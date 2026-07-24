@@ -13,10 +13,15 @@ part 'subject_service_subject_requirement.g.dart';
 /// SubjectServiceSubjectRequirement
 ///
 /// Properties:
-/// * [course] 
-/// * [requirementType] 
+/// * [course]
+/// * [requirementType]
 @BuiltValue()
-abstract class SubjectServiceSubjectRequirement implements Built<SubjectServiceSubjectRequirement, SubjectServiceSubjectRequirementBuilder> {
+abstract class SubjectServiceSubjectRequirement
+    implements
+        Built<
+          SubjectServiceSubjectRequirement,
+          SubjectServiceSubjectRequirementBuilder
+        > {
   @BuiltValueField(wireName: r'course')
   DottoFoundationV1Course get course;
   // enum courseEnum {  InformationSystem,  InformationDesign,  AdvancedICT,  ComplexSystem,  IntelligentSystem,  };
@@ -27,18 +32,25 @@ abstract class SubjectServiceSubjectRequirement implements Built<SubjectServiceS
 
   SubjectServiceSubjectRequirement._();
 
-  factory SubjectServiceSubjectRequirement([void updates(SubjectServiceSubjectRequirementBuilder b)]) = _$SubjectServiceSubjectRequirement;
+  factory SubjectServiceSubjectRequirement([
+    void updates(SubjectServiceSubjectRequirementBuilder b),
+  ]) = _$SubjectServiceSubjectRequirement;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SubjectServiceSubjectRequirementBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SubjectServiceSubjectRequirement> get serializer => _$SubjectServiceSubjectRequirementSerializer();
+  static Serializer<SubjectServiceSubjectRequirement> get serializer =>
+      _$SubjectServiceSubjectRequirementSerializer();
 }
 
-class _$SubjectServiceSubjectRequirementSerializer implements PrimitiveSerializer<SubjectServiceSubjectRequirement> {
+class _$SubjectServiceSubjectRequirementSerializer
+    implements PrimitiveSerializer<SubjectServiceSubjectRequirement> {
   @override
-  final Iterable<Type> types = const [SubjectServiceSubjectRequirement, _$SubjectServiceSubjectRequirement];
+  final Iterable<Type> types = const [
+    SubjectServiceSubjectRequirement,
+    _$SubjectServiceSubjectRequirement,
+  ];
 
   @override
   final String wireName = r'SubjectServiceSubjectRequirement';
@@ -66,7 +78,11 @@ class _$SubjectServiceSubjectRequirementSerializer implements PrimitiveSerialize
     SubjectServiceSubjectRequirement object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -82,17 +98,23 @@ class _$SubjectServiceSubjectRequirementSerializer implements PrimitiveSerialize
       final value = serializedList[i + 1];
       switch (key) {
         case r'course':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Course),
-          ) as DottoFoundationV1Course;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Course),
+                  )
+                  as DottoFoundationV1Course;
           result.course = valueDes;
           break;
         case r'requirementType':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1SubjectRequirementType),
-          ) as DottoFoundationV1SubjectRequirementType;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(
+                      DottoFoundationV1SubjectRequirementType,
+                    ),
+                  )
+                  as DottoFoundationV1SubjectRequirementType;
           result.requirementType = valueDes;
           break;
         default:
@@ -123,4 +145,3 @@ class _$SubjectServiceSubjectRequirementSerializer implements PrimitiveSerialize
     return result.build();
   }
 }
-

@@ -13,10 +13,15 @@ part 'dotto_foundation_v1_timetable_slot.g.dart';
 /// DottoFoundationV1TimetableSlot
 ///
 /// Properties:
-/// * [dayOfWeek] 
-/// * [period] 
+/// * [dayOfWeek]
+/// * [period]
 @BuiltValue()
-abstract class DottoFoundationV1TimetableSlot implements Built<DottoFoundationV1TimetableSlot, DottoFoundationV1TimetableSlotBuilder> {
+abstract class DottoFoundationV1TimetableSlot
+    implements
+        Built<
+          DottoFoundationV1TimetableSlot,
+          DottoFoundationV1TimetableSlotBuilder
+        > {
   @BuiltValueField(wireName: r'dayOfWeek')
   DottoFoundationV1DayOfWeek get dayOfWeek;
   // enum dayOfWeekEnum {  Sunday,  Monday,  Tuesday,  Wednesday,  Thursday,  Friday,  Saturday,  };
@@ -27,18 +32,25 @@ abstract class DottoFoundationV1TimetableSlot implements Built<DottoFoundationV1
 
   DottoFoundationV1TimetableSlot._();
 
-  factory DottoFoundationV1TimetableSlot([void updates(DottoFoundationV1TimetableSlotBuilder b)]) = _$DottoFoundationV1TimetableSlot;
+  factory DottoFoundationV1TimetableSlot([
+    void updates(DottoFoundationV1TimetableSlotBuilder b),
+  ]) = _$DottoFoundationV1TimetableSlot;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DottoFoundationV1TimetableSlotBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DottoFoundationV1TimetableSlot> get serializer => _$DottoFoundationV1TimetableSlotSerializer();
+  static Serializer<DottoFoundationV1TimetableSlot> get serializer =>
+      _$DottoFoundationV1TimetableSlotSerializer();
 }
 
-class _$DottoFoundationV1TimetableSlotSerializer implements PrimitiveSerializer<DottoFoundationV1TimetableSlot> {
+class _$DottoFoundationV1TimetableSlotSerializer
+    implements PrimitiveSerializer<DottoFoundationV1TimetableSlot> {
   @override
-  final Iterable<Type> types = const [DottoFoundationV1TimetableSlot, _$DottoFoundationV1TimetableSlot];
+  final Iterable<Type> types = const [
+    DottoFoundationV1TimetableSlot,
+    _$DottoFoundationV1TimetableSlot,
+  ];
 
   @override
   final String wireName = r'DottoFoundationV1TimetableSlot';
@@ -66,7 +78,11 @@ class _$DottoFoundationV1TimetableSlotSerializer implements PrimitiveSerializer<
     DottoFoundationV1TimetableSlot object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(
+      serializers,
+      object,
+      specifiedType: specifiedType,
+    ).toList();
   }
 
   void _deserializeProperties(
@@ -82,17 +98,21 @@ class _$DottoFoundationV1TimetableSlotSerializer implements PrimitiveSerializer<
       final value = serializedList[i + 1];
       switch (key) {
         case r'dayOfWeek':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1DayOfWeek),
-          ) as DottoFoundationV1DayOfWeek;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1DayOfWeek),
+                  )
+                  as DottoFoundationV1DayOfWeek;
           result.dayOfWeek = valueDes;
           break;
         case r'period':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DottoFoundationV1Period),
-          ) as DottoFoundationV1Period;
+          final valueDes =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DottoFoundationV1Period),
+                  )
+                  as DottoFoundationV1Period;
           result.period = valueDes;
           break;
         default:
@@ -123,4 +143,3 @@ class _$DottoFoundationV1TimetableSlotSerializer implements PrimitiveSerializer<
     return result.build();
   }
 }
-

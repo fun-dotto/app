@@ -3,7 +3,5 @@ import 'package:openapi/openapi.dart';
 
 // tests for Category
 void main() {
-
-  group(Category, () {
-  });
+  group(Category, () {});
 }
