@@ -127,7 +127,8 @@ platform :android do
   end
 
   # バージョンコードを Google Play の production トラック基準に揃え、AABをビルドする
-  # サービスアカウント鍵は supply の既定環境変数 SUPPLY_JSON_KEY から解決される
+  # json_key を渡さないことで supply は ADC (GOOGLE_APPLICATION_CREDENTIALS) を利用する。
+  # CI では Workload Identity 連携の認証情報が入るため、サービスアカウント鍵は不要
   def prepare_android_production
     latest_version_code = google_play_track_version_codes.first
     build_android_production(latest_version_code.to_i + 1)

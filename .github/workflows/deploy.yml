@@ -84,9 +84,6 @@ jobs:
           keyAlias=$ANDROID_KEY_ALIAS
           keyPassword=$ANDROID_KEYSTORE_PASSWORD
           EOF
-      - uses: ./.github/actions/setup-google-play-key
-        with:
-          json-key-base64: ${{ secrets.GOOGLE_PLAY_JSON_KEY_BASE64 }}
       - name: Build Android
         run: mise exec -- bundle exec fastlane android build_production
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
@@ -145,9 +142,6 @@ jobs:
         with:
           name: production-aab
           path: apps/dotto/build/app/outputs/bundle/release
-      - uses: ./.github/actions/setup-google-play-key
-        with:
-          json-key-base64: ${{ secrets.GOOGLE_PLAY_JSON_KEY_BASE64 }}
       - name: Upload to Google Play
         run: mise exec -- bundle exec fastlane android upload_google_play
 
