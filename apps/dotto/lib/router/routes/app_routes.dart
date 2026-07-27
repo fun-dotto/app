@@ -25,39 +25,35 @@ import 'package:go_router/go_router.dart';
 
 part 'app_routes.g.dart';
 
+// Webアプリ側にはタブの概念がないため、URLからタブ由来のプレフィックスを取り除き、
+// 各画面をトップレベルのパスで表現する。go_routerでは子ルートのpathを/始まりに
+// できないため、ネストをやめて同一のStatefulShellBranch内にトップレベルルートを
+// 並べる形をとる。タブへの所属はパスの入れ子ではなくブランチが決めるため、
+// フラット化しても各画面が属するタブは変わらない。
+// なお/subjects配下のようにタブとは無関係な親子関係はそのまま残す。
+//
+// 各ブランチの先頭ルートがブランチのinitialLocationになるので、
+// タブのルート画面を必ず先頭に置くこと。
 @TypedStatefulShellRoute<RootShellRouteData>(
   branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
     TypedStatefulShellBranch<CourseShellBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<CourseRouteData>(
-          path: '/course',
-          name: '/course',
-          routes: <TypedRoute<RouteData>>[
-            TypedGoRoute<CourseSubjectsRouteData>(
-              path: 'subjects',
-              name: '/course/subjects',
-            ),
-            TypedGoRoute<CourseSubjectDetailRouteData>(
-              path: 'subjects/:id',
-              name: '/course/subjects/:id',
-            ),
-            TypedGoRoute<CourseCancellationRouteData>(
-              path: 'irregular_classes',
-              name: '/course/irregular_classes',
-            ),
-            TypedGoRoute<CourseRegistrationRouteData>(
-              path: 'registration',
-              name: '/course/registration',
-            ),
-            TypedGoRoute<CourseCustomizeRouteData>(
-              path: 'preferences',
-              name: '/course/preferences',
-            ),
-            TypedGoRoute<CourseWebPdfViewerRouteData>(
-              path: 'web_pdf_viewer',
-              name: '/course/web_pdf_viewer',
-            ),
-          ],
+        TypedGoRoute<CourseRouteData>(path: '/course', name: '/course'),
+        TypedGoRoute<CourseCancellationRouteData>(
+          path: '/irregular_classes',
+          name: '/irregular_classes',
+        ),
+        TypedGoRoute<CourseRegistrationRouteData>(
+          path: '/registration',
+          name: '/registration',
+        ),
+        TypedGoRoute<CourseCustomizeRouteData>(
+          path: '/preferences',
+          name: '/preferences',
+        ),
+        TypedGoRoute<CourseWebPdfViewerRouteData>(
+          path: '/web_pdf_viewer',
+          name: '/web_pdf_viewer',
         ),
       ],
     ),
@@ -73,30 +69,20 @@ part 'app_routes.g.dart';
     ),
     TypedStatefulShellBranch<BusShellBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<BusRouteData>(
-          path: '/bus',
-          name: '/bus',
-          routes: <TypedRoute<RouteData>>[
-            TypedGoRoute<BusStopSelectRouteData>(
-              path: 'select_stop',
-              name: '/bus/select_stop',
-            ),
-            TypedGoRoute<BusTimetableRouteData>(
-              path: 'timetable',
-              name: '/bus/timetable',
-            ),
-          ],
+        TypedGoRoute<BusRouteData>(path: '/bus', name: '/bus'),
+        TypedGoRoute<BusStopSelectRouteData>(
+          path: '/select_stop',
+          name: '/select_stop',
+        ),
+        TypedGoRoute<BusTimetableRouteData>(
+          path: '/timetable',
+          name: '/timetable',
         ),
       ],
     ),
     TypedStatefulShellBranch<SettingShellBranchData>(
       routes: <TypedRoute<RouteData>>[
-        // Webアプリ側にタブの概念がないため、パスをフラットに揃えている。
-        // タブへの所属はパスの入れ子ではなくブランチが決めるので、
-        // 同一ブランチ内にトップレベルルートとして並べる。
-        // 先頭のルートがブランチのinitialLocationになるため、
-        // タブのルート画面である/settingを必ず先頭に置くこと。
-        TypedGoRoute<SettingsRouteData>(path: '/setting', name: '/setting'),
+        TypedGoRoute<SettingsRouteData>(path: '/settings', name: '/settings'),
         TypedGoRoute<AnnouncementsRouteData>(
           path: '/announcements',
           name: '/announcements',
@@ -181,28 +167,6 @@ final class CourseRouteData extends GoRouteData with $CourseRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const CourseScreen();
-  }
-}
-
-final class CourseSubjectsRouteData extends GoRouteData
-    with $CourseSubjectsRouteData {
-  const CourseSubjectsRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const SearchSubjectScreen();
-  }
-}
-
-final class CourseSubjectDetailRouteData extends GoRouteData
-    with $CourseSubjectDetailRouteData {
-  const CourseSubjectDetailRouteData({required this.id});
-
-  final String id;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return SubjectDetailScreen(id: id);
   }
 }
 

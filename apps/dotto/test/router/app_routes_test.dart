@@ -9,21 +9,22 @@ void main() {
       expect(const FunchRouteData().location, '/funch');
       expect(const MapRouteData().location, '/map');
       expect(const BusRouteData().location, '/bus');
-      expect(const SettingsRouteData().location, '/setting');
+      expect(const SettingsRouteData().location, '/settings');
       expect(const SubjectsRouteData().location, '/subjects');
     });
 
-    test('nested route locations keep existing paths', () {
-      expect(const CourseSubjectsRouteData().location, '/course/subjects');
+    test('course routes are flattened to the top level', () {
       expect(
         const CourseCancellationRouteData().location,
-        '/course/irregular_classes',
+        '/irregular_classes',
       );
-      expect(
-        const CourseRegistrationRouteData().location,
-        '/course/registration',
-      );
-      expect(const CourseCustomizeRouteData().location, '/course/preferences');
+      expect(const CourseRegistrationRouteData().location, '/registration');
+      expect(const CourseCustomizeRouteData().location, '/preferences');
+    });
+
+    test('bus routes are flattened to the top level', () {
+      expect(const BusStopSelectRouteData().location, '/select_stop');
+      expect(const BusTimetableRouteData().location, '/timetable');
     });
 
     test('setting routes are flattened to the top level', () {
@@ -34,18 +35,21 @@ void main() {
       expect(const DebugRouteData().location, '/debug');
     });
 
+    test('subject routes keep their resource hierarchy', () {
+      expect(
+        const SubjectDetailRouteData(id: 'subject-1').location,
+        '/subjects/subject-1',
+      );
+    });
+
     test('path and query parameters are encoded', () {
       expect(
         const SubjectDetailRouteData(id: 'subject 1').location,
         '/subjects/subject%201',
       );
       expect(
-        const CourseSubjectDetailRouteData(id: 'subject 1').location,
-        '/course/subjects/subject%201',
-      );
-      expect(
         const BusTimetableRouteData(route: 'L-1').location,
-        '/bus/timetable?route=L-1',
+        '/timetable?route=L-1',
       );
     });
 

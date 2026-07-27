@@ -59,7 +59,7 @@ final class CourseScreen extends HookConsumerWidget {
           label: '科目検索',
           iconUrl: null,
           fallbackIcon: Icons.search,
-          onPressed: () => const CourseSubjectsRouteData().push<void>(context),
+          onPressed: () => const SubjectsRouteData().push<void>(context),
         ),
       if (isAuthenticated)
         QuickButton(
@@ -288,7 +288,7 @@ final class CourseScreen extends HookConsumerWidget {
                                 onDateSelected: (newDate) =>
                                     selectedDate.value = newDate,
                                 onSubjectSelected: (subject) =>
-                                    CourseSubjectDetailRouteData(
+                                    SubjectDetailRouteData(
                                       id: subject.id,
                                     ).push<void>(context),
                               ),
