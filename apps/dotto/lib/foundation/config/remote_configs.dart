@@ -115,6 +115,14 @@ abstract final class RemoteConfigs {
     getValue: _getString,
   );
 
+  /// 意見箱フォーム URL
+  static const opinionBoxUrl = RemoteConfig<String>(
+    key: 'opinion_box_url',
+    defaultValue: 'https://forms.gle/Y5xh3mNH1YptocSu7',
+    remoteDefaultValue: 'https://forms.gle/Y5xh3mNH1YptocSu7',
+    getValue: _getString,
+  );
+
   /// Remote Configの既定値登録用。新しいConfigを追加したらここにも追記する。
   static const List<RemoteConfig<Object?>> all = [
     validAppVersion,
@@ -130,6 +138,7 @@ abstract final class RemoteConfigs {
     breakingAnnouncement,
     dottoWebUrl,
     macSupportDeskUrl,
+    opinionBoxUrl,
   ];
 }
 
