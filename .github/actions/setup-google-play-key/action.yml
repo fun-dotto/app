@@ -1,0 +1,20 @@
+name: Setup Google Play key
+description: Write the Google Play service account key and expose it to fastlane supply.
+
+inputs:
+  json-key-base64:
+    description: Base64 encoded Google Play service account JSON key.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Write service account key
+      shell: bash
+      env:
+        GOOGLE_PLAY_JSON_KEY_BASE64: ${{ inputs.json-key-base64 }}
+      run: |
+        # fastlane supply は SUPPLY_JSON_KEY から鍵ファイルのパスを解決する
+        key_file="$RUNNER_TEMP/google-play-key.json"
+        echo "$GOOGLE_PLAY_JSON_KEY_BASE64" | base64 --decode > "$key_file"
+        echo "SUPPLY_JSON_KEY=$key_file" >> "$GITHUB_ENV"

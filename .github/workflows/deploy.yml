@@ -1,0 +1,202 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+jobs:
+  ios-build:
+    name: Build iOS
+    runs-on: macos-26
+    timeout-minutes: 60
+    env:
+      APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Setup Xcode
+        run: xcodes select
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - name: Generate token to access certificates repository
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.MATCH_GIT_APP_ID }}
+          private-key: ${{ secrets.MATCH_GIT_APP_PRIVATE_KEY }}
+          owner: fun-dotto
+          repositories: apple-certificates
+      - name: Set match git basic authorization
+        run: |
+          # GitHub App のインストールトークンを base64 化して match の HTTPS Basic 認証に渡す
+          echo "MATCH_GIT_BASIC_AUTHORIZATION=$(printf 'x-access-token:%s' '${{ steps.app-token.outputs.token }}' | base64 | tr -d '\n')" >> "$GITHUB_ENV"
+      - uses: ./.github/actions/setup-ci
+      - name: Build iOS
+        run: mise exec -- bundle exec fastlane ios build_production
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: production-ipa
+          path: build/dotto.ipa
+          if-no-files-found: error
+          retention-days: 1
+
+  android-build:
+    name: Build Android
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - name: Setup Android keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/dotto/android/app/release.jks
+
+          # PKCS12 キーストアではキーパスワード = ストアパスワード固定
+          cat > apps/dotto/android/release.properties <<EOF
+          storeFile=release.jks
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          keyPassword=$ANDROID_KEYSTORE_PASSWORD
+          EOF
+      - uses: ./.github/actions/setup-google-play-key
+        with:
+          json-key-base64: ${{ secrets.GOOGLE_PLAY_JSON_KEY_BASE64 }}
+      - name: Build Android
+        run: mise exec -- bundle exec fastlane android build_production
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: production-aab
+          path: apps/dotto/build/app/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+          retention-days: 1
+
+  ready-to-upload:
+    name: Ready to upload
+    needs: [ios-build, android-build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - run: echo "iOS/Android 双方のビルドに成功。ストアへのアップロードを開始します。"
+
+  ios-upload:
+    name: Upload to TestFlight
+    needs: ready-to-upload
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: production-ipa
+          path: build
+      - name: Upload to TestFlight
+        run: mise exec -- bundle exec fastlane ios upload_testflight
+
+  android-upload:
+    name: Upload to Google Play
+    needs: ready-to-upload
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: production-aab
+          path: apps/dotto/build/app/outputs/bundle/release
+      - uses: ./.github/actions/setup-google-play-key
+        with:
+          json-key-base64: ${{ secrets.GOOGLE_PLAY_JSON_KEY_BASE64 }}
+      - name: Upload to Google Play
+        run: mise exec -- bundle exec fastlane android upload_google_play
+
+  notify:
+    name: Notify Slack
+    needs: [ios-build, android-build, ios-upload, android-upload]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Send Slack notification
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
+          IOS_RESULT: ${{ needs.ios-build.result == 'success' && needs.ios-upload.result == 'success' && 'success' || 'failure' }}
+          ANDROID_RESULT: ${{ needs.android-build.result == 'success' && needs.android-upload.result == 'success' && 'success' || 'failure' }}
+        run: |
+          # ビルドとアップロードの結果をプラットフォームごとに集約して Slack に通知する
+          status_text() {
+            if [ "$1" = "success" ]; then
+              echo ":white_check_mark: Uploaded"
+            else
+              echo ":x: Failed"
+            fi
+          }
+
+          if [ "$IOS_RESULT" = "success" ] && [ "$ANDROID_RESULT" = "success" ]; then
+            header=":rocket: Dotto deployed to TestFlight / Google Play!"
+          else
+            header=":x: Dotto failed to deploy to TestFlight / Google Play."
+          fi
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          branch_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_REF_NAME}"
+          commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+          commit_short="${GITHUB_SHA:0:7}"
+
+          payload=$(jq -n \
+            --arg header "$header" \
+            --arg ios "$(status_text "$IOS_RESULT")" \
+            --arg android "$(status_text "$ANDROID_RESULT")" \
+            --arg context "<$run_url|GitHub Actions> | Branch: <$branch_url|$GITHUB_REF_NAME> | Commit: <$commit_url|$commit_short>" \
+            '{
+              blocks: [
+                {type:"section", text:{type:"mrkdwn", text:$header}},
+                {type:"section", fields:[
+                  {type:"mrkdwn", text:("*TestFlight*\n" + $ios)},
+                  {type:"mrkdwn", text:("*Google Play*\n" + $android)}
+                ]},
+                {type:"context", elements:[{type:"mrkdwn", text:$context}]}
+              ]
+            }')
+
+          curl -fsSL -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_URL"
