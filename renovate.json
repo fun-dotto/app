@@ -11,15 +11,7 @@
     "before 4:00am on Wednesday",
     "before 4:00am on Friday"
   ],
-  "major": {
-    "minimumReleaseAge": "14 days"
-  },
-  "minor": {
-    "minimumReleaseAge": "7 days"
-  },
-  "patch": {
-    "minimumReleaseAge": "7 days"
-  },
+  "minimumReleaseAge": "7 days",
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
@@ -38,6 +30,20 @@
       "skipArtifactsUpdate": false
     },
     {
+      "description": "pub のビルドメタデータ(+N)を新しいバージョンとして扱う。既定の npm versioning は semver 仕様どおり +N を無視するため、firebase_app_check 0.4.5+2 のような更新が検出されず、同一ファミリの他パッケージだけが上がって依存解決に失敗する",
+      "matchManagers": [
+        "pub"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-(?<prerelease>[^+]+))?(?:\\+(?<build>\\d+)(?:\\.(?<revision>\\d+))?)?$"
+    },
+    {
+      "description": "メジャー更新は既定で14日待つ。ロックステップ更新が必要なグループでは後続ルールで7日に揃える",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "minimumReleaseAge": "14 days"
+    },
+    {
       "matchManagers": [
         "mise"
       ],
@@ -98,6 +104,7 @@
       ]
     },
     {
+      "description": "FlutterFire は *_platform_interface のメジャーが本体のパッチと同時にリリースされるため、メジャー/マイナーを分離せず待機日数も揃えて1つのPRにまとめる",
       "groupName": "firebase",
       "matchManagers": [
         "pub"
@@ -115,7 +122,9 @@
         "cloud_firestore",
         "firebase_auth_platform_interface",
         "firebase_core_platform_interface"
-      ]
+      ],
+      "separateMajorMinor": false,
+      "minimumReleaseAge": "7 days"
     },
     {
       "description": "win32 / geolocator_linux の制約で lockstep 更新が必要なため、メジャーも含めて1つのPRにまとめる",
@@ -128,7 +137,8 @@
         "package_info_plus",
         "share_plus"
       ],
-      "separateMajorMinor": false
+      "separateMajorMinor": false,
+      "minimumReleaseAge": "7 days"
     },
     {
       "groupName": "riverpod",
@@ -180,7 +190,9 @@
       "matchPackageNames": [
         "one_of",
         "one_of_serializer"
-      ]
+      ],
+      "separateMajorMinor": false,
+      "minimumReleaseAge": "7 days"
     },
     {
       "groupName": "widgetbook",
@@ -201,7 +213,9 @@
       "matchPackageNames": [
         "sqflite",
         "sqflite_common"
-      ]
+      ],
+      "separateMajorMinor": false,
+      "minimumReleaseAge": "7 days"
     },
     {
       "description": "Keep analyzer-constrained Dart dev tools in the same update PR",
@@ -237,7 +251,9 @@
       "matchPackageNames": [
         "flutter_launcher_icons",
         "melos"
-      ]
+      ],
+      "separateMajorMinor": false,
+      "minimumReleaseAge": "7 days"
     },
     {
       "description": "melos >=7.8.2 は cli_util ^0.5.0 を要求し、flutter_launcher_icons (cli_util ^0.4.1) と競合するため保留",
