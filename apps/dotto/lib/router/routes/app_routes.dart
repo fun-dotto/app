@@ -91,29 +91,29 @@ part 'app_routes.g.dart';
     ),
     TypedStatefulShellBranch<SettingShellBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<SettingsRouteData>(
-          path: '/setting',
-          name: '/setting',
-          routes: <TypedRoute<RouteData>>[
-            TypedGoRoute<AnnouncementsRouteData>(
-              path: 'announcements',
-              name: '/setting/announcements',
-            ),
-            TypedGoRoute<DevelopersRouteData>(
-              path: 'developers',
-              name: '/setting/developers',
-            ),
-            TypedGoRoute<SettingOnboardingRouteData>(
-              path: 'onboarding',
-              name: '/setting/onboarding',
-            ),
-            TypedGoRoute<SettingsLicenseRouteData>(
-              path: 'licenses',
-              name: '/setting/licenses',
-            ),
-            TypedGoRoute<DebugRouteData>(path: 'debug', name: '/setting/debug'),
-          ],
+        // Webアプリ側にタブの概念がないため、パスをフラットに揃えている。
+        // タブへの所属はパスの入れ子ではなくブランチが決めるので、
+        // 同一ブランチ内にトップレベルルートとして並べる。
+        // 先頭のルートがブランチのinitialLocationになるため、
+        // タブのルート画面である/settingを必ず先頭に置くこと。
+        TypedGoRoute<SettingsRouteData>(path: '/setting', name: '/setting'),
+        TypedGoRoute<AnnouncementsRouteData>(
+          path: '/announcements',
+          name: '/announcements',
         ),
+        TypedGoRoute<DevelopersRouteData>(
+          path: '/developers',
+          name: '/developers',
+        ),
+        TypedGoRoute<SettingOnboardingRouteData>(
+          path: '/onboarding',
+          name: '/onboarding',
+        ),
+        TypedGoRoute<SettingsLicenseRouteData>(
+          path: '/licenses',
+          name: '/licenses',
+        ),
+        TypedGoRoute<DebugRouteData>(path: '/debug', name: '/debug'),
       ],
     ),
     TypedStatefulShellBranch<SubjectShellBranchData>(

@@ -24,10 +24,14 @@ void main() {
         '/course/registration',
       );
       expect(const CourseCustomizeRouteData().location, '/course/preferences');
-      expect(const AnnouncementsRouteData().location, '/setting/announcements');
-      expect(const DevelopersRouteData().location, '/setting/developers');
-      expect(const SettingsLicenseRouteData().location, '/setting/licenses');
-      expect(const DebugRouteData().location, '/setting/debug');
+    });
+
+    test('setting routes are flattened to the top level', () {
+      expect(const AnnouncementsRouteData().location, '/announcements');
+      expect(const DevelopersRouteData().location, '/developers');
+      expect(const SettingOnboardingRouteData().location, '/onboarding');
+      expect(const SettingsLicenseRouteData().location, '/licenses');
+      expect(const DebugRouteData().location, '/debug');
     });
 
     test('path and query parameters are encoded', () {
