@@ -59,6 +59,7 @@ platform :android do
       android_artifact_type: "APK",
       android_artifact_path: "apps/dotto/build/app/outputs/flutter-apk/app-#{flavor}-release.apk",
       groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+      release_notes: ota_release_notes,
     )
   end
 
