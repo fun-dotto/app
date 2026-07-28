@@ -11,7 +11,7 @@ import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/repository/config_repository.dart';
-import 'package:dotto/router/routes/app_routes.dart';
+import 'package:dotto/router/routes/setting_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dialog.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';

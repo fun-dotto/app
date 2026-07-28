@@ -12,7 +12,7 @@ import 'package:dotto/foundation/flag/use_flag.dart';
 import 'package:dotto/foundation/log/use_logger.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
-import 'package:dotto/router/routes/app_routes.dart';
+import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';

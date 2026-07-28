@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dotto/feature/bus/bus_reducer.dart';
 import 'package:dotto/feature/bus/bus_trip_id.dart';
 import 'package:dotto/repository/model/bus_type.dart';
-import 'package:dotto/router/routes/app_routes.dart';
+import 'package:dotto/router/routes/bus_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ScrollCacheExtent;

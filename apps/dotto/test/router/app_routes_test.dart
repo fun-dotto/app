@@ -1,5 +1,10 @@
 import 'package:dotto/router/app_router.dart';
-import 'package:dotto/router/routes/app_routes.dart';
+import 'package:dotto/router/routes/bus_routes.dart';
+import 'package:dotto/router/routes/course_routes.dart';
+import 'package:dotto/router/routes/funch_routes.dart';
+import 'package:dotto/router/routes/map_routes.dart';
+import 'package:dotto/router/routes/setting_routes.dart';
+import 'package:dotto/router/routes/subject_routes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
