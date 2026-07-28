@@ -15,9 +15,16 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class MapScreen extends HookConsumerWidget {
-  const MapScreen({required this.onGoToSettingButtonTapped, super.key});
+  const MapScreen({
+    required this.onGoToSettingButtonTapped,
+    this.focusedRoomId,
+    super.key,
+  });
 
   final void Function() onGoToSettingButtonTapped;
+
+  /// 表示直後に選択状態にする部屋のID。
+  final String? focusedRoomId;
 
   Widget _datePickerSection({
     required bool isAuthenticated,
@@ -59,6 +66,16 @@ final class MapScreen extends HookConsumerWidget {
     final searchDatetime = asyncState.value?.searchDatetime;
     final rooms = asyncState.value?.rooms;
     final focusedMapTileProps = asyncState.value?.focusedMapTileProps;
+
+    // 部屋を指定して開かれた場合は、部屋の読み込み完了後に選択状態にする。
+    useEffect(() {
+      final roomId = focusedRoomId;
+      if (roomId == null || rooms == null) {
+        return null;
+      }
+      ref.read(mapReducerProvider.notifier).onRoomFocusRequested(roomId);
+      return null;
+    }, [focusedRoomId, rooms]);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
