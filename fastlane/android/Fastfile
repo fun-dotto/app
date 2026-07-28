@@ -109,9 +109,12 @@ platform :android do
     )
   end
 
-  ANDROID_PRODUCTION_AAB_PATH = "apps/dotto/build/app/outputs/bundle/release/app-release.aab"
+  ANDROID_PRODUCTION_FLAVOR = "store"
+  ANDROID_PRODUCTION_AAB_PATH = "apps/dotto/build/app/outputs/bundle/#{ANDROID_PRODUCTION_FLAVOR}Release/app-#{ANDROID_PRODUCTION_FLAVOR}-release.aab"
 
   # 本番(Google Play)向けの AAB をビルドする
+  # flavor を省略すると Gradle が全 flavor をビルドし、成果物が
+  # bundle/<flavor>Release/ 配下に出るため flutter が AAB を見つけられない
   def build_android_production(build_number)
     sh(
       'melos',
@@ -122,6 +125,8 @@ platform :android do
       'build',
       'appbundle',
       '--release',
+      "--flavor=#{ANDROID_PRODUCTION_FLAVOR}",
+      # store flavor は prd と同じ本番バックエンドを参照するため dart define も prd を使う
       '--dart-define-from-file=dart_defines/prd.json',
       "--build-number=#{build_number}",
     )
