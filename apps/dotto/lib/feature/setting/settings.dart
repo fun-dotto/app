@@ -14,6 +14,8 @@ import 'package:dotto/repository/config_repository.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dialog.dart';
+import 'package:dotto_design_system/component/list_section.dart';
+import 'package:dotto_design_system/component/list_tile.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,23 +23,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 final class SettingsScreen extends HookConsumerWidget {
   const SettingsScreen({super.key});
-
-  Widget _settingValueText(String text) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 180),
-      child: Text(
-        text,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
-        textAlign: TextAlign.end,
-      ),
-    );
-  }
 
   Future<void> _showLogoutConfirmDialog(
     BuildContext context,
@@ -130,6 +118,23 @@ final class SettingsScreen extends HookConsumerWidget {
       }
     });
 
+    UserInfoTile buildUserInfoTile({bool isLoading = false}) {
+      return UserInfoTile(
+        user: user.value,
+        isLoading: isLoading,
+        onTap: isAuthenticated
+            ? () async {
+                await _showLogoutConfirmDialog(
+                  context,
+                  () => unawaited(ref.read(userProvider.notifier).signOut()),
+                );
+              }
+            : () async {
+                await ref.read(userProvider.notifier).signIn();
+              },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -140,332 +145,277 @@ final class SettingsScreen extends HookConsumerWidget {
         ),
         centerTitle: false,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SettingsList(
-              sections: [
-                SettingsSection(
-                  tiles: <AbstractSettingsTile>[
-                    user.when(
-                      data: (value) => CustomSettingsTile(
-                        child: UserInfoTile(
-                          user: value,
-                          onTap: value != null
-                              ? () async {
-                                  await _showLogoutConfirmDialog(
-                                    context,
-                                    () => unawaited(
-                                      ref.read(userProvider.notifier).signOut(),
-                                    ),
-                                  );
-                                }
-                              : () async {
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          spacing: 16,
+          children: [
+            user.when(
+              data: (_) => buildUserInfoTile(),
+              loading: () => buildUserInfoTile(isLoading: true),
+              error: (_, _) => buildUserInfoTile(),
+            ),
+            if (isAuthenticated)
+              DottoListSection(
+                header: const Text('あなたの情報'),
+                children: [
+                  DottoListTile(
+                    firstLine: const Text('学年'),
+                    leading: const Icon(Icons.school),
+                    secondLine: Text(user.value?.grade?.label ?? '未設定'),
+                    trailing: const DottoListTileTrailing.chevron(),
+                    onTap: () async {
+                      await showDialog<void>(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                          title: const Text('学年'),
+                          children: [
+                            MaterialButton(
+                              onPressed: () async {
+                                await ref
+                                    .read(userProvider.notifier)
+                                    .setGrade(null);
+                                if (!context.mounted) return;
+                                Navigator.of(context).pop();
+                              },
+                              child: ListTile(
+                                title: const Text('なし'),
+                                trailing: Icon(
+                                  user.value?.grade == null
+                                      ? Icons.check
+                                      : null,
+                                ),
+                              ),
+                            ),
+                            ...Grade.values.map((grade) {
+                              return MaterialButton(
+                                onPressed: () async {
                                   await ref
                                       .read(userProvider.notifier)
-                                      .signIn();
+                                      .setGrade(grade);
+                                  if (!context.mounted) return;
+                                  Navigator.of(context).pop();
                                 },
-                        ),
-                      ),
-                      loading: () {
-                        return CustomSettingsTile(
-                          child: UserInfoTile(
-                            user: user.value,
-                            isLoading: true,
-                          ),
-                        );
-                      },
-                      error: (err, stack) {
-                        return CustomSettingsTile(
-                          child: UserInfoTile(
-                            user: user.value,
-                            onTap: isAuthenticated
-                                ? () async {
-                                    await _showLogoutConfirmDialog(
-                                      context,
-                                      () => unawaited(
-                                        ref
-                                            .read(userProvider.notifier)
-                                            .signOut(),
-                                      ),
-                                    );
-                                  }
-                                : () async {
-                                    await ref
-                                        .read(userProvider.notifier)
-                                        .signIn();
-                                  },
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                if (isAuthenticated)
-                  SettingsSection(
-                    tiles: <SettingsTile>[
-                      SettingsTile.navigation(
-                        onPressed: (_) async {
-                          await showDialog<void>(
-                            context: context,
-                            builder: (context) => SimpleDialog(
-                              title: const Text('学年'),
-                              children: [
-                                MaterialButton(
-                                  onPressed: () async {
-                                    await ref
-                                        .read(userProvider.notifier)
-                                        .setGrade(null);
-                                    if (!context.mounted) return;
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: ListTile(
-                                    title: const Text('なし'),
-                                    trailing: Icon(
-                                      user.value?.grade == null
-                                          ? Icons.check
-                                          : null,
-                                    ),
+                                child: ListTile(
+                                  title: Text(grade.label),
+                                  trailing: Icon(
+                                    user.value?.grade == grade
+                                        ? Icons.check
+                                        : null,
                                   ),
                                 ),
-                                ...Grade.values.map((grade) {
-                                  return MaterialButton(
-                                    onPressed: () async {
-                                      await ref
-                                          .read(userProvider.notifier)
-                                          .setGrade(grade);
-                                      if (!context.mounted) return;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: ListTile(
-                                      title: Text(grade.label),
-                                      trailing: Icon(
-                                        user.value?.grade == grade
-                                            ? Icons.check
-                                            : null,
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
-                          );
-                        },
-                        leading: const Icon(Icons.school),
-                        title: const Text('学年'),
-                        value: _settingValueText(
-                          user.value?.grade?.label ?? '未設定',
-                        ),
-                      ),
-                      SettingsTile.navigation(
-                        onPressed: (_) async {
-                          await showDialog<void>(
-                            context: context,
-                            builder: (context) => SimpleDialog(
-                              title: const Text('コース'),
-                              children: [
-                                MaterialButton(
-                                  onPressed: () async {
-                                    await ref
-                                        .read(userProvider.notifier)
-                                        .setCourse(null);
-                                    if (!context.mounted) return;
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: ListTile(
-                                    title: const Text('なし'),
-                                    trailing: Icon(
-                                      user.value?.course == null
-                                          ? Icons.check
-                                          : null,
-                                    ),
-                                  ),
-                                ),
-                                ...AcademicArea.values.map((academicArea) {
-                                  return MaterialButton(
-                                    onPressed: () async {
-                                      await ref
-                                          .read(userProvider.notifier)
-                                          .setCourse(academicArea);
-                                      if (!context.mounted) return;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: ListTile(
-                                      title: Text(academicArea.label),
-                                      trailing: Icon(
-                                        user.value?.course == academicArea
-                                            ? Icons.check
-                                            : null,
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
-                          );
-                        },
-                        leading: const Icon(Icons.school),
-                        title: const Text('コース'),
-                        value: _settingValueText(
-                          user.value?.course?.label ?? '未設定',
-                        ),
-                      ),
-                      SettingsTile.navigation(
-                        onPressed: (_) async {
-                          await showDialog<void>(
-                            context: context,
-                            builder: (context) => SimpleDialog(
-                              title: const Text('クラス'),
-                              children: [
-                                MaterialButton(
-                                  onPressed: () async {
-                                    await ref
-                                        .read(userProvider.notifier)
-                                        .setClass(null);
-                                    if (!context.mounted) return;
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: ListTile(
-                                    title: const Text('なし'),
-                                    trailing: Icon(
-                                      user.value?.class_ == null
-                                          ? Icons.check
-                                          : null,
-                                    ),
-                                  ),
-                                ),
-                                ...AcademicClass.values.map((academicClass) {
-                                  return MaterialButton(
-                                    onPressed: () async {
-                                      await ref
-                                          .read(userProvider.notifier)
-                                          .setClass(academicClass);
-                                      if (!context.mounted) return;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: ListTile(
-                                      title: Text(academicClass.label),
-                                      trailing: Icon(
-                                        user.value?.class_ == academicClass
-                                            ? Icons.check
-                                            : null,
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
-                          );
-                        },
-                        leading: const Icon(Icons.school),
-                        title: const Text('クラス'),
-                        value: _settingValueText(
-                          user.value?.class_?.label ?? '未設定',
-                        ),
-                      ),
-                    ],
-                  ),
-                SettingsSection(
-                  tiles: <SettingsTile>[
-                    // お知らせ
-                    SettingsTile.navigation(
-                      title: const Text('お知らせ'),
-                      leading: const Icon(Icons.notifications),
-                      onPressed: (_) async {
-                        await const AnnouncementsRouteData().push<void>(
-                          context,
-                        );
-                      },
-                    ),
-                    // 通知設定
-                    SettingsTile.navigation(
-                      title: const Text('通知'),
-                      leading: const Icon(Icons.notifications_active),
-                      value: _settingValueText(
-                        notificationStatus.value?.label ?? '確認中',
-                      ),
-                      onPressed: (_) async {
-                        await ref
-                            .read(notificationHelperProvider)
-                            .openSystemSettings();
-                      },
-                    ),
-                    // フィードバック
-                    SettingsTile.navigation(
-                      title: const Text('フィードバックを送る'),
-                      leading: const Icon(Icons.messenger_rounded),
-                      onPressed: (_) async => launchUrlSafely(feedbackFormUrl),
-                    ),
-                    // Contributors表示
-                    SettingsTile.navigation(
-                      title: const Text('開発者'),
-                      leading: const Icon(Icons.person),
-                      onPressed: (_) async {
-                        await const DevelopersRouteData().push<void>(context);
-                      },
-                    ),
-                    // アプリの使い方
-                    SettingsTile.navigation(
-                      title: const Text('アプリの使い方'),
-                      leading: const Icon(Icons.assignment),
-                      onPressed: (_) async {
-                        await const SettingOnboardingRouteData().push<void>(
-                          context,
-                        );
-                      },
-                    ),
-                    // 利用規約
-                    SettingsTile.navigation(
-                      title: const Text('利用規約'),
-                      leading: const Icon(Icons.verified_user),
-                      onPressed: (_) async =>
-                          launchUrlSafely(termsOfServiceUrl),
-                    ),
-                    // プライバシーポリシー
-                    SettingsTile.navigation(
-                      title: const Text('プライバシーポリシー'),
-                      leading: const Icon(Icons.admin_panel_settings),
-                      onPressed: (_) async => launchUrlSafely(privacyPolicyUrl),
-                    ),
-                    // ライセンス
-                    SettingsTile.navigation(
-                      title: const Text('ライセンス'),
-                      leading: const Icon(Icons.info),
-                      onPressed: (_) async {
-                        await const SettingsLicenseRouteData().push<void>(
-                          context,
-                        );
-                      },
-                      // バージョン
-                      description: GestureDetector(
-                        onTap: () async {
-                          final canOpen = await canOpenDebugScreen();
-                          if (!canOpen || !context.mounted) {
-                            return;
-                          }
-                          unawaited(const DebugRouteData().push<void>(context));
-                        },
-                        child: FutureBuilder(
-                          future: PackageInfo.fromPlatform(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final data = snapshot.data!;
-                              return Text(
-                                '${data.version} (${data.buildNumber})',
                               );
-                            } else {
-                              return const Text('');
-                            }
-                          },
+                            }),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
+                  DottoListTile(
+                    firstLine: const Text('コース'),
+                    leading: const Icon(Icons.school),
+                    secondLine: Text(user.value?.course?.label ?? '未設定'),
+                    trailing: const DottoListTileTrailing.chevron(),
+                    onTap: () async {
+                      await showDialog<void>(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                          title: const Text('コース'),
+                          children: [
+                            MaterialButton(
+                              onPressed: () async {
+                                await ref
+                                    .read(userProvider.notifier)
+                                    .setCourse(null);
+                                if (!context.mounted) return;
+                                Navigator.of(context).pop();
+                              },
+                              child: ListTile(
+                                title: const Text('なし'),
+                                trailing: Icon(
+                                  user.value?.course == null
+                                      ? Icons.check
+                                      : null,
+                                ),
+                              ),
+                            ),
+                            ...AcademicArea.values.map((academicArea) {
+                              return MaterialButton(
+                                onPressed: () async {
+                                  await ref
+                                      .read(userProvider.notifier)
+                                      .setCourse(academicArea);
+                                  if (!context.mounted) return;
+                                  Navigator.of(context).pop();
+                                },
+                                child: ListTile(
+                                  title: Text(academicArea.label),
+                                  trailing: Icon(
+                                    user.value?.course == academicArea
+                                        ? Icons.check
+                                        : null,
+                                  ),
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  DottoListTile(
+                    firstLine: const Text('クラス'),
+                    leading: const Icon(Icons.school),
+                    secondLine: Text(user.value?.class_?.label ?? '未設定'),
+                    trailing: const DottoListTileTrailing.chevron(),
+                    onTap: () async {
+                      await showDialog<void>(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                          title: const Text('クラス'),
+                          children: [
+                            MaterialButton(
+                              onPressed: () async {
+                                await ref
+                                    .read(userProvider.notifier)
+                                    .setClass(null);
+                                if (!context.mounted) return;
+                                Navigator.of(context).pop();
+                              },
+                              child: ListTile(
+                                title: const Text('なし'),
+                                trailing: Icon(
+                                  user.value?.class_ == null
+                                      ? Icons.check
+                                      : null,
+                                ),
+                              ),
+                            ),
+                            ...AcademicClass.values.map((academicClass) {
+                              return MaterialButton(
+                                onPressed: () async {
+                                  await ref
+                                      .read(userProvider.notifier)
+                                      .setClass(academicClass);
+                                  if (!context.mounted) return;
+                                  Navigator.of(context).pop();
+                                },
+                                child: ListTile(
+                                  title: Text(academicClass.label),
+                                  trailing: Icon(
+                                    user.value?.class_ == academicClass
+                                        ? Icons.check
+                                        : null,
+                                  ),
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            DottoListSection(
+              header: const Text('アプリについて'),
+              // バージョン
+              footer: GestureDetector(
+                onTap: () async {
+                  final canOpen = await canOpenDebugScreen();
+                  if (!canOpen || !context.mounted) {
+                    return;
+                  }
+                  unawaited(const DebugRouteData().push<void>(context));
+                },
+                child: FutureBuilder(
+                  future: PackageInfo.fromPlatform(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data!;
+                      return Text('${data.version} (${data.buildNumber})');
+                    } else {
+                      return const Text('');
+                    }
+                  },
+                ),
+              ),
+              children: [
+                // お知らせ
+                DottoListTile(
+                  firstLine: const Text('お知らせ'),
+                  leading: const Icon(Icons.notifications),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async {
+                    await const AnnouncementsRouteData().push<void>(context);
+                  },
+                ),
+                // 通知設定
+                DottoListTile(
+                  firstLine: const Text('通知'),
+                  leading: const Icon(Icons.notifications_active),
+                  secondLine: Text(notificationStatus.value?.label ?? '確認中'),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async {
+                    await ref
+                        .read(notificationHelperProvider)
+                        .openSystemSettings();
+                  },
+                ),
+                // フィードバック
+                DottoListTile(
+                  firstLine: const Text('フィードバックを送る'),
+                  leading: const Icon(Icons.messenger_rounded),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async => launchUrlSafely(feedbackFormUrl),
+                ),
+                // Contributors表示
+                DottoListTile(
+                  firstLine: const Text('開発者'),
+                  leading: const Icon(Icons.person),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async {
+                    await const DevelopersRouteData().push<void>(context);
+                  },
+                ),
+                // アプリの使い方
+                DottoListTile(
+                  firstLine: const Text('アプリの使い方'),
+                  leading: const Icon(Icons.assignment),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async {
+                    await const SettingOnboardingRouteData().push<void>(
+                      context,
+                    );
+                  },
+                ),
+                // 利用規約
+                DottoListTile(
+                  firstLine: const Text('利用規約'),
+                  leading: const Icon(Icons.verified_user),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async => launchUrlSafely(termsOfServiceUrl),
+                ),
+                // プライバシーポリシー
+                DottoListTile(
+                  firstLine: const Text('プライバシーポリシー'),
+                  leading: const Icon(Icons.admin_panel_settings),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async => launchUrlSafely(privacyPolicyUrl),
+                ),
+                // ライセンス
+                DottoListTile(
+                  firstLine: const Text('ライセンス'),
+                  leading: const Icon(Icons.info),
+                  trailing: const DottoListTileTrailing.chevron(),
+                  onTap: () async {
+                    await const SettingsLicenseRouteData().push<void>(context);
+                  },
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
