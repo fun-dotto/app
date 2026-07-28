@@ -95,6 +95,13 @@ android {
             manifestPlaceholders["appName"] = "Dotto Prd"
             manifestPlaceholders["serviceHost"] = "dotto.furari.co"
         }
+        // ストア(Google Play)配信用。iOSのRunnerスキーム(Release構成)と対応し、
+        // applicationIdSuffixを付けずに素のapplicationIdで配信する
+        create("store") {
+            dimension = "default"
+            manifestPlaceholders["appName"] = "Dotto"
+            manifestPlaceholders["serviceHost"] = "dotto.furari.co"
+        }
     }
 
     buildFeatures {
