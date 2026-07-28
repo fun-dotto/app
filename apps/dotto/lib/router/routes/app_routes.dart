@@ -1,30 +1,63 @@
 import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/feature/announcement/announcement_screen.dart';
-import 'package:dotto/feature/bus/bus_screen.dart';
-import 'package:dotto/feature/bus/bus_stop_select.dart';
-import 'package:dotto/feature/bus/bus_timetable.dart';
-import 'package:dotto/feature/course/course_cancellation_screen.dart';
-import 'package:dotto/feature/course/course_customize_screen.dart';
-import 'package:dotto/feature/course/course_registration_screen.dart';
-import 'package:dotto/feature/course/course_screen.dart';
-import 'package:dotto/feature/debug/debug_screen.dart';
-import 'package:dotto/feature/funch/funch.dart';
-import 'package:dotto/feature/github_contributor/github_contributor_screen.dart';
-import 'package:dotto/feature/map/map_screen.dart';
-import 'package:dotto/feature/onboarding/onboarding_screen.dart';
 import 'package:dotto/feature/root/root_screen.dart';
-import 'package:dotto/feature/setting/settings.dart';
-import 'package:dotto/feature/setting/widget/license.dart';
-import 'package:dotto/feature/subject/search_subject_screen.dart';
-import 'package:dotto/feature/subject/subject_detail_screen.dart';
-import 'package:dotto/repository/model/bus_trip.dart';
-import 'package:dotto/widget/cloudflare_pdf_viewer.dart';
-import 'package:dotto/widget/web_pdf_viewer.dart';
+import 'package:dotto/router/routes/bus_routes.dart';
+import 'package:dotto/router/routes/course_routes.dart';
+import 'package:dotto/router/routes/funch_routes.dart';
+import 'package:dotto/router/routes/map_routes.dart';
+import 'package:dotto/router/routes/setting_routes.dart';
+import 'package:dotto/router/routes/subject_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_routes.g.dart';
 
+// Paths
+//
+// / → /course
+//
+// /course
+// /course/preferences
+// /course/personal-weekly-timetable
+// /course/notice → /course/notice/cancellations
+// /course/notice/cancellations
+// /course/notice/makeups
+// /course/notice/room-changes
+// /course/subjects
+// /course/subjects/:id → /course/subjects/:id/syllabus
+// /course/subjects/:id/syllabus
+// /course/subjects/:id/reviews
+// /course/subjects/:id/reviews/new
+// /course/subjects/:id/past-exams
+// /course/subjects/:id/past-exams/:pastExamId
+// /course/calendars/:year
+// /course/timetables/:year/spring
+// /course/timetables/:year/fall
+//
+// /funch
+//
+// /map
+// /map/rooms/:id
+//
+// /bus
+// /bus/stop-selection
+// /bus/trips/:id
+//
+// /setting
+// /setting/announcements
+// /setting/announcements/:id
+// /setting/developers
+// /setting/onboarding
+// /setting/licenses
+// /setting/debug
+//
+// 科目検索タブ（学食タブの代替として表示されるタブ）用のパス。
+// /subjects
+// /subjects/:id → /subjects/:id/syllabus
+// /subjects/:id/syllabus
+// /subjects/:id/reviews
+// /subjects/:id/reviews/new
+// /subjects/:id/past-exams
+// /subjects/:id/past-exams/:pastExamId
 @TypedStatefulShellRoute<RootShellRouteData>(
   branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
     TypedStatefulShellBranch<CourseShellBranchData>(
@@ -33,6 +66,30 @@ part 'app_routes.g.dart';
           path: '/course',
           name: '/course',
           routes: <TypedRoute<RouteData>>[
+            TypedGoRoute<CourseCustomizeRouteData>(
+              path: 'preferences',
+              name: '/course/preferences',
+            ),
+            TypedGoRoute<CourseRegistrationRouteData>(
+              path: 'personal-weekly-timetable',
+              name: '/course/personal-weekly-timetable',
+            ),
+            TypedGoRoute<CourseNoticeRouteData>(
+              path: 'notice',
+              name: '/course/notice',
+            ),
+            TypedGoRoute<CourseNoticeCancellationsRouteData>(
+              path: 'notice/cancellations',
+              name: '/course/notice/cancellations',
+            ),
+            TypedGoRoute<CourseNoticeMakeupsRouteData>(
+              path: 'notice/makeups',
+              name: '/course/notice/makeups',
+            ),
+            TypedGoRoute<CourseNoticeRoomChangesRouteData>(
+              path: 'notice/room-changes',
+              name: '/course/notice/room-changes',
+            ),
             TypedGoRoute<CourseSubjectsRouteData>(
               path: 'subjects',
               name: '/course/subjects',
@@ -41,21 +98,41 @@ part 'app_routes.g.dart';
               path: 'subjects/:id',
               name: '/course/subjects/:id',
             ),
-            TypedGoRoute<CourseCancellationRouteData>(
-              path: 'irregular_classes',
-              name: '/course/irregular_classes',
+            TypedGoRoute<CourseSubjectSyllabusRouteData>(
+              path: 'subjects/:id/syllabus',
+              name: '/course/subjects/:id/syllabus',
             ),
-            TypedGoRoute<CourseRegistrationRouteData>(
-              path: 'registration',
-              name: '/course/registration',
+            TypedGoRoute<CourseSubjectReviewsRouteData>(
+              path: 'subjects/:id/reviews',
+              name: '/course/subjects/:id/reviews',
+              routes: <TypedRoute<RouteData>>[
+                TypedGoRoute<CourseSubjectReviewNewRouteData>(
+                  path: 'new',
+                  name: '/course/subjects/:id/reviews/new',
+                ),
+              ],
             ),
-            TypedGoRoute<CourseCustomizeRouteData>(
-              path: 'preferences',
-              name: '/course/preferences',
+            TypedGoRoute<CourseSubjectPastExamsRouteData>(
+              path: 'subjects/:id/past-exams',
+              name: '/course/subjects/:id/past-exams',
+              routes: <TypedRoute<RouteData>>[
+                TypedGoRoute<CourseSubjectPastExamRouteData>(
+                  path: ':pastExamId',
+                  name: '/course/subjects/:id/past-exams/:pastExamId',
+                ),
+              ],
             ),
-            TypedGoRoute<CourseWebPdfViewerRouteData>(
-              path: 'web_pdf_viewer',
-              name: '/course/web_pdf_viewer',
+            TypedGoRoute<CourseCalendarRouteData>(
+              path: 'calendars/:year',
+              name: '/course/calendars/:year',
+            ),
+            TypedGoRoute<CourseSpringTimetableRouteData>(
+              path: 'timetables/:year/spring',
+              name: '/course/timetables/:year/spring',
+            ),
+            TypedGoRoute<CourseFallTimetableRouteData>(
+              path: 'timetables/:year/fall',
+              name: '/course/timetables/:year/fall',
             ),
           ],
         ),
@@ -69,6 +146,12 @@ part 'app_routes.g.dart';
     TypedStatefulShellBranch<MapShellBranchData>(
       routes: <TypedRoute<RouteData>>[
         TypedGoRoute<MapRouteData>(path: '/map', name: '/map'),
+        // マップ画面自体が部屋の詳細を表示するため、/map の子ではなく
+        // 同じブランチの別ルートとして定義し、マップを二重に積まない。
+        TypedGoRoute<MapRoomRouteData>(
+          path: '/map/rooms/:id',
+          name: '/map/rooms/:id',
+        ),
       ],
     ),
     TypedStatefulShellBranch<BusShellBranchData>(
@@ -78,12 +161,12 @@ part 'app_routes.g.dart';
           name: '/bus',
           routes: <TypedRoute<RouteData>>[
             TypedGoRoute<BusStopSelectRouteData>(
-              path: 'select_stop',
-              name: '/bus/select_stop',
+              path: 'stop-selection',
+              name: '/bus/stop-selection',
             ),
-            TypedGoRoute<BusTimetableRouteData>(
-              path: 'timetable',
-              name: '/bus/timetable',
+            TypedGoRoute<BusTripRouteData>(
+              path: 'trips/:id',
+              name: '/bus/trips/:id',
             ),
           ],
         ),
@@ -98,6 +181,12 @@ part 'app_routes.g.dart';
             TypedGoRoute<AnnouncementsRouteData>(
               path: 'announcements',
               name: '/setting/announcements',
+              routes: <TypedRoute<RouteData>>[
+                TypedGoRoute<AnnouncementDetailRouteData>(
+                  path: ':id',
+                  name: '/setting/announcements/:id',
+                ),
+              ],
             ),
             TypedGoRoute<DevelopersRouteData>(
               path: 'developers',
@@ -125,10 +214,28 @@ part 'app_routes.g.dart';
             TypedGoRoute<SubjectDetailRouteData>(
               path: ':id',
               name: '/subjects/:id',
+            ),
+            TypedGoRoute<SubjectSyllabusRouteData>(
+              path: ':id/syllabus',
+              name: '/subjects/:id/syllabus',
+            ),
+            TypedGoRoute<SubjectReviewsRouteData>(
+              path: ':id/reviews',
+              name: '/subjects/:id/reviews',
               routes: <TypedRoute<RouteData>>[
-                TypedGoRoute<SubjectPastExamPdfRouteData>(
-                  path: 'past_exams',
-                  name: '/subjects/:id/past_exams',
+                TypedGoRoute<SubjectReviewNewRouteData>(
+                  path: 'new',
+                  name: '/subjects/:id/reviews/new',
+                ),
+              ],
+            ),
+            TypedGoRoute<SubjectPastExamsRouteData>(
+              path: ':id/past-exams',
+              name: '/subjects/:id/past-exams',
+              routes: <TypedRoute<RouteData>>[
+                TypedGoRoute<SubjectPastExamRouteData>(
+                  path: ':pastExamId',
+                  name: '/subjects/:id/past-exams/:pastExamId',
                 ),
               ],
             ),
@@ -175,246 +282,7 @@ final class SubjectShellBranchData extends StatefulShellBranchData {
   const SubjectShellBranchData();
 }
 
-final class CourseRouteData extends GoRouteData with $CourseRouteData {
-  const CourseRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const CourseScreen();
-  }
-}
-
-final class CourseSubjectsRouteData extends GoRouteData
-    with $CourseSubjectsRouteData {
-  const CourseSubjectsRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const SearchSubjectScreen();
-  }
-}
-
-final class CourseSubjectDetailRouteData extends GoRouteData
-    with $CourseSubjectDetailRouteData {
-  const CourseSubjectDetailRouteData({required this.id});
-
-  final String id;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return SubjectDetailScreen(id: id);
-  }
-}
-
-final class CourseCancellationRouteData extends GoRouteData
-    with $CourseCancellationRouteData {
-  const CourseCancellationRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const CourseCancellationScreen();
-  }
-}
-
-final class CourseRegistrationRouteData extends GoRouteData
-    with $CourseRegistrationRouteData {
-  const CourseRegistrationRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const CourseRegistrationScreen();
-  }
-}
-
-final class CourseCustomizeRouteData extends GoRouteData
-    with $CourseCustomizeRouteData {
-  const CourseCustomizeRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const CourseCustomizeScreen();
-  }
-}
-
-final class CourseWebPdfViewerRouteData extends GoRouteData
-    with $CourseWebPdfViewerRouteData {
-  const CourseWebPdfViewerRouteData({required this.url, this.filename});
-
-  final String url;
-  final String? filename;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return WebPdfViewer(url: url, filename: filename);
-  }
-}
-
-final class FunchRouteData extends GoRouteData with $FunchRouteData {
-  const FunchRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const FunchScreen();
-  }
-}
-
-final class MapRouteData extends GoRouteData with $MapRouteData {
-  const MapRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return MapScreen(
-      onGoToSettingButtonTapped: () => const SettingsRouteData().go(context),
-    );
-  }
-}
-
-final class BusRouteData extends GoRouteData with $BusRouteData {
-  const BusRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const BusScreen();
-  }
-}
-
-final class BusStopSelectRouteData extends GoRouteData
-    with $BusStopSelectRouteData {
-  const BusStopSelectRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const BusStopSelectScreen();
-  }
-}
-
-final class BusTimetableRouteData extends GoRouteData
-    with $BusTimetableRouteData {
-  const BusTimetableRouteData({this.route, this.$extra});
-
-  final String? route;
-  final BusTrip? $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    final busTrip = $extra;
-    if (busTrip == null) {
-      return _MissingRouteExtraScreen(title: route ?? 'バス時刻表');
-    }
-    return BusTimetableScreen(busTrip);
-  }
-}
-
-final class SettingsRouteData extends GoRouteData with $SettingsRouteData {
-  const SettingsRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const SettingsScreen();
-  }
-}
-
-final class AnnouncementsRouteData extends GoRouteData
-    with $AnnouncementsRouteData {
-  const AnnouncementsRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const AnnouncementScreen();
-  }
-}
-
-final class DevelopersRouteData extends GoRouteData with $DevelopersRouteData {
-  const DevelopersRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const GitHubContributorScreen();
-  }
-}
-
-final class SettingOnboardingRouteData extends GoRouteData
-    with $SettingOnboardingRouteData {
-  const SettingOnboardingRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return OnboardingScreen(onDismissed: () => context.pop());
-  }
-}
-
-final class SettingsLicenseRouteData extends GoRouteData
-    with $SettingsLicenseRouteData {
-  const SettingsLicenseRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const SettingsLicenseScreen();
-  }
-}
-
-final class DebugRouteData extends GoRouteData with $DebugRouteData {
-  const DebugRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const DebugScreen();
-  }
-}
-
-final class SubjectsRouteData extends GoRouteData with $SubjectsRouteData {
-  const SubjectsRouteData();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const SearchSubjectScreen();
-  }
-}
-
-final class SubjectDetailRouteData extends GoRouteData
-    with $SubjectDetailRouteData {
-  const SubjectDetailRouteData({required this.id});
-
-  final String id;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return SubjectDetailScreen(id: id);
-  }
-}
-
-final class SubjectPastExamPdfRouteData extends GoRouteData
-    with $SubjectPastExamPdfRouteData {
-  const SubjectPastExamPdfRouteData({
-    required this.id,
-    required this.url,
-    this.filename,
-  });
-
-  final String id;
-  final String url;
-  final String? filename;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return CloudflarePdfViewer(url: url, filename: filename);
-  }
-}
-
-final class _MissingRouteExtraScreen extends StatelessWidget {
-  const _MissingRouteExtraScreen({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: const Center(child: Text('この画面を開くための情報が不足しています。')),
-    );
-  }
-}
-
+/// タブとブランチの対応。上の `branches` に並べた順番と揃える。
 int branchIndexForTab(TabItem tab) => switch (tab) {
   TabItem.course => 0,
   TabItem.funch => 1,

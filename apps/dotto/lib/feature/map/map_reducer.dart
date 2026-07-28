@@ -50,6 +50,17 @@ final class MapReducer extends _$MapReducer {
     );
   }
 
+  /// 部屋IDを指定して、その部屋を選択状態にする。
+  ///
+  /// 該当する部屋が存在しない場合は何もしない。
+  void onRoomFocusRequested(String roomId) {
+    final current = state.asData?.value;
+    if (current == null) return;
+    final room = current.rooms.firstWhereOrNull((e) => e.id == roomId);
+    if (room == null) return;
+    onSearchResultRowTapped(room);
+  }
+
   void onMapTileTapped(MapTileProps props) {
     final current = state.asData?.value;
     if (current == null) return;

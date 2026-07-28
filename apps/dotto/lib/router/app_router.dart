@@ -1,4 +1,5 @@
 import 'package:dotto/router/routes/app_routes.dart';
+import 'package:dotto/router/routes/course_routes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';

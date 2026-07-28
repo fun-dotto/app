@@ -1,17 +1,26 @@
 import 'package:dotto/helper/s3_repository.dart';
-import 'package:dotto/router/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
+/// 過去問PDFのオブジェクトキーから表示用のファイル名を取り出す。
+String pastExamFileName(String objectKey) {
+  final match = RegExp(r'/(.*)$').firstMatch(objectKey);
+  return match?.group(1) ?? objectKey;
+}
 
 final class SubjectDetailPastExamScreen extends HookWidget {
   const SubjectDetailPastExamScreen({
     required this.pastExamId,
     required this.isAuthenticated,
+    required this.onPastExamSelected,
     super.key,
   });
 
   final String pastExamId;
   final bool isAuthenticated;
+
+  /// 過去問が選択されたときの処理。引数は過去問PDFのオブジェクトキー。
+  final void Function(String objectKey) onPastExamSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -34,28 +43,17 @@ final class SubjectDetailPastExamScreen extends HookWidget {
       if (pastExams.isEmpty) {
         return const Center(child: Text('過去問はありません'));
       }
-      return ListView(
-        children: pastExams.map((e) => _kakomonListRow(context, e)).toList(),
-      );
+      return ListView(children: pastExams.map(_kakomonListRow).toList());
     }
     return const SizedBox.shrink();
   }
 
-  Widget _kakomonListRow(BuildContext context, String url) {
-    final exp = RegExp(r'/(.*)$');
-    final match = exp.firstMatch(url);
-    final filename = match?.group(1) ?? url;
+  Widget _kakomonListRow(String url) {
     return Column(
       children: [
         TextButton(
-          onPressed: () async {
-            await SubjectPastExamPdfRouteData(
-              id: pastExamId,
-              url: url,
-              filename: filename,
-            ).push<void>(context);
-          },
-          child: ListTile(title: Text(filename)),
+          onPressed: () => onPastExamSelected(url),
+          child: ListTile(title: Text(pastExamFileName(url))),
         ),
         const Divider(height: 0),
       ],

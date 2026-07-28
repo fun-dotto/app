@@ -6,7 +6,7 @@ import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/datetime.dart';
-import 'package:dotto/router/routes/app_routes.dart';
+import 'package:dotto/router/routes/funch_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
