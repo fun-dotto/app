@@ -27,19 +27,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 final class SettingsScreen extends HookConsumerWidget {
   const SettingsScreen({super.key});
 
-  Widget _settingValueText(String text) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 180),
-      child: Text(
-        text,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
-        textAlign: TextAlign.end,
-      ),
-    );
-  }
-
   Future<void> _showLogoutConfirmDialog(
     BuildContext context,
     VoidCallback onLogout,
@@ -172,9 +159,10 @@ final class SettingsScreen extends HookConsumerWidget {
               DottoListSection(
                 tiles: [
                   DottoListTile(
-                    title: const Text('学年'),
+                    firstLine: const Text('学年'),
                     leading: const Icon(Icons.school),
-                    value: _settingValueText(user.value?.grade?.label ?? '未設定'),
+                    secondLine: Text(user.value?.grade?.label ?? '未設定'),
+                    trailing: const DottoListTileTrailing.chevron(),
                     onTap: () async {
                       await showDialog<void>(
                         context: context,
@@ -223,11 +211,10 @@ final class SettingsScreen extends HookConsumerWidget {
                     },
                   ),
                   DottoListTile(
-                    title: const Text('コース'),
+                    firstLine: const Text('コース'),
                     leading: const Icon(Icons.school),
-                    value: _settingValueText(
-                      user.value?.course?.label ?? '未設定',
-                    ),
+                    secondLine: Text(user.value?.course?.label ?? '未設定'),
+                    trailing: const DottoListTileTrailing.chevron(),
                     onTap: () async {
                       await showDialog<void>(
                         context: context,
@@ -276,11 +263,10 @@ final class SettingsScreen extends HookConsumerWidget {
                     },
                   ),
                   DottoListTile(
-                    title: const Text('クラス'),
+                    firstLine: const Text('クラス'),
                     leading: const Icon(Icons.school),
-                    value: _settingValueText(
-                      user.value?.class_?.label ?? '未設定',
-                    ),
+                    secondLine: Text(user.value?.class_?.label ?? '未設定'),
+                    trailing: const DottoListTileTrailing.chevron(),
                     onTap: () async {
                       await showDialog<void>(
                         context: context,
@@ -334,19 +320,19 @@ final class SettingsScreen extends HookConsumerWidget {
               tiles: [
                 // お知らせ
                 DottoListTile(
-                  title: const Text('お知らせ'),
+                  firstLine: const Text('お知らせ'),
                   leading: const Icon(Icons.notifications),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async {
                     await const AnnouncementsRouteData().push<void>(context);
                   },
                 ),
                 // 通知設定
                 DottoListTile(
-                  title: const Text('通知'),
+                  firstLine: const Text('通知'),
                   leading: const Icon(Icons.notifications_active),
-                  value: _settingValueText(
-                    notificationStatus.value?.label ?? '確認中',
-                  ),
+                  secondLine: Text(notificationStatus.value?.label ?? '確認中'),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async {
                     await ref
                         .read(notificationHelperProvider)
@@ -355,22 +341,25 @@ final class SettingsScreen extends HookConsumerWidget {
                 ),
                 // フィードバック
                 DottoListTile(
-                  title: const Text('フィードバックを送る'),
+                  firstLine: const Text('フィードバックを送る'),
                   leading: const Icon(Icons.messenger_rounded),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async => launchUrlSafely(feedbackFormUrl),
                 ),
                 // Contributors表示
                 DottoListTile(
-                  title: const Text('開発者'),
+                  firstLine: const Text('開発者'),
                   leading: const Icon(Icons.person),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async {
                     await const DevelopersRouteData().push<void>(context);
                   },
                 ),
                 // アプリの使い方
                 DottoListTile(
-                  title: const Text('アプリの使い方'),
+                  firstLine: const Text('アプリの使い方'),
                   leading: const Icon(Icons.assignment),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async {
                     await const SettingOnboardingRouteData().push<void>(
                       context,
@@ -379,46 +368,49 @@ final class SettingsScreen extends HookConsumerWidget {
                 ),
                 // 利用規約
                 DottoListTile(
-                  title: const Text('利用規約'),
+                  firstLine: const Text('利用規約'),
                   leading: const Icon(Icons.verified_user),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async => launchUrlSafely(termsOfServiceUrl),
                 ),
                 // プライバシーポリシー
                 DottoListTile(
-                  title: const Text('プライバシーポリシー'),
+                  firstLine: const Text('プライバシーポリシー'),
                   leading: const Icon(Icons.admin_panel_settings),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async => launchUrlSafely(privacyPolicyUrl),
                 ),
                 // ライセンス
                 DottoListTile(
-                  title: const Text('ライセンス'),
+                  firstLine: const Text('ライセンス'),
                   leading: const Icon(Icons.info),
+                  trailing: const DottoListTileTrailing.chevron(),
                   onTap: () async {
                     await const SettingsLicenseRouteData().push<void>(context);
                   },
-                  // バージョン
-                  description: GestureDetector(
-                    onTap: () async {
-                      final canOpen = await canOpenDebugScreen();
-                      if (!canOpen || !context.mounted) {
-                        return;
-                      }
-                      unawaited(const DebugRouteData().push<void>(context));
-                    },
-                    child: FutureBuilder(
-                      future: PackageInfo.fromPlatform(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final data = snapshot.data!;
-                          return Text('${data.version} (${data.buildNumber})');
-                        } else {
-                          return const Text('');
-                        }
-                      },
-                    ),
-                  ),
                 ),
               ],
+              // バージョン
+              footer: GestureDetector(
+                onTap: () async {
+                  final canOpen = await canOpenDebugScreen();
+                  if (!canOpen || !context.mounted) {
+                    return;
+                  }
+                  unawaited(const DebugRouteData().push<void>(context));
+                },
+                child: FutureBuilder(
+                  future: PackageInfo.fromPlatform(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data!;
+                      return Text('${data.version} (${data.buildNumber})');
+                    } else {
+                      return const Text('');
+                    }
+                  },
+                ),
+              ),
             ),
           ],
         ),
