@@ -10,6 +10,7 @@ import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/foundation/flag/use_flag.dart';
 import 'package:dotto/foundation/log/use_logger.dart';
+import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -24,15 +25,6 @@ final class CourseScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final officialCalendarPdfUrl = ref.watch(
-      configProvider(RemoteConfigs.officialCalendarPdfUrl),
-    );
-    final timetable1PdfUrl = ref.watch(
-      configProvider(RemoteConfigs.timetable1PdfUrl),
-    );
-    final timetable2PdfUrl = ref.watch(
-      configProvider(RemoteConfigs.timetable2PdfUrl),
-    );
     final breakingAnnouncement = ref.watch(
       configProvider(RemoteConfigs.breakingAnnouncement),
     );
@@ -67,36 +59,33 @@ final class CourseScreen extends HookConsumerWidget {
           iconUrl: null,
           fallbackIcon: Icons.cached,
           onPressed: () =>
-              const CourseCancellationRouteData().push<void>(context),
+              const CourseNoticeCancellationsRouteData().push<void>(context),
         ),
     ];
 
+    final academicYear = DateTimeUtility.academicYear(DateTime.now());
     final quickFiles = [
       QuickButton(
         label: '学年歴',
         iconUrl: null,
         fallbackIcon: Icons.event_note,
-        onPressed: () => CourseWebPdfViewerRouteData(
-          url: officialCalendarPdfUrl,
-          filename: '学年暦',
-        ).push<void>(context),
+        onPressed: () =>
+            CourseCalendarRouteData(year: academicYear).push<void>(context),
       ),
       QuickButton(
         label: '時間割 前期',
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
-        onPressed: () => CourseWebPdfViewerRouteData(
-          url: timetable1PdfUrl,
-          filename: '時間割 前期',
+        onPressed: () => CourseSpringTimetableRouteData(
+          year: academicYear,
         ).push<void>(context),
       ),
       QuickButton(
         label: '時間割 後期',
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
-        onPressed: () => CourseWebPdfViewerRouteData(
-          url: timetable2PdfUrl,
-          filename: '時間割 後期',
+        onPressed: () => CourseFallTimetableRouteData(
+          year: academicYear,
         ).push<void>(context),
       ),
     ];
@@ -288,7 +277,7 @@ final class CourseScreen extends HookConsumerWidget {
                                 onDateSelected: (newDate) =>
                                     selectedDate.value = newDate,
                                 onSubjectSelected: (subject) =>
-                                    CourseSubjectDetailRouteData(
+                                    CourseSubjectSyllabusRouteData(
                                       id: subject.id,
                                     ).push<void>(context),
                               ),

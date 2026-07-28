@@ -9,10 +9,33 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
+/// 科目詳細画面のタブ。
+enum SubjectDetailTab {
+  /// シラバス。
+  syllabus,
+
+  /// レビュー。
+  reviews,
+
+  /// 過去問。
+  pastExams,
+}
+
 final class SubjectDetailScreen extends HookConsumerWidget {
-  const SubjectDetailScreen({required this.id, super.key});
+  const SubjectDetailScreen({
+    required this.id,
+    required this.initialTab,
+    required this.onPastExamSelected,
+    super.key,
+  });
 
   final String id;
+
+  /// 最初に表示するタブ。
+  final SubjectDetailTab initialTab;
+
+  /// 過去問が選択されたときの処理。引数は過去問PDFのオブジェクトキー。
+  final void Function(String objectKey) onPastExamSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +47,8 @@ final class SubjectDetailScreen extends HookConsumerWidget {
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
 
     return DefaultTabController(
-      length: 3,
+      length: SubjectDetailTab.values.length,
+      initialIndex: initialTab.index,
       child: Scaffold(
         appBar: AppBar(
           title: Text(subjectSnapshot.data?.name ?? ''),
@@ -79,6 +103,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
                 return SubjectDetailPastExamScreen(
                   pastExamId: subject.pastExamId,
                   isAuthenticated: isAuthenticated,
+                  onPastExamSelected: onPastExamSelected,
                 );
               }
               return const SizedBox.shrink();

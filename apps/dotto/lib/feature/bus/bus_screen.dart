@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/feature/bus/bus_reducer.dart';
+import 'package:dotto/feature/bus/bus_trip_id.dart';
 import 'package:dotto/repository/model/bus_type.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -126,16 +127,17 @@ final class BusScreen extends HookConsumerWidget {
               required bool weekday,
               required GlobalKey scrollKey,
             }) {
-              final fromToString = value.isTo ? 'to_fun' : 'from_fun';
               var arriveAtSoon = true;
               return value
-                  .trips[fromToString]![weekday ? 'weekday' : 'holiday']!
+                  .tripsOf(isTo: value.isTo, isWeekday: weekday)
+                  .indexed
                   .where(
-                    (busTrip) => busTrip.stops.any(
+                    (entry) => entry.$2.stops.any(
                       (element) => element.stop.id == _funBusStopId,
                     ),
                   )
-                  .map((busTrip) {
+                  .map((entry) {
+                    final (index, busTrip) = entry;
                     final funBusTripStop = busTrip.stops.firstWhere(
                       (element) => element.stop.id == _funBusStopId,
                     );
@@ -176,9 +178,12 @@ final class BusScreen extends HookConsumerWidget {
                       onTap: busTrip.route == '0'
                           ? null
                           : () async {
-                              await BusTimetableRouteData(
-                                route: busTrip.route,
-                                $extra: busTrip,
+                              await BusTripRouteData(
+                                id: BusTripId(
+                                  isTo: value.isTo,
+                                  isWeekday: weekday,
+                                  index: index,
+                                ).value,
                               ).push<void>(context);
                             },
                     );
