@@ -70,8 +70,12 @@ part 'app_routes.g.dart';
 //
 // 科目検索タブ（学食タブの代替として表示されるタブ）用のパス。
 // /subjects
-// /subjects/:id
-// /subjects/:id/past_exams
+// /subjects/:id → /subjects/:id/syllabus
+// /subjects/:id/syllabus
+// /subjects/:id/reviews
+// /subjects/:id/reviews/new
+// /subjects/:id/past-exams
+// /subjects/:id/past-exams/:pastExamId
 @TypedStatefulShellRoute<RootShellRouteData>(
   branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
     TypedStatefulShellBranch<CourseShellBranchData>(
@@ -228,10 +232,28 @@ part 'app_routes.g.dart';
             TypedGoRoute<SubjectDetailRouteData>(
               path: ':id',
               name: '/subjects/:id',
+            ),
+            TypedGoRoute<SubjectSyllabusRouteData>(
+              path: ':id/syllabus',
+              name: '/subjects/:id/syllabus',
+            ),
+            TypedGoRoute<SubjectReviewsRouteData>(
+              path: ':id/reviews',
+              name: '/subjects/:id/reviews',
               routes: <TypedRoute<RouteData>>[
-                TypedGoRoute<SubjectPastExamPdfRouteData>(
-                  path: 'past_exams',
-                  name: '/subjects/:id/past_exams',
+                TypedGoRoute<SubjectReviewNewRouteData>(
+                  path: 'new',
+                  name: '/subjects/:id/reviews/new',
+                ),
+              ],
+            ),
+            TypedGoRoute<SubjectPastExamsRouteData>(
+              path: ':id/past-exams',
+              name: '/subjects/:id/past-exams',
+              routes: <TypedRoute<RouteData>>[
+                TypedGoRoute<SubjectPastExamRouteData>(
+                  path: ':pastExamId',
+                  name: '/subjects/:id/past-exams/:pastExamId',
                 ),
               ],
             ),
@@ -358,7 +380,11 @@ final class CourseSubjectsRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const SearchSubjectScreen();
+    return SearchSubjectScreen(
+      onSubjectSelected: (subjectId) => unawaited(
+        CourseSubjectSyllabusRouteData(id: subjectId).push<void>(context),
+      ),
+    );
   }
 }
 
@@ -635,10 +661,15 @@ final class SubjectsRouteData extends GoRouteData with $SubjectsRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const SearchSubjectScreen();
+    return SearchSubjectScreen(
+      onSubjectSelected: (subjectId) => unawaited(
+        SubjectSyllabusRouteData(id: subjectId).push<void>(context),
+      ),
+    );
   }
 }
 
+/// 科目詳細のパスは常にタブ付きのパスへ寄せる。
 final class SubjectDetailRouteData extends GoRouteData
     with $SubjectDetailRouteData {
   const SubjectDetailRouteData({required this.id});
@@ -646,36 +677,74 @@ final class SubjectDetailRouteData extends GoRouteData
   final String id;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return SubjectDetailScreen(
-      id: id,
-      initialTab: SubjectDetailTab.syllabus,
-      onPastExamSelected: (objectKey) => unawaited(
-        SubjectPastExamPdfRouteData(
-          id: id,
-          url: objectKey,
-          filename: pastExamFileName(objectKey),
-        ).push<void>(context),
-      ),
-    );
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    return SubjectSyllabusRouteData(id: id).location;
   }
 }
 
-final class SubjectPastExamPdfRouteData extends GoRouteData
-    with $SubjectPastExamPdfRouteData {
-  const SubjectPastExamPdfRouteData({
-    required this.id,
-    required this.url,
-    this.filename,
-  });
+final class SubjectSyllabusRouteData extends GoRouteData
+    with $SubjectSyllabusRouteData {
+  const SubjectSyllabusRouteData({required this.id});
 
   final String id;
-  final String url;
-  final String? filename;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return CloudflarePdfViewer(url: url, filename: filename);
+    return _subjectDetail(context, id: id, tab: SubjectDetailTab.syllabus);
+  }
+}
+
+final class SubjectReviewsRouteData extends GoRouteData
+    with $SubjectReviewsRouteData {
+  const SubjectReviewsRouteData({required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return _subjectDetail(context, id: id, tab: SubjectDetailTab.reviews);
+  }
+}
+
+final class SubjectReviewNewRouteData extends GoRouteData
+    with $SubjectReviewNewRouteData {
+  const SubjectReviewNewRouteData({required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SubjectReviewNewScreen(id: id);
+  }
+}
+
+final class SubjectPastExamsRouteData extends GoRouteData
+    with $SubjectPastExamsRouteData {
+  const SubjectPastExamsRouteData({required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return _subjectDetail(context, id: id, tab: SubjectDetailTab.pastExams);
+  }
+}
+
+final class SubjectPastExamRouteData extends GoRouteData
+    with $SubjectPastExamRouteData {
+  const SubjectPastExamRouteData({required this.id, required this.pastExamId});
+
+  final String id;
+
+  /// 過去問PDFのオブジェクトキー。
+  final String pastExamId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return CloudflarePdfViewer(
+      url: pastExamId,
+      filename: pastExamFileName(pastExamId),
+    );
   }
 }
 
@@ -690,6 +759,24 @@ Widget _courseSubjectDetail(
     initialTab: tab,
     onPastExamSelected: (objectKey) => unawaited(
       CourseSubjectPastExamRouteData(
+        id: id,
+        pastExamId: objectKey,
+      ).push<void>(context),
+    ),
+  );
+}
+
+/// 科目検索タブの科目詳細を、指定したタブを開いた状態で構築する。
+Widget _subjectDetail(
+  BuildContext context, {
+  required String id,
+  required SubjectDetailTab tab,
+}) {
+  return SubjectDetailScreen(
+    id: id,
+    initialTab: tab,
+    onPastExamSelected: (objectKey) => unawaited(
+      SubjectPastExamRouteData(
         id: id,
         pastExamId: objectKey,
       ).push<void>(context),

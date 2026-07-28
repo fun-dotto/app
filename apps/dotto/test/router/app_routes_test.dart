@@ -63,6 +63,36 @@ void main() {
       );
     });
 
+    test('subject tab nested route locations', () {
+      expect(
+        const SubjectDetailRouteData(id: 'subject-1').location,
+        '/subjects/subject-1',
+      );
+      expect(
+        const SubjectSyllabusRouteData(id: 'subject-1').location,
+        '/subjects/subject-1/syllabus',
+      );
+      expect(
+        const SubjectReviewsRouteData(id: 'subject-1').location,
+        '/subjects/subject-1/reviews',
+      );
+      expect(
+        const SubjectReviewNewRouteData(id: 'subject-1').location,
+        '/subjects/subject-1/reviews/new',
+      );
+      expect(
+        const SubjectPastExamsRouteData(id: 'subject-1').location,
+        '/subjects/subject-1/past-exams',
+      );
+      expect(
+        const SubjectPastExamRouteData(
+          id: 'subject-1',
+          pastExamId: '1234/2025_final.pdf',
+        ).location,
+        '/subjects/subject-1/past-exams/1234%2F2025_final.pdf',
+      );
+    });
+
     test('map, bus and setting nested route locations', () {
       expect(const MapRoomRouteData(id: 'R-301').location, '/map/rooms/R-301');
       expect(const BusStopSelectRouteData().location, '/bus/stop-selection');
