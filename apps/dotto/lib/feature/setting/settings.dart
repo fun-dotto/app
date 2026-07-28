@@ -157,6 +157,7 @@ final class SettingsScreen extends HookConsumerWidget {
             ),
             if (isAuthenticated)
               DottoListSection(
+                header: const Text('あなたの情報'),
                 children: [
                   DottoListTile(
                     firstLine: const Text('学年'),
@@ -317,6 +318,7 @@ final class SettingsScreen extends HookConsumerWidget {
                 ],
               ),
             DottoListSection(
+              header: const Text('アプリについて'),
               // バージョン
               footer: GestureDetector(
                 onTap: () async {
