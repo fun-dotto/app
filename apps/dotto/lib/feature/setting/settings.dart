@@ -157,7 +157,7 @@ final class SettingsScreen extends HookConsumerWidget {
             ),
             if (isAuthenticated)
               DottoListSection(
-                tiles: [
+                children: [
                   DottoListTile(
                     firstLine: const Text('学年'),
                     leading: const Icon(Icons.school),
@@ -317,7 +317,28 @@ final class SettingsScreen extends HookConsumerWidget {
                 ],
               ),
             DottoListSection(
-              tiles: [
+              // バージョン
+              footer: GestureDetector(
+                onTap: () async {
+                  final canOpen = await canOpenDebugScreen();
+                  if (!canOpen || !context.mounted) {
+                    return;
+                  }
+                  unawaited(const DebugRouteData().push<void>(context));
+                },
+                child: FutureBuilder(
+                  future: PackageInfo.fromPlatform(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data!;
+                      return Text('${data.version} (${data.buildNumber})');
+                    } else {
+                      return const Text('');
+                    }
+                  },
+                ),
+              ),
+              children: [
                 // お知らせ
                 DottoListTile(
                   firstLine: const Text('お知らせ'),
@@ -390,27 +411,6 @@ final class SettingsScreen extends HookConsumerWidget {
                   },
                 ),
               ],
-              // バージョン
-              footer: GestureDetector(
-                onTap: () async {
-                  final canOpen = await canOpenDebugScreen();
-                  if (!canOpen || !context.mounted) {
-                    return;
-                  }
-                  unawaited(const DebugRouteData().push<void>(context));
-                },
-                child: FutureBuilder(
-                  future: PackageInfo.fromPlatform(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data!;
-                      return Text('${data.version} (${data.buildNumber})');
-                    } else {
-                      return const Text('');
-                    }
-                  },
-                ),
-              ),
             ),
           ],
         ),

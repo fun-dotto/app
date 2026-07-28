@@ -12,13 +12,13 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 /// [header] と [footer] はカードの外側、上下に表示する。
 final class DottoListSection extends StatelessWidget {
   const DottoListSection({
-    required this.tiles,
+    required this.children,
     super.key,
     this.header,
     this.footer,
   });
 
-  final List<Widget> tiles;
+  final List<Widget> children;
 
   /// カードの上に表示する見出し
   final Widget? header;
@@ -49,7 +49,7 @@ final class DottoListSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                for (final (index, tile) in tiles.indexed) ...[
+                for (final (index, tile) in children.indexed) ...[
                   if (index != 0) const _Divider(),
                   tile,
                 ],
@@ -91,7 +91,7 @@ final class _Divider extends StatelessWidget {
 /// セクションを、実際の画面と同じく上寄せで表示するデモ。
 final class _Demo extends StatelessWidget {
   const _Demo({
-    required this.tiles,
+    required this.children,
     //
     // ignore: unused_element_parameter
     super.key,
@@ -99,7 +99,7 @@ final class _Demo extends StatelessWidget {
     this.footer,
   });
 
-  final List<Widget> tiles;
+  final List<Widget> children;
   final Widget? header;
   final Widget? footer;
 
@@ -110,9 +110,9 @@ final class _Demo extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: DottoListSection(
-          tiles: tiles,
           header: header,
           footer: footer,
+          children: children,
         ),
       ),
     );
@@ -144,22 +144,22 @@ List<Widget> _demoTiles() {
 
 @widgetbook.UseCase(name: 'Tiles Only', type: DottoListSection)
 Widget listSection(BuildContext context) {
-  return _Demo(tiles: _demoTiles());
+  return _Demo(children: _demoTiles());
 }
 
 @widgetbook.UseCase(name: 'Single Tile', type: DottoListSection)
 Widget listSectionWithSingleTile(BuildContext context) {
-  return _Demo(tiles: _demoTiles().take(1).toList());
+  return _Demo(children: _demoTiles().take(1).toList());
 }
 
 @widgetbook.UseCase(name: 'With Header', type: DottoListSection)
 Widget listSectionWithHeader(BuildContext context) {
-  return _Demo(header: const Text('アプリについて'), tiles: _demoTiles());
+  return _Demo(header: const Text('アプリについて'), children: _demoTiles());
 }
 
 @widgetbook.UseCase(name: 'With Footer', type: DottoListSection)
 Widget listSectionWithFooter(BuildContext context) {
-  return _Demo(footer: const Text('1.0.0 (1)'), tiles: _demoTiles());
+  return _Demo(footer: const Text('1.0.0 (1)'), children: _demoTiles());
 }
 
 @widgetbook.UseCase(name: 'With Header and Footer', type: DottoListSection)
@@ -167,7 +167,7 @@ Widget listSectionWithHeaderAndFooter(BuildContext context) {
   return _Demo(
     header: const Text('アプリについて'),
     footer: const Text('1.0.0 (1)'),
-    tiles: _demoTiles(),
+    children: _demoTiles(),
   );
 }
 
@@ -187,7 +187,7 @@ final class _MixedTrailingsDemo extends HookWidget {
     return _Demo(
       header: const Text('通知'),
       footer: const Text('通知はいつでも変更できます。'),
-      tiles: [
+      children: [
         DottoListTile(
           firstLine: const Text('通知を受け取る'),
           leading: const Icon(Icons.notifications_active),
