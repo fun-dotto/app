@@ -29,16 +29,19 @@ import 'package:go_router/go_router.dart';
 
 part 'app_routes.g.dart';
 
-// アプリが持つパスの一覧。
+// Paths
+//
+// / → /course
 //
 // /course
 // /course/preferences
 // /course/personal-weekly-timetable
+// /course/notice → /course/notice/cancellations
 // /course/notice/cancellations
 // /course/notice/makeups
 // /course/notice/room-changes
 // /course/subjects
-// /course/subjects/:id → /course/subjects/:id/syllabus へリダイレクト
+// /course/subjects/:id → /course/subjects/:id/syllabus
 // /course/subjects/:id/syllabus
 // /course/subjects/:id/reviews
 // /course/subjects/:id/reviews/new
@@ -84,6 +87,10 @@ part 'app_routes.g.dart';
             TypedGoRoute<CourseRegistrationRouteData>(
               path: 'personal-weekly-timetable',
               name: '/course/personal-weekly-timetable',
+            ),
+            TypedGoRoute<CourseNoticeRouteData>(
+              path: 'notice',
+              name: '/course/notice',
             ),
             TypedGoRoute<CourseNoticeCancellationsRouteData>(
               path: 'notice/cancellations',
@@ -297,6 +304,17 @@ final class CourseRegistrationRouteData extends GoRouteData
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const CourseRegistrationScreen();
+  }
+}
+
+/// 休講・補講・教室変更のパスは休講のタブへ寄せる。
+final class CourseNoticeRouteData extends GoRouteData
+    with $CourseNoticeRouteData {
+  const CourseNoticeRouteData();
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    return const CourseNoticeCancellationsRouteData().location;
   }
 }
 

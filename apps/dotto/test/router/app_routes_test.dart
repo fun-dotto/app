@@ -19,6 +19,7 @@ void main() {
         const CourseRegistrationRouteData().location,
         '/course/personal-weekly-timetable',
       );
+      expect(const CourseNoticeRouteData().location, '/course/notice');
       expect(
         const CourseNoticeCancellationsRouteData().location,
         '/course/notice/cancellations',
