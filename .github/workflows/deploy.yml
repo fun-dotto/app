@@ -104,7 +104,8 @@ jobs:
   ios-upload:
     name: Upload to TestFlight
     needs: ready-to-upload
-    runs-on: ubuntu-latest
+    # TestFlight へのアップロードには Xcode 同梱の iTMSTransporter が必要なため macOS で実行する
+    runs-on: macos-26
     timeout-minutes: 60
     env:
       APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
@@ -112,6 +113,8 @@ jobs:
       APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Setup Xcode
+        run: xcodes select
       - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           project_id: swift2023groupc
