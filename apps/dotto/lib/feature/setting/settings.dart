@@ -5,8 +5,6 @@ import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/academic_area.dart';
 import 'package:dotto/domain/academic_class.dart';
 import 'package:dotto/domain/grade.dart';
-import 'package:dotto/feature/setting/widget/settings_section.dart';
-import 'package:dotto/feature/setting/widget/settings_tile.dart';
 import 'package:dotto/feature/setting/widget/user_info_tile.dart';
 import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
@@ -16,6 +14,8 @@ import 'package:dotto/repository/config_repository.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dialog.dart';
+import 'package:dotto_design_system/component/list_section.dart';
+import 'package:dotto_design_system/component/list_tile.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -169,14 +169,12 @@ final class SettingsScreen extends HookConsumerWidget {
               error: (_, _) => buildUserInfoTile(),
             ),
             if (isAuthenticated)
-              SettingsSection(
+              DottoListSection(
                 tiles: [
-                  SettingsTile(
+                  DottoListTile(
                     title: const Text('学年'),
                     leading: const Icon(Icons.school),
-                    value: _settingValueText(
-                      user.value?.grade?.label ?? '未設定',
-                    ),
+                    value: _settingValueText(user.value?.grade?.label ?? '未設定'),
                     onTap: () async {
                       await showDialog<void>(
                         context: context,
@@ -224,7 +222,7 @@ final class SettingsScreen extends HookConsumerWidget {
                       );
                     },
                   ),
-                  SettingsTile(
+                  DottoListTile(
                     title: const Text('コース'),
                     leading: const Icon(Icons.school),
                     value: _settingValueText(
@@ -277,7 +275,7 @@ final class SettingsScreen extends HookConsumerWidget {
                       );
                     },
                   ),
-                  SettingsTile(
+                  DottoListTile(
                     title: const Text('クラス'),
                     leading: const Icon(Icons.school),
                     value: _settingValueText(
@@ -332,10 +330,10 @@ final class SettingsScreen extends HookConsumerWidget {
                   ),
                 ],
               ),
-            SettingsSection(
+            DottoListSection(
               tiles: [
                 // お知らせ
-                SettingsTile(
+                DottoListTile(
                   title: const Text('お知らせ'),
                   leading: const Icon(Icons.notifications),
                   onTap: () async {
@@ -343,7 +341,7 @@ final class SettingsScreen extends HookConsumerWidget {
                   },
                 ),
                 // 通知設定
-                SettingsTile(
+                DottoListTile(
                   title: const Text('通知'),
                   leading: const Icon(Icons.notifications_active),
                   value: _settingValueText(
@@ -356,13 +354,13 @@ final class SettingsScreen extends HookConsumerWidget {
                   },
                 ),
                 // フィードバック
-                SettingsTile(
+                DottoListTile(
                   title: const Text('フィードバックを送る'),
                   leading: const Icon(Icons.messenger_rounded),
                   onTap: () async => launchUrlSafely(feedbackFormUrl),
                 ),
                 // Contributors表示
-                SettingsTile(
+                DottoListTile(
                   title: const Text('開発者'),
                   leading: const Icon(Icons.person),
                   onTap: () async {
@@ -370,7 +368,7 @@ final class SettingsScreen extends HookConsumerWidget {
                   },
                 ),
                 // アプリの使い方
-                SettingsTile(
+                DottoListTile(
                   title: const Text('アプリの使い方'),
                   leading: const Icon(Icons.assignment),
                   onTap: () async {
@@ -380,19 +378,19 @@ final class SettingsScreen extends HookConsumerWidget {
                   },
                 ),
                 // 利用規約
-                SettingsTile(
+                DottoListTile(
                   title: const Text('利用規約'),
                   leading: const Icon(Icons.verified_user),
                   onTap: () async => launchUrlSafely(termsOfServiceUrl),
                 ),
                 // プライバシーポリシー
-                SettingsTile(
+                DottoListTile(
                   title: const Text('プライバシーポリシー'),
                   leading: const Icon(Icons.admin_panel_settings),
                   onTap: () async => launchUrlSafely(privacyPolicyUrl),
                 ),
                 // ライセンス
-                SettingsTile(
+                DottoListTile(
                   title: const Text('ライセンス'),
                   leading: const Icon(Icons.info),
                   onTap: () async {
