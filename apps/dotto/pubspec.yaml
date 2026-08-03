@@ -13,7 +13,7 @@ dependencies:
   cloud_firestore: 6.7.1
   collection: 1.19.1
   cupertino_icons: 1.0.9
-  dio: 5.10.0
+  dio: 5.11.0
   dotto_design_system: any
   firebase_analytics: 12.4.5
   firebase_app_check: 0.4.5+2
