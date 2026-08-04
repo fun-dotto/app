@@ -52,7 +52,7 @@ dependencies:
   path: 1.9.1
   path_provider: 2.1.6
   riverpod_annotation: 4.0.2
-  share_plus: 13.2.1
+  share_plus: 13.3.0
   shared_preferences: 2.5.5
   shimmer_animation: 2.2.2+1
   sqflite: 2.4.3
