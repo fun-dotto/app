@@ -11,7 +11,7 @@ dependencies:
   dio: "5.11.0"
   one_of: "1.5.0"
   one_of_serializer: "1.5.0"
-  built_value: "8.12.6"
+  built_value: "8.12.7"
   built_collection: "5.1.1"
 
 dev_dependencies:
