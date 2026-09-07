@@ -227,6 +227,16 @@
       "allowedVersions": "<2.15.2"
     },
     {
+      "description": "freezed 4 系は Dart SDK >=3.13.0 を要求し、現行 Flutter SDK (3.44.6 / Dart 3.12 系) と非互換なため保留。加えて analyzer >=13 も要求するため analyzer 9 系固定の他パッケージとも足並みが揃わない。build_runner などの analyzer 9 系ピンと合わせて解除する",
+      "matchManagers": [
+        "pub"
+      ],
+      "matchPackageNames": [
+        "freezed"
+      ],
+      "allowedVersions": "<4.0.0"
+    },
+    {
       "description": "built_value_generator 8.12.3 以降は analyzer >=10 を要求するため保留 (analyzer 9 系固定)",
       "matchManagers": [
         "pub"
