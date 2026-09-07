@@ -29,14 +29,14 @@ enum NotificationAlertStatus {
     switch (settings.authorizationStatus) {
       case AuthorizationStatus.notDetermined:
         return NotificationAlertStatus.notDetermined;
-      case AuthorizationStatus.denied:
-        return NotificationAlertStatus.denied;
       case AuthorizationStatus.provisional:
         return NotificationAlertStatus.provisional;
       case AuthorizationStatus.authorized:
         return settings.alert == AppleNotificationSetting.disabled
             ? NotificationAlertStatus.alertDisabled
             : NotificationAlertStatus.enabled;
+      case AuthorizationStatus.denied:
+        return NotificationAlertStatus.denied;
     }
   }
 }
