@@ -29,14 +29,17 @@ enum NotificationAlertStatus {
     switch (settings.authorizationStatus) {
       case AuthorizationStatus.notDetermined:
         return NotificationAlertStatus.notDetermined;
-      case AuthorizationStatus.denied:
-        return NotificationAlertStatus.denied;
       case AuthorizationStatus.provisional:
         return NotificationAlertStatus.provisional;
       case AuthorizationStatus.authorized:
         return settings.alert == AppleNotificationSetting.disabled
             ? NotificationAlertStatus.alertDisabled
             : NotificationAlertStatus.enabled;
+      case AuthorizationStatus.denied:
+      default:
+        // denied 以外の未知の値(将来 firebase_messaging が追加する enum ケースを含む)も
+        // 安全側に倒して denied として扱う。
+        return NotificationAlertStatus.denied;
     }
   }
 }
