@@ -36,9 +36,6 @@ enum NotificationAlertStatus {
             ? NotificationAlertStatus.alertDisabled
             : NotificationAlertStatus.enabled;
       case AuthorizationStatus.denied:
-      default:
-        // denied 以外の未知の値(将来 firebase_messaging が追加する enum ケースを含む)も
-        // 安全側に倒して denied として扱う。
         return NotificationAlertStatus.denied;
     }
   }
