@@ -36,6 +36,7 @@ enum NotificationAlertStatus {
             ? NotificationAlertStatus.alertDisabled
             : NotificationAlertStatus.enabled;
       case AuthorizationStatus.denied:
+      case AuthorizationStatus.deniedPermanently:
         return NotificationAlertStatus.denied;
     }
   }
