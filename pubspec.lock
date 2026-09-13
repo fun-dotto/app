@@ -881,18 +881,18 @@ packages:
     dependency: transitive
     description:
       name: go_router
-      sha256: "2e7fcb9ac4d52ec06cd940552f12e66ee71fccbcadb09a067cb9fe20462b5bf3"
+      sha256: "008ab21d89d0de8ccd79586838f7533f126c2d894f50bf25f2947888d3c225b5"
       url: "https://pub.dev"
     source: hosted
-    version: "18.0.0"
+    version: "18.0.1"
   go_router_builder:
     dependency: transitive
     description:
       name: go_router_builder
-      sha256: "111dcd4c7eb579722d1db02e6f7b5b78a950bf2dbdabf212cf02ed16ec891efe"
+      sha256: fbadb18697941b5efaa90c6295e81335e59b97bde83d675b4251e91eac1d4882
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.1"
+    version: "4.5.0"
   google_identity_services_web:
     dependency: transitive
     description:
