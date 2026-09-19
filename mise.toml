@@ -13,6 +13,7 @@ gcloud = "584.0.0"
 java = "21.0.2"
 node = "26.8.2"
 "npm:@openapitools/openapi-generator-cli" = "2.41.0"
+"npm:rulesync" = "16.28.0"
 ruby = "4.0.7"
 
 [tasks.pre-commit]
