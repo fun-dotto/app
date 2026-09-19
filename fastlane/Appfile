@@ -1,7 +1,5 @@
 for_platform :android do
-  for_lane :deploy_app_firebase_app_distribution do
-    package_name("jp.ac.fun.dotto")
-  end
+  package_name("jp.ac.fun.dotto")
 end
 
 for_platform :ios do

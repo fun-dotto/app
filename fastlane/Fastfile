@@ -19,3 +19,11 @@ def append_ota_result(platform_label:, flavor:, release:)
   File.write(result_file, "#{line}\n")
   UI.message("Wrote OTA result to #{result_file}")
 end
+
+# OTA配信のリリースノート(コミットハッシュ + コミットメッセージ)を組み立てる共通ヘルパー。
+# Firebase App Distribution の release_notes に渡し、どのコミットのビルドかをテスターが確認できるようにする。
+def ota_release_notes
+  commit_hash = sh("git", "rev-parse", "--short", "HEAD", log: false).strip
+  commit_message = sh("git", "log", "-1", "--pretty=%B", log: false).strip
+  "#{commit_hash}: #{commit_message}"
+end

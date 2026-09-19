@@ -12,4 +12,9 @@ final class DateTimeUtility {
   static DateTime parseDate(String date) {
     return DateTime.parse(date);
   }
+
+  /// Returns the academic year (starting in April) for the given date.
+  static int academicYear(DateTime datetime) {
+    return datetime.month >= DateTime.april ? datetime.year : datetime.year - 1;
+  }
 }

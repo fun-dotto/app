@@ -9,8 +9,23 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:openapi/openapi.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
+/// 休講・補講・教室変更画面のタブ。
+enum CourseNoticeTab {
+  /// 休講。
+  cancellations,
+
+  /// 補講。
+  makeups,
+
+  /// 教室変更。
+  roomChanges,
+}
+
 final class CourseCancellationScreen extends ConsumerWidget {
-  const CourseCancellationScreen({super.key});
+  const CourseCancellationScreen({required this.initialTab, super.key});
+
+  /// 最初に表示するタブ。
+  final CourseNoticeTab initialTab;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +40,8 @@ final class CourseCancellationScreen extends ConsumerWidget {
     final state = ref.watch(courseCancellationReducerProvider);
 
     return DefaultTabController(
-      length: 3,
+      length: CourseNoticeTab.values.length,
+      initialIndex: initialTab.index,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('休講・補講・教室変更'),

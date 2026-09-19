@@ -6,7 +6,6 @@ import 'package:dotto/domain/subject_filter.dart';
 import 'package:dotto/domain/subject_summary.dart';
 import 'package:dotto/feature/subject/search_subject_filter_section.dart';
 import 'package:dotto/feature/subject/search_subject_reducer.dart';
-import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class SearchSubjectScreen extends HookConsumerWidget {
-  const SearchSubjectScreen({super.key});
+  const SearchSubjectScreen({required this.onSubjectSelected, super.key});
+
+  /// 科目が選択されたときの処理。引数は科目ID。
+  ///
+  /// タブごとに科目詳細のパスが異なるため、遷移先は呼び出し側が決める。
+  final void Function(String subjectId) onSubjectSelected;
 
   String? _buildFacultyLabel(List<SubjectFaculty> faculties) {
     if (faculties.isEmpty) {
@@ -124,9 +128,7 @@ class SearchSubjectScreen extends HookConsumerWidget {
           }
           return Text(lines.join('\n'));
         }(),
-        onTap: () async {
-          await SubjectDetailRouteData(id: subject.id).push<void>(context);
-        },
+        onTap: () => onSubjectSelected(subject.id),
         trailing: const Icon(Icons.chevron_right),
         leading: () {
           if (!isAuthenticated) {

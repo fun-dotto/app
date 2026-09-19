@@ -41,17 +41,17 @@ jobs:
       FIREBASE_APP_ID_IOS_STG: ${{ secrets.FIREBASE_APP_ID_IOS_STG }}
       FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
       - name: Setup Xcode
         run: xcodes select
-      - uses: google-github-actions/auth@v3
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           project_id: swift2023groupc
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - name: Generate token to access certificates repository
         id: app-token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           client-id: ${{ vars.MATCH_GIT_APP_ID }}
           private-key: ${{ secrets.MATCH_GIT_APP_PRIVATE_KEY }}
@@ -64,7 +64,7 @@ jobs:
       - uses: ./.github/actions/setup-ci
       - name: Build iOS OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane ios build_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ota-ipa-${{ matrix.flavor }}
           path: build/dotto-${{ matrix.flavor }}.ipa
@@ -84,8 +84,8 @@ jobs:
       FIREBASE_APP_ID_ANDROID_STG: ${{ secrets.FIREBASE_APP_ID_ANDROID_STG }}
       FIREBASE_APP_ID_ANDROID_PRD: ${{ secrets.FIREBASE_APP_ID_ANDROID_PRD }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: google-github-actions/auth@v3
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           project_id: swift2023groupc
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
@@ -108,7 +108,7 @@ jobs:
           EOF
       - name: Build Android OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane android build_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ota-apk-${{ matrix.flavor }}
           path: apps/dotto/build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
@@ -137,20 +137,20 @@ jobs:
       FIREBASE_APP_ID_IOS_STG: ${{ secrets.FIREBASE_APP_ID_IOS_STG }}
       FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: google-github-actions/auth@v3
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           project_id: swift2023groupc
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - uses: ./.github/actions/setup-ci
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: ota-ipa-${{ matrix.flavor }}
           path: build
       - name: Distribute iOS OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane ios distribute_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ota-result-ios-${{ matrix.flavor }}
           path: ${{ env.OTA_RESULT_FILE }}
@@ -170,20 +170,20 @@ jobs:
       FIREBASE_APP_ID_ANDROID_STG: ${{ secrets.FIREBASE_APP_ID_ANDROID_STG }}
       FIREBASE_APP_ID_ANDROID_PRD: ${{ secrets.FIREBASE_APP_ID_ANDROID_PRD }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: google-github-actions/auth@v3
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           project_id: swift2023groupc
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - uses: ./.github/actions/setup-ci
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: ota-apk-${{ matrix.flavor }}
           path: apps/dotto/build/app/outputs/flutter-apk
       - name: Distribute Android OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane android distribute_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ota-result-android-${{ matrix.flavor }}
           path: ${{ env.OTA_RESULT_FILE }}
@@ -196,7 +196,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           path: ota-results
           pattern: ota-result-*

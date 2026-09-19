@@ -8,8 +8,8 @@ import 'package:flutter/services.dart' show appFlavor;
 /// flavor に応じた [FirebaseOptions] を解決する。
 ///
 /// `flutter run --flavor dev` 等で起動すると [appFlavor] に flavor 名が入る。
-/// ストア版（flavor 指定なし）は `null` となり、`jp.ac.fun.dotto` の
-/// デフォルト設定（[default_options]）を使用する。
+/// ストア版は Android が `store`、iOS が flavor 指定なしの `null` となり、
+/// いずれも `jp.ac.fun.dotto` のデフォルト設定（[default_options]）を使用する。
 class FlavoredFirebaseOptions {
   const FlavoredFirebaseOptions._();
 

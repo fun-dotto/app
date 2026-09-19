@@ -3,6 +3,8 @@ import 'package:dotto/foundation/flag/flag.dart';
 import 'package:dotto/foundation/flag/flag_overrides.dart';
 import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/repository/feature_flag_repository.dart';
+import 'package:dotto_design_system/component/list_section.dart';
+import 'package:dotto_design_system/component/list_tile.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -26,6 +28,31 @@ final class DebugScreen extends HookConsumerWidget {
       useMemoized(() => FirebaseMessaging.instance.getToken()),
     );
     final overrides = ref.watch(flagOverridesProvider);
+
+    Future<void> copyToClipboard(String? value) async {
+      if (value == null) {
+        return;
+      }
+      await Clipboard.setData(ClipboardData(text: value));
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('クリップボードにコピーしました')));
+    }
+
+    DottoListTile tokenTile(String label, String? token) {
+      return DottoListTile(
+        firstLine: Text(label),
+        secondLine: Text(
+          token ?? '-',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        onTap: () async => copyToClipboard(token),
+      );
+    }
 
     Future<void> showFlagOverridePicker(Flag<bool> flag) async {
       final notifier = ref.read(flagOverridesProvider.notifier);
@@ -78,18 +105,25 @@ final class DebugScreen extends HookConsumerWidget {
       );
     }
 
-    Widget flagTile(Flag<Object> flag) {
+    DottoListTile flagTile(Flag<Object> flag) {
       final override = overrides[flag.key];
       final effectiveValue = ref.watch(featureFlagProvider(flag));
+      // bool のフラグだけ上書きできる。
+      final boolFlag = flag is Flag<bool> ? flag : null;
 
-      return ListTile(
-        title: Text('${flag.description} Flag'),
-        subtitle: Text(switch (override) {
+      return DottoListTile(
+        firstLine: Text('${flag.description} Flag'),
+        secondLine: Text(switch (override) {
           null => 'Use Remote Config',
           _ => 'Forced: $override',
         }),
-        trailing: Text('Effective: $effectiveValue'),
-        onTap: flag is Flag<bool> ? () => showFlagOverridePicker(flag) : null,
+        thirdLine: Text('Effective: $effectiveValue'),
+        trailing: boolFlag == null
+            ? const DottoListTileTrailing.none()
+            : const DottoListTileTrailing.chevron(),
+        onTap: boolFlag == null
+            ? null
+            : () async => showFlagOverridePicker(boolFlag),
       );
     }
 
@@ -114,77 +148,35 @@ final class DebugScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Debug')),
-      body: ListView(
-        children: [
-          ListTile(
-            title: const Text('App Check Access Token'),
-            subtitle: Text(
-              appCheckToken.data ?? '-',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          spacing: 16,
+          children: [
+            DottoListSection(
+              header: const Text('Token'),
+              footer: const Text('タップするとクリップボードにコピーします。'),
+              children: [
+                tokenTile('App Check Access Token', appCheckToken.data),
+                tokenTile('User ID Token', idToken.data),
+                tokenTile('FCM Token', fcmToken.data),
+              ],
             ),
-            trailing: IconButton(
-              icon: const Icon(Icons.copy),
-              onPressed: () async {
-                if (appCheckToken.data == null) return;
-                await Clipboard.setData(
-                  ClipboardData(text: appCheckToken.data ?? ''),
-                );
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('クリップボードにコピーしました')),
-                );
-              },
+            const DottoListSection(
+              header: Text('Environment'),
+              children: [
+                DottoListTile(
+                  firstLine: Text('Flavor'),
+                  secondLine: Text(appFlavor ?? 'Default'),
+                ),
+              ],
             ),
-          ),
-          ListTile(
-            title: const Text('User ID Token'),
-            subtitle: Text(
-              idToken.data ?? '-',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            DottoListSection(
+              header: const Text('Feature Flag'),
+              children: Flags.all.map(flagTile).toList(),
             ),
-            trailing: IconButton(
-              icon: const Icon(Icons.copy),
-              onPressed: () async {
-                if (idToken.data == null) return;
-                await Clipboard.setData(
-                  ClipboardData(text: idToken.data ?? ''),
-                );
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('クリップボードにコピーしました')),
-                );
-              },
-            ),
-          ),
-          ListTile(
-            title: const Text('FCM Token'),
-            subtitle: Text(
-              fcmToken.data ?? '-',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.copy),
-              onPressed: () async {
-                if (fcmToken.data == null) return;
-                await Clipboard.setData(
-                  ClipboardData(text: fcmToken.data ?? ''),
-                );
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('クリップボードにコピーしました')),
-                );
-              },
-            ),
-          ),
-          const ListTile(
-            title: Text('Environment'),
-            trailing: Text(appFlavor ?? 'Default'),
-          ),
-          ...Flags.all.map(flagTile),
-        ],
+          ],
+        ),
       ),
     );
   }

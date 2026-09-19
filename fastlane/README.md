@@ -55,6 +55,22 @@ Deploy OTA (single flavor)
 
 Deploy OTA (dev, stg, prd)
 
+### android build_production
+
+```sh
+[bundle exec] fastlane android build_production
+```
+
+Build Production
+
+### android upload_google_play
+
+```sh
+[bundle exec] fastlane android upload_google_play
+```
+
+Upload to Google Play
+
 ### android deploy_google_play
 
 ```sh
@@ -181,6 +197,14 @@ Deploy OTA (dev, stg, prd)
 ```
 
 Build Production
+
+### ios upload_testflight
+
+```sh
+[bundle exec] fastlane ios upload_testflight
+```
+
+Upload to TestFlight
 
 ### ios deploy_to_testflight
 

@@ -5,16 +5,16 @@ description: OpenAPI API client
 homepage: homepage
 
 environment:
-  sdk: 3.12.2
+  sdk: 3.13.4
 
 dependencies:
-  dio: "5.10.0"
+  dio: "5.11.1"
   one_of: "1.5.0"
   one_of_serializer: "1.5.0"
-  built_value: "8.12.6"
+  built_value: "8.12.7"
   built_collection: "5.1.1"
 
 dev_dependencies:
-  built_value_generator: "8.12.1"
+  built_value_generator: "8.12.2"
   build_runner: any
-  test: "1.31.0"
+  test: "1.31.1"
