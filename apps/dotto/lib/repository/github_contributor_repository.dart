@@ -48,6 +48,7 @@ final class GitHubContributorRepositoryImpl
               avatarUrl: e.avatarUrl,
               htmlUrl: e.htmlUrl,
               contributions: e.contributions,
+              type: e.type ?? 'User',
             ),
           )
           .toList();

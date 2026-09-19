@@ -23,6 +23,7 @@ void main() {
       avatarUrl: 'https://avatars.githubusercontent.com/u/1?v=4',
       htmlUrl: 'https://github.com/GitHubUser1',
       contributions: 50,
+      type: 'User',
     ),
     const GitHubProfile(
       id: '2',
@@ -30,6 +31,7 @@ void main() {
       avatarUrl: 'https://avatars.githubusercontent.com/u/2?v=4',
       htmlUrl: 'https://github.com/GitHubUser2',
       contributions: 100,
+      type: 'User',
     ),
   ];
 
@@ -68,7 +70,7 @@ void main() {
           isA<GitHubContributorViewState>().having(
             (p0) => p0.contributors,
             'contributors',
-            testGitHubContributors,
+            testGitHubContributors.reversed.toList(),
           ),
         ),
       );
@@ -87,7 +89,10 @@ void main() {
           .read(gitHubContributorViewModelProvider.notifier)
           .future;
 
-      expect(initialState.contributors, testGitHubContributors);
+      expect(
+        initialState.contributors,
+        testGitHubContributors.reversed.toList(),
+      );
       expect(initialState.contributors.length, 2);
       expect(initialState.contributors[0].id, '2');
       expect(initialState.contributors[0].login, 'GitHubUser2');

@@ -19,6 +19,7 @@ void main() {
       avatarUrl: 'https://avatars.githubusercontent.com/u/1?v=4',
       htmlUrl: 'https://github.com/GitHubUser1',
       contributions: 50,
+      type: 'User',
     ),
     const GitHubProfile(
       id: '2',
@@ -26,6 +27,7 @@ void main() {
       avatarUrl: 'https://avatars.githubusercontent.com/u/2?v=4',
       htmlUrl: 'https://github.com/GitHubUser2',
       contributions: 100,
+      type: 'User',
     ),
   ];
 
@@ -50,6 +52,59 @@ void main() {
       expect(result[0].login, 'GitHubUser2');
       expect(result[1].id, '1');
       expect(result[1].login, 'GitHubUser1');
+
+      verify(githubContributorRepository.getContributors()).called(1);
+    });
+
+    test('getContributors が type が Bot のコントリビューターを除外する', () async {
+      when(githubContributorRepository.getContributors()).thenAnswer(
+        (_) async => [
+          ...testGitHubProfiles,
+          const GitHubProfile(
+            id: '3',
+            login: 'dependabot[bot]',
+            avatarUrl: 'https://avatars.githubusercontent.com/in/29110?v=4',
+            htmlUrl: 'https://github.com/apps/dependabot',
+            contributions: 200,
+            type: 'Bot',
+          ),
+        ],
+      );
+
+      final service = GitHubContributorService(githubContributorRepository);
+
+      final result = await service.getContributors();
+
+      // Bot は contributions が最大でも結果に含まれないことを確認
+      expect(result, hasLength(2));
+      expect(result.every((profile) => profile.type == 'User'), isTrue);
+      expect(result.map((profile) => profile.login), [
+        'GitHubUser2',
+        'GitHubUser1',
+      ]);
+
+      verify(githubContributorRepository.getContributors()).called(1);
+    });
+
+    test('getContributors が Bot のみの場合は空のリストを返す', () async {
+      when(githubContributorRepository.getContributors()).thenAnswer(
+        (_) async => [
+          const GitHubProfile(
+            id: '3',
+            login: 'dependabot[bot]',
+            avatarUrl: 'https://avatars.githubusercontent.com/in/29110?v=4',
+            htmlUrl: 'https://github.com/apps/dependabot',
+            contributions: 200,
+            type: 'Bot',
+          ),
+        ],
+      );
+
+      final service = GitHubContributorService(githubContributorRepository);
+
+      final result = await service.getContributors();
+
+      expect(result, isEmpty);
 
       verify(githubContributorRepository.getContributors()).called(1);
     });
