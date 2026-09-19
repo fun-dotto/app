@@ -66,9 +66,8 @@ final class SubjectDetailFeedbackScreen extends HookConsumerWidget {
             builder: (_) => SubjectDetailAddFeedbackScreen(lessonId: lessonId),
           );
           if (result != null && context.mounted) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(const SnackBar(content: Text('フィードバックを投稿しました。')));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text('フィードバックを投稿しました。')));
           }
         },
         child: const Icon(Icons.add),

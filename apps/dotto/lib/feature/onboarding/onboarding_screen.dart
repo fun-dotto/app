@@ -61,9 +61,8 @@ final class OnboardingScreen extends HookWidget {
               children: [
                 Text(
                   page.title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: SemanticColor.light.accentPrimary,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge
+                      ?.copyWith(color: SemanticColor.light.accentPrimary),
                 ),
                 const SizedBox(height: 20),
                 ClipRRect(
@@ -73,16 +72,14 @@ final class OnboardingScreen extends HookWidget {
                 const SizedBox(height: 110),
                 Text(
                   page.bodyTop,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: SemanticColor.light.labelPrimary,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge
+                      ?.copyWith(color: SemanticColor.light.labelPrimary),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   page.bodyBottom,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: SemanticColor.light.labelPrimary,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge
+                      ?.copyWith(color: SemanticColor.light.labelPrimary),
                   textAlign: TextAlign.center,
                 ),
               ],

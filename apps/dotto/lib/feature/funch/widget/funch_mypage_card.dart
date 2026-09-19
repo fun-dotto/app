@@ -149,9 +149,8 @@ final class FunchMyPageCard extends ConsumerWidget {
             ),
             Text(
               'メニューは変更される可能性があります',
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: SemanticColor.light.labelSecondary,
-              ),
+              style: Theme.of(context).textTheme.labelMedium
+                  ?.copyWith(color: SemanticColor.light.labelSecondary),
             ),
           ],
         ),

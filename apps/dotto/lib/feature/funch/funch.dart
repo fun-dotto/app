@@ -40,18 +40,16 @@ final class FunchScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           '学食',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: SemanticColor.light.accentPrimary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         centerTitle: false,
         actions: [
           TextButton(
             child: Text(
               DateFormatter.dateWithDayOfWeek(date),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: SemanticColor.light.accentPrimary,
-              ),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(color: SemanticColor.light.accentPrimary),
             ),
             onPressed: () async {
               if (context.mounted) {
@@ -73,9 +71,8 @@ final class FunchScreen extends ConsumerWidget {
           ),
           Text(
             'メニューは変更される可能性があります',
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: SemanticColor.light.labelSecondary,
-            ),
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: SemanticColor.light.labelSecondary),
           ),
           Expanded(child: SingleChildScrollView(child: content)),
         ],
@@ -153,9 +150,8 @@ final class FunchScreen extends ConsumerWidget {
         ),
         Text(
           menuType.title,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: SemanticColor.light.labelPrimary,
-          ),
+          style: Theme.of(context).textTheme.labelSmall
+              ?.copyWith(color: SemanticColor.light.labelPrimary),
         ),
       ],
     );

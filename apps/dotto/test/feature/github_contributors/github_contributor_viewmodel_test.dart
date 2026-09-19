@@ -125,9 +125,8 @@ void main() {
 
   group('GitHubContributorViewModel 並び順', () {
     setUp(() {
-      when(
-        githubContributorRepository.getContributors(),
-      ).thenAnswer((_) async => testGitHubContributors);
+      when(githubContributorRepository.getContributors())
+          .thenAnswer((_) async => testGitHubContributors);
     });
     test('contributors は contributions の降順で並び替えられる', () async {
       final container = createContainer()

@@ -11,8 +11,7 @@ final class FirebaseRealtimeDatabaseRepository {
 
   final FirebaseDatabase _database = FirebaseDatabase.instanceFor(
     app: Firebase.app(),
-    databaseURL:
-        'https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app',
   );
 
   Future<DataSnapshot> getData(String path) async {

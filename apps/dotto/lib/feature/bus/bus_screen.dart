@@ -81,9 +81,8 @@ final class BusScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(
           'バス',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: SemanticColor.light.accentPrimary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         centerTitle: false,
         bottom: PreferredSize(
@@ -391,9 +390,8 @@ final class _BusTripTile extends StatelessWidget {
                 ),
                 Text(
                   directionText.isEmpty ? route : '$route $directionText',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: SemanticColor.light.labelSecondary,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall
+                      ?.copyWith(color: SemanticColor.light.labelSecondary),
                 ),
                 Row(
                   spacing: 4,

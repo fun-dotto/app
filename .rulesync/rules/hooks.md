@@ -1,0 +1,5 @@
+---
+root: false
+targets:
+  - '*'
+---

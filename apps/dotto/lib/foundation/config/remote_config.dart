@@ -1,7 +1,9 @@
 import 'package:dotto/helper/remote_config_helper.dart';
 
-typedef RemoteConfigGetter<T> =
-    T Function(RemoteConfigHelper helper, String key);
+typedef RemoteConfigGetter<T> = T Function(
+  RemoteConfigHelper helper,
+  String key,
+);
 
 final class RemoteConfig<T> {
   const RemoteConfig({

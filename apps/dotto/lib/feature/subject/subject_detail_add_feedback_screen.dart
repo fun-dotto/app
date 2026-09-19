@@ -81,9 +81,8 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'タップして評価:',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: SemanticColor.light.accentPrimary,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(color: SemanticColor.light.accentPrimary),
                   ),
                 ),
                 RatingBar.builder(
@@ -104,9 +103,8 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
               children: [
                 Text(
                   'コメント',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: SemanticColor.light.accentPrimary,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium
+                      ?.copyWith(color: SemanticColor.light.accentPrimary),
                 ),
                 TextFormField(
                   maxLength: 30,

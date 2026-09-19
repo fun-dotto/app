@@ -1,3 +1,8 @@
+---
+root: false
+targets:
+  - '*'
+---
 # ツール
 
 - dotto-figma

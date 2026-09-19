@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ final class DottoProgressIndicator extends HookWidget {
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 1200),
     );
-    unawaited(animationController.repeat());
+    animationController.repeat();
 
     return DecoratedBox(
       decoration: BoxDecoration(

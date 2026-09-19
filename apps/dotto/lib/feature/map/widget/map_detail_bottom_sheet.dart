@@ -49,9 +49,8 @@ final class MapDetailBottomSheet extends StatelessWidget {
         children: [
           SelectableText(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleSmall?.copyWith(overflow: TextOverflow.ellipsis),
+            style: Theme.of(context).textTheme.titleSmall
+                ?.copyWith(overflow: TextOverflow.ellipsis),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -91,9 +90,8 @@ final class MapDetailBottomSheet extends StatelessWidget {
           Icon(equipment.icon, color: fontColor, size: 20),
           Text(
             equipment.label,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: fontColor),
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: fontColor),
           ),
           Icon(equipment.quality.icon, color: fontColor, size: 20),
         ],

@@ -1,10 +1,6 @@
 {
   "defaultMode": "default",
-  "enabledMcpjsonServers": [
-    "dart-mcp-server",
-    "dotto-figma",
-    "dotto-notion"
-  ],
+  "enabledMcpjsonServers": ["dart-mcp-server", "dotto-figma", "dotto-notion"],
   "enabledPlugins": {
     "code-review@claude-plugins-official": true,
     "codex@openai-codex": true,
@@ -146,19 +142,6 @@
       "Read(**/dart_defines/**)",
       "Read(**/GoogleService-Info.plist)",
       "Read(**/google-services.json)",
-      "Write(**/*.xcconfig)",
-      "Write(**/.dart_tool/**)",
-      "Write(**/.env)",
-      "Write(**/.env.*)",
-      "Write(**/.envrc)",
-      "Write(**/build/**)",
-      "Write(**/coverage/**)",
-      "Write(**/dart_defines/**)",
-      "Write(**/GoogleService-Info.plist)",
-      "Write(**/google-services.json)",
-      "Write(**/.claude/settings.json)",
-      "Write(**/.claude/settings.local.json)",
-      "Write(**/.codex/config.toml)",
       "mcp__dart-mcp-server__roots",
       "mcp__plugin_firebase_firebase__auth_get_users",
       "mcp__plugin_firebase_firebase__auth_set_sms_region_policy",

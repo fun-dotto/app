@@ -37,9 +37,8 @@ final class DebugScreen extends HookConsumerWidget {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('クリップボードにコピーしました')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('クリップボードにコピーしました')));
     }
 
     DottoListTile tokenTile(String label, String? token) {
