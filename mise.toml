@@ -13,6 +13,7 @@ gcloud = "584.0.0"
 java = "21.0.2"
 node = "26.8.2"
 "npm:@openapitools/openapi-generator-cli" = "2.41.0"
+"npm:rulesync" = "16.28.0"
 ruby = "4.0.7"
 
 [tasks.pre-commit]
@@ -24,6 +25,7 @@ run = [
   "dart pub global activate melos 7.8.1",
   "melos bootstrap",
   "melos run fetch:dart_defines",
+  "mise run sync-rules"
 ]
 
 [tasks.build]
@@ -52,3 +54,6 @@ run = "dart fix --apply && dart format apps/dotto/lib/ apps/dotto/test/ packages
 
 [tasks.generate-openapi]
 run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
+
+[tasks.sync-rules]
+run = "rulesync generate --targets claudecode,codexcli,copilot"
