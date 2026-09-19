@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -66,13 +65,13 @@ final class PersonalTimetableCalendarView extends HookConsumerWidget {
           !pageController.hasClients) {
         return null;
       }
-      unawaited(
-        pageController.animateToPage(
-          targetPage,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOutCubic,
-        ),
-      );
+      pageController
+          .animateToPage(
+            targetPage,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOutCubic,
+          )
+          .ignore();
       return null;
     }, [personalTimetableDays, safeSelectedDate, pageController]);
 
@@ -419,9 +418,8 @@ final class PersonalTimetableCalendarView extends HookConsumerWidget {
                       item?.subject.name ?? '',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: SemanticColor.light.labelPrimary,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge
+                          ?.copyWith(color: SemanticColor.light.labelPrimary),
                     ),
                   ),
                   if (item != null)
@@ -451,9 +449,8 @@ final class PersonalTimetableCalendarView extends HookConsumerWidget {
             if (item != null && item.roomName.trim().isNotEmpty)
               Text(
                 item.roomName,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: SemanticColor.light.labelSecondary,
-                ),
+                style: Theme.of(context).textTheme.labelMedium
+                    ?.copyWith(color: SemanticColor.light.labelSecondary),
               ),
           ],
         ),

@@ -35,9 +35,8 @@ void main() {
 
   group('GitHubContributorService 正常系', () {
     test('getContributors がGitHubプロフィール一覧を正しく取得する', () async {
-      when(
-        githubContributorRepository.getContributors(),
-      ).thenAnswer((_) async => testGitHubProfiles);
+      when(githubContributorRepository.getContributors())
+          .thenAnswer((_) async => testGitHubProfiles);
 
       final service = GitHubContributorService(githubContributorRepository);
 
@@ -56,9 +55,8 @@ void main() {
     });
 
     test('getContributors が空のリストを正しく取得する', () async {
-      when(
-        githubContributorRepository.getContributors(),
-      ).thenAnswer((_) async => <GitHubProfile>[]);
+      when(githubContributorRepository.getContributors())
+          .thenAnswer((_) async => <GitHubProfile>[]);
 
       final service = GitHubContributorService(githubContributorRepository);
 

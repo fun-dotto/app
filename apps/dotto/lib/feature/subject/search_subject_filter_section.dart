@@ -206,9 +206,8 @@ class SearchSubjectFilterSection extends HookWidget {
                     ),
                     child: Text(
                       '$badgeCount',
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: colors.labelTertiary,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium
+                          ?.copyWith(color: colors.labelTertiary),
                     ),
                   ),
                 Icon(isExpanded ? Icons.expand_less : Icons.expand_more),

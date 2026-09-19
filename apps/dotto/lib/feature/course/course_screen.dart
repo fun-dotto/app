@@ -76,30 +76,28 @@ final class CourseScreen extends HookConsumerWidget {
         label: '時間割 前期',
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
-        onPressed: () => CourseSpringTimetableRouteData(
-          year: academicYear,
-        ).push<void>(context),
+        onPressed: () =>
+            CourseSpringTimetableRouteData(year: academicYear)
+                .push<void>(context),
       ),
       QuickButton(
         label: '時間割 後期',
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
-        onPressed: () => CourseFallTimetableRouteData(
-          year: academicYear,
-        ).push<void>(context),
+        onPressed: () =>
+            CourseFallTimetableRouteData(year: academicYear)
+                .push<void>(context),
       ),
     ];
 
     final quickLinks = [
       QuickButton(
         label: 'HOPE',
-        iconUrl:
-            'https://hope.fun.ac.jp/pluginfile.php/1/core_admin/favicon/64x64/1756948564/favicon.ico',
+        iconUrl: 'https://hope.fun.ac.jp/pluginfile.php/1/core_admin/favicon/64x64/1756948564/favicon.ico',
         fallbackIcon: Icons.language,
         onPressed: () => _launchQuickLink(
           context,
-          url:
-              'https://hope.fun.ac.jp/auth/saml2/login.php?idp=1bec319bca7458548c77d545a2a1b3de',
+          url: 'https://hope.fun.ac.jp/auth/saml2/login.php?idp=1bec319bca7458548c77d545a2a1b3de',
           label: 'HOPE',
         ),
       ),
@@ -198,9 +196,8 @@ final class CourseScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(
           '講義',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: SemanticColor.light.accentPrimary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         centerTitle: false,
         actions: [
@@ -233,9 +230,8 @@ final class CourseScreen extends HookConsumerWidget {
                   ),
                   child: Text(
                     announcement.title,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: SemanticColor.light.labelTertiary,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium
+                        ?.copyWith(color: SemanticColor.light.labelTertiary),
                     textAlign: .center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -580,8 +576,7 @@ final class CourseScreen extends HookConsumerWidget {
     if (!context.mounted || launched) {
       return;
     }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('$label を開けませんでした')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('$label を開けませんでした')));
   }
 }

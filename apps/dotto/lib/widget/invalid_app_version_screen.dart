@@ -21,9 +21,8 @@ final class InvalidAppVersionScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Dottoのアップデートが必要です',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: SemanticColor.light.accentPrimary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         centerTitle: false,
       ),

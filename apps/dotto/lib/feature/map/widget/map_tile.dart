@@ -107,9 +107,8 @@ final class MapTile extends StatelessWidget {
   Widget _label(BuildContext context) {
     return Text(
       labelText,
-      style: Theme.of(
-        context,
-      ).textTheme.labelSmall?.copyWith(fontSize: fontSize, color: labelColor),
+      style: Theme.of(context).textTheme.labelSmall
+          ?.copyWith(fontSize: fontSize, color: labelColor),
     );
   }
 

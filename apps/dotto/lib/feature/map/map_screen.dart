@@ -139,9 +139,8 @@ final class MapScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(
           'マップ',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: SemanticColor.light.accentPrimary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         centerTitle: false,
         bottom: PreferredSize(

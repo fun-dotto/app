@@ -1,4 +1,5 @@
 #!/usr/bin/env dart
+
 // CLIスクリプトのため、printによるコンソール出力を許可する。
 // ignore_for_file: avoid_print
 

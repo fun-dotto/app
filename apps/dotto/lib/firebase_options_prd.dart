@@ -54,8 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:107577467292:android:fbc3e8fc5e706c0906e859',
     messagingSenderId: '107577467292',
     projectId: 'swift2023groupc',
-    databaseURL:
-        'https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'swift2023groupc.appspot.com',
   );
 
@@ -64,13 +63,10 @@ class DefaultFirebaseOptions {
     appId: '1:107577467292:ios:db9fcaa9ded4130706e859',
     messagingSenderId: '107577467292',
     projectId: 'swift2023groupc',
-    databaseURL:
-        'https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://swift2023groupc-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'swift2023groupc.appspot.com',
-    androidClientId:
-        '107577467292-29qkb9uv90ftvfvlubgu32kkv6ho5prl.apps.googleusercontent.com',
-    iosClientId:
-        '107577467292-872qsj4k4a4nef5u2jc71fcek9jbms3a.apps.googleusercontent.com',
+    androidClientId: '107577467292-29qkb9uv90ftvfvlubgu32kkv6ho5prl.apps.googleusercontent.com',
+    iosClientId: '107577467292-872qsj4k4a4nef5u2jc71fcek9jbms3a.apps.googleusercontent.com',
     iosBundleId: 'jp.ac.fun.dotto.prd',
   );
 }

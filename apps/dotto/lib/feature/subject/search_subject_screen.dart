@@ -82,9 +82,8 @@ class SearchSubjectScreen extends HookConsumerWidget {
       } on Exception catch (_) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('履修登録の更新に失敗しました')));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('履修登録の更新に失敗しました')));
         }
       } finally {
         processingSubjectIds.value = {
@@ -256,9 +255,8 @@ class SearchSubjectScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(
           '科目検索',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: SemanticColor.light.accentPrimary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         centerTitle: false,
         actions: [

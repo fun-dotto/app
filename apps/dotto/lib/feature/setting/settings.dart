@@ -139,9 +139,8 @@ final class SettingsScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(
           '設定',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: SemanticColor.light.accentPrimary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         centerTitle: false,
       ),

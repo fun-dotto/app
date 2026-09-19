@@ -53,9 +53,8 @@ final class FunchPriceList extends StatelessWidget {
                 color: SemanticColor.accentMaterialColor.shade400,
                 child: Center(
                   child: Text(
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: SemanticColor.light.labelTertiary,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium
+                        ?.copyWith(color: SemanticColor.light.labelTertiary),
                     sizeStr[i],
                   ),
                 ),
