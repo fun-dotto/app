@@ -101,12 +101,12 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/macos,flutter
 
 **/.env
-**/.envrc
 **/**.freezed.dart
 **/**.g.dart
 **/**.iml
 **/**.log
 **/**.mocks.dart
 **/dart_defines/**.json
+**/mise.local.toml
 .claude/worktrees/
 .idea/
