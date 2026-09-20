@@ -25,7 +25,7 @@ run = [
   "dart pub global activate melos 7.8.1",
   "melos bootstrap",
   "melos run fetch:dart_defines",
-  "mise run sync-rules"
+  "mise run rule-sync"
 ]
 
 [tasks.build]
@@ -43,7 +43,7 @@ run = [
   "cd packages/dotto_design_system && flutter run",
 ]
 
-[tasks.test-unit]
+[tasks.unit-tests]
 run = "melos run test:unit"
 
 [tasks.analyze]
@@ -52,8 +52,11 @@ run = "dart analyze apps/dotto/ packages/dotto_design_system/ scripts/"
 [tasks.format]
 run = "dart fix --apply && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' -print0 | xargs -0 dart format"
 
+[tasks.format-dry-run]
+run = "dart fix --dry-run && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' -print0 | xargs -0 dart format --output=none --set-exit-if-changed"
+
 [tasks.generate-openapi]
 run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
 
-[tasks.sync-rules]
+[tasks.rule-sync]
 run = "rulesync generate --targets claudecode,codexcli,copilot"

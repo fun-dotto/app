@@ -44,7 +44,7 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - uses: ./.github/actions/setup-ci
-      - run: mise test-unit
+      - run: mise unit-tests
 
   lint:
     name: Lint
@@ -61,7 +61,7 @@ jobs:
       - uses: ./.github/actions/setup-ci
       - run: mise build
       - run: mise analyze
-      - run: mise format
+      - run: mise format-dry-run
       - name: Check for diff
         run: |
           if [ -n "$(git diff --name-only -- ':!*.g.dart' ':!*.freezed.dart')" ]; then
