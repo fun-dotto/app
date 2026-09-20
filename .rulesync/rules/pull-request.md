@@ -1,8 +1,9 @@
 ---
 root: false
 targets:
-  - '*'
+  - "*"
 ---
+
 # Pull Request
 
 - ドラフトで作成する。
