@@ -50,10 +50,10 @@ run = "melos run test:unit"
 run = "dart analyze apps/dotto/ packages/dotto_design_system/ scripts/"
 
 [tasks.format]
-run = "dart fix --apply && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' -print0 | xargs -0 dart format"
+run = "dart fix --apply && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 | xargs -0 dart format"
 
 [tasks.format-dry-run]
-run = "dart fix --dry-run && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' -print0 | xargs -0 dart format --output=none --set-exit-if-changed"
+run = "dart fix --dry-run && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 | xargs -0 dart format --output=none --set-exit-if-changed"
 
 [tasks.generate-openapi]
 run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
