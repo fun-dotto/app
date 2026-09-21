@@ -2,16 +2,15 @@ import 'package:dotto/foundation/container/screen_states.dart';
 import 'package:dotto_design_system/component/error_alert.dart';
 import 'package:dotto_design_system/component/progress_indicator.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final class ScreenContainer extends ConsumerWidget {
+final class ScreenContainer extends StatelessWidget {
   const ScreenContainer({required this.states, required this.child, super.key});
 
   final ScreenStates states;
   final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Stack(children: [child, _errorScreen(), _loadingScreen()]);
   }
 
