@@ -143,6 +143,19 @@ platform :ios do
     },
   }
 
+  # 直前の build_app で生成された dSYM を Crashlytics へアップロードする
+  # SPM 構成のため upload-symbols は DerivedData 内の firebase-ios-sdk チェックアウトから探す
+  def upload_dsym_to_crashlytics(firebase_dir)
+    binary_path = Dir.glob(File.expand_path("~/Library/Developer/Xcode/DerivedData/Runner-*/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols")).first
+    UI.user_error!("Crashlytics の upload-symbols が見つかりません") if binary_path.nil?
+
+    upload_symbols_to_crashlytics(
+      dsym_path: lane_context[SharedValues::DSYM_OUTPUT_PATH],
+      gsp_path: "apps/dotto/ios/firebase/#{firebase_dir}/GoogleService-Info.plist",
+      binary_path: binary_path,
+    )
+  end
+
   desc "Build OTA (per flavor)"
   def build_ios_ota_flavor(flavor)
     config = IOS_OTA_FLAVORS.fetch(flavor)
@@ -173,6 +186,7 @@ platform :ios do
         },
       },
     )
+    upload_dsym_to_crashlytics(flavor)
   end
 
   # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、IPAをビルドする
@@ -299,6 +313,7 @@ platform :ios do
         },
       },
     )
+    upload_dsym_to_crashlytics("default")
   end
 
   # ビルド番号を TestFlight の最新ビルド基準に揃え、IPAをビルドする
