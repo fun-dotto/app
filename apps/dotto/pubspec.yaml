@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   app_settings: 9.0.0
-  built_collection: 5.1.1
+  built_collection: 5.1.2
   carousel_slider: 5.1.2
   cloud_firestore: 6.10.0
   collection: 1.19.1
