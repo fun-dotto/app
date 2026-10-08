@@ -65,6 +65,8 @@ All URIs are relative to *http://localhost:8080*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AnnouncementsApi*](doc/AnnouncementsApi.md) | [**announcementsV1List**](doc/AnnouncementsApi.md#announcementsv1list) | **GET** /v1/announcements | 
+[*BusTimetableStopsApi*](doc/BusTimetableStopsApi.md) | [**busTimetableStopsV1List**](doc/BusTimetableStopsApi.md#bustimetablestopsv1list) | **GET** /v1/busTrips/{tripId}/busTimetableStops | 
+[*BusTripsApi*](doc/BusTripsApi.md) | [**busTripsV1List**](doc/BusTripsApi.md#bustripsv1list) | **GET** /v1/busTrips | 
 [*CancelledClassesApi*](doc/CancelledClassesApi.md) | [**cancelledClassesV1List**](doc/CancelledClassesApi.md#cancelledclassesv1list) | **GET** /v1/cancelledClasses | 
 [*CourseRegistrationsApi*](doc/CourseRegistrationsApi.md) | [**courseRegistrationsV1Create**](doc/CourseRegistrationsApi.md#courseregistrationsv1create) | **POST** /v1/courseRegistrations | 
 [*CourseRegistrationsApi*](doc/CourseRegistrationsApi.md) | [**courseRegistrationsV1Delete**](doc/CourseRegistrationsApi.md#courseregistrationsv1delete) | **DELETE** /v1/courseRegistrations/{id} | 
@@ -90,6 +92,13 @@ Class | Method | HTTP request | Description
  - [AcademicServiceSyllabus](doc/AcademicServiceSyllabus.md)
  - [Announcement](doc/Announcement.md)
  - [AnnouncementsV1List200Response](doc/AnnouncementsV1List200Response.md)
+ - [BusAlert](doc/BusAlert.md)
+ - [BusRoute](doc/BusRoute.md)
+ - [BusStop](doc/BusStop.md)
+ - [BusTimetableStop](doc/BusTimetableStop.md)
+ - [BusTimetableStopsV1List200Response](doc/BusTimetableStopsV1List200Response.md)
+ - [BusTrip](doc/BusTrip.md)
+ - [BusTripsV1List200Response](doc/BusTripsV1List200Response.md)
  - [CancelledClass](doc/CancelledClass.md)
  - [CancelledClassesV1List200Response](doc/CancelledClassesV1List200Response.md)
  - [Category](doc/Category.md)

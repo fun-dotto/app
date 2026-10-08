@@ -12,38 +12,26 @@ part 'course_registrations_v1_create201_response.g.dart';
 /// CourseRegistrationsV1Create201Response
 ///
 /// Properties:
-/// * [courseRegistration]
+/// * [courseRegistration] 
 @BuiltValue()
-abstract class CourseRegistrationsV1Create201Response
-    implements
-        Built<
-          CourseRegistrationsV1Create201Response,
-          CourseRegistrationsV1Create201ResponseBuilder
-        > {
+abstract class CourseRegistrationsV1Create201Response implements Built<CourseRegistrationsV1Create201Response, CourseRegistrationsV1Create201ResponseBuilder> {
   @BuiltValueField(wireName: r'courseRegistration')
   CourseRegistration get courseRegistration;
 
   CourseRegistrationsV1Create201Response._();
 
-  factory CourseRegistrationsV1Create201Response([
-    void updates(CourseRegistrationsV1Create201ResponseBuilder b),
-  ]) = _$CourseRegistrationsV1Create201Response;
+  factory CourseRegistrationsV1Create201Response([void updates(CourseRegistrationsV1Create201ResponseBuilder b)]) = _$CourseRegistrationsV1Create201Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CourseRegistrationsV1Create201ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CourseRegistrationsV1Create201Response> get serializer =>
-      _$CourseRegistrationsV1Create201ResponseSerializer();
+  static Serializer<CourseRegistrationsV1Create201Response> get serializer => _$CourseRegistrationsV1Create201ResponseSerializer();
 }
 
-class _$CourseRegistrationsV1Create201ResponseSerializer
-    implements PrimitiveSerializer<CourseRegistrationsV1Create201Response> {
+class _$CourseRegistrationsV1Create201ResponseSerializer implements PrimitiveSerializer<CourseRegistrationsV1Create201Response> {
   @override
-  final Iterable<Type> types = const [
-    CourseRegistrationsV1Create201Response,
-    _$CourseRegistrationsV1Create201Response,
-  ];
+  final Iterable<Type> types = const [CourseRegistrationsV1Create201Response, _$CourseRegistrationsV1Create201Response];
 
   @override
   final String wireName = r'CourseRegistrationsV1Create201Response';
@@ -66,11 +54,7 @@ class _$CourseRegistrationsV1Create201ResponseSerializer
     CourseRegistrationsV1Create201Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(
-      serializers,
-      object,
-      specifiedType: specifiedType,
-    ).toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -86,12 +70,10 @@ class _$CourseRegistrationsV1Create201ResponseSerializer
       final value = serializedList[i + 1];
       switch (key) {
         case r'courseRegistration':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(CourseRegistration),
-                  )
-                  as CourseRegistration;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(CourseRegistration),
+          ) as CourseRegistration;
           result.courseRegistration.replace(valueDes);
           break;
         default:
@@ -122,3 +104,4 @@ class _$CourseRegistrationsV1Create201ResponseSerializer
     return result.build();
   }
 }
+

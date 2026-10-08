@@ -12,11 +12,10 @@ part 'subject_faculty.g.dart';
 /// SubjectFaculty
 ///
 /// Properties:
-/// * [faculty]
-/// * [isPrimary]
+/// * [faculty] 
+/// * [isPrimary] 
 @BuiltValue()
-abstract class SubjectFaculty
-    implements Built<SubjectFaculty, SubjectFacultyBuilder> {
+abstract class SubjectFaculty implements Built<SubjectFaculty, SubjectFacultyBuilder> {
   @BuiltValueField(wireName: r'faculty')
   AcademicServiceFaculty get faculty;
 
@@ -25,19 +24,16 @@ abstract class SubjectFaculty
 
   SubjectFaculty._();
 
-  factory SubjectFaculty([void updates(SubjectFacultyBuilder b)]) =
-      _$SubjectFaculty;
+  factory SubjectFaculty([void updates(SubjectFacultyBuilder b)]) = _$SubjectFaculty;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SubjectFacultyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SubjectFaculty> get serializer =>
-      _$SubjectFacultySerializer();
+  static Serializer<SubjectFaculty> get serializer => _$SubjectFacultySerializer();
 }
 
-class _$SubjectFacultySerializer
-    implements PrimitiveSerializer<SubjectFaculty> {
+class _$SubjectFacultySerializer implements PrimitiveSerializer<SubjectFaculty> {
   @override
   final Iterable<Type> types = const [SubjectFaculty, _$SubjectFaculty];
 
@@ -67,11 +63,7 @@ class _$SubjectFacultySerializer
     SubjectFaculty object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(
-      serializers,
-      object,
-      specifiedType: specifiedType,
-    ).toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -87,21 +79,17 @@ class _$SubjectFacultySerializer
       final value = serializedList[i + 1];
       switch (key) {
         case r'faculty':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(AcademicServiceFaculty),
-                  )
-                  as AcademicServiceFaculty;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(AcademicServiceFaculty),
+          ) as AcademicServiceFaculty;
           result.faculty.replace(valueDes);
           break;
         case r'isPrimary':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )
-                  as bool;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
           result.isPrimary = valueDes;
           break;
         default:
@@ -132,3 +120,4 @@ class _$SubjectFacultySerializer
     return result.build();
   }
 }
+

@@ -13,6 +13,7 @@ import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/reservations_v1_list200_response.dart';
 
 class ReservationsApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -35,7 +36,7 @@ class ReservationsApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ReservationsV1List200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ReservationsV1List200Response>> reservationsV1List({
+  Future<Response<ReservationsV1List200Response>> reservationsV1List({ 
     BuiltList<String>? roomIds,
     DateTime? from,
     DateTime? until,
@@ -49,7 +50,9 @@ class ReservationsApi {
     final _path = r'/v1/reservations';
     final _options = Options(
       method: r'GET',
-      headers: <String, dynamic>{...?headers},
+      headers: <String, dynamic>{
+        ...?headers,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -57,8 +60,11 @@ class ReservationsApi {
             'name': 'FirebaseAppCheckAuth',
             'keyName': 'X-Firebase-AppCheck',
             'where': 'header',
+          },{
+            'type': 'http',
+            'scheme': 'Bearer',
+            'name': 'BearerAuth',
           },
-          {'type': 'http', 'scheme': 'Bearer', 'name': 'BearerAuth'},
         ],
         ...?extra,
       },
@@ -66,25 +72,9 @@ class ReservationsApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (roomIds != null)
-        r'roomIds': encodeCollectionQueryParameter<String>(
-          _serializers,
-          roomIds,
-          const FullType(BuiltList, [FullType(String)]),
-          format: ListFormat.csv,
-        ),
-      if (from != null)
-        r'from': encodeQueryParameter(
-          _serializers,
-          from,
-          const FullType(DateTime),
-        ),
-      if (until != null)
-        r'until': encodeQueryParameter(
-          _serializers,
-          until,
-          const FullType(DateTime),
-        ),
+      if (roomIds != null) r'roomIds': encodeCollectionQueryParameter<String>(_serializers, roomIds, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
+      if (from != null) r'from': encodeQueryParameter(_serializers, from, const FullType(DateTime)),
+      if (until != null) r'until': encodeQueryParameter(_serializers, until, const FullType(DateTime)),
     };
 
     final _response = await _dio.request<Object>(
@@ -100,13 +90,11 @@ class ReservationsApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-                  rawResponse,
-                  specifiedType: const FullType(ReservationsV1List200Response),
-                )
-                as ReservationsV1List200Response;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ReservationsV1List200Response),
+      ) as ReservationsV1List200Response;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -128,4 +116,5 @@ class ReservationsApi {
       extra: _response.extra,
     );
   }
+
 }

@@ -12,6 +12,7 @@ import 'package:openapi/src/model/user_info.dart';
 import 'package:openapi/src/model/users_v1_detail200_response.dart';
 
 class UsersApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -31,7 +32,7 @@ class UsersApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UsersV1Detail200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UsersV1Detail200Response>> usersV1Detail({
+  Future<Response<UsersV1Detail200Response>> usersV1Detail({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -42,7 +43,9 @@ class UsersApi {
     final _path = r'/v1/users';
     final _options = Options(
       method: r'GET',
-      headers: <String, dynamic>{...?headers},
+      headers: <String, dynamic>{
+        ...?headers,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -50,8 +53,11 @@ class UsersApi {
             'name': 'FirebaseAppCheckAuth',
             'keyName': 'X-Firebase-AppCheck',
             'where': 'header',
+          },{
+            'type': 'http',
+            'scheme': 'Bearer',
+            'name': 'BearerAuth',
           },
-          {'type': 'http', 'scheme': 'Bearer', 'name': 'BearerAuth'},
         ],
         ...?extra,
       },
@@ -70,13 +76,11 @@ class UsersApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-                  rawResponse,
-                  specifiedType: const FullType(UsersV1Detail200Response),
-                )
-                as UsersV1Detail200Response;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(UsersV1Detail200Response),
+      ) as UsersV1Detail200Response;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -113,7 +117,7 @@ class UsersApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UsersV1Detail200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UsersV1Detail200Response>> usersV1Upsert({
+  Future<Response<UsersV1Detail200Response>> usersV1Upsert({ 
     required UserInfo userInfo,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -125,7 +129,9 @@ class UsersApi {
     final _path = r'/v1/users';
     final _options = Options(
       method: r'POST',
-      headers: <String, dynamic>{...?headers},
+      headers: <String, dynamic>{
+        ...?headers,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -133,8 +139,11 @@ class UsersApi {
             'name': 'FirebaseAppCheckAuth',
             'keyName': 'X-Firebase-AppCheck',
             'where': 'header',
+          },{
+            'type': 'http',
+            'scheme': 'Bearer',
+            'name': 'BearerAuth',
           },
-          {'type': 'http', 'scheme': 'Bearer', 'name': 'BearerAuth'},
         ],
         ...?extra,
       },
@@ -147,9 +156,13 @@ class UsersApi {
     try {
       const _type = FullType(UserInfo);
       _bodyData = _serializers.serialize(userInfo, specifiedType: _type);
-    } catch (error, stackTrace) {
+
+    } catch(error, stackTrace) {
       throw DioException(
-        requestOptions: _options.compose(_dio.options, _path),
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
         type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
@@ -169,13 +182,11 @@ class UsersApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-                  rawResponse,
-                  specifiedType: const FullType(UsersV1Detail200Response),
-                )
-                as UsersV1Detail200Response;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(UsersV1Detail200Response),
+      ) as UsersV1Detail200Response;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -197,4 +208,5 @@ class UsersApi {
       extra: _response.extra,
     );
   }
+
 }

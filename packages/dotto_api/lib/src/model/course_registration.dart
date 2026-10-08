@@ -12,11 +12,10 @@ part 'course_registration.g.dart';
 /// CourseRegistration
 ///
 /// Properties:
-/// * [id]
-/// * [subject]
+/// * [id] 
+/// * [subject] 
 @BuiltValue()
-abstract class CourseRegistration
-    implements Built<CourseRegistration, CourseRegistrationBuilder> {
+abstract class CourseRegistration implements Built<CourseRegistration, CourseRegistrationBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -25,19 +24,16 @@ abstract class CourseRegistration
 
   CourseRegistration._();
 
-  factory CourseRegistration([void updates(CourseRegistrationBuilder b)]) =
-      _$CourseRegistration;
+  factory CourseRegistration([void updates(CourseRegistrationBuilder b)]) = _$CourseRegistration;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CourseRegistrationBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CourseRegistration> get serializer =>
-      _$CourseRegistrationSerializer();
+  static Serializer<CourseRegistration> get serializer => _$CourseRegistrationSerializer();
 }
 
-class _$CourseRegistrationSerializer
-    implements PrimitiveSerializer<CourseRegistration> {
+class _$CourseRegistrationSerializer implements PrimitiveSerializer<CourseRegistration> {
   @override
   final Iterable<Type> types = const [CourseRegistration, _$CourseRegistration];
 
@@ -67,11 +63,7 @@ class _$CourseRegistrationSerializer
     CourseRegistration object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(
-      serializers,
-      object,
-      specifiedType: specifiedType,
-    ).toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -87,21 +79,17 @@ class _$CourseRegistrationSerializer
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
           result.id = valueDes;
           break;
         case r'subject':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(SubjectSummary),
-                  )
-                  as SubjectSummary;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(SubjectSummary),
+          ) as SubjectSummary;
           result.subject.replace(valueDes);
           break;
         default:
@@ -132,3 +120,4 @@ class _$CourseRegistrationSerializer
     return result.build();
   }
 }
+
