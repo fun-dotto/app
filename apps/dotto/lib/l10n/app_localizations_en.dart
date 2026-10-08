@@ -189,4 +189,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String funchToday(String date) {
     return 'Cafeteria on $date';
   }
+
+  @override
+  String get pdfShareFailed => 'Could not share the PDF. Please try again.';
 }
