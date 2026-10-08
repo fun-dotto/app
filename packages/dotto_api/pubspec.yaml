@@ -5,7 +5,7 @@ description: OpenAPI API client
 homepage: homepage
 
 environment:
-  sdk: 3.13.4
+  sdk: 3.13.5
 
 dependencies:
   dio: "5.11.1"
