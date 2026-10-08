@@ -51,7 +51,7 @@ Future<int> checkDartFormat() async {
 
   // Filter out generated files and api directory
   final stagedDartFiles = allStagedDartFiles.where((f) {
-    if (f.startsWith('api/')) return false;
+    if (f.startsWith('packages/dotto_api/')) return false;
     if (f.endsWith('.g.dart')) return false;
     if (f.endsWith('.freezed.dart')) return false;
     if (f.endsWith('.gen.dart')) return false;
