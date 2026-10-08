@@ -235,5 +235,24 @@
         "type": "int"
       }
     }
+  },
+  "courseNoticeTitle": "休講・補講・教室変更",
+  "courseNoticeSignInRequired": "Googleアカウント(@fun.ac.jp)ログインが必要です。",
+  "courseNoticeRegistered": "履修中",
+  "courseNoticeAll": "すべて",
+  "courseNoticeCancellation": "休講",
+  "courseNoticeMakeup": "補講",
+  "courseNoticeRoomChange": "教室変更",
+  "courseNoticeEmptyCancellation": "休講はありません。",
+  "courseNoticeEmptyMakeup": "補講はありません。",
+  "courseNoticeEmptyRoomChange": "教室変更はありません。",
+  "courseNoticeLoadError": "データの取得に失敗しました。",
+  "courseNoticePeriod": "{period}限",
+  "@courseNoticePeriod": {
+    "placeholders": {
+      "period": {
+        "type": "int"
+      }
+    }
   }
 }

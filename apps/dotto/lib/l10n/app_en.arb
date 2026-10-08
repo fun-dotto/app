@@ -235,5 +235,24 @@
         "type": "int"
       }
     }
+  },
+  "courseNoticeTitle": "Cancellations, makeups and room changes",
+  "courseNoticeSignInRequired": "Sign in with your @fun.ac.jp Google account.",
+  "courseNoticeRegistered": "Registered",
+  "courseNoticeAll": "All",
+  "courseNoticeCancellation": "Cancellations",
+  "courseNoticeMakeup": "Makeups",
+  "courseNoticeRoomChange": "Room changes",
+  "courseNoticeEmptyCancellation": "There are no cancellations.",
+  "courseNoticeEmptyMakeup": "There are no makeups.",
+  "courseNoticeEmptyRoomChange": "There are no room changes.",
+  "courseNoticeLoadError": "Failed to load data.",
+  "courseNoticePeriod": "Period {period}",
+  "@courseNoticePeriod": {
+    "placeholders": {
+      "period": {
+        "type": "int"
+      }
+    }
   }
 }

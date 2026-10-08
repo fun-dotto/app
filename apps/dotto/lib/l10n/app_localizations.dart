@@ -925,6 +925,78 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'{semester} {day}曜{period}限'**
   String courseSlotTitle(String semester, String day, int period);
+
+  /// No description provided for @courseNoticeTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'休講・補講・教室変更'**
+  String get courseNoticeTitle;
+
+  /// No description provided for @courseNoticeSignInRequired.
+  ///
+  /// In ja, this message translates to:
+  /// **'Googleアカウント(@fun.ac.jp)ログインが必要です。'**
+  String get courseNoticeSignInRequired;
+
+  /// No description provided for @courseNoticeRegistered.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修中'**
+  String get courseNoticeRegistered;
+
+  /// No description provided for @courseNoticeAll.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべて'**
+  String get courseNoticeAll;
+
+  /// No description provided for @courseNoticeCancellation.
+  ///
+  /// In ja, this message translates to:
+  /// **'休講'**
+  String get courseNoticeCancellation;
+
+  /// No description provided for @courseNoticeMakeup.
+  ///
+  /// In ja, this message translates to:
+  /// **'補講'**
+  String get courseNoticeMakeup;
+
+  /// No description provided for @courseNoticeRoomChange.
+  ///
+  /// In ja, this message translates to:
+  /// **'教室変更'**
+  String get courseNoticeRoomChange;
+
+  /// No description provided for @courseNoticeEmptyCancellation.
+  ///
+  /// In ja, this message translates to:
+  /// **'休講はありません。'**
+  String get courseNoticeEmptyCancellation;
+
+  /// No description provided for @courseNoticeEmptyMakeup.
+  ///
+  /// In ja, this message translates to:
+  /// **'補講はありません。'**
+  String get courseNoticeEmptyMakeup;
+
+  /// No description provided for @courseNoticeEmptyRoomChange.
+  ///
+  /// In ja, this message translates to:
+  /// **'教室変更はありません。'**
+  String get courseNoticeEmptyRoomChange;
+
+  /// No description provided for @courseNoticeLoadError.
+  ///
+  /// In ja, this message translates to:
+  /// **'データの取得に失敗しました。'**
+  String get courseNoticeLoadError;
+
+  /// No description provided for @courseNoticePeriod.
+  ///
+  /// In ja, this message translates to:
+  /// **'{period}限'**
+  String courseNoticePeriod(int period);
 }
 
 class _AppLocalizationsDelegate
