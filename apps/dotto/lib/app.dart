@@ -16,7 +16,12 @@ final class MyApp extends ConsumerWidget {
       title: 'Dotto',
       theme: DottoTheme.v2,
       routerConfig: router,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // 生成された AppLocalizations.localizationsDelegates は flutter/material の
+      // ローカライズを指し、material_ui の Widget からは参照できないため組み直す。
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+      ],
       supportedLocales: AppLocalizations.supportedLocales,
     );
   }
