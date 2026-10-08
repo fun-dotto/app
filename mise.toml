@@ -19,34 +19,43 @@ ruby = "4.0.7"
 [tasks.pre-commit]
 run = "dart run scripts/pre_commit.dart"
 
-[tasks.setup]
+[tasks.bootstrap]
 run = [
   "bundle install",
   "dart pub global activate melos 7.8.1",
   "melos bootstrap",
-  "melos run fetch:dart_defines",
-  "mise run rule-sync"
+  { task = "fetch:dart_defines" },
+  { task = "rulesync" }
 ]
 
-[tasks.build]
+[tasks."fetch:dart_defines"]
+run = "melos run fetch:dart_defines"
+
+[tasks.rulesync]
+run = "rulesync generate --targets claudecode,codexcli,copilot"
+
+[tasks."generate:build_runner"]
 run = "melos run gen:build_runner --no-select"
 
-[tasks.app]
+[tasks."watch:build_runner"]
+run = "melos run watch:build_runner --no-select"
+
+[tasks."generate:openapi"]
+run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
+
+[tasks."app:run"]
 run = [
-  "melos run gen:build_runner --no-select",
+  { task = "generate:build_runner" },
   "cd apps/dotto && flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json",
 ]
 
-[tasks.widgetbook]
+[tasks."widgetbook:run"]
 run = [
-  "melos run gen:build_runner --no-select",
+  { task = "generate:build_runner" },
   "cd packages/dotto_design_system && flutter run",
 ]
 
-[tasks.unit-tests]
-run = "melos run test:unit"
-
-[tasks.analyze]
+[tasks.lint]
 run = "dart analyze apps/dotto/ packages/dotto_design_system/ scripts/"
 
 [tasks.format]
@@ -55,8 +64,5 @@ run = "dart fix --apply && find apps/dotto/lib apps/dotto/test packages/dotto_de
 [tasks.format-dry-run]
 run = "dart fix --dry-run && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 | xargs -0 dart format --output=none --set-exit-if-changed"
 
-[tasks.generate-openapi]
-run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
-
-[tasks.rule-sync]
-run = "rulesync generate --targets claudecode,codexcli,copilot"
+[tasks.test]
+run = "melos run test:unit_tests"

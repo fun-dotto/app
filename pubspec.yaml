@@ -26,13 +26,13 @@ melos:
         concurrency: 8
       packageFilters:
         dependsOn: "build_runner"
-    gen:build_runner:watch:
+    watch:build_runner:
       run: dart run build_runner watch --delete-conflicting-outputs
       exec:
         concurrency: 8
       packageFilters:
         dependsOn: "build_runner"
-    test:unit:
+    test:unit_tests:
       steps:
         - melos run gen:build_runner
         - melos exec --concurrency 8 --dir-exists=test --flutter -- "flutter test -j 8 --reporter=failures-only --dart-define=VERBOSE_TEST=false --no-pub"
