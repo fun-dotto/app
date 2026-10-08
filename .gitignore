@@ -120,3 +120,4 @@ Temporary Items
 !.github/actions/
 !.github/workflows/
 !.github/PULL_REQUEST_TEMPLATE.md
+.mcp.json
