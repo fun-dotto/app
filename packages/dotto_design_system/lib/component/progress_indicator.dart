@@ -11,8 +11,7 @@ final class DottoProgressIndicator extends HookWidget {
   Widget build(BuildContext context) {
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 1200),
-    );
-    animationController.repeat();
+    )..repeat();
 
     return DecoratedBox(
       decoration: BoxDecoration(
