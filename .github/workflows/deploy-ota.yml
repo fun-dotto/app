@@ -64,7 +64,7 @@ jobs:
       - uses: ./.github/actions/setup-ci
       - name: Build iOS OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane ios build_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ota-ipa-${{ matrix.flavor }}
           path: build/dotto-${{ matrix.flavor }}.ipa
@@ -108,7 +108,7 @@ jobs:
           EOF
       - name: Build Android OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane android build_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ota-apk-${{ matrix.flavor }}
           path: apps/dotto/build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
@@ -150,7 +150,7 @@ jobs:
           path: build
       - name: Distribute iOS OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane ios distribute_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ota-result-ios-${{ matrix.flavor }}
           path: ${{ env.OTA_RESULT_FILE }}
@@ -183,7 +183,7 @@ jobs:
           path: apps/dotto/build/app/outputs/flutter-apk
       - name: Distribute Android OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane android distribute_ota_flavor flavor:${{ matrix.flavor }}
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ota-result-android-${{ matrix.flavor }}
           path: ${{ env.OTA_RESULT_FILE }}
