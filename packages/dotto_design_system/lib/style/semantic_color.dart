@@ -1,5 +1,5 @@
 import 'package:dotto_design_system/style/primitive_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 @immutable
 final class SemanticColor extends ThemeExtension<SemanticColor> {

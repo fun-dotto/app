@@ -4,8 +4,8 @@ import 'package:dotto/domain/entity/map_tile_props.dart';
 import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/widget/map_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class MapGridScreen extends StatelessWidget {
   const new({

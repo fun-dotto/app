@@ -9,9 +9,9 @@ import 'package:dotto/feature/map/map_reducer.dart';
 import 'package:dotto/feature/map/map_state.dart';
 import 'package:dotto/repository/repository_provider.dart';
 import 'package:dotto/repository/room_repository.dart';
-import 'package:flutter/material.dart' hide Listener;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart' hide Listener;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 

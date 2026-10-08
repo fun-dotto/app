@@ -14,8 +14,8 @@ import 'package:dotto_design_system/component/dialog.dart';
 import 'package:dotto_design_system/component/list_section.dart';
 import 'package:dotto_design_system/component/list_tile.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class SettingsScreen extends HookConsumerWidget {
   const new({super.key});

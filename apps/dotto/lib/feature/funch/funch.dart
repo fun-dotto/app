@@ -8,8 +8,8 @@ import 'package:dotto/feature/funch/widget/funch_menu_card.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class FunchScreen extends ConsumerWidget {
   const new({super.key});

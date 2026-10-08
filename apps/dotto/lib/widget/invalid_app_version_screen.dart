@@ -1,7 +1,7 @@
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class InvalidAppVersionScreen extends StatelessWidget {
   const new({

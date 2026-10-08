@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 enum FunchMenuCategory {
   set('セット・単品', [1, 7, 8], Icons.restaurant),

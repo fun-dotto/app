@@ -3,7 +3,7 @@ import 'package:dotto/domain/entity/map_colors.dart';
 import 'package:dotto/domain/entity/map_stair_type.dart';
 import 'package:dotto/domain/entity/restroom_type.dart';
 import 'package:dotto/domain/entity/room_equipment.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 abstract class MapTileProps {
   new({

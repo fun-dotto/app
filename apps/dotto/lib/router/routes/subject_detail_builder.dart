@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:dotto/feature/subject/subject_detail_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// 科目詳細を、指定したタブを開いた状態で構築する。
 ///

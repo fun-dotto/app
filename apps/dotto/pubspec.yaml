@@ -46,6 +46,7 @@ dependencies:
   http: 1.6.0
   intl: 0.20.3
   json_annotation: 4.12.0
+  material_ui: 1.1.1
   minio: 3.5.8
   openapi: any
   package_info_plus: 10.2.1

@@ -1,7 +1,7 @@
 import 'package:dotto/domain/entity/map_colors.dart';
 import 'package:dotto/domain/entity/map_tile_props.dart';
 import 'package:dotto/domain/entity/room.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class MapTile extends StatelessWidget {
   const new({

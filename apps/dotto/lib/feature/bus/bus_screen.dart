@@ -1,13 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/feature/bus/bus_reducer.dart';
 import 'package:dotto/feature/bus/bus_trip_id.dart';
+import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/repository/model/bus_type.dart';
 import 'package:dotto/router/routes/bus_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ScrollCacheExtent;
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final GlobalKey<State<StatefulWidget>> weekdayBusKey = GlobalKey();
 final GlobalKey<State<StatefulWidget>> holidayBusKey = GlobalKey();

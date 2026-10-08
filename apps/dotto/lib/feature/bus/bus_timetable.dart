@@ -1,7 +1,7 @@
 import 'package:dotto/feature/bus/bus_reducer.dart';
 import 'package:dotto/repository/model/bus_trip.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class BusTimetableScreen extends StatelessWidget {
   const new(this.busTrip, {super.key});

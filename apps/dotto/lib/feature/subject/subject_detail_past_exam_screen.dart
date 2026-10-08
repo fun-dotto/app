@@ -1,6 +1,6 @@
 import 'package:dotto/helper/s3_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// 過去問PDFのオブジェクトキーから表示用のファイル名を取り出す。
 String pastExamFileName(String objectKey) {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class RoomEquipmentStatus {
   const new({required this.food, required this.drink, required this.outlet});

@@ -1,5 +1,5 @@
 import 'package:dotto/asset.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class SettingsLicenseScreen extends StatelessWidget {
   const new({super.key});

@@ -1,7 +1,7 @@
 import 'package:dotto/controller/dotto_user_preference_controller.dart';
 import 'package:dotto/domain/entity/timetable_period_style.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class CourseCustomizeScreen extends ConsumerWidget {
   const new({super.key});

@@ -1,6 +1,6 @@
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:dotto_design_system/style/text_style.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class DottoTheme {
   static ThemeData get v2 {

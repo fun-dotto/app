@@ -2,8 +2,8 @@ import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/widget/web_pdf_viewer.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// 講義タブから閲覧できるPDF資料。
 enum CourseDocument {

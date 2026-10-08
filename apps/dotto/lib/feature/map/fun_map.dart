@@ -3,8 +3,8 @@ import 'package:dotto/domain/entity/map_stair_type.dart';
 import 'package:dotto/domain/entity/map_tile_props.dart';
 import 'package:dotto/domain/entity/restroom_type.dart';
 import 'package:dotto/domain/entity/room_equipment.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final funMapProvider = Provider<List<MapTileProps>>((ref) => FUNMap.tileProps);
 

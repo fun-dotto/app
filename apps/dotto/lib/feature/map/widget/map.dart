@@ -2,7 +2,7 @@ import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/domain/entity/map_tile_props.dart';
 import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/feature/map/widget/map_grid.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class Map extends StatelessWidget {
   const new({
