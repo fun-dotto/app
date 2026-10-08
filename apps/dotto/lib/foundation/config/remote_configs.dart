@@ -1,4 +1,4 @@
-import 'package:dotto/domain/breaking_announcement.dart';
+import 'package:dotto/domain/entity/breaking_announcement.dart';
 import 'package:dotto/foundation/config/remote_config.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 

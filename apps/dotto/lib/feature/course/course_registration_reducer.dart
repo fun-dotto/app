@@ -1,7 +1,7 @@
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/domain/semester.dart';
-import 'package:dotto/domain/timetable_item.dart';
-import 'package:dotto/domain/timetable_semester.dart';
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/timetable_item.dart';
+import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/repository/course_registration_repository.dart';
 import 'package:dotto/repository/timetable_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

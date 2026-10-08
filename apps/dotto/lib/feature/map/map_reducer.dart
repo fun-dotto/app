@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/domain/floor.dart';
-import 'package:dotto/domain/map_tile_props.dart';
-import 'package:dotto/domain/room.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/map_tile_props.dart';
+import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_state.dart';
 import 'package:dotto/repository/repository_provider.dart';

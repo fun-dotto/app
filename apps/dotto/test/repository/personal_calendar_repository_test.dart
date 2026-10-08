@@ -1,5 +1,5 @@
-import 'package:dotto/domain/lecture_status.dart';
-import 'package:dotto/domain/period.dart';
+import 'package:dotto/domain/entity/lecture_status.dart';
+import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/repository/personal_calendar_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:openapi/openapi.dart';

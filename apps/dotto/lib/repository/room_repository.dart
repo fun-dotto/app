@@ -1,11 +1,11 @@
 import 'package:dotto/api/firebase/room_api.dart';
-import 'package:dotto/domain/day_of_week.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/floor.dart';
-import 'package:dotto/domain/period.dart';
-import 'package:dotto/domain/room.dart';
-import 'package:dotto/domain/room_assignment_index.dart';
-import 'package:dotto/domain/room_schedule.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/period.dart';
+import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/domain/entity/room_assignment_index.dart';
+import 'package:dotto/domain/entity/room_schedule.dart';
 
 abstract class RoomRepository {
   Future<List<Room>> getRooms();

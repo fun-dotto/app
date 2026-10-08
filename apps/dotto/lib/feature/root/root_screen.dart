@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:dotto/controller/notification_status_controller.dart';
-import 'package:dotto/domain/notification_alert_status.dart';
-import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/domain/user_preference_keys.dart';
-import 'package:dotto/feature/onboarding/onboarding_screen.dart';
+import 'package:dotto/domain/entity/notification_alert_status.dart';
+import 'package:dotto/domain/entity/tab_item.dart';
+import 'package:dotto/domain/entity/user_preference_keys.dart';
 import 'package:dotto/feature/root/root_alert_state.dart';
 import 'package:dotto/feature/root/root_app_tutorial_state.dart';
 import 'package:dotto/feature/root/root_app_version.dart';
@@ -13,13 +11,14 @@ import 'package:dotto/feature/root/root_initialization_state.dart';
 import 'package:dotto/foundation/container/screen_container.dart';
 import 'package:dotto/foundation/container/screen_states.dart';
 import 'package:dotto/foundation/flag/flags.dart';
-import 'package:dotto/foundation/flag/use_flag.dart';
 import 'package:dotto/foundation/log/logger.dart';
-import 'package:dotto/helper/firebase_auth_provider.dart';
 import 'package:dotto/helper/firebase_messaging_provider.dart';
-import 'package:dotto/helper/notification_helper.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
+import 'package:dotto/presentation/common/auth_account_state.dart';
+import 'package:dotto/presentation/common/notification_alert_status_state.dart';
+import 'package:dotto/presentation/common/use_flag.dart';
+import 'package:dotto/presentation/onboarding/onboarding_screen.dart';
 import 'package:dotto/repository/repository_provider.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto/widget/invalid_app_version_screen.dart';
@@ -90,7 +89,9 @@ final class RootScreen extends HookConsumerWidget {
         TextButton(
           onPressed: () async {
             Navigator.of(context).pop();
-            await ref.read(notificationHelperProvider).openSystemSettings();
+            await ref
+                .read(notificationAlertStatusStateProvider.notifier)
+                .openSystemSettings();
           },
           child: const Text('設定を開く'),
         ),
@@ -148,7 +149,9 @@ final class RootScreen extends HookConsumerWidget {
       }
 
       try {
-        final status = await ref.read(notificationStatusProvider.future);
+        final status = await ref.read(
+          notificationAlertStatusStateProvider.future,
+        );
         if (!context.mounted) return;
         if (ref.read(rootAlertStateProvider).hasShownNotificationAlert) {
           return;
@@ -177,7 +180,7 @@ final class RootScreen extends HookConsumerWidget {
             .logError(
               error,
               stackTrace,
-              reason: 'notificationStatusProvider read failed',
+              reason: 'notificationAlertStatusStateProvider read failed',
             );
         ref
             .read(rootAlertStateProvider.notifier)
@@ -260,19 +263,19 @@ final class RootScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
       final listener = AppLifecycleListener(
-        onResume: () => ref.invalidate(notificationStatusProvider),
+        onResume: () => ref.invalidate(notificationAlertStatusStateProvider),
       );
       return listener.dispose;
     }, const []);
 
     ref
-      ..listen(firebaseAuthStateChangesProvider, (prev, next) async {
+      ..listen(authAccountStateProvider, (prev, next) async {
         final fcmTokenRepository = ref.read(fcmTokenRepositoryProvider);
         final logger = ref.read(loggerProvider);
         try {
           final prevUser = prev?.asData?.value;
           final nextUser = next.asData?.value;
-          if (prevUser?.uid == nextUser?.uid) return;
+          if (prevUser?.id == nextUser?.id) return;
 
           if (nextUser == null) return;
           final token = await FirebaseMessaging.instance.getToken();
@@ -282,7 +285,7 @@ final class RootScreen extends HookConsumerWidget {
           await logger.logError(
             error,
             stackTrace,
-            reason: 'firebaseAuthStateChangesProvider listener failed',
+            reason: 'authAccountStateProvider listener failed',
           );
         }
       })

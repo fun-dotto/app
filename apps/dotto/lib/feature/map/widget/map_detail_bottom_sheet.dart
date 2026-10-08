@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:dotto/domain/map_tile_props.dart';
-import 'package:dotto/domain/room.dart';
-import 'package:dotto/domain/room_equipment.dart';
+import 'package:dotto/domain/entity/map_tile_props.dart';
+import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/domain/entity/room_equipment.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';

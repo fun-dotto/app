@@ -1,5 +1,5 @@
-import 'package:dotto/domain/subject_filter.dart';
-import 'package:dotto/domain/subject_summary.dart';
+import 'package:dotto/domain/entity/subject_filter.dart';
+import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'search_subject_state.freezed.dart';

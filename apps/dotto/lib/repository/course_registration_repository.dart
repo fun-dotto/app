@@ -1,10 +1,10 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/domain/course_registration.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/faculty.dart';
-import 'package:dotto/domain/semester.dart';
-import 'package:dotto/domain/subject_faculty.dart';
-import 'package:dotto/domain/subject_summary.dart';
+import 'package:dotto/domain/entity/course_registration.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/faculty.dart';
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/subject_faculty.dart';
+import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:openapi/openapi.dart'
     hide
         CourseRegistration,

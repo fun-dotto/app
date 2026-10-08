@@ -1,4 +1,4 @@
-import 'package:dotto/domain/syllabus.dart';
+import 'package:dotto/domain/entity/syllabus.dart';
 import 'package:flutter/material.dart';
 
 final class SubjectDetailSyllabusScreen extends StatelessWidget {

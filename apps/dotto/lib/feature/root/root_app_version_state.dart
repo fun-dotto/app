@@ -1,4 +1,4 @@
-import 'package:dotto/domain/app_version_evaluator.dart';
+import 'package:dotto/domain/service/app_version_evaluator.dart';
 import 'package:dotto/feature/root/root_app_version.dart';
 import 'package:dotto/feature/root/root_initialization_state.dart';
 import 'package:dotto/foundation/config/config.dart';

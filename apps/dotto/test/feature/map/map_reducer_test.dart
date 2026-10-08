@@ -1,9 +1,9 @@
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/floor.dart';
-import 'package:dotto/domain/map_tile_props.dart';
-import 'package:dotto/domain/room.dart';
-import 'package:dotto/domain/room_equipment.dart';
-import 'package:dotto/domain/room_schedule.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/map_tile_props.dart';
+import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/domain/entity/room_equipment.dart';
+import 'package:dotto/domain/entity/room_schedule.dart';
 import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_reducer.dart';
 import 'package:dotto/feature/map/map_state.dart';

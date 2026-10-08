@@ -1,0 +1,23 @@
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/subject_faculty.dart';
+import 'package:dotto/domain/entity/timetable_slot.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'subject_summary.freezed.dart';
+
+@freezed
+abstract class SubjectSummary with _$SubjectSummary {
+  const factory({
+    required String id,
+    required String name,
+    required List<SubjectFaculty> faculties,
+    // 科目検索画面で使用
+    Semester? semester,
+    // 科目検索画面で使用
+    int? credit,
+    // 科目検索画面で使用
+    List<TimetableSlot>? slots,
+    // 科目検索画面で使用
+    bool? isAddedToTimetable,
+  }) = _SubjectSummary;
+}

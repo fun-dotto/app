@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/domain/entity/user_preference_keys.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

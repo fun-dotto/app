@@ -1,4 +1,4 @@
-import 'package:dotto/domain/personal_timetable_day.dart';
+import 'package:dotto/domain/entity/personal_timetable_day.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'course_state.freezed.dart';

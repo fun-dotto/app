@@ -2,12 +2,12 @@ import 'dart:math' as math;
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotto/controller/dotto_user_preference_controller.dart';
-import 'package:dotto/domain/lecture_status.dart';
-import 'package:dotto/domain/period.dart';
-import 'package:dotto/domain/personal_timetable_day.dart';
-import 'package:dotto/domain/personal_timetable_item.dart';
-import 'package:dotto/domain/subject_summary.dart';
-import 'package:dotto/domain/timetable_period_style.dart';
+import 'package:dotto/domain/entity/lecture_status.dart';
+import 'package:dotto/domain/entity/period.dart';
+import 'package:dotto/domain/entity/personal_timetable_day.dart';
+import 'package:dotto/domain/entity/personal_timetable_item.dart';
+import 'package:dotto/domain/entity/subject_summary.dart';
+import 'package:dotto/domain/entity/timetable_period_style.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';

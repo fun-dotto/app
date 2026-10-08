@@ -1,6 +1,6 @@
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/controller/user_controller.dart';
-import 'package:dotto/domain/subject_feedback.dart';
+import 'package:dotto/domain/entity/subject_feedback.dart';
+import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/repository/subject_repository.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
+    final user = ref.watch(userStateProvider);
     final apiClient = ref.read(apiClientProvider);
     final subjectRepository = SubjectRepositoryImpl(apiClient);
     final score = useState<int?>(null);

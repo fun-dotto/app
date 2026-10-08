@@ -29,11 +29,16 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 - Entity / Value Object は `freezed_annotation` を使用して不変に定義する。
 - Repository は抽象 (`abstract interface class`) としてここに定義する。
 - Flutter・Riverpod・Firebase・API クライアントなど、外部パッケージに依存しない (Dart 純粋)。
+- 外部依存を持たない純粋なビジネスルールで、1 つの Entity に収まらないものは Domain Service (`XxxService`) として `domain/service/` に定義する。Domain Service は Domain モデルにのみ依存し、Repository には依存しない。
+- 1 つの Entity で完結するロジックは、Service ではなく Entity 自身のメソッドとして定義する。
 
 ### Application (UseCase)
 
 - 1 つのユースケースを 1 クラスで表現する。
-- Domain の Repository 抽象にのみ依存する。
+- Domain の Repository 抽象・Domain Service と、Application Service にのみ依存する。
+- UseCase から別の UseCase を呼ばない。複数の UseCase で共有する手続きは Application Service (`XxxService`) として `application/service/` に切り出す。
+- Application Service は Repository 抽象と Domain モデルに依存してよい。UseCase は呼ばない。Service が扱う複合的なモデル (ServiceModel) は Service と同じ場所に定義する。
+- Repository を素通しするだけの処理であっても UseCase を作り、Presentation から Repository を直接呼ばない。
 - 複数 Repository を跨ぐ処理やビジネスロジックの手続きはここに置く。
 - Widget や `BuildContext` に依存しない。
 
@@ -48,6 +53,7 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 - Widget・State (Riverpod の Notifier) で構成する。
 - Widget は `HookConsumerWidget` を基本とする。
 - UseCase を呼び出して状態を更新し、Repository やデータソースを直接呼ばない。
+- `foundation/` の config・flag・logger も Presentation から直接参照せず、Domain の Repository 抽象と UseCase を経由する。
 
 ## ディレクトリ構成
 
@@ -55,8 +61,13 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 
 ```
 lib/
-├── domain/              # Entity, Repository 抽象
-├── application/         # UseCase
+├── domain/
+│   ├── entity/          # Entity, Value Object, enum
+│   ├── repository/      # Repository 抽象
+│   └── service/         # Domain Service
+├── application/
+│   ├── service/         # Application Service, ServiceModel
+│   └── *_use_case.dart  # UseCase
 ├── data/                # Repository 実装, DataSource
 ├── presentation/
 │   └── <feature>/       # Screen, Widget, State
@@ -66,6 +77,7 @@ lib/
 └── router/              # ルーティング
 ```
 
+- Domain は役割ごとに `entity/`・`repository/`・`service/` へ分ける。ドメインエラーなど Entity に準ずる型は `entity/` に置く。
 - Domain・Application・Data は機能を跨いで共有されるため、機能単位では分けない。
 - `presentation/<feature>/` 間の直接参照は避け、共有する Widget は `presentation/` 直下の共通ディレクトリへ切り出す。
 - 特定機能のドメインが肥大化した場合や、機能ごとに担当を分ける必要が生じた場合は、feature-first への移行を再検討する。
@@ -114,6 +126,16 @@ lib/
 | テストで差し替えたいか               | 不要     | 必要     |
 
 迷った場合は Hooks から始め、共有が必要になった時点で Riverpod へ昇格させる。
+
+### 画面状態クラスを作らない
+
+ドメインデータと UI フラグをまとめた画面専用の状態クラス (`XxxViewState` など) は作らない。
+
+- Notifier はドメインモデル (またはそのコレクション) をそのまま状態として保持する。
+- 方向の切り替え・スクロール済みなどの UI フラグは Hooks で管理する。
+- 1 画面で複数のデータを扱う場合は、ドメイン概念ごとに Notifier を分ける。
+- それでも画面状態クラスが必要に思える場合は、ドメインモデルが実態に即していないサインとして、Domain にモデルを追加・見直す。
+- 非同期状態は `AsyncValue` で表し、独自の非同期状態コンテナを作らない。
 
 ## DI (Riverpod)
 

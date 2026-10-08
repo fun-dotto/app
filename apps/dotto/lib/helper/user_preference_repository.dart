@@ -1,4 +1,4 @@
-import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/domain/entity/user_preference_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final class UserPreferenceRepository {

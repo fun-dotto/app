@@ -1,13 +1,13 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/domain/day_of_week.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/faculty.dart';
-import 'package:dotto/domain/period.dart';
-import 'package:dotto/domain/semester.dart';
-import 'package:dotto/domain/subject_faculty.dart';
-import 'package:dotto/domain/subject_summary.dart';
-import 'package:dotto/domain/timetable_item.dart';
-import 'package:dotto/domain/timetable_slot.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/faculty.dart';
+import 'package:dotto/domain/entity/period.dart';
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/subject_faculty.dart';
+import 'package:dotto/domain/entity/subject_summary.dart';
+import 'package:dotto/domain/entity/timetable_item.dart';
+import 'package:dotto/domain/entity/timetable_slot.dart';
 import 'package:openapi/openapi.dart'
     hide Faculty, SubjectFaculty, SubjectSummary, TimetableItem;
 

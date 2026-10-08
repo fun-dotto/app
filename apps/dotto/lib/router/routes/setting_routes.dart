@@ -1,10 +1,10 @@
-import 'package:dotto/feature/announcement/announcement_detail_screen.dart';
-import 'package:dotto/feature/announcement/announcement_screen.dart';
-import 'package:dotto/feature/debug/debug_screen.dart';
-import 'package:dotto/feature/github_contributor/github_contributor_screen.dart';
-import 'package:dotto/feature/onboarding/onboarding_screen.dart';
-import 'package:dotto/feature/setting/settings.dart';
-import 'package:dotto/feature/setting/widget/license.dart';
+import 'package:dotto/presentation/announcement/announcement_detail_screen.dart';
+import 'package:dotto/presentation/announcement/announcement_screen.dart';
+import 'package:dotto/presentation/debug/debug_screen.dart';
+import 'package:dotto/presentation/github_contributor/github_contributor_screen.dart';
+import 'package:dotto/presentation/onboarding/onboarding_screen.dart';
+import 'package:dotto/presentation/setting/settings_license_screen.dart';
+import 'package:dotto/presentation/setting/settings_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

@@ -1,4 +1,4 @@
-import 'package:dotto/domain/domain_error.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/helper/firebase_realtime_database_repository.dart';
 import 'package:dotto/repository/model/bus_stop.dart';
 import 'package:dotto/repository/model/bus_trip.dart';
