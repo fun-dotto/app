@@ -18,5 +18,43 @@
         "type": "String"
       }
     }
+  },
+  "busTitle": "Bus",
+  "busStopSelectTitle": "Select a bus stop",
+  "busTimetableTitle": "Bus timetable",
+  "busWeekday": "Weekdays",
+  "busHoliday": "Holidays",
+  "busError": "An error occurred",
+  "busTripNotFound": "This trip could not be found.",
+  "busLoadError": "Failed to load data.",
+  "busServiceEnded": "Service has ended for today.",
+  "busUniversity": "Future University Hakodate",
+  "busKameda": "Kameda branch office",
+  "busFromLandmark": "From {landmark}",
+  "busToLandmark": "To {landmark}",
+  "busTerminal": "Stop {terminal}",
+  "busLandmarkKameda": "Kameda branch office",
+  "busLandmarkGoryokaku": "Goryokaku",
+  "busLandmarkShowa": "Showa",
+  "@busFromLandmark": {
+    "placeholders": {
+      "landmark": {
+        "type": "String"
+      }
+    }
+  },
+  "@busToLandmark": {
+    "placeholders": {
+      "landmark": {
+        "type": "String"
+      }
+    }
+  },
+  "@busTerminal": {
+    "placeholders": {
+      "terminal": {
+        "type": "String"
+      }
+    }
   }
 }

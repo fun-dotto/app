@@ -1,14 +1,17 @@
-import 'package:dotto/feature/bus/bus_reducer.dart';
-import 'package:dotto/repository/model/bus_trip.dart';
+import 'package:dotto/domain/entity/bus_schedule_trip.dart';
+import 'package:dotto/helper/date_formatter.dart';
+import 'package:dotto/l10n/app_localizations.dart';
+import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:material_ui/material_ui.dart';
 
 final class BusTimetableScreen extends StatelessWidget {
   const new(this.busTrip, {super.key});
-  final BusTrip busTrip;
+  final BusScheduleTrip busTrip;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
     return Scaffold(
       appBar: AppBar(title: Text(busTrip.route)),
       body: Padding(
@@ -25,7 +28,7 @@ final class BusTimetableScreen extends StatelessWidget {
                     width: 48,
                     child: Center(
                       child: Text(
-                        formatDuration(busTripStop.time),
+                        DateFormatter.busTime(busTripStop.time),
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
@@ -42,8 +45,8 @@ final class BusTimetableScreen extends StatelessWidget {
                       Container(
                         width: 8,
                         height: 8,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: SemanticColor.light.backgroundSecondary,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -62,7 +65,7 @@ final class BusTimetableScreen extends StatelessWidget {
                           ),
                           if (terminal != null)
                             Text(
-                              '$terminal番乗り場',
+                              l10n.busTerminal(terminal.toString()),
                               style: Theme.of(context).textTheme.labelMedium,
                             ),
                         ],

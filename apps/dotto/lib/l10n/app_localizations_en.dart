@@ -43,4 +43,61 @@ class AppLocalizationsEn extends AppLocalizations {
   String rootVersionComparison(String currentVersion, String latestVersion) {
     return 'Current version: $currentVersion\nLatest version: $latestVersion';
   }
+
+  @override
+  String get busTitle => 'Bus';
+
+  @override
+  String get busStopSelectTitle => 'Select a bus stop';
+
+  @override
+  String get busTimetableTitle => 'Bus timetable';
+
+  @override
+  String get busWeekday => 'Weekdays';
+
+  @override
+  String get busHoliday => 'Holidays';
+
+  @override
+  String get busError => 'An error occurred';
+
+  @override
+  String get busTripNotFound => 'This trip could not be found.';
+
+  @override
+  String get busLoadError => 'Failed to load data.';
+
+  @override
+  String get busServiceEnded => 'Service has ended for today.';
+
+  @override
+  String get busUniversity => 'Future University Hakodate';
+
+  @override
+  String get busKameda => 'Kameda branch office';
+
+  @override
+  String busFromLandmark(String landmark) {
+    return 'From $landmark';
+  }
+
+  @override
+  String busToLandmark(String landmark) {
+    return 'To $landmark';
+  }
+
+  @override
+  String busTerminal(String terminal) {
+    return 'Stop $terminal';
+  }
+
+  @override
+  String get busLandmarkKameda => 'Kameda branch office';
+
+  @override
+  String get busLandmarkGoryokaku => 'Goryokaku';
+
+  @override
+  String get busLandmarkShowa => 'Showa';
 }
