@@ -8,12 +8,12 @@ globs: ["**/*.dart"]
 
 Clean Architecture をベースとし、状態管理と DI は以下の方針で行う。
 
-| 関心事 | 採用技術 |
-| --- | --- |
-| レイヤー構成 | Clean Architecture |
-| ローカルな状態管理 | Flutter Hooks (`flutter_hooks`) |
+| 関心事               | 採用技術                         |
+| -------------------- | -------------------------------- |
+| レイヤー構成         | Clean Architecture               |
+| ローカルな状態管理   | Flutter Hooks (`flutter_hooks`)  |
 | グローバルな状態管理 | Riverpod (`riverpod_annotation`) |
-| DI | Riverpod (`riverpod_annotation`) |
+| DI                   | Riverpod (`riverpod_annotation`) |
 
 ## レイヤー構成
 
@@ -106,12 +106,12 @@ lib/
 
 ### 使い分けの基準
 
-| 判断基準 | Hooks | Riverpod |
-| --- | --- | --- |
-| 他の Widget / 画面と共有するか | しない | する |
-| 画面を離れた後も保持するか | しない | する |
-| ビジネスロジック・非同期取得を伴うか | 伴わない | 伴う |
-| テストで差し替えたいか | 不要 | 必要 |
+| 判断基準                             | Hooks    | Riverpod |
+| ------------------------------------ | -------- | -------- |
+| 他の Widget / 画面と共有するか       | しない   | する     |
+| 画面を離れた後も保持するか           | しない   | する     |
+| ビジネスロジック・非同期取得を伴うか | 伴わない | 伴う     |
+| テストで差し替えたいか               | 不要     | 必要     |
 
 迷った場合は Hooks から始め、共有が必要になった時点で Riverpod へ昇格させる。
 
