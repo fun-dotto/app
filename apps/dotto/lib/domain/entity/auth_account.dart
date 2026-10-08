@@ -1,4 +1,4 @@
-import 'package:dotto/domain/dotto_user.dart' show DottoUser;
+import 'package:dotto/domain/entity/dotto_user.dart' show DottoUser;
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_account.freezed.dart';

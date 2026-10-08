@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dotto/domain/dotto_user.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:dotto/presentation/common/user_state.dart';

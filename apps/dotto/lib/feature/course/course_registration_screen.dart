@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:dotto/domain/day_of_week.dart';
-import 'package:dotto/domain/period.dart';
-import 'package:dotto/domain/timetable_item.dart';
-import 'package:dotto/domain/timetable_semester.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
+import 'package:dotto/domain/entity/period.dart';
+import 'package:dotto/domain/entity/timetable_item.dart';
+import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/feature/course/course_registration_reducer.dart';
 import 'package:dotto/feature/course/select_course_screen.dart';
 import 'package:flutter/material.dart';

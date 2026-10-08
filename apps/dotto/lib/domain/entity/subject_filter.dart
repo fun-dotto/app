@@ -1,10 +1,10 @@
-import 'package:dotto/domain/academic_area.dart';
-import 'package:dotto/domain/academic_class.dart';
-import 'package:dotto/domain/cultural_subject_category.dart';
-import 'package:dotto/domain/grade.dart';
-import 'package:dotto/domain/semester.dart';
-import 'package:dotto/domain/subject_classification.dart';
-import 'package:dotto/domain/subject_requirement_type.dart';
+import 'package:dotto/domain/entity/academic_area.dart';
+import 'package:dotto/domain/entity/academic_class.dart';
+import 'package:dotto/domain/entity/cultural_subject_category.dart';
+import 'package:dotto/domain/entity/grade.dart';
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/subject_classification.dart';
+import 'package:dotto/domain/entity/subject_requirement_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'subject_filter.freezed.dart';

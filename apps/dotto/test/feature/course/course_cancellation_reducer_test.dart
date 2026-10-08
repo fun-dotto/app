@@ -1,7 +1,7 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/domain/course_registration.dart';
-import 'package:dotto/domain/semester.dart';
-import 'package:dotto/domain/subject_summary.dart' as domain;
+import 'package:dotto/domain/entity/course_registration.dart';
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/subject_summary.dart' as domain;
 import 'package:dotto/feature/course/course_cancellation_reducer.dart';
 import 'package:dotto/repository/cancelled_class_repository.dart';
 import 'package:dotto/repository/course_registration_repository.dart';

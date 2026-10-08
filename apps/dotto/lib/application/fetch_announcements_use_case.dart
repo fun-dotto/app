@@ -1,6 +1,6 @@
 import 'package:dotto/data/announcement_repository_impl.dart';
-import 'package:dotto/domain/announcement.dart';
-import 'package:dotto/domain/announcement_repository.dart';
+import 'package:dotto/domain/entity/announcement.dart';
+import 'package:dotto/domain/repository/announcement_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_announcements_use_case.g.dart';

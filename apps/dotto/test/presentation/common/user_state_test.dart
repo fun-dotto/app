@@ -1,8 +1,8 @@
 import 'package:dotto/api/api_client.dart';
 import 'package:dotto/data/auth_data_source.dart';
-import 'package:dotto/domain/auth_account.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/grade.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/grade.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

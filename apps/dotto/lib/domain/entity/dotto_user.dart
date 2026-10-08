@@ -1,6 +1,6 @@
-import 'package:dotto/domain/academic_area.dart';
-import 'package:dotto/domain/academic_class.dart';
-import 'package:dotto/domain/grade.dart';
+import 'package:dotto/domain/entity/academic_area.dart';
+import 'package:dotto/domain/entity/academic_class.dart';
+import 'package:dotto/domain/entity/grade.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dotto_user.freezed.dart';

@@ -1,5 +1,5 @@
-import 'package:dotto/domain/menu_category.dart';
-import 'package:dotto/domain/menu_price.dart';
+import 'package:dotto/domain/entity/menu_category.dart';
+import 'package:dotto/domain/entity/menu_price.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'menu_item.freezed.dart';

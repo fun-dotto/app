@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dotto/domain/domain_error.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/helper/file_helper.dart';
 import 'package:http/http.dart' as http;
 

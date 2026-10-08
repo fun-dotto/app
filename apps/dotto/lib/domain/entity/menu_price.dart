@@ -1,4 +1,4 @@
-import 'package:dotto/domain/menu_size.dart';
+import 'package:dotto/domain/entity/menu_size.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'menu_price.freezed.dart';

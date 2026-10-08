@@ -1,4 +1,4 @@
-import 'package:dotto/domain/announcement.dart';
+import 'package:dotto/domain/entity/announcement.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:flutter/material.dart';

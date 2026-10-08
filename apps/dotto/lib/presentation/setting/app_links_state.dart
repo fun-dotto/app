@@ -1,5 +1,5 @@
 import 'package:dotto/application/fetch_app_links_use_case.dart';
-import 'package:dotto/domain/app_links.dart';
+import 'package:dotto/domain/entity/app_links.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_links_state.g.dart';

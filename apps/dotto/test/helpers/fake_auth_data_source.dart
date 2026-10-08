@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dotto/data/auth_data_source.dart';
-import 'package:dotto/domain/auth_account.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
 
 /// サインインすると [accountToSignIn] でログインした状態になる認証基盤のフェイク。
 final class FakeAuthDataSource implements AuthDataSource {

@@ -1,6 +1,6 @@
 import 'package:dotto/data/github_contributor_repository_impl.dart';
-import 'package:dotto/domain/github_contributor_repository.dart';
-import 'package:dotto/domain/github_profile.dart';
+import 'package:dotto/domain/entity/github_profile.dart';
+import 'package:dotto/domain/repository/github_contributor_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_github_contributors_use_case.g.dart';

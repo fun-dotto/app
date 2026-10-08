@@ -1,5 +1,5 @@
-import 'package:dotto/domain/auth_account.dart';
-import 'package:dotto/domain/dotto_user.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
 
 abstract interface class UserRepository {
   /// [account] に紐づくユーザーを取得する。未登録の場合は `null` を返す。

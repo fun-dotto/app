@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:dotto/domain/map_tile_props.dart';
+import 'package:dotto/domain/entity/map_tile_props.dart';
 import 'package:dotto/feature/map/map_reducer.dart';
 import 'package:dotto/feature/map/widget/map.dart';
 import 'package:dotto/feature/map/widget/map_date_picker.dart';

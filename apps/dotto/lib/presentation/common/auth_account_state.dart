@@ -1,5 +1,5 @@
 import 'package:dotto/application/watch_auth_account_use_case.dart';
-import 'package:dotto/domain/auth_account.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_account_state.g.dart';

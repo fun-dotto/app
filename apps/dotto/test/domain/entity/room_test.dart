@@ -1,6 +1,6 @@
-import 'package:dotto/domain/floor.dart';
-import 'package:dotto/domain/room.dart';
-import 'package:dotto/domain/room_schedule.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/domain/entity/room_schedule.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

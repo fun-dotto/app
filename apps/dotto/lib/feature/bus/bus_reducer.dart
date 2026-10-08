@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/user_preference_keys.dart';
 import 'package:dotto/feature/bus/bus_state.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/location_helper.dart';

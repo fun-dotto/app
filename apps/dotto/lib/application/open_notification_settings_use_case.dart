@@ -1,5 +1,5 @@
 import 'package:dotto/data/notification_setting_repository_impl.dart';
-import 'package:dotto/domain/notification_setting_repository.dart';
+import 'package:dotto/domain/repository/notification_setting_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'open_notification_settings_use_case.g.dart';

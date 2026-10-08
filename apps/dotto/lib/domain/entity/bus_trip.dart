@@ -1,6 +1,6 @@
-import 'package:dotto/domain/bus_alert.dart';
-import 'package:dotto/domain/bus_route.dart';
-import 'package:dotto/domain/bus_stop.dart';
+import 'package:dotto/domain/entity/bus_alert.dart';
+import 'package:dotto/domain/entity/bus_route.dart';
+import 'package:dotto/domain/entity/bus_stop.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'bus_trip.freezed.dart';

@@ -1,5 +1,5 @@
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/domain/subject_feedback.dart';
+import 'package:dotto/domain/entity/subject_feedback.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/repository/subject_repository.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:dotto/domain/notification_alert_status.dart';
-import 'package:dotto/domain/tab_item.dart';
-import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/domain/entity/notification_alert_status.dart';
+import 'package:dotto/domain/entity/tab_item.dart';
+import 'package:dotto/domain/entity/user_preference_keys.dart';
 import 'package:dotto/feature/root/root_alert_state.dart';
 import 'package:dotto/feature/root/root_app_tutorial_state.dart';
 import 'package:dotto/feature/root/root_app_version.dart';

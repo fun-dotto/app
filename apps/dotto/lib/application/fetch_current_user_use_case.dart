@@ -1,7 +1,7 @@
 import 'package:dotto/data/user_repository_impl.dart';
-import 'package:dotto/domain/auth_account.dart';
-import 'package:dotto/domain/dotto_user.dart';
-import 'package:dotto/domain/user_repository.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/domain/repository/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_current_user_use_case.g.dart';

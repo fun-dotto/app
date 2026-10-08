@@ -1,5 +1,5 @@
-import 'package:dotto/domain/app_build_info.dart';
-import 'package:dotto/domain/app_build_info_repository.dart';
+import 'package:dotto/domain/entity/app_build_info.dart';
+import 'package:dotto/domain/repository/app_build_info_repository.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

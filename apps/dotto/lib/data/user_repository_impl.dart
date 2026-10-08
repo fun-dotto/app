@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/domain/academic_area.dart';
-import 'package:dotto/domain/academic_class.dart';
-import 'package:dotto/domain/auth_account.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/dotto_user.dart';
-import 'package:dotto/domain/grade.dart';
-import 'package:dotto/domain/user_repository.dart';
+import 'package:dotto/domain/entity/academic_area.dart';
+import 'package:dotto/domain/entity/academic_class.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/domain/entity/grade.dart';
+import 'package:dotto/domain/repository/user_repository.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -1,4 +1,4 @@
-import 'package:dotto/domain/period.dart';
+import 'package:dotto/domain/entity/period.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'course_cancellation.freezed.dart';

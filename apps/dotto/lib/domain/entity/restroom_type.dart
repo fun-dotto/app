@@ -1,4 +1,4 @@
-import 'package:dotto/domain/map_colors.dart';
+import 'package:dotto/domain/entity/map_colors.dart';
 import 'package:flutter/material.dart';
 
 enum RestroomType {

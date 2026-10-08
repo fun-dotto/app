@@ -1,6 +1,6 @@
-import 'package:dotto/domain/semester.dart';
-import 'package:dotto/domain/subject_faculty.dart';
-import 'package:dotto/domain/timetable_slot.dart';
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/subject_faculty.dart';
+import 'package:dotto/domain/entity/timetable_slot.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'subject_summary.freezed.dart';

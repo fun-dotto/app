@@ -1,6 +1,6 @@
 import 'package:dotto/data/auth_data_source.dart';
-import 'package:dotto/domain/auth_account.dart';
-import 'package:dotto/domain/domain_error.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

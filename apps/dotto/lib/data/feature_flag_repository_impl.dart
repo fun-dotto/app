@@ -1,5 +1,5 @@
 import 'package:dotto/data/flag_override_data_source.dart';
-import 'package:dotto/domain/feature_flag_repository.dart';
+import 'package:dotto/domain/repository/feature_flag_repository.dart';
 import 'package:dotto/foundation/flag/flag.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

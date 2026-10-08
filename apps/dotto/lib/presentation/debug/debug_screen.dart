@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dotto/domain/debug_tokens.dart';
+import 'package:dotto/domain/entity/debug_tokens.dart';
 import 'package:dotto/foundation/flag/flag.dart';
 import 'package:dotto/foundation/flag/flags.dart';
 import 'package:dotto/presentation/common/feature_flag.dart';

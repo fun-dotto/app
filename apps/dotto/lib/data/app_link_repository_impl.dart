@@ -1,5 +1,5 @@
-import 'package:dotto/domain/app_link_repository.dart';
-import 'package:dotto/domain/app_links.dart';
+import 'package:dotto/domain/entity/app_links.dart';
+import 'package:dotto/domain/repository/app_link_repository.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/repository/config_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

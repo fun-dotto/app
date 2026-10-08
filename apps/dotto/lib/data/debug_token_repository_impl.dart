@@ -1,7 +1,7 @@
 import 'package:dotto/data/debug_token_data_source.dart';
-import 'package:dotto/domain/debug_token_repository.dart';
-import 'package:dotto/domain/debug_tokens.dart';
-import 'package:dotto/domain/domain_error.dart';
+import 'package:dotto/domain/entity/debug_tokens.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/repository/debug_token_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'debug_token_repository_impl.g.dart';

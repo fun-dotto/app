@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:dotto/data/github_api_client.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/github_contributor_repository.dart';
-import 'package:dotto/domain/github_profile.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/github_profile.dart';
+import 'package:dotto/domain/repository/github_contributor_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'github_contributor_repository_impl.g.dart';

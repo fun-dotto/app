@@ -1,6 +1,6 @@
 import 'package:dotto/data/app_build_info_repository_impl.dart';
-import 'package:dotto/domain/app_build_info.dart';
-import 'package:dotto/domain/app_build_info_repository.dart';
+import 'package:dotto/domain/entity/app_build_info.dart';
+import 'package:dotto/domain/repository/app_build_info_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_app_build_info_use_case.g.dart';

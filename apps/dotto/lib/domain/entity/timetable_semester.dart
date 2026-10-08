@@ -1,4 +1,4 @@
-import 'package:dotto/domain/semester.dart';
+import 'package:dotto/domain/entity/semester.dart';
 
 enum TimetableSemester {
   spring,

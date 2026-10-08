@@ -1,8 +1,8 @@
-import 'package:dotto/domain/semester.dart';
-import 'package:dotto/domain/subject_eligible_attribute.dart';
-import 'package:dotto/domain/subject_faculty.dart';
-import 'package:dotto/domain/subject_requirement.dart';
-import 'package:dotto/domain/syllabus.dart';
+import 'package:dotto/domain/entity/semester.dart';
+import 'package:dotto/domain/entity/subject_eligible_attribute.dart';
+import 'package:dotto/domain/entity/subject_faculty.dart';
+import 'package:dotto/domain/entity/subject_requirement.dart';
+import 'package:dotto/domain/entity/syllabus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'subject.freezed.dart';

@@ -1,6 +1,6 @@
 import 'package:dotto/data/debug_token_repository_impl.dart';
-import 'package:dotto/domain/debug_token_repository.dart';
-import 'package:dotto/domain/debug_tokens.dart';
+import 'package:dotto/domain/entity/debug_tokens.dart';
+import 'package:dotto/domain/repository/debug_token_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_debug_tokens_use_case.g.dart';

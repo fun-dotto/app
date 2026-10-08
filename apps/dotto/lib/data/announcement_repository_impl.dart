@@ -1,7 +1,7 @@
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/domain/announcement.dart';
-import 'package:dotto/domain/announcement_repository.dart';
-import 'package:dotto/domain/domain_error.dart';
+import 'package:dotto/domain/entity/announcement.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/repository/announcement_repository.dart';
 import 'package:openapi/openapi.dart' hide Announcement;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

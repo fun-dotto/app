@@ -1,5 +1,5 @@
-import 'package:dotto/domain/academic_area.dart';
-import 'package:dotto/domain/subject_requirement_type.dart';
+import 'package:dotto/domain/entity/academic_area.dart';
+import 'package:dotto/domain/entity/subject_requirement_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'subject_requirement.freezed.dart';

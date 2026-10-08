@@ -1,4 +1,4 @@
-import 'package:dotto/domain/period.dart';
+import 'package:dotto/domain/entity/period.dart';
 
 final class LectureOverride {
   new({required this.lessonName, required this.period});

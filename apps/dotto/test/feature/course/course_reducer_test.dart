@@ -1,5 +1,5 @@
-import 'package:dotto/domain/day_of_week.dart';
-import 'package:dotto/domain/personal_timetable_day.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
+import 'package:dotto/domain/entity/personal_timetable_day.dart';
 import 'package:dotto/feature/course/course_reducer.dart';
 import 'package:dotto/repository/personal_calendar_repository.dart';
 import 'package:dotto/repository/repository_provider.dart';

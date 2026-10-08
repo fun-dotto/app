@@ -1,7 +1,7 @@
 import 'package:dotto/data/auth_data_source.dart';
-import 'package:dotto/domain/auth_account.dart';
-import 'package:dotto/domain/auth_repository.dart';
-import 'package:dotto/domain/domain_error.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/repository/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_repository_impl.g.dart';

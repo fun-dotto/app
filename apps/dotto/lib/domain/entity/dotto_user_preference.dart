@@ -1,4 +1,4 @@
-import 'package:dotto/domain/timetable_period_style.dart';
+import 'package:dotto/domain/entity/timetable_period_style.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dotto_user_preference.freezed.dart';

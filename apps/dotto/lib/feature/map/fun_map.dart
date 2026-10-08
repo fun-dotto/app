@@ -1,8 +1,8 @@
-import 'package:dotto/domain/floor.dart';
-import 'package:dotto/domain/map_stair_type.dart';
-import 'package:dotto/domain/map_tile_props.dart';
-import 'package:dotto/domain/restroom_type.dart';
-import 'package:dotto/domain/room_equipment.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/map_stair_type.dart';
+import 'package:dotto/domain/entity/map_tile_props.dart';
+import 'package:dotto/domain/entity/restroom_type.dart';
+import 'package:dotto/domain/entity/room_equipment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:dotto/domain/academic_area.dart';
-import 'package:dotto/domain/academic_class.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/dotto_user.dart';
-import 'package:dotto/domain/grade.dart';
+import 'package:dotto/domain/entity/academic_area.dart';
+import 'package:dotto/domain/entity/academic_class.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/domain/entity/grade.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/setting/option_select_dialog.dart';
 import 'package:dotto_design_system/component/list_section.dart';

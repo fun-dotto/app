@@ -1,5 +1,5 @@
 import 'package:dotto/application/fetch_announcements_use_case.dart';
-import 'package:dotto/domain/announcement.dart';
+import 'package:dotto/domain/entity/announcement.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'announcement_state.g.dart';

@@ -1,7 +1,7 @@
 import 'package:dotto/api/api_client.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/notification_data_source.dart';
-import 'package:dotto/domain/auth_account.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:dotto/presentation/setting/settings_screen.dart';

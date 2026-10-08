@@ -1,5 +1,5 @@
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/domain/domain_error.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openapi/openapi.dart';
 

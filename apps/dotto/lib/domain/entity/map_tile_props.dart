@@ -1,8 +1,8 @@
-import 'package:dotto/domain/floor.dart';
-import 'package:dotto/domain/map_colors.dart';
-import 'package:dotto/domain/map_stair_type.dart';
-import 'package:dotto/domain/restroom_type.dart';
-import 'package:dotto/domain/room_equipment.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/map_colors.dart';
+import 'package:dotto/domain/entity/map_stair_type.dart';
+import 'package:dotto/domain/entity/restroom_type.dart';
+import 'package:dotto/domain/entity/room_equipment.dart';
 import 'package:flutter/material.dart';
 
 abstract class MapTileProps {

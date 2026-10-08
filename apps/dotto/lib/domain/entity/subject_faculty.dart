@@ -1,4 +1,4 @@
-import 'package:dotto/domain/faculty.dart';
+import 'package:dotto/domain/entity/faculty.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'subject_faculty.freezed.dart';

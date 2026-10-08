@@ -1,5 +1,5 @@
-import 'package:dotto/domain/floor.dart';
-import 'package:dotto/domain/room_schedule.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/room_schedule.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'room.freezed.dart';

@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/domain/subject_feedback.dart';
+import 'package:dotto/domain/entity/subject_feedback.dart';
 import 'package:dotto/feature/subject/subject_detail_add_feedback_screen.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/repository/subject_repository.dart';

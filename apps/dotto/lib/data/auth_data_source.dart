@@ -1,5 +1,5 @@
 import 'package:dotto/data/auth_data_source_impl.dart';
-import 'package:dotto/domain/auth_account.dart';
+import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_data_source.g.dart';

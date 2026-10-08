@@ -1,5 +1,5 @@
-import 'package:dotto/domain/day_of_week.dart';
-import 'package:dotto/domain/period.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
+import 'package:dotto/domain/entity/period.dart';
 
 final class RoomAssignmentIndex {
   new({required this.roomNamesBySlotAndTitle, required this.roomNamesByTitle});

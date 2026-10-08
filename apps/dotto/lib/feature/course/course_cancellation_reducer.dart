@@ -1,5 +1,5 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/domain/semester.dart';
+import 'package:dotto/domain/entity/semester.dart';
 import 'package:dotto/feature/course/course_cancellation_state.dart';
 import 'package:dotto/repository/cancelled_class_repository.dart';
 import 'package:dotto/repository/makeup_class_repository.dart';

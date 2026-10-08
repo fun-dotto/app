@@ -1,5 +1,5 @@
 import 'package:dotto/data/notification_data_source.dart';
-import 'package:dotto/domain/notification_alert_status.dart';
+import 'package:dotto/domain/entity/notification_alert_status.dart';
 import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

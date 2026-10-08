@@ -1,6 +1,6 @@
-import 'package:dotto/domain/dotto_user_preference.dart';
-import 'package:dotto/domain/timetable_period_style.dart';
-import 'package:dotto/domain/user_preference_keys.dart';
+import 'package:dotto/domain/entity/dotto_user_preference.dart';
+import 'package:dotto/domain/entity/timetable_period_style.dart';
+import 'package:dotto/domain/entity/user_preference_keys.dart';
 import 'package:dotto/helper/user_preference_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

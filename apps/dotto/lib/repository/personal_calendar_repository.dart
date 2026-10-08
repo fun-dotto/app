@@ -1,13 +1,13 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/domain/day_of_week.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/faculty.dart';
-import 'package:dotto/domain/lecture_status.dart';
-import 'package:dotto/domain/period.dart';
-import 'package:dotto/domain/personal_timetable_day.dart';
-import 'package:dotto/domain/personal_timetable_item.dart';
-import 'package:dotto/domain/subject_faculty.dart';
-import 'package:dotto/domain/subject_summary.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/faculty.dart';
+import 'package:dotto/domain/entity/lecture_status.dart';
+import 'package:dotto/domain/entity/period.dart';
+import 'package:dotto/domain/entity/personal_timetable_day.dart';
+import 'package:dotto/domain/entity/personal_timetable_item.dart';
+import 'package:dotto/domain/entity/subject_faculty.dart';
+import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:flutter/foundation.dart';
 import 'package:openapi/openapi.dart'
     hide Faculty, SubjectFaculty, SubjectSummary;

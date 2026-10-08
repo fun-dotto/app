@@ -1,5 +1,5 @@
 import 'package:dotto/application/fetch_github_contributors_use_case.dart';
-import 'package:dotto/domain/github_profile.dart';
+import 'package:dotto/domain/entity/github_profile.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'github_contributor_state.g.dart';

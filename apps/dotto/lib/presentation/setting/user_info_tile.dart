@@ -1,4 +1,4 @@
-import 'package:dotto/domain/dotto_user.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';

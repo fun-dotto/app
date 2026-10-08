@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dotto/domain/subject_faculty.dart';
-import 'package:dotto/domain/subject_filter.dart';
-import 'package:dotto/domain/subject_summary.dart';
+import 'package:dotto/domain/entity/subject_faculty.dart';
+import 'package:dotto/domain/entity/subject_filter.dart';
+import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:dotto/feature/subject/search_subject_filter_section.dart';
 import 'package:dotto/feature/subject/search_subject_reducer.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';

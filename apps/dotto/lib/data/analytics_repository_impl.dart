@@ -1,4 +1,4 @@
-import 'package:dotto/domain/analytics_repository.dart';
+import 'package:dotto/domain/repository/analytics_repository.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

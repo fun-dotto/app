@@ -2,11 +2,11 @@ import 'package:dotto/application/fetch_current_user_use_case.dart';
 import 'package:dotto/application/sign_in_use_case.dart';
 import 'package:dotto/application/sign_out_use_case.dart';
 import 'package:dotto/application/update_user_profile_use_case.dart';
-import 'package:dotto/domain/academic_area.dart';
-import 'package:dotto/domain/academic_class.dart';
-import 'package:dotto/domain/domain_error.dart';
-import 'package:dotto/domain/dotto_user.dart';
-import 'package:dotto/domain/grade.dart';
+import 'package:dotto/domain/entity/academic_area.dart';
+import 'package:dotto/domain/entity/academic_class.dart';
+import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/domain/entity/grade.dart';
 import 'package:dotto/presentation/common/auth_account_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

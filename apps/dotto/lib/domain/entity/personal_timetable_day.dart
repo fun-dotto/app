@@ -1,5 +1,5 @@
-import 'package:dotto/domain/day_of_week.dart';
-import 'package:dotto/domain/personal_timetable_item.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
+import 'package:dotto/domain/entity/personal_timetable_item.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'personal_timetable_day.freezed.dart';

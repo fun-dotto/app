@@ -1,4 +1,4 @@
-import 'package:dotto/domain/github_profile.dart';
+import 'package:dotto/domain/entity/github_profile.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:flutter/material.dart';
 

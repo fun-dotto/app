@@ -1,6 +1,6 @@
 import 'package:dotto/data/user_repository_impl.dart';
-import 'package:dotto/domain/dotto_user.dart';
-import 'package:dotto/domain/user_repository.dart';
+import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/domain/repository/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'update_user_profile_use_case.g.dart';
