@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'subject.freezed.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: true)
 abstract class Subject with _$Subject {
   const factory({
     required String id,

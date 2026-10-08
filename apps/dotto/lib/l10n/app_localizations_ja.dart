@@ -191,4 +191,177 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get pdfShareFailed => 'PDFの共有に失敗しました。もう一度お試しください。';
+
+  @override
+  String get subjectClearFilters => '条件をクリア';
+
+  @override
+  String get subjectSemesterRequirementsAndClassification => '開講時期・必修/選択・分類';
+
+  @override
+  String get subjectSemester => '開講時期';
+
+  @override
+  String get subjectRequirements => '必修/選択';
+
+  @override
+  String get subjectClassification => '分類';
+
+  @override
+  String get subjectCulturalCategory => '教養区分';
+
+  @override
+  String get subjectCoursesGradesAndClasses => 'コース/領域・学年・クラス';
+
+  @override
+  String get subjectCoursesAndAreas => 'コース/領域';
+
+  @override
+  String get subjectGrades => '学年';
+
+  @override
+  String get subjectClasses => 'クラス';
+
+  @override
+  String get subjectPostFeedback => 'フィードバックを投稿';
+
+  @override
+  String get subjectSelectARating => '満足度を入力してください。';
+
+  @override
+  String get subjectCouldNotSubmitFeedback => 'フィードバックの投稿に失敗しました。';
+
+  @override
+  String get subjectSubmit => '投稿する';
+
+  @override
+  String get subjectTapToRate => 'タップして評価:';
+
+  @override
+  String get subjectComment => 'コメント';
+
+  @override
+  String get subjectCreditsAttendanceExamsEtc => '単位、出席、テストの情報など...';
+
+  @override
+  String get subjectSignInWithAGoogleAccountFunAcJp =>
+      'Googleアカウント (@fun.ac.jp) による認証が必要です';
+
+  @override
+  String get subjectNoPastExamsAvailable => '過去問はありません';
+
+  @override
+  String get subjectNoFeedbackYet => 'フィードバックがありません';
+
+  @override
+  String get subjectSignInWithAGoogleAccountFunAcJpPrompt =>
+      'Googleアカウント (@fun.ac.jp) による認証が必要です。';
+
+  @override
+  String get subjectFeedbackSubmitted => 'フィードバックを投稿しました。';
+
+  @override
+  String get subjectOutOf5 => '5段階評価中';
+
+  @override
+  String get subjectSummary => '概要';
+
+  @override
+  String get subjectLearningOutcomes => '到達目標';
+
+  @override
+  String get subjectAssignments => '提出課題等';
+
+  @override
+  String get subjectEvaluationMethodsAndCriteria => '評価方法・基準';
+
+  @override
+  String get subjectTextbooks => 'テキスト';
+
+  @override
+  String get subjectReferenceBooks => '参考書';
+
+  @override
+  String get subjectPrerequisites => '履修条件';
+
+  @override
+  String get subjectPreLearning => '事前学習';
+
+  @override
+  String get subjectPostLearning => '事後学習';
+
+  @override
+  String get subjectNotes => '履修上の留意点';
+
+  @override
+  String get subjectKeywords => 'キーワード';
+
+  @override
+  String get subjectTargetCoursesAndAreas => '対象コース・領域';
+
+  @override
+  String get subjectTargetAreas => '対象領域';
+
+  @override
+  String get subjectClassificationPrompt => '科目群・科目区分';
+
+  @override
+  String get subjectTeachingLanguage => '教授言語';
+
+  @override
+  String get subjectContentsAndSchedule => '授業内容とスケジュール';
+
+  @override
+  String get subjectTeachingAndExamFormat => '授業・試験の形式';
+
+  @override
+  String get subjectDSOPSubject => 'DSOP対象科目';
+
+  @override
+  String get subjectCourseRegistrationFailed => '履修登録の更新に失敗しました';
+
+  @override
+  String get subjectSubjectSearch => '科目検索';
+
+  @override
+  String get subjectSearchBySubjectName => '科目名で検索';
+
+  @override
+  String get subjectUnregister => '履修解除';
+
+  @override
+  String get subjectRegister => '履修登録';
+
+  @override
+  String get subjectNoSubjectsFound => '科目が見つかりませんでした';
+
+  @override
+  String get subjectSubjectSearchFailed => '科目の検索に失敗しました。';
+
+  @override
+  String get subjectSyllabus => 'シラバス';
+
+  @override
+  String get subjectReviews => 'レビュー';
+
+  @override
+  String get subjectPastExams => '過去問';
+
+  @override
+  String get subjectCouldNotLoadSubjectInformation => '科目情報の読み込みに失敗しました。';
+
+  @override
+  String subjectOtherFacultyCount(String name, int count) {
+    return '$name 他$count名';
+  }
+
+  @override
+  String subjectCredits(int credits) {
+    return '$credits単位';
+  }
+
+  @override
+  String subjectFeedbackCount(int count) {
+    return '$count件のフィードバック';
+  }
 }

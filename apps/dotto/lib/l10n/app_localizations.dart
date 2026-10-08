@@ -433,6 +433,336 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'PDFの共有に失敗しました。もう一度お試しください。'**
   String get pdfShareFailed;
+
+  /// No description provided for @subjectClearFilters.
+  ///
+  /// In ja, this message translates to:
+  /// **'条件をクリア'**
+  String get subjectClearFilters;
+
+  /// No description provided for @subjectSemesterRequirementsAndClassification.
+  ///
+  /// In ja, this message translates to:
+  /// **'開講時期・必修/選択・分類'**
+  String get subjectSemesterRequirementsAndClassification;
+
+  /// No description provided for @subjectSemester.
+  ///
+  /// In ja, this message translates to:
+  /// **'開講時期'**
+  String get subjectSemester;
+
+  /// No description provided for @subjectRequirements.
+  ///
+  /// In ja, this message translates to:
+  /// **'必修/選択'**
+  String get subjectRequirements;
+
+  /// No description provided for @subjectClassification.
+  ///
+  /// In ja, this message translates to:
+  /// **'分類'**
+  String get subjectClassification;
+
+  /// No description provided for @subjectCulturalCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'教養区分'**
+  String get subjectCulturalCategory;
+
+  /// No description provided for @subjectCoursesGradesAndClasses.
+  ///
+  /// In ja, this message translates to:
+  /// **'コース/領域・学年・クラス'**
+  String get subjectCoursesGradesAndClasses;
+
+  /// No description provided for @subjectCoursesAndAreas.
+  ///
+  /// In ja, this message translates to:
+  /// **'コース/領域'**
+  String get subjectCoursesAndAreas;
+
+  /// No description provided for @subjectGrades.
+  ///
+  /// In ja, this message translates to:
+  /// **'学年'**
+  String get subjectGrades;
+
+  /// No description provided for @subjectClasses.
+  ///
+  /// In ja, this message translates to:
+  /// **'クラス'**
+  String get subjectClasses;
+
+  /// No description provided for @subjectPostFeedback.
+  ///
+  /// In ja, this message translates to:
+  /// **'フィードバックを投稿'**
+  String get subjectPostFeedback;
+
+  /// No description provided for @subjectSelectARating.
+  ///
+  /// In ja, this message translates to:
+  /// **'満足度を入力してください。'**
+  String get subjectSelectARating;
+
+  /// No description provided for @subjectCouldNotSubmitFeedback.
+  ///
+  /// In ja, this message translates to:
+  /// **'フィードバックの投稿に失敗しました。'**
+  String get subjectCouldNotSubmitFeedback;
+
+  /// No description provided for @subjectSubmit.
+  ///
+  /// In ja, this message translates to:
+  /// **'投稿する'**
+  String get subjectSubmit;
+
+  /// No description provided for @subjectTapToRate.
+  ///
+  /// In ja, this message translates to:
+  /// **'タップして評価:'**
+  String get subjectTapToRate;
+
+  /// No description provided for @subjectComment.
+  ///
+  /// In ja, this message translates to:
+  /// **'コメント'**
+  String get subjectComment;
+
+  /// No description provided for @subjectCreditsAttendanceExamsEtc.
+  ///
+  /// In ja, this message translates to:
+  /// **'単位、出席、テストの情報など...'**
+  String get subjectCreditsAttendanceExamsEtc;
+
+  /// No description provided for @subjectSignInWithAGoogleAccountFunAcJp.
+  ///
+  /// In ja, this message translates to:
+  /// **'Googleアカウント (@fun.ac.jp) による認証が必要です'**
+  String get subjectSignInWithAGoogleAccountFunAcJp;
+
+  /// No description provided for @subjectNoPastExamsAvailable.
+  ///
+  /// In ja, this message translates to:
+  /// **'過去問はありません'**
+  String get subjectNoPastExamsAvailable;
+
+  /// No description provided for @subjectNoFeedbackYet.
+  ///
+  /// In ja, this message translates to:
+  /// **'フィードバックがありません'**
+  String get subjectNoFeedbackYet;
+
+  /// No description provided for @subjectSignInWithAGoogleAccountFunAcJpPrompt.
+  ///
+  /// In ja, this message translates to:
+  /// **'Googleアカウント (@fun.ac.jp) による認証が必要です。'**
+  String get subjectSignInWithAGoogleAccountFunAcJpPrompt;
+
+  /// No description provided for @subjectFeedbackSubmitted.
+  ///
+  /// In ja, this message translates to:
+  /// **'フィードバックを投稿しました。'**
+  String get subjectFeedbackSubmitted;
+
+  /// No description provided for @subjectOutOf5.
+  ///
+  /// In ja, this message translates to:
+  /// **'5段階評価中'**
+  String get subjectOutOf5;
+
+  /// No description provided for @subjectSummary.
+  ///
+  /// In ja, this message translates to:
+  /// **'概要'**
+  String get subjectSummary;
+
+  /// No description provided for @subjectLearningOutcomes.
+  ///
+  /// In ja, this message translates to:
+  /// **'到達目標'**
+  String get subjectLearningOutcomes;
+
+  /// No description provided for @subjectAssignments.
+  ///
+  /// In ja, this message translates to:
+  /// **'提出課題等'**
+  String get subjectAssignments;
+
+  /// No description provided for @subjectEvaluationMethodsAndCriteria.
+  ///
+  /// In ja, this message translates to:
+  /// **'評価方法・基準'**
+  String get subjectEvaluationMethodsAndCriteria;
+
+  /// No description provided for @subjectTextbooks.
+  ///
+  /// In ja, this message translates to:
+  /// **'テキスト'**
+  String get subjectTextbooks;
+
+  /// No description provided for @subjectReferenceBooks.
+  ///
+  /// In ja, this message translates to:
+  /// **'参考書'**
+  String get subjectReferenceBooks;
+
+  /// No description provided for @subjectPrerequisites.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修条件'**
+  String get subjectPrerequisites;
+
+  /// No description provided for @subjectPreLearning.
+  ///
+  /// In ja, this message translates to:
+  /// **'事前学習'**
+  String get subjectPreLearning;
+
+  /// No description provided for @subjectPostLearning.
+  ///
+  /// In ja, this message translates to:
+  /// **'事後学習'**
+  String get subjectPostLearning;
+
+  /// No description provided for @subjectNotes.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修上の留意点'**
+  String get subjectNotes;
+
+  /// No description provided for @subjectKeywords.
+  ///
+  /// In ja, this message translates to:
+  /// **'キーワード'**
+  String get subjectKeywords;
+
+  /// No description provided for @subjectTargetCoursesAndAreas.
+  ///
+  /// In ja, this message translates to:
+  /// **'対象コース・領域'**
+  String get subjectTargetCoursesAndAreas;
+
+  /// No description provided for @subjectTargetAreas.
+  ///
+  /// In ja, this message translates to:
+  /// **'対象領域'**
+  String get subjectTargetAreas;
+
+  /// No description provided for @subjectClassificationPrompt.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目群・科目区分'**
+  String get subjectClassificationPrompt;
+
+  /// No description provided for @subjectTeachingLanguage.
+  ///
+  /// In ja, this message translates to:
+  /// **'教授言語'**
+  String get subjectTeachingLanguage;
+
+  /// No description provided for @subjectContentsAndSchedule.
+  ///
+  /// In ja, this message translates to:
+  /// **'授業内容とスケジュール'**
+  String get subjectContentsAndSchedule;
+
+  /// No description provided for @subjectTeachingAndExamFormat.
+  ///
+  /// In ja, this message translates to:
+  /// **'授業・試験の形式'**
+  String get subjectTeachingAndExamFormat;
+
+  /// No description provided for @subjectDSOPSubject.
+  ///
+  /// In ja, this message translates to:
+  /// **'DSOP対象科目'**
+  String get subjectDSOPSubject;
+
+  /// No description provided for @subjectCourseRegistrationFailed.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修登録の更新に失敗しました'**
+  String get subjectCourseRegistrationFailed;
+
+  /// No description provided for @subjectSubjectSearch.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目検索'**
+  String get subjectSubjectSearch;
+
+  /// No description provided for @subjectSearchBySubjectName.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目名で検索'**
+  String get subjectSearchBySubjectName;
+
+  /// No description provided for @subjectUnregister.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修解除'**
+  String get subjectUnregister;
+
+  /// No description provided for @subjectRegister.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修登録'**
+  String get subjectRegister;
+
+  /// No description provided for @subjectNoSubjectsFound.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目が見つかりませんでした'**
+  String get subjectNoSubjectsFound;
+
+  /// No description provided for @subjectSubjectSearchFailed.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目の検索に失敗しました。'**
+  String get subjectSubjectSearchFailed;
+
+  /// No description provided for @subjectSyllabus.
+  ///
+  /// In ja, this message translates to:
+  /// **'シラバス'**
+  String get subjectSyllabus;
+
+  /// No description provided for @subjectReviews.
+  ///
+  /// In ja, this message translates to:
+  /// **'レビュー'**
+  String get subjectReviews;
+
+  /// No description provided for @subjectPastExams.
+  ///
+  /// In ja, this message translates to:
+  /// **'過去問'**
+  String get subjectPastExams;
+
+  /// No description provided for @subjectCouldNotLoadSubjectInformation.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目情報の読み込みに失敗しました。'**
+  String get subjectCouldNotLoadSubjectInformation;
+
+  /// No description provided for @subjectOtherFacultyCount.
+  ///
+  /// In ja, this message translates to:
+  /// **'{name} 他{count}名'**
+  String subjectOtherFacultyCount(String name, int count);
+
+  /// No description provided for @subjectCredits.
+  ///
+  /// In ja, this message translates to:
+  /// **'{credits}単位'**
+  String subjectCredits(int credits);
+
+  /// No description provided for @subjectFeedbackCount.
+  ///
+  /// In ja, this message translates to:
+  /// **'{count}件のフィードバック'**
+  String subjectFeedbackCount(int count);
 }
 
 class _AppLocalizationsDelegate
