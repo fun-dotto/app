@@ -59,7 +59,10 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 
 ```
 lib/
-├── domain/              # Entity, Repository 抽象
+├── domain/
+│   ├── entity/          # Entity, Value Object, enum
+│   ├── repository/      # Repository 抽象
+│   └── service/         # Service, ServiceModel
 ├── application/         # UseCase
 ├── data/                # Repository 実装, DataSource
 ├── presentation/
@@ -70,6 +73,7 @@ lib/
 └── router/              # ルーティング
 ```
 
+- Domain は役割ごとに `entity/`・`repository/`・`service/` へ分ける。ドメインエラーなど Entity に準ずる型は `entity/` に置く。
 - Domain・Application・Data は機能を跨いで共有されるため、機能単位では分けない。
 - `presentation/<feature>/` 間の直接参照は避け、共有する Widget は `presentation/` 直下の共通ディレクトリへ切り出す。
 - 特定機能のドメインが肥大化した場合や、機能ごとに担当を分ける必要が生じた場合は、feature-first への移行を再検討する。
