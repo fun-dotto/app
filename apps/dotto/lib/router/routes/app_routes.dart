@@ -1,5 +1,5 @@
 import 'package:dotto/domain/entity/tab_item.dart';
-import 'package:dotto/feature/root/root_screen.dart';
+import 'package:dotto/presentation/root/root_screen.dart';
 import 'package:dotto/router/routes/bus_routes.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto/router/routes/funch_routes.dart';
