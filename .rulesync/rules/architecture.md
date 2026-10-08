@@ -45,7 +45,7 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 
 ### Presentation
 
-- Widget・Controller (Riverpod の Notifier) で構成する。
+- Widget・State (Riverpod の Notifier) で構成する。
 - Widget は `HookConsumerWidget` を基本とする。
 - UseCase を呼び出して状態を更新し、Repository やデータソースを直接呼ばない。
 
@@ -59,7 +59,7 @@ lib/
 ├── application/         # UseCase
 ├── data/                # Repository 実装, DataSource
 ├── presentation/
-│   └── <feature>/       # Screen, Widget, Controller
+│   └── <feature>/       # Screen, Widget, State
 ├── foundation/          # 設定・ログ・フラグなど共通基盤
 ├── helper/              # 汎用ユーティリティ (DateFormatter など)
 ├── extension/           # 標準型・外部パッケージ型の extension
@@ -149,7 +149,7 @@ FetchSubjectsUseCase fetchSubjectsUseCase(Ref ref) =>
 
 // presentation/
 @riverpod
-final class SubjectListController extends _$SubjectListController {
+final class SubjectListState extends _$SubjectListState {
   @override
   Future<List<Subject>> build() => ref.watch(fetchSubjectsUseCaseProvider)();
 }
@@ -160,7 +160,7 @@ final class SubjectListScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = useState('');
-    final subjects = ref.watch(subjectListControllerProvider);
+    final subjects = ref.watch(subjectListStateProvider);
 
     return switch (subjects) {
       AsyncData(:final value) => SubjectList(

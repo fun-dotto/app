@@ -22,7 +22,7 @@ globs: ["**/*"]
   | Repository 実装 | `XxxRepositoryImpl`                  |
   | DataSource      | `XxxDataSource`                      |
   | UseCase         | `XxxUseCase` (`call` メソッドを持つ) |
-  | Notifier        | `XxxController`                      |
+  | Notifier        | `XxxState`                           |
   | 画面            | `XxxScreen`                          |
 
 - bool 値は `is` / `has` / `can` / `should` で始める。
