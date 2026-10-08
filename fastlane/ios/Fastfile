@@ -284,6 +284,7 @@ platform :ios do
     )
   end
 
+  IOS_PRODUCTION_FLAVOR = "store"
   IOS_PRODUCTION_IPA_PATH = "build/dotto.ipa"
 
   # 本番(App Store)向けの IPA をビルドする
@@ -297,12 +298,14 @@ platform :ios do
       'build',
       'ipa',
       '--release',
+      "--flavor=#{IOS_PRODUCTION_FLAVOR}",
+      # store flavor は prd と同じ本番バックエンドを参照するため dart define も prd を使う
       "--dart-define-from-file=dart_defines/prd.json",
     )
     build_app(
       workspace: "apps/dotto/ios/Runner.xcworkspace",
-      scheme: "Runner",
-      configuration: "Release",
+      scheme: IOS_PRODUCTION_FLAVOR,
+      configuration: "Release-#{IOS_PRODUCTION_FLAVOR}",
       clean: true,
       output_directory: "build",
       output_name: "dotto.ipa",
