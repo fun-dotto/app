@@ -16,15 +16,14 @@ globs: ["**/*"]
 - ファイル名は snake_case とし、原則 1 ファイル 1 公開クラスとする。
 - クラス名の末尾は役割に応じて統一する。
 
-  | 役割 | 命名 |
-  | --- | --- |
-  | Repository 抽象 | `XxxRepository` |
-  | Repository 実装 | `XxxRepositoryImpl` |
-  | DataSource | `XxxDataSource` |
-  | DTO | `XxxDto` |
-  | UseCase | `XxxUseCase` (`call` メソッドを持つ) |
-  | Notifier | `XxxController` |
-  | 画面 | `XxxScreen` |
+  | 役割            | 命名                                 |
+  | --------------- | ------------------------------------ |
+  | Repository 抽象 | `XxxRepository`                      |
+  | Repository 実装 | `XxxRepositoryImpl`                  |
+  | DataSource      | `XxxDataSource`                      |
+  | UseCase         | `XxxUseCase` (`call` メソッドを持つ) |
+  | Notifier        | `XxxController`                      |
+  | 画面            | `XxxScreen`                          |
 
 - bool 値は `is` / `has` / `can` / `should` で始める。
 
