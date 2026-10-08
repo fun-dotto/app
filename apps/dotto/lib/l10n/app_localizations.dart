@@ -259,6 +259,96 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'昭和'**
   String get busLandmarkShowa;
+
+  /// No description provided for @mapTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'マップ'**
+  String get mapTitle;
+
+  /// No description provided for @mapSearchHint.
+  ///
+  /// In ja, this message translates to:
+  /// **'部屋名、教員名、メールアドレスで検索'**
+  String get mapSearchHint;
+
+  /// No description provided for @mapNoResults.
+  ///
+  /// In ja, this message translates to:
+  /// **'見つかりませんでした'**
+  String get mapNoResults;
+
+  /// No description provided for @mapSearchError.
+  ///
+  /// In ja, this message translates to:
+  /// **'検索結果の取得に失敗しました'**
+  String get mapSearchError;
+
+  /// No description provided for @mapLoading.
+  ///
+  /// In ja, this message translates to:
+  /// **'読み込み中...'**
+  String get mapLoading;
+
+  /// No description provided for @mapError.
+  ///
+  /// In ja, this message translates to:
+  /// **'エラーが発生しました'**
+  String get mapError;
+
+  /// No description provided for @mapInUse.
+  ///
+  /// In ja, this message translates to:
+  /// **'使用中'**
+  String get mapInUse;
+
+  /// No description provided for @mapRestrooms.
+  ///
+  /// In ja, this message translates to:
+  /// **'トイレ・給湯室'**
+  String get mapRestrooms;
+
+  /// No description provided for @mapLoginDetails.
+  ///
+  /// In ja, this message translates to:
+  /// **'Googleアカウント (@fun.ac.jp) でログインして詳細を確認'**
+  String get mapLoginDetails;
+
+  /// No description provided for @mapGoToSettings.
+  ///
+  /// In ja, this message translates to:
+  /// **'設定に移動する'**
+  String get mapGoToSettings;
+
+  /// No description provided for @mapFood.
+  ///
+  /// In ja, this message translates to:
+  /// **'食べ物'**
+  String get mapFood;
+
+  /// No description provided for @mapDrink.
+  ///
+  /// In ja, this message translates to:
+  /// **'飲み物'**
+  String get mapDrink;
+
+  /// No description provided for @mapOutlet.
+  ///
+  /// In ja, this message translates to:
+  /// **'コンセント'**
+  String get mapOutlet;
+
+  /// No description provided for @mapCurrentTime.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在'**
+  String get mapCurrentTime;
+
+  /// No description provided for @mapPeriod.
+  ///
+  /// In ja, this message translates to:
+  /// **'{number}限'**
+  String mapPeriod(int number);
 }
 
 class _AppLocalizationsDelegate

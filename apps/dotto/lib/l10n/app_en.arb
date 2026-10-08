@@ -56,5 +56,27 @@
         "type": "String"
       }
     }
+  },
+  "mapTitle": "Map",
+  "mapSearchHint": "Search rooms, teachers, or email addresses",
+  "mapNoResults": "No results found",
+  "mapSearchError": "Failed to load search results",
+  "mapLoading": "Loading...",
+  "mapError": "An error occurred",
+  "mapInUse": "In use",
+  "mapRestrooms": "Restrooms and kitchenettes",
+  "mapLoginDetails": "Sign in with your Google account (@fun.ac.jp) to view details",
+  "mapGoToSettings": "Go to settings",
+  "mapFood": "Food",
+  "mapDrink": "Drink",
+  "mapOutlet": "Power outlets",
+  "mapCurrentTime": "Now",
+  "mapPeriod": "Period {number}",
+  "@mapPeriod": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
   }
 }

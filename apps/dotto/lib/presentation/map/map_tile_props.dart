@@ -1,8 +1,8 @@
 import 'package:dotto/domain/entity/floor.dart';
-import 'package:dotto/domain/entity/map_colors.dart';
-import 'package:dotto/domain/entity/map_stair_type.dart';
-import 'package:dotto/domain/entity/restroom_type.dart';
-import 'package:dotto/domain/entity/room_equipment.dart';
+import 'package:dotto/presentation/map/map_stair_type.dart';
+import 'package:dotto/presentation/map/restroom_type.dart';
+import 'package:dotto/presentation/map/room_equipment.dart';
+import 'package:dotto_design_system/style/map_colors.dart';
 import 'package:material_ui/material_ui.dart';
 
 abstract class MapTileProps {
@@ -30,8 +30,8 @@ abstract class MapTileProps {
   final String? id;
   final String? label;
 
-  Color get foregroundColor => Colors.black;
-  Color get backgroundColor => Colors.transparent;
+  Color get foregroundColor => MapColors.foreground;
+  Color get backgroundColor => MapColors.transparent;
 }
 
 final class ClassroomMapTileProps extends MapTileProps {
@@ -51,7 +51,7 @@ final class ClassroomMapTileProps extends MapTileProps {
   final RoomEquipmentStatus equipment;
 
   @override
-  Color get foregroundColor => Colors.white;
+  Color get foregroundColor => MapColors.invertedForeground;
   @override
   Color get backgroundColor => MapColors.classroomTile;
 }
@@ -70,7 +70,7 @@ final class FacultyRoomMapTileProps extends MapTileProps {
   });
 
   @override
-  Color get foregroundColor => Colors.white;
+  Color get foregroundColor => MapColors.invertedForeground;
   @override
   Color get backgroundColor => MapColors.facultyRoomTile;
 }
@@ -92,9 +92,9 @@ final class SubRoomMapTileProps extends MapTileProps {
   final RoomEquipmentStatus? equipment;
 
   @override
-  Color get foregroundColor => Colors.black;
+  Color get foregroundColor => MapColors.foreground;
   @override
-  Color get backgroundColor => Colors.grey;
+  Color get backgroundColor => MapColors.subRoomTile;
 }
 
 final class OtherRoomMapTileProps extends MapTileProps {
@@ -111,7 +111,7 @@ final class OtherRoomMapTileProps extends MapTileProps {
   });
 
   @override
-  Color get foregroundColor => Colors.black;
+  Color get foregroundColor => MapColors.foreground;
   @override
   Color get backgroundColor => MapColors.otherRoomTile;
 }
@@ -131,7 +131,7 @@ final class RestroomMapTileProps extends MapTileProps {
   final List<RestroomType> types;
 
   @override
-  Color get foregroundColor => Colors.black;
+  Color get foregroundColor => MapColors.foreground;
   @override
   Color get backgroundColor => MapColors.restroomTile;
 }
@@ -151,7 +151,7 @@ final class StairMapTileProps extends MapTileProps {
   final MapStairType type;
 
   @override
-  Color get foregroundColor => Colors.black;
+  Color get foregroundColor => MapColors.foreground;
   @override
   Color get backgroundColor => MapColors.stairTile;
 }
@@ -168,7 +168,7 @@ final class ElevatorMapTileProps extends MapTileProps {
   });
 
   @override
-  Color get foregroundColor => Colors.white;
+  Color get foregroundColor => MapColors.invertedForeground;
   @override
   Color get backgroundColor => MapColors.elevatorTile;
 }
@@ -186,7 +186,7 @@ final class AisleMapTileProps extends MapTileProps {
   });
 
   @override
-  Color get foregroundColor => Colors.black;
+  Color get foregroundColor => MapColors.foreground;
   @override
   Color get backgroundColor => MapColors.aisleTile;
 }
@@ -203,7 +203,7 @@ final class AtriumMapTileProps extends MapTileProps {
   });
 
   @override
-  Color get foregroundColor => Colors.black;
+  Color get foregroundColor => MapColors.foreground;
   @override
-  Color get backgroundColor => Colors.transparent;
+  Color get backgroundColor => MapColors.transparent;
 }

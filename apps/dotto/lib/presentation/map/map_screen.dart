@@ -1,14 +1,19 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:dotto/domain/entity/map_tile_props.dart';
-import 'package:dotto/feature/map/map_reducer.dart';
-import 'package:dotto/feature/map/widget/map.dart';
-import 'package:dotto/feature/map/widget/map_date_picker.dart';
-import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
-import 'package:dotto/feature/map/widget/map_floor_button.dart';
-import 'package:dotto/feature/map/widget/map_legend.dart';
+import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/l10n/app_localizations.dart';
+import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/map_state.dart';
+import 'package:dotto/presentation/map/map_tile_props.dart';
+import 'package:dotto/presentation/map/widget/map.dart';
+import 'package:dotto/presentation/map/widget/map_date_picker.dart';
+import 'package:dotto/presentation/map/widget/map_detail_bottom_sheet.dart';
+import 'package:dotto/presentation/map/widget/map_floor_button.dart';
+import 'package:dotto/presentation/map/widget/map_legend.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,31 +31,24 @@ final class MapScreen extends HookConsumerWidget {
   /// 表示直後に選択状態にする部屋のID。
   final String? focusedRoomId;
 
-  Widget _datePickerSection({
-    required bool isAuthenticated,
-    required DateTime searchDatetime,
-    required void Function(DateTime) onPeriodButtonTapped,
-    required void Function(DateTime) onDatePickerConfirmed,
-  }) {
-    if (!isAuthenticated) {
-      return const SizedBox.shrink();
-    }
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 480),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: MapDatePicker(
-          searchDatetime: searchDatetime,
-          onPeriodButtonTapped: onPeriodButtonTapped,
-          onDatePickerConfirmed: onDatePickerConfirmed,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncState = ref.watch(mapReducerProvider);
+    final asyncState = ref.watch(mapStateProvider);
+    final searchDate = useState(DateTime.now());
+    final selectedFloor = useState(Floor.third);
+    final focusedTile = useState<MapTileProps?>(null);
+    final transformationController = useMemoized(TransformationController.new);
+    useEffect(() => transformationController.dispose, [
+      transformationController,
+    ]);
+
+    void focusRoom(Room room) {
+      selectedFloor.value = room.floor;
+      focusedTile.value = FUNMap.tileProps.firstWhereOrNull(
+        (e) => e.id == room.id,
+      );
+    }
+
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     final scaffoldKey = useMemoized(GlobalKey<ScaffoldState>.new);
     final sheetController = useRef<PersistentBottomSheetController?>(null);
@@ -63,9 +61,9 @@ final class MapScreen extends HookConsumerWidget {
     }, [searchController]);
     final searchFocusNode = useFocusNode();
 
-    final searchDatetime = asyncState.value?.searchDatetime;
-    final rooms = asyncState.value?.rooms;
-    final focusedMapTileProps = asyncState.value?.focusedMapTileProps;
+    final searchDatetime = searchDate.value;
+    final rooms = asyncState.asData?.value;
+    final focusedMapTileProps = focusedTile.value;
 
     // 部屋を指定して開かれた場合は、部屋の読み込み完了後に選択状態にする。
     useEffect(() {
@@ -73,7 +71,12 @@ final class MapScreen extends HookConsumerWidget {
       if (roomId == null || rooms == null) {
         return null;
       }
-      ref.read(mapReducerProvider.notifier).onRoomFocusRequested(roomId);
+      final room = rooms.firstWhereOrNull((e) => e.id == roomId);
+      if (room != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (context.mounted) focusRoom(room);
+        });
+      }
       return null;
     }, [focusedRoomId, rooms]);
 
@@ -85,7 +88,7 @@ final class MapScreen extends HookConsumerWidget {
         searchFocusNode.unfocus();
 
         final props = focusedMapTileProps;
-        if (props == null || rooms == null || searchDatetime == null) {
+        if (props == null || rooms == null) {
           return;
         }
         final room = rooms.firstWhereOrNull((e) => e.id == props.id);
@@ -117,28 +120,22 @@ final class MapScreen extends HookConsumerWidget {
                 // 現在表示中のシートではないのでユーザー操作由来とは扱わない。
                 if (sheetController.value != newController) return;
                 sheetController.value = null;
-                final current = ref
-                    .read(mapReducerProvider)
-                    .value
-                    ?.focusedMapTileProps;
-                if (current?.id == shownPropsId) {
-                  ref
-                      .read(mapReducerProvider.notifier)
-                      .onBottomSheetDismissed();
+                if (focusedTile.value?.id == shownPropsId) {
+                  focusedTile.value = null;
                 }
               }) ??
               Future<void>.value(),
         );
       });
       return null;
-    }, [focusedMapTileProps?.id, searchDatetime, isAuthenticated]);
+    }, [focusedMapTileProps?.id, searchDatetime, isAuthenticated, rooms]);
 
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'マップ',
+          (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapTitle,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
@@ -165,7 +162,9 @@ final class MapScreen extends HookConsumerWidget {
                     controller.openView();
                   },
                   leading: const Icon(Icons.search),
-                  hintText: '部屋名、教員名、メールアドレスで検索',
+                  hintText:
+                      (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                          .mapSearchHint,
                 );
               },
               suggestionsBuilder: (context, controller) {
@@ -175,21 +174,19 @@ final class MapScreen extends HookConsumerWidget {
                     if (query.isEmpty) {
                       return const <Widget>[];
                     }
-                    final results = value.rooms
-                        .where(
-                          (room) =>
-                              room.id.toLowerCase().contains(query) ||
-                              room.name.toLowerCase().contains(query) ||
-                              room.description.toLowerCase().contains(query) ||
-                              room.email.toLowerCase().contains(query) ||
-                              room.keywords.any(
-                                (keyword) =>
-                                    keyword.toLowerCase().contains(query),
-                              ),
-                        )
+                    final results = value
+                        .where((room) => room.matchesQuery(query))
                         .toList();
                     if (results.isEmpty) {
-                      return [const ListTile(title: Text('見つかりませんでした'))];
+                      return [
+                        ListTile(
+                          title: Text(
+                            (AppLocalizations.of(context) ??
+                                    AppLocalizationsJa())
+                                .mapNoResults,
+                          ),
+                        ),
+                      ];
                     }
                     return results.map((item) {
                       return ListTile(
@@ -197,9 +194,7 @@ final class MapScreen extends HookConsumerWidget {
                         onTap: () {
                           controller.closeView(controller.text);
                           searchFocusNode.unfocus();
-                          ref
-                              .read(mapReducerProvider.notifier)
-                              .onSearchResultRowTapped(item);
+                          focusRoom(item);
                         },
                       );
                     }).toList();
@@ -208,9 +203,23 @@ final class MapScreen extends HookConsumerWidget {
                       'Failed to build map search suggestions: '
                       '$error\n$stackTrace',
                     );
-                    return [const ListTile(title: Text('検索結果の取得に失敗しました'))];
+                    return [
+                      ListTile(
+                        title: Text(
+                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                              .mapSearchError,
+                        ),
+                      ),
+                    ];
                   case AsyncLoading():
-                    return [const ListTile(title: Text('読み込み中...'))];
+                    return [
+                      ListTile(
+                        title: Text(
+                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                              .mapLoading,
+                        ),
+                      ),
+                    ];
                 }
               },
             ),
@@ -219,8 +228,8 @@ final class MapScreen extends HookConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
-        child: asyncState.when(
-          data: (state) => Column(
+        child: switch (asyncState) {
+          AsyncData(value: final state) => Column(
             spacing: 8,
             children: [
               Expanded(
@@ -234,11 +243,12 @@ final class MapScreen extends HookConsumerWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: MapFloorButton(
-                              selectedFloor: state.selectedFloor,
+                              selectedFloor: selectedFloor.value,
                               onPressed: (floor) {
-                                ref
-                                    .read(mapReducerProvider.notifier)
-                                    .onFloorButtonTapped(floor);
+                                selectedFloor.value = floor;
+                                focusedTile.value = null;
+                                transformationController.value =
+                                    Matrix4.identity();
                               },
                             ),
                           ),
@@ -250,16 +260,16 @@ final class MapScreen extends HookConsumerWidget {
                               SizedBox.expand(
                                 child: Map(
                                   mapViewTransformationController:
-                                      state.transformationController,
-                                  selectedFloor: state.selectedFloor,
-                                  rooms: state.rooms,
-                                  focusedMapTileProps:
-                                      state.focusedMapTileProps,
-                                  dateTime: state.searchDatetime,
+                                      transformationController,
+                                  selectedFloor: selectedFloor.value,
+                                  rooms: state,
+                                  focusedMapTileProps: focusedTile.value,
+                                  dateTime: searchDatetime,
                                   onTapped: (props, _) {
-                                    ref
-                                        .read(mapReducerProvider.notifier)
-                                        .onMapTileTapped(props);
+                                    focusedTile.value =
+                                        focusedTile.value == props
+                                        ? null
+                                        : props;
                                   },
                                 ),
                               ),
@@ -270,22 +280,18 @@ final class MapScreen extends HookConsumerWidget {
                             ],
                           ),
                         ),
-                        _datePickerSection(
+                        _MapDatePickerSection(
                           isAuthenticated: isAuthenticated,
-                          searchDatetime: state.searchDatetime,
+                          searchDatetime: searchDatetime,
                           onPeriodButtonTapped: (dateTime) async {
                             var setDate = dateTime;
                             if (setDate.hour == 0) {
                               setDate = DateTime.now();
                             }
-                            ref
-                                .read(mapReducerProvider.notifier)
-                                .onPeriodButtonTapped(setDate);
+                            searchDate.value = setDate;
                           },
                           onDatePickerConfirmed: (dateTime) async {
-                            ref
-                                .read(mapReducerProvider.notifier)
-                                .onDatePickerConfirmed(dateTime);
+                            searchDate.value = dateTime;
                           },
                         ),
                       ],
@@ -295,10 +301,43 @@ final class MapScreen extends HookConsumerWidget {
               ),
             ],
           ),
-          error: (error, stackTrace) => const Center(child: Text('エラーが発生しました')),
-          loading: () => const Center(child: CircularProgressIndicator()),
-        ),
+          AsyncError() => Center(
+            child: Text(
+              (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapError,
+            ),
+          ),
+          _ => const Center(child: CircularProgressIndicator()),
+        },
       ),
     );
   }
+}
+
+final class _MapDatePickerSection extends StatelessWidget {
+  const new({
+    required this.isAuthenticated,
+    required this.searchDatetime,
+    required this.onPeriodButtonTapped,
+    required this.onDatePickerConfirmed,
+  });
+
+  final bool isAuthenticated;
+  final DateTime searchDatetime;
+  final void Function(DateTime) onPeriodButtonTapped;
+  final void Function(DateTime) onDatePickerConfirmed;
+
+  @override
+  Widget build(BuildContext context) => isAuthenticated
+      ? ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 480),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: MapDatePicker(
+              searchDatetime: searchDatetime,
+              onPeriodButtonTapped: onPeriodButtonTapped,
+              onDatePickerConfirmed: onDatePickerConfirmed,
+            ),
+          ),
+        )
+      : const SizedBox.shrink();
 }

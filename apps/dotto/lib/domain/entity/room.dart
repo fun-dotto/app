@@ -19,6 +19,19 @@ abstract class Room with _$Room {
 
   const new _();
 
+  /// 部屋名・教員名・メールアドレス・検索キーワードで一致を判定する。
+  bool matchesQuery(String query) {
+    final normalized = query.trim().toLowerCase();
+    return normalized.isNotEmpty &&
+        [
+          id,
+          name,
+          description,
+          email,
+          ...keywords,
+        ].any((value) => value.toLowerCase().contains(normalized));
+  }
+
   bool isInUse(DateTime dateTime) {
     return schedules.any(
       (schedule) =>

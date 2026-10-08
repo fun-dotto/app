@@ -56,5 +56,27 @@
         "type": "String"
       }
     }
+  },
+  "mapTitle": "マップ",
+  "mapSearchHint": "部屋名、教員名、メールアドレスで検索",
+  "mapNoResults": "見つかりませんでした",
+  "mapSearchError": "検索結果の取得に失敗しました",
+  "mapLoading": "読み込み中...",
+  "mapError": "エラーが発生しました",
+  "mapInUse": "使用中",
+  "mapRestrooms": "トイレ・給湯室",
+  "mapLoginDetails": "Googleアカウント (@fun.ac.jp) でログインして詳細を確認",
+  "mapGoToSettings": "設定に移動する",
+  "mapFood": "食べ物",
+  "mapDrink": "飲み物",
+  "mapOutlet": "コンセント",
+  "mapCurrentTime": "現在",
+  "mapPeriod": "{number}限",
+  "@mapPeriod": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
   }
 }
