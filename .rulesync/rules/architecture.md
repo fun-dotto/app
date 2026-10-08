@@ -61,13 +61,27 @@ lib/
 ├── presentation/
 │   └── <feature>/       # Screen, Widget, Controller
 ├── foundation/          # 設定・ログ・フラグなど共通基盤
-├── helper/              # 汎用ヘルパー (DateFormatter など)
+├── helper/              # 汎用ユーティリティ (DateFormatter など)
+├── extension/           # 標準型・外部パッケージ型の extension
 └── router/              # ルーティング
 ```
 
 - Domain・Application・Data は機能を跨いで共有されるため、機能単位では分けない。
 - `presentation/<feature>/` 間の直接参照は避け、共有する Widget は `presentation/` 直下の共通ディレクトリへ切り出す。
 - 特定機能のドメインが肥大化した場合や、機能ごとに担当を分ける必要が生じた場合は、feature-first への移行を再検討する。
+
+## ユーティリティ
+
+特定のレイヤーやドメインに属さない汎用処理は `helper/` と `extension/` に置く。
+
+- `helper/` には、状態を持たない純粋な関数・クラスのみを置く。
+  - Firebase・API・ストレージなど外部へアクセスするものは Data レイヤー、Provider は該当するレイヤーへ置き、`helper/` に置かない。
+- `extension/` には、`String`・`DateTime`・`Iterable` など標準型や外部パッケージの型への extension を置く。ドメインモデルの振る舞いはモデル自身に定義する。
+- 同じ処理が 2 箇所以上に現れたら、ユーティリティへの切り出しを検討する。
+
+### 日付整形
+
+- `DateFormat` は各所で直接使わず、`lib/helper/date_formatter.dart` の `DateFormatter` クラスにメソッドとして定義して利用する。
 
 ## 状態管理
 
