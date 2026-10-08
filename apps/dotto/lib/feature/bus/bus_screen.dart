@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:dotto/feature/bus/bus_reducer.dart';
 import 'package:dotto/feature/bus/bus_trip_id.dart';
 import 'package:dotto/repository/model/bus_type.dart';

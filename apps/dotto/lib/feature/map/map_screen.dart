@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/feature/map/map_reducer.dart';

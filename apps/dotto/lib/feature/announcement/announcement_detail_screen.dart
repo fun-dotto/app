@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:dotto/domain/announcement.dart';
 import 'package:dotto/feature/announcement/announcement_state.dart';
 import 'package:dotto/foundation/container/screen_container.dart';
