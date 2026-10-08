@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/course_registration.dart';
 import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/period.dart';
@@ -12,6 +11,7 @@ import 'package:dotto/domain/subject_summary.dart';
 import 'package:dotto/domain/timetable_item.dart';
 import 'package:dotto/domain/timetable_slot.dart';
 import 'package:dotto/feature/subject/search_subject_reducer.dart';
+import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/repository/course_registration_repository.dart';
 import 'package:dotto/repository/repository_provider.dart';
 import 'package:dotto/repository/subject_repository.dart';

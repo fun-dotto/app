@@ -5,28 +5,7 @@ import 'package:dotto/repository/config_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-final class FakeRemoteConfigHelper implements RemoteConfigHelper {
-  final values = <String, Object?>{};
-
-  @override
-  bool getBool(String key) => values[key] as bool? ?? false;
-
-  @override
-  double getDouble(String key) => values[key] as double? ?? 0;
-
-  @override
-  int getInt(String key) => values[key] as int? ?? 0;
-
-  @override
-  Map<String, Object?> getJSON(String key) =>
-      values[key] as Map<String, Object?>? ?? <String, Object?>{};
-
-  @override
-  String getString(String key) => values[key] as String? ?? '';
-
-  @override
-  Future<void> setup() async {}
-}
+import '../../helpers/fake_remote_config_helper.dart';
 
 void main() {
   test('invalidateすると最新のRemote ConfigからConfigを再構築する', () {
