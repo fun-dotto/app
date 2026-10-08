@@ -11,13 +11,12 @@ part 'announcement.g.dart';
 /// Announcement
 ///
 /// Properties:
-/// * [id]
-/// * [title]
+/// * [id] 
+/// * [title] 
 /// * [date] - 日時
-/// * [url]
+/// * [url] 
 @BuiltValue()
-abstract class Announcement
-    implements Built<Announcement, AnnouncementBuilder> {
+abstract class Announcement implements Built<Announcement, AnnouncementBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -82,11 +81,7 @@ class _$AnnouncementSerializer implements PrimitiveSerializer<Announcement> {
     Announcement object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(
-      serializers,
-      object,
-      specifiedType: specifiedType,
-    ).toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -102,39 +97,31 @@ class _$AnnouncementSerializer implements PrimitiveSerializer<Announcement> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'id':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
           result.id = valueDes;
           break;
         case r'title':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
           result.title = valueDes;
           break;
         case r'date':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )
-                  as DateTime;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
           result.date = valueDes;
           break;
         case r'url':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
           result.url = valueDes;
           break;
         default:
@@ -165,3 +152,4 @@ class _$AnnouncementSerializer implements PrimitiveSerializer<Announcement> {
     return result.build();
   }
 }
+

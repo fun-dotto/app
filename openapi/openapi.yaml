@@ -15,6 +15,8 @@ tags:
   - name: FCM Tokens
   - name: MenuItems
   - name: Reservations
+  - name: BusTrips
+  - name: BusTimetableStops
 paths:
   /v1/announcements:
     get:
@@ -38,6 +40,65 @@ paths:
           description: Access is unauthorized.
       tags:
         - Announcements
+  /v1/busTrips:
+    get:
+      operationId: BusTripsV1_list
+      description: バスの運行情報を取得する
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: バスの運行情報を取得する日付
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: バスの運行情報のリスト
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  busTrips:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BusTrip'
+                required:
+                  - busTrips
+        '401':
+          description: Access is unauthorized.
+      tags:
+        - BusTrips
+  /v1/busTrips/{tripId}/busTimetableStops:
+    get:
+      operationId: BusTimetableStopsV1_list
+      description: バスの停車情報を取得する
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          description: 運行ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: バスの停車情報のリスト
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  busTimetableStops:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BusTimetableStop'
+                required:
+                  - busTimetableStops
+        '401':
+          description: Access is unauthorized.
+      tags:
+        - BusTimetableStops
   /v1/cancelledClasses:
     get:
       operationId: CancelledClassesV1_list
@@ -819,6 +880,76 @@ components:
         url:
           type: string
           format: uri
+    BusAlert:
+      type: string
+      enum:
+        - None
+        - Cancellation
+    BusRoute:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    BusStop:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    BusTimetableStop:
+      type: object
+      required:
+        - tripId
+        - stop
+        - departureTime
+      properties:
+        tripId:
+          type: string
+        stop:
+          $ref: '#/components/schemas/BusStop'
+        departureTime:
+          type: string
+          format: date-time
+    BusTrip:
+      type: object
+      required:
+        - id
+        - departureTime
+        - arrivalTime
+        - route
+        - stops
+        - delay
+        - alert
+      properties:
+        id:
+          type: string
+        departureTime:
+          type: string
+          format: date-time
+        arrivalTime:
+          type: string
+          format: date-time
+        route:
+          $ref: '#/components/schemas/BusRoute'
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusStop'
+          description: 乗車バス停、乗り換えバス停、降車バス停のリスト
+        delay:
+          type: string
+          format: duration
+        alert:
+          $ref: '#/components/schemas/BusAlert'
     CancelledClass:
       type: object
       required:

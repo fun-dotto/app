@@ -12,8 +12,8 @@ part 'price.g.dart';
 /// Price
 ///
 /// Properties:
-/// * [size]
-/// * [price]
+/// * [size] 
+/// * [price] 
 @BuiltValue()
 abstract class Price implements Built<Price, PriceBuilder> {
   @BuiltValueField(wireName: r'size')
@@ -64,11 +64,7 @@ class _$PriceSerializer implements PrimitiveSerializer<Price> {
     Price object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(
-      serializers,
-      object,
-      specifiedType: specifiedType,
-    ).toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -84,18 +80,17 @@ class _$PriceSerializer implements PrimitiveSerializer<Price> {
       final value = serializedList[i + 1];
       switch (key) {
         case r'size':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Size),
-                  )
-                  as Size;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(Size),
+          ) as Size;
           result.size = valueDes;
           break;
         case r'price':
-          final valueDes =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
           result.price = valueDes;
           break;
         default:
@@ -126,3 +121,4 @@ class _$PriceSerializer implements PrimitiveSerializer<Price> {
     return result.build();
   }
 }
+

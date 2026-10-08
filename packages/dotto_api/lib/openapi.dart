@@ -11,6 +11,8 @@ export 'package:openapi/src/serializers.dart';
 export 'package:openapi/src/model/date.dart';
 
 export 'package:openapi/src/api/announcements_api.dart';
+export 'package:openapi/src/api/bus_timetable_stops_api.dart';
+export 'package:openapi/src/api/bus_trips_api.dart';
 export 'package:openapi/src/api/cancelled_classes_api.dart';
 export 'package:openapi/src/api/course_registrations_api.dart';
 export 'package:openapi/src/api/fcm_tokens_api.dart';
@@ -29,6 +31,13 @@ export 'package:openapi/src/model/academic_service_subject_target_class.dart';
 export 'package:openapi/src/model/academic_service_syllabus.dart';
 export 'package:openapi/src/model/announcement.dart';
 export 'package:openapi/src/model/announcements_v1_list200_response.dart';
+export 'package:openapi/src/model/bus_alert.dart';
+export 'package:openapi/src/model/bus_route.dart';
+export 'package:openapi/src/model/bus_stop.dart';
+export 'package:openapi/src/model/bus_timetable_stop.dart';
+export 'package:openapi/src/model/bus_timetable_stops_v1_list200_response.dart';
+export 'package:openapi/src/model/bus_trip.dart';
+export 'package:openapi/src/model/bus_trips_v1_list200_response.dart';
 export 'package:openapi/src/model/cancelled_class.dart';
 export 'package:openapi/src/model/cancelled_classes_v1_list200_response.dart';
 export 'package:openapi/src/model/category.dart';
@@ -74,3 +83,4 @@ export 'package:openapi/src/model/timetable_item.dart';
 export 'package:openapi/src/model/timetable_items_v1_list200_response.dart';
 export 'package:openapi/src/model/user_info.dart';
 export 'package:openapi/src/model/users_v1_detail200_response.dart';
+

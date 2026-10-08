@@ -12,35 +12,26 @@ part 'users_v1_detail200_response.g.dart';
 /// UsersV1Detail200Response
 ///
 /// Properties:
-/// * [user]
+/// * [user] 
 @BuiltValue()
-abstract class UsersV1Detail200Response
-    implements
-        Built<UsersV1Detail200Response, UsersV1Detail200ResponseBuilder> {
+abstract class UsersV1Detail200Response implements Built<UsersV1Detail200Response, UsersV1Detail200ResponseBuilder> {
   @BuiltValueField(wireName: r'user')
   UserInfo get user;
 
   UsersV1Detail200Response._();
 
-  factory UsersV1Detail200Response([
-    void updates(UsersV1Detail200ResponseBuilder b),
-  ]) = _$UsersV1Detail200Response;
+  factory UsersV1Detail200Response([void updates(UsersV1Detail200ResponseBuilder b)]) = _$UsersV1Detail200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(UsersV1Detail200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<UsersV1Detail200Response> get serializer =>
-      _$UsersV1Detail200ResponseSerializer();
+  static Serializer<UsersV1Detail200Response> get serializer => _$UsersV1Detail200ResponseSerializer();
 }
 
-class _$UsersV1Detail200ResponseSerializer
-    implements PrimitiveSerializer<UsersV1Detail200Response> {
+class _$UsersV1Detail200ResponseSerializer implements PrimitiveSerializer<UsersV1Detail200Response> {
   @override
-  final Iterable<Type> types = const [
-    UsersV1Detail200Response,
-    _$UsersV1Detail200Response,
-  ];
+  final Iterable<Type> types = const [UsersV1Detail200Response, _$UsersV1Detail200Response];
 
   @override
   final String wireName = r'UsersV1Detail200Response';
@@ -63,11 +54,7 @@ class _$UsersV1Detail200ResponseSerializer
     UsersV1Detail200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(
-      serializers,
-      object,
-      specifiedType: specifiedType,
-    ).toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -83,12 +70,10 @@ class _$UsersV1Detail200ResponseSerializer
       final value = serializedList[i + 1];
       switch (key) {
         case r'user':
-          final valueDes =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(UserInfo),
-                  )
-                  as UserInfo;
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(UserInfo),
+          ) as UserInfo;
           result.user.replace(valueDes);
           break;
         default:
@@ -119,3 +104,4 @@ class _$UsersV1Detail200ResponseSerializer
     return result.build();
   }
 }
+
