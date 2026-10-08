@@ -1,4 +1,3 @@
 #include "Default.xcconfig"
 
 FLUTTER_FLAVOR=store
-ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-store
