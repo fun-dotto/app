@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/feature/course/course_reducer.dart';
 import 'package:dotto/feature/course/course_state.dart';
 import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
@@ -8,10 +7,12 @@ import 'package:dotto/feature/course/quick_button.dart';
 import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
 import 'package:dotto/foundation/flag/flags.dart';
-import 'package:dotto/foundation/flag/use_flag.dart';
 import 'package:dotto/foundation/log/use_logger.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
+import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/common/use_flag.dart';
+import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -308,7 +309,9 @@ final class CourseScreen extends HookConsumerWidget {
                           child: Center(
                             child: DottoButton(
                               onPressed: () async {
-                                await ref.read(userProvider.notifier).signIn();
+                                await ref
+                                    .read(userStateProvider.notifier)
+                                    .signIn();
                               },
                               child: const Text('ログインして時間割機能を使う'),
                             ),

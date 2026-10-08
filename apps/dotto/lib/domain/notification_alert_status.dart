@@ -1,5 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
-
 enum NotificationAlertStatus {
   enabled,
   provisional,
@@ -24,20 +22,4 @@ enum NotificationAlertStatus {
     NotificationAlertStatus.denied => '拒否',
     NotificationAlertStatus.notDetermined => '未設定',
   };
-
-  static NotificationAlertStatus fromSettings(NotificationSettings settings) {
-    switch (settings.authorizationStatus) {
-      case AuthorizationStatus.notDetermined:
-        return NotificationAlertStatus.notDetermined;
-      case AuthorizationStatus.provisional:
-        return NotificationAlertStatus.provisional;
-      case AuthorizationStatus.authorized:
-        return settings.alert == AppleNotificationSetting.disabled
-            ? NotificationAlertStatus.alertDisabled
-            : NotificationAlertStatus.enabled;
-      case AuthorizationStatus.denied:
-      case AuthorizationStatus.deniedPermanently:
-        return NotificationAlertStatus.denied;
-    }
-  }
 }

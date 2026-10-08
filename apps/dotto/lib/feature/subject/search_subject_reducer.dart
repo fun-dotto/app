@@ -1,6 +1,5 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dotto/api/api_client.dart';
-import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/course_registration.dart';
 import 'package:dotto/domain/semester.dart';
 import 'package:dotto/domain/subject_filter.dart';
@@ -8,6 +7,7 @@ import 'package:dotto/domain/subject_summary.dart';
 import 'package:dotto/domain/timetable_item.dart';
 import 'package:dotto/domain/timetable_slot.dart';
 import 'package:dotto/feature/subject/search_subject_state.dart';
+import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/repository/repository_provider.dart';
 import 'package:dotto/repository/subject_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

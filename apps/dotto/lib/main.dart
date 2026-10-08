@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dotto/app.dart';
 import 'package:dotto/firebase_options_flavor.dart';
 import 'package:dotto/foundation/log/logger.dart';
-import 'package:dotto/helper/firebase_auth_helper.dart';
 import 'package:dotto/helper/firebase_storage_repository.dart';
 import 'package:dotto/helper/location_helper.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -14,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -52,7 +52,7 @@ Future<void> main() async {
   );
 
   // Firebase Authentication
-  await FirebaseAuthHelper.initialize();
+  await GoogleSignIn.instance.initialize();
 
   // Firebase Messaging
   // 通知許可をリクエスト

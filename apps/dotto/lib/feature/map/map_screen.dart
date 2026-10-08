@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/feature/map/map_reducer.dart';
 import 'package:dotto/feature/map/widget/map.dart';
@@ -9,6 +8,7 @@ import 'package:dotto/feature/map/widget/map_date_picker.dart';
 import 'package:dotto/feature/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/feature/map/widget/map_floor_button.dart';
 import 'package:dotto/feature/map/widget/map_legend.dart';
+import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
