@@ -1,5 +1,5 @@
 final class Flag<T> {
-  const Flag({
+  const new({
     required this.key,
     required this.description,
     required this.defaultValue,

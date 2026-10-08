@@ -14,7 +14,7 @@ import 'package:openapi/openapi.dart' hide CourseRegistration, TimetableItem;
 
 final class FakeCourseRegistrationRepository
     implements CourseRegistrationRepository {
-  FakeCourseRegistrationRepository({required this.result});
+  new({required this.result});
 
   final List<CourseRegistration> result;
 
@@ -37,7 +37,7 @@ final class FakeCourseRegistrationRepository
 }
 
 final class FakeCancelledClassRepository implements CancelledClassRepository {
-  FakeCancelledClassRepository({required this.result});
+  new({required this.result});
 
   final BuiltList<CancelledClass> result;
 
@@ -51,7 +51,7 @@ final class FakeCancelledClassRepository implements CancelledClassRepository {
 }
 
 final class FakeMakeupClassRepository implements MakeupClassRepository {
-  FakeMakeupClassRepository({required this.result});
+  new({required this.result});
 
   final BuiltList<MakeupClass> result;
 
@@ -65,7 +65,7 @@ final class FakeMakeupClassRepository implements MakeupClassRepository {
 }
 
 final class FakeRoomChangeRepository implements RoomChangeRepository {
-  FakeRoomChangeRepository({required this.result});
+  new({required this.result});
 
   final BuiltList<RoomChange> result;
 

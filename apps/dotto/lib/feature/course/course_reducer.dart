@@ -28,7 +28,7 @@ final courseCanFetchProtectedDataProvider =
 final class CourseReducer extends _$CourseReducer {
   @override
   Future<CourseState> build() async {
-    return _createCourseState();
+    return await _createCourseState();
   }
 
   Future<void> refresh() async {

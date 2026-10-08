@@ -4,7 +4,7 @@ part 'syllabus.freezed.dart';
 
 @freezed
 abstract class Syllabus with _$Syllabus {
-  const factory Syllabus({
+  const factory({
     required String id,
     required String name,
     required String enName,

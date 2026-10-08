@@ -4,7 +4,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class InvalidAppVersionScreen extends StatelessWidget {
-  const InvalidAppVersionScreen({
+  const new({
     required this.appStorePageUrl,
     required this.currentAppVersion,
     required this.latestAppVersion,

@@ -16,7 +16,7 @@ abstract class TimetableRepository {
 }
 
 final class TimetableRepositoryImpl implements TimetableRepository {
-  TimetableRepositoryImpl(this.apiClient);
+  new(this.apiClient);
 
   final Openapi apiClient;
 

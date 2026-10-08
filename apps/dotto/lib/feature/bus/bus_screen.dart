@@ -16,7 +16,7 @@ const int _funBusStopId = 14023;
 const String _funBusStopName = 'はこだて未来大学';
 
 final class BusScreen extends HookConsumerWidget {
-  const BusScreen({super.key});
+  const new({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -263,7 +263,7 @@ final class BusScreen extends HookConsumerWidget {
 }
 
 final class _KeepAliveTab extends StatefulWidget {
-  const _KeepAliveTab({required this.child});
+  const new({required this.child});
 
   final Widget child;
 
@@ -284,7 +284,7 @@ class _KeepAliveTabState extends State<_KeepAliveTab>
 }
 
 final class _BusStopCard extends StatelessWidget {
-  const _BusStopCard({
+  const new({
     required this.icon,
     required this.label,
     required this.elevation,
@@ -329,7 +329,7 @@ final class _BusStopCard extends StatelessWidget {
 }
 
 final class _BusTripTile extends StatelessWidget {
-  const _BusTripTile({
+  const new({
     required this.route,
     required this.beginTime,
     required this.endTime,

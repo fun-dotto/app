@@ -14,7 +14,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class SearchSubjectScreen extends HookConsumerWidget {
-  const SearchSubjectScreen({required this.onSubjectSelected, super.key});
+  const new({required this.onSubjectSelected, super.key});
 
   /// 科目が選択されたときの処理。引数は科目ID。
   ///

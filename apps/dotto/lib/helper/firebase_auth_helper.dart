@@ -13,7 +13,7 @@ final class FirebaseAuthHelper {
       throw Exception('Google Sign-In の ID token を取得できませんでした');
     }
     final credential = GoogleAuthProvider.credential(idToken: idToken);
-    return FirebaseAuth.instance.signInWithCredential(credential);
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   static Future<User> signIn() async {

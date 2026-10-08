@@ -17,7 +17,7 @@ final class FunchAllDailyMenuNotifier<
   FunchRepository extends FunchRepositoryInterface
 >
     extends AsyncNotifier<Map<String, FunchDailyMenu>> {
-  FunchAllDailyMenuNotifier(this._funchRepository);
+  new(this._funchRepository);
   final FunchRepository _funchRepository;
 
   @override

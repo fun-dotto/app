@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 final class FunchMyPageCard extends ConsumerWidget {
-  const FunchMyPageCard({super.key});
+  const new({super.key});
 
   ImageProvider<Object> _getBackgroundImage(String imageUrl) {
     if (imageUrl.isNotEmpty) {

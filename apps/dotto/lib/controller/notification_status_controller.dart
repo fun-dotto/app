@@ -8,7 +8,7 @@ part 'notification_status_controller.g.dart';
 final class NotificationStatusNotifier extends _$NotificationStatusNotifier {
   @override
   Future<NotificationAlertStatus> build() async {
-    return ref.read(notificationHelperProvider).fetchAlertStatus();
+    return await ref.read(notificationHelperProvider).fetchAlertStatus();
   }
 
   Future<void> refresh() async {

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 final class MapGridScreen extends StatelessWidget {
-  const MapGridScreen({
+  const new({
     required this.selectedFloor,
     required this.rooms,
     required this.focusedMapTileProps,

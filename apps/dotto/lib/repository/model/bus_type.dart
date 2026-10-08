@@ -4,7 +4,7 @@ enum BusLandmark {
   syowa(label: '昭和'),
   other(label: '');
 
-  const BusLandmark({required this.label});
+  new({required this.label});
 
   final String label;
 }

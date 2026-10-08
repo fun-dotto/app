@@ -17,10 +17,10 @@ abstract class NotificationHelper {
 }
 
 final class NotificationHelperImpl implements NotificationHelper {
-  factory NotificationHelperImpl() {
+  factory() {
     return _instance;
   }
-  NotificationHelperImpl._internal();
+  new _internal();
   static final NotificationHelperImpl _instance =
       NotificationHelperImpl._internal();
 

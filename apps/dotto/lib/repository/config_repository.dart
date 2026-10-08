@@ -10,7 +10,7 @@ ConfigRepository configRepository(Ref ref) =>
 
 /// Remote Configから[RemoteConfig]の値を型安全に取得する。
 final class ConfigRepository {
-  const ConfigRepository(this._remoteConfigHelper);
+  const new(this._remoteConfigHelper);
 
   final RemoteConfigHelper _remoteConfigHelper;
 

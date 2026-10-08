@@ -3,10 +3,10 @@ import 'package:minio/minio.dart';
 import 'package:minio/models.dart';
 
 final class S3Repository {
-  factory S3Repository() {
+  factory() {
     return _instance;
   }
-  S3Repository._internal() {
+  new _internal() {
     _s3 = Minio(
       endPoint: EnvironmentConfigs.cloudflareR2Endpoint,
       accessKey: EnvironmentConfigs.cloudflareR2AccessKeyId,
@@ -34,7 +34,7 @@ final class S3Repository {
   }
 
   Future<MinioByteStream> getObject({required String url}) async {
-    return _s3.getObject(_bucketName, url);
+    return await _s3.getObject(_bucketName, url);
   }
 
   Stream<ListObjectsResult> listObjectsV2({

@@ -4,7 +4,7 @@ part 'announcement.freezed.dart';
 
 @freezed
 abstract class Announcement with _$Announcement {
-  const factory Announcement({
+  const factory({
     required String id,
     required String title,
     required DateTime date,

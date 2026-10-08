@@ -22,7 +22,7 @@ enum SubjectDetailTab {
 }
 
 final class SubjectDetailScreen extends HookConsumerWidget {
-  const SubjectDetailScreen({
+  const new({
     required this.id,
     required this.initialTab,
     required this.onPastExamSelected,
@@ -133,7 +133,7 @@ Widget _skeletonBox({
 }
 
 final class _SubjectDetailSyllabusSkeleton extends StatelessWidget {
-  const _SubjectDetailSyllabusSkeleton();
+  const new();
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +169,7 @@ final class _SubjectDetailSyllabusSkeleton extends StatelessWidget {
 }
 
 final class _SubjectDetailFeedbackSkeleton extends StatelessWidget {
-  const _SubjectDetailFeedbackSkeleton();
+  const new();
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +249,7 @@ final class _SubjectDetailFeedbackSkeleton extends StatelessWidget {
 }
 
 final class _SubjectDetailPastExamSkeleton extends StatelessWidget {
-  const _SubjectDetailPastExamSkeleton();
+  const new();
 
   @override
   Widget build(BuildContext context) {

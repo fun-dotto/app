@@ -7,7 +7,7 @@ part 'dotto_user.freezed.dart';
 
 @freezed
 abstract class DottoUser with _$DottoUser {
-  const factory DottoUser({
+  const factory({
     required String id,
     required String name,
     required String email,

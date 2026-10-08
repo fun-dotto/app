@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 final class _CircularProgressIndicatorInButton extends StatelessWidget {
-  const _CircularProgressIndicatorInButton();
+  const new();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ final class _CircularProgressIndicatorInButton extends StatelessWidget {
 }
 
 final class DottoButton extends ButtonStyleButton {
-  const DottoButton({
+  const new({
     required VoidCallback? onPressed,
     required Widget? child,
     super.key,

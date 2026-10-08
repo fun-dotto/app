@@ -26,7 +26,7 @@ enum Period {
     endTime: TimeOfDay(hour: 19, minute: 40),
   );
 
-  const Period({required this.startTime, required this.endTime});
+  new({required this.startTime, required this.endTime});
 
   final TimeOfDay startTime;
   final TimeOfDay endTime;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 final class SemanticColor extends ThemeExtension<SemanticColor> {
-  const SemanticColor({
+  const new({
     required this.labelPrimary,
     required this.labelSecondary,
     required this.labelTertiary,

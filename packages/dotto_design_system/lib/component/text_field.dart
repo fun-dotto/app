@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 final class DottoTextField extends StatelessWidget {
-  const DottoTextField({
+  const new({
     super.key,
     this.controller,
     this.focusNode,
@@ -58,7 +58,7 @@ final class DottoTextField extends StatelessWidget {
 }
 
 final class _Demo extends StatelessWidget {
-  const _Demo({
+  const new({
     //
     // ignore: unused_element_parameter
     this.controller,

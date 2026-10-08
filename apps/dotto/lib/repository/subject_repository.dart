@@ -37,7 +37,7 @@ abstract class SubjectRepository {
 }
 
 final class SubjectRepositoryImpl implements SubjectRepository {
-  SubjectRepositoryImpl(this.apiClient);
+  new(this.apiClient);
 
   final Openapi apiClient;
 

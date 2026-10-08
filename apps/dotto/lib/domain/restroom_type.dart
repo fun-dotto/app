@@ -7,7 +7,7 @@ enum RestroomType {
   multipurpose(icon: Icons.accessible, color: Colors.black),
   kitchenette(icon: Icons.countertops, color: Colors.black);
 
-  const RestroomType({required this.icon, this.color});
+  new({required this.icon, this.color});
 
   final IconData icon;
   final Color? color;

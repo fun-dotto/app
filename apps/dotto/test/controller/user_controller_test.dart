@@ -12,10 +12,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final class MockFirebaseUser extends Mock implements User {}
+final class MockFirebaseUser extends Mock implements User;
 
 final class FakeFirebaseAuthPlatform extends FirebaseAuthPlatform {
-  FakeFirebaseAuthPlatform({super.appInstance, this._currentUser});
+  new({super.appInstance, this._currentUser});
 
   UserPlatform? _currentUser;
 

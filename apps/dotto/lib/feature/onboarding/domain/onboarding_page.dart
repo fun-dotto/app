@@ -1,7 +1,7 @@
 import 'package:dotto/asset.dart';
 
 class OnboardingPage {
-  const OnboardingPage({required this.title});
+  const new({required this.title});
 
   final String title;
 
@@ -42,7 +42,7 @@ class OnboardingPage {
 }
 
 final class OnboardingWelcomePage extends OnboardingPage {
-  const OnboardingWelcomePage({
+  const new({
     required super.title,
     required this.bodyTop,
     required this.bodyBottom,
@@ -53,7 +53,7 @@ final class OnboardingWelcomePage extends OnboardingPage {
 }
 
 final class OnboardingContentPage extends OnboardingPage {
-  const OnboardingContentPage({
+  const new({
     required super.title,
     required this.description,
     required this.imagePath,

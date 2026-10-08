@@ -9,7 +9,7 @@ String pastExamFileName(String objectKey) {
 }
 
 final class SubjectDetailPastExamScreen extends HookWidget {
-  const SubjectDetailPastExamScreen({
+  const new({
     required this.pastExamId,
     required this.isAuthenticated,
     required this.onPastExamSelected,

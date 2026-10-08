@@ -15,7 +15,7 @@ enum UserPreferenceKeys {
     type: int,
   );
 
-  const UserPreferenceKeys({required this.key, required this.type});
+  new({required this.key, required this.type});
 
   final String key;
   final Type type;

@@ -2,7 +2,7 @@ import 'package:dotto/domain/map_colors.dart';
 import 'package:flutter/material.dart';
 
 final class MapLegend extends StatelessWidget {
-  const MapLegend({super.key});
+  const new({super.key});
 
   Widget _mapInfoTile(BuildContext context, Color color, String text) {
     return Row(

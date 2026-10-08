@@ -42,7 +42,10 @@ final class UserNotifier extends _$UserNotifier {
       email: firebaseUser.email ?? '',
       avatarUrl: firebaseUser.photoURL ?? '',
     );
-    return userRepository.upsertUser(firebaseUser: firebaseUser, user: newUser);
+    return await userRepository.upsertUser(
+      firebaseUser: firebaseUser,
+      user: newUser,
+    );
   }
 
   Future<void> signIn() async {

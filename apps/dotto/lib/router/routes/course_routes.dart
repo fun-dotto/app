@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final class CourseRouteData extends GoRouteData with $CourseRouteData {
-  const CourseRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -26,7 +26,7 @@ final class CourseRouteData extends GoRouteData with $CourseRouteData {
 
 final class CourseCustomizeRouteData extends GoRouteData
     with $CourseCustomizeRouteData {
-  const CourseCustomizeRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -36,7 +36,7 @@ final class CourseCustomizeRouteData extends GoRouteData
 
 final class CourseRegistrationRouteData extends GoRouteData
     with $CourseRegistrationRouteData {
-  const CourseRegistrationRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -47,7 +47,7 @@ final class CourseRegistrationRouteData extends GoRouteData
 /// 休講・補講・教室変更のパスは休講のタブへ寄せる。
 final class CourseNoticeRouteData extends GoRouteData
     with $CourseNoticeRouteData {
-  const CourseNoticeRouteData();
+  const new();
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
@@ -57,7 +57,7 @@ final class CourseNoticeRouteData extends GoRouteData
 
 final class CourseNoticeCancellationsRouteData extends GoRouteData
     with $CourseNoticeCancellationsRouteData {
-  const CourseNoticeCancellationsRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -69,7 +69,7 @@ final class CourseNoticeCancellationsRouteData extends GoRouteData
 
 final class CourseNoticeMakeupsRouteData extends GoRouteData
     with $CourseNoticeMakeupsRouteData {
-  const CourseNoticeMakeupsRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -79,7 +79,7 @@ final class CourseNoticeMakeupsRouteData extends GoRouteData
 
 final class CourseNoticeRoomChangesRouteData extends GoRouteData
     with $CourseNoticeRoomChangesRouteData {
-  const CourseNoticeRoomChangesRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -91,7 +91,7 @@ final class CourseNoticeRoomChangesRouteData extends GoRouteData
 
 final class CourseSubjectsRouteData extends GoRouteData
     with $CourseSubjectsRouteData {
-  const CourseSubjectsRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -106,7 +106,7 @@ final class CourseSubjectsRouteData extends GoRouteData
 /// 科目詳細のパスは常にタブ付きのパスへ寄せる。
 final class CourseSubjectDetailRouteData extends GoRouteData
     with $CourseSubjectDetailRouteData {
-  const CourseSubjectDetailRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -118,7 +118,7 @@ final class CourseSubjectDetailRouteData extends GoRouteData
 
 final class CourseSubjectSyllabusRouteData extends GoRouteData
     with $CourseSubjectSyllabusRouteData {
-  const CourseSubjectSyllabusRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -134,7 +134,7 @@ final class CourseSubjectSyllabusRouteData extends GoRouteData
 
 final class CourseSubjectReviewsRouteData extends GoRouteData
     with $CourseSubjectReviewsRouteData {
-  const CourseSubjectReviewsRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -146,7 +146,7 @@ final class CourseSubjectReviewsRouteData extends GoRouteData
 
 final class CourseSubjectReviewNewRouteData extends GoRouteData
     with $CourseSubjectReviewNewRouteData {
-  const CourseSubjectReviewNewRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -158,7 +158,7 @@ final class CourseSubjectReviewNewRouteData extends GoRouteData
 
 final class CourseSubjectPastExamsRouteData extends GoRouteData
     with $CourseSubjectPastExamsRouteData {
-  const CourseSubjectPastExamsRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -174,10 +174,7 @@ final class CourseSubjectPastExamsRouteData extends GoRouteData
 
 final class CourseSubjectPastExamRouteData extends GoRouteData
     with $CourseSubjectPastExamRouteData {
-  const CourseSubjectPastExamRouteData({
-    required this.id,
-    required this.pastExamId,
-  });
+  const new({required this.id, required this.pastExamId});
 
   final String id;
 
@@ -195,7 +192,7 @@ final class CourseSubjectPastExamRouteData extends GoRouteData
 
 final class CourseCalendarRouteData extends GoRouteData
     with $CourseCalendarRouteData {
-  const CourseCalendarRouteData({required this.year});
+  const new({required this.year});
 
   final int year;
 
@@ -210,7 +207,7 @@ final class CourseCalendarRouteData extends GoRouteData
 
 final class CourseSpringTimetableRouteData extends GoRouteData
     with $CourseSpringTimetableRouteData {
-  const CourseSpringTimetableRouteData({required this.year});
+  const new({required this.year});
 
   final int year;
 
@@ -225,7 +222,7 @@ final class CourseSpringTimetableRouteData extends GoRouteData
 
 final class CourseFallTimetableRouteData extends GoRouteData
     with $CourseFallTimetableRouteData {
-  const CourseFallTimetableRouteData({required this.year});
+  const new({required this.year});
 
   final int year;
 

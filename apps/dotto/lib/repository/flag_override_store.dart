@@ -12,7 +12,7 @@ FlagOverrideStore flagOverrideStore(Ref ref) => const FlagOverrideStore();
 ///
 /// 現状はbool型のフラグのみ対応する。
 final class FlagOverrideStore {
-  const FlagOverrideStore();
+  const new();
 
   /// 旧実装 (ConfigNotifier) が使用していたfunch専用のキー。
   static const _legacyIsFunchEnabledOverrideKey = 'isFunchEnabledOverride';

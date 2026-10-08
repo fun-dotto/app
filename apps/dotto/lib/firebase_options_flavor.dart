@@ -11,7 +11,7 @@ import 'package:flutter/services.dart' show appFlavor;
 /// ストア版は Android が `store`、iOS が flavor 指定なしの `null` となり、
 /// いずれも `jp.ac.fun.dotto` のデフォルト設定（[default_options]）を使用する。
 class FlavoredFirebaseOptions {
-  const FlavoredFirebaseOptions._();
+  const new _();
 
   static FirebaseOptions get currentPlatform => switch (appFlavor) {
     'dev' => dev_options.DefaultFirebaseOptions.currentPlatform,

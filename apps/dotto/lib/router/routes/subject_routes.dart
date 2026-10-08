@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final class SubjectsRouteData extends GoRouteData with $SubjectsRouteData {
-  const SubjectsRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -26,7 +26,7 @@ final class SubjectsRouteData extends GoRouteData with $SubjectsRouteData {
 /// 科目詳細のパスは常にタブ付きのパスへ寄せる。
 final class SubjectDetailRouteData extends GoRouteData
     with $SubjectDetailRouteData {
-  const SubjectDetailRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -38,7 +38,7 @@ final class SubjectDetailRouteData extends GoRouteData
 
 final class SubjectSyllabusRouteData extends GoRouteData
     with $SubjectSyllabusRouteData {
-  const SubjectSyllabusRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -50,7 +50,7 @@ final class SubjectSyllabusRouteData extends GoRouteData
 
 final class SubjectReviewsRouteData extends GoRouteData
     with $SubjectReviewsRouteData {
-  const SubjectReviewsRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -62,7 +62,7 @@ final class SubjectReviewsRouteData extends GoRouteData
 
 final class SubjectReviewNewRouteData extends GoRouteData
     with $SubjectReviewNewRouteData {
-  const SubjectReviewNewRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -74,7 +74,7 @@ final class SubjectReviewNewRouteData extends GoRouteData
 
 final class SubjectPastExamsRouteData extends GoRouteData
     with $SubjectPastExamsRouteData {
-  const SubjectPastExamsRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -86,7 +86,7 @@ final class SubjectPastExamsRouteData extends GoRouteData
 
 final class SubjectPastExamRouteData extends GoRouteData
     with $SubjectPastExamRouteData {
-  const SubjectPastExamRouteData({required this.id, required this.pastExamId});
+  const new({required this.id, required this.pastExamId});
 
   final String id;
 

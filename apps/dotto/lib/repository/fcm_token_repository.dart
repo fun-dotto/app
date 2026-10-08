@@ -8,7 +8,7 @@ abstract class FCMTokenRepository {
 }
 
 final class FCMTokenRepositoryImpl implements FCMTokenRepository {
-  FCMTokenRepositoryImpl(this.ref);
+  new(this.ref);
 
   final Ref ref;
 

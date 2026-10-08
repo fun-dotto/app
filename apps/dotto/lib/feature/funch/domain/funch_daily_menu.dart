@@ -2,7 +2,7 @@ import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 
 final class FunchDailyMenu {
-  FunchDailyMenu(this.menuItems);
+  new(this.menuItems);
   final List<FunchMenu> menuItems;
 
   List<FunchMenu> getMenuByCategory(FunchMenuCategory category) {

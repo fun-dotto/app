@@ -1,7 +1,7 @@
 final class FunchPrice {
-  FunchPrice(this.large, this.medium, this.small);
+  new(this.large, this.medium, this.small);
 
-  factory FunchPrice.fromJson(Map<String, dynamic> map) {
+  factory fromJson(Map<String, dynamic> map) {
     if (map.isEmpty) {
       throw ArgumentError('JSON cannot be empty');
     }
@@ -19,13 +19,7 @@ final class FunchPrice {
 }
 
 final class FunchOriginalPrice extends FunchPrice {
-  FunchOriginalPrice(
-    super.large,
-    super.medium,
-    super.small,
-    this.id,
-    this.categories,
-  );
+  new(super.large, super.medium, super.small, this.id, this.categories);
   final String id;
   final List<int> categories;
 }

@@ -4,7 +4,7 @@ part 'root_app_version.freezed.dart';
 
 @freezed
 abstract class RootAppVersion with _$RootAppVersion {
-  const factory RootAppVersion({
+  const factory({
     required bool isValidAppVersion,
     required bool isLatestAppVersion,
     required String currentAppVersion,

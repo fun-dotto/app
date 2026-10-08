@@ -15,7 +15,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class PersonalTimetableCalendarView extends HookConsumerWidget {
-  const PersonalTimetableCalendarView({
+  const new({
     required this.personalTimetableDays,
     required this.selectedDate,
     required this.onDateSelected,

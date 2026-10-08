@@ -5,8 +5,6 @@ part 'course_registration.freezed.dart';
 
 @freezed
 abstract class CourseRegistration with _$CourseRegistration {
-  const factory CourseRegistration({
-    required String id,
-    required SubjectSummary subject,
-  }) = _CourseRegistration;
+  const factory({required String id, required SubjectSummary subject}) =
+      _CourseRegistration;
 }

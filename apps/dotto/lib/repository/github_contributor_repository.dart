@@ -9,7 +9,7 @@ abstract class GitHubContributorRepository {
 
 final class GitHubContributorRepositoryImpl
     implements GitHubContributorRepository {
-  GitHubContributorRepositoryImpl();
+  new();
 
   @override
   Future<List<GitHubProfile>> getContributors() async {

@@ -5,7 +5,7 @@ part 'async_entity.freezed.dart';
 
 @freezed
 abstract class AsyncEntity<T extends Object> with _$AsyncEntity<T> {
-  const factory AsyncEntity({
+  const factory({
     T? entity,
     Object? error,
     @Default(AsyncStatus.idle) AsyncStatus status,

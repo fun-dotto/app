@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 final class FakePersonalCalendarRepository
     implements PersonalCalendarRepository {
-  FakePersonalCalendarRepository({this.result = const []});
+  new({this.result = const []});
 
   final List<PersonalTimetableDay> result;
   final List<List<DateTime>> capturedCalls = [];

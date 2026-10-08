@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final class MapRouteData extends GoRouteData with $MapRouteData {
-  const MapRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -16,7 +16,7 @@ final class MapRouteData extends GoRouteData with $MapRouteData {
 }
 
 final class MapRoomRouteData extends GoRouteData with $MapRoomRouteData {
-  const MapRoomRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 

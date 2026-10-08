@@ -11,7 +11,7 @@ part 'subject_filter.freezed.dart';
 
 @freezed
 abstract class SubjectFilter with _$SubjectFilter {
-  const factory SubjectFilter({
+  const factory({
     @Default([]) List<Grade> grades,
     @Default([]) List<AcademicArea> courses,
     @Default([]) List<AcademicClass> classes,
@@ -21,7 +21,7 @@ abstract class SubjectFilter with _$SubjectFilter {
     @Default([]) List<CulturalSubjectCategory> culturalSubjectCategories,
   }) = _SubjectFilter;
 
-  const SubjectFilter._();
+  const new _();
 
   bool get hasActiveFilters =>
       grades.isNotEmpty ||

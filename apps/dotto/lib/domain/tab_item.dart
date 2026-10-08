@@ -38,7 +38,7 @@ enum TabItem {
     selectedIcon: Icons.search,
   );
 
-  const TabItem({
+  new({
     required this.key,
     required this.label,
     required this.icon,

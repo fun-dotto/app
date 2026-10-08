@@ -25,7 +25,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 final class SettingsScreen extends HookConsumerWidget {
-  const SettingsScreen({super.key});
+  const new({super.key});
 
   Future<void> _showLogoutConfirmDialog(
     BuildContext context,
@@ -366,7 +366,7 @@ final class SettingsScreen extends HookConsumerWidget {
                   firstLine: const Text('フィードバックを送る'),
                   leading: const Icon(Icons.messenger_rounded),
                   trailing: const DottoListTileTrailing.chevron(),
-                  onTap: () async => launchUrlSafely(feedbackFormUrl),
+                  onTap: () async => await launchUrlSafely(feedbackFormUrl),
                 ),
                 // Contributors表示
                 DottoListTile(
@@ -393,14 +393,14 @@ final class SettingsScreen extends HookConsumerWidget {
                   firstLine: const Text('利用規約'),
                   leading: const Icon(Icons.verified_user),
                   trailing: const DottoListTileTrailing.chevron(),
-                  onTap: () async => launchUrlSafely(termsOfServiceUrl),
+                  onTap: () async => await launchUrlSafely(termsOfServiceUrl),
                 ),
                 // プライバシーポリシー
                 DottoListTile(
                   firstLine: const Text('プライバシーポリシー'),
                   leading: const Icon(Icons.admin_panel_settings),
                   trailing: const DottoListTileTrailing.chevron(),
-                  onTap: () async => launchUrlSafely(privacyPolicyUrl),
+                  onTap: () async => await launchUrlSafely(privacyPolicyUrl),
                 ),
                 // ライセンス
                 DottoListTile(

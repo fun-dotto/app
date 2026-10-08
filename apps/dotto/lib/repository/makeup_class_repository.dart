@@ -15,7 +15,7 @@ abstract class MakeupClassRepository {
 }
 
 final class MakeupClassRepositoryImpl implements MakeupClassRepository {
-  MakeupClassRepositoryImpl(this.ref);
+  new(this.ref);
 
   final Ref ref;
 

@@ -12,7 +12,7 @@ abstract class AnnouncementRepository {
 }
 
 final class AnnouncementRepositoryImpl implements AnnouncementRepository {
-  AnnouncementRepositoryImpl(this.ref);
+  new(this.ref);
 
   final Ref ref;
 

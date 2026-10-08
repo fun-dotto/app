@@ -27,10 +27,10 @@ abstract class Logger {
 }
 
 final class LoggerImpl implements Logger {
-  factory LoggerImpl() {
+  factory() {
     return _instance;
   }
-  LoggerImpl._internal();
+  new _internal();
   static final LoggerImpl _instance = LoggerImpl._internal();
 
   @override

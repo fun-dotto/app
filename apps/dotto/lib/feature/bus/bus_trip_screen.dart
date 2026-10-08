@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 ///
 /// URL上の便ID（[BusTripId]）から対象の便を解決して表示する。
 final class BusTripScreen extends ConsumerWidget {
-  const BusTripScreen({required this.id, super.key});
+  const new({required this.id, super.key});
 
   final String id;
 

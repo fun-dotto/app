@@ -2,7 +2,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class QuickButton extends StatelessWidget {
-  const QuickButton({
+  const new({
     required this.iconUrl,
     required this.fallbackIcon,
     required this.label,

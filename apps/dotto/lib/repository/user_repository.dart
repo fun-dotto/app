@@ -21,7 +21,7 @@ abstract class UserRepository {
 }
 
 final class UserRepositoryImpl implements UserRepository {
-  UserRepositoryImpl(this.ref);
+  new(this.ref);
 
   final Ref ref;
 

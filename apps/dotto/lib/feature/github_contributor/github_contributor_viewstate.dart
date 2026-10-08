@@ -5,7 +5,6 @@ part 'github_contributor_viewstate.freezed.dart';
 
 @freezed
 abstract class GitHubContributorViewState with _$GitHubContributorViewState {
-  const factory GitHubContributorViewState({
-    required List<GitHubProfile> contributors,
-  }) = _GitHubContributorViewState;
+  const factory({required List<GitHubProfile> contributors}) =
+      _GitHubContributorViewState;
 }

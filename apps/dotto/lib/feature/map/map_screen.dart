@@ -15,7 +15,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class MapScreen extends HookConsumerWidget {
-  const MapScreen({
+  const new({
     required this.onGoToSettingButtonTapped,
     this.focusedRoomId,
     super.key,

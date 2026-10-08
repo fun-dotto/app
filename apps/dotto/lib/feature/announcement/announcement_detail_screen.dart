@@ -16,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// お知らせ本文は外部ページで配信されているため、この画面では概要を表示し、
 /// 本文はブラウザで開く。
 final class AnnouncementDetailScreen extends ConsumerWidget {
-  const AnnouncementDetailScreen({required this.id, super.key});
+  const new({required this.id, super.key});
 
   final String id;
 

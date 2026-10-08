@@ -6,15 +6,10 @@ part 'bus_trip.freezed.dart';
 
 @freezed
 abstract class BusTrip with _$BusTrip {
-  const factory BusTrip({
-    required String route,
-    required List<BusTripStop> stops,
-  }) = _BusTrip;
+  const factory({required String route, required List<BusTripStop> stops}) =
+      _BusTrip;
 
-  factory BusTrip.fromFirebase(
-    Map<String, dynamic> map,
-    List<BusStop> allStops,
-  ) {
+  factory fromFirebase(Map<String, dynamic> map, List<BusStop> allStops) {
     final stopsList = map['stops'] as List;
     final busStopById = {for (final stop in allStops) stop.id: stop};
     return BusTrip(

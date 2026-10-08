@@ -6,7 +6,7 @@ part 'personal_timetable_day.freezed.dart';
 
 @freezed
 abstract class PersonalTimetableDay with _$PersonalTimetableDay {
-  const factory PersonalTimetableDay({
+  const factory({
     required DateTime date,
     required List<PersonalTimetableItem> items,
     // 時間割上の曜日

@@ -246,7 +246,7 @@ part 'app_routes.g.dart';
   ],
 )
 final class RootShellRouteData extends StatefulShellRouteData {
-  const RootShellRouteData();
+  const new();
 
   @override
   Widget builder(
@@ -259,27 +259,27 @@ final class RootShellRouteData extends StatefulShellRouteData {
 }
 
 final class CourseShellBranchData extends StatefulShellBranchData {
-  const CourseShellBranchData();
+  const new();
 }
 
 final class FunchShellBranchData extends StatefulShellBranchData {
-  const FunchShellBranchData();
+  const new();
 }
 
 final class MapShellBranchData extends StatefulShellBranchData {
-  const MapShellBranchData();
+  const new();
 }
 
 final class BusShellBranchData extends StatefulShellBranchData {
-  const BusShellBranchData();
+  const new();
 }
 
 final class SettingShellBranchData extends StatefulShellBranchData {
-  const SettingShellBranchData();
+  const new();
 }
 
 final class SubjectShellBranchData extends StatefulShellBranchData {
-  const SubjectShellBranchData();
+  const new();
 }
 
 /// タブとブランチの対応。上の `branches` に並べた順番と揃える。

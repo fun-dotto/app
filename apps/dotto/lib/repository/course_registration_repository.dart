@@ -23,7 +23,7 @@ abstract class CourseRegistrationRepository {
 
 final class CourseRegistrationRepositoryImpl
     implements CourseRegistrationRepository {
-  CourseRegistrationRepositoryImpl(this.apiClient);
+  new(this.apiClient);
 
   final Openapi apiClient;
 

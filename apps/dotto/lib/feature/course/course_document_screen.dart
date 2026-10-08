@@ -22,7 +22,7 @@ enum CourseDocument {
   /// 後期の時間割。
   fallTimetable(remoteConfig: RemoteConfigs.timetable2PdfUrl, label: '時間割 後期');
 
-  const CourseDocument({required this.remoteConfig, required this.label});
+  new({required this.remoteConfig, required this.label});
 
   /// PDFのURLを配信するRemote Config。
   final RemoteConfig<String> remoteConfig;
@@ -36,11 +36,7 @@ enum CourseDocument {
 /// PDFのURLはRemote Configが配信する最新のものを参照する。[year] はどの年度の
 /// 資料としてリンクされたかを表す識別子で、表示名にのみ利用する。
 final class CourseDocumentScreen extends ConsumerWidget {
-  const CourseDocumentScreen({
-    required this.document,
-    required this.year,
-    super.key,
-  });
+  const new({required this.document, required this.year, super.key});
 
   final CourseDocument document;
 

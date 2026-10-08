@@ -4,7 +4,7 @@ part 'github_profile.freezed.dart';
 
 @freezed
 abstract class GitHubProfile with _$GitHubProfile {
-  const factory GitHubProfile({
+  const factory({
     required String id,
     required String login,
     required String avatarUrl,

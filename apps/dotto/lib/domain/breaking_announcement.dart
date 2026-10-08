@@ -4,7 +4,7 @@ part 'breaking_announcement.freezed.dart';
 
 @freezed
 abstract class BreakingAnnouncement with _$BreakingAnnouncement {
-  const factory BreakingAnnouncement({
+  const factory({
     required String title,
     required String url,
     required bool isExternal,

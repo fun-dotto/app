@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 final class FirebaseRealtimeDatabaseRepository {
-  factory FirebaseRealtimeDatabaseRepository() {
+  factory() {
     return _instance;
   }
-  FirebaseRealtimeDatabaseRepository._internal();
+  new _internal();
   static final FirebaseRealtimeDatabaseRepository _instance =
       FirebaseRealtimeDatabaseRepository._internal();
 
@@ -15,6 +15,6 @@ final class FirebaseRealtimeDatabaseRepository {
   );
 
   Future<DataSnapshot> getData(String path) async {
-    return _database.ref().child(path).get();
+    return await _database.ref().child(path).get();
   }
 }
