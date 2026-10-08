@@ -32,14 +32,14 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 
 ### Application (UseCase)
 
-- 1 つのユースケースを 1 クラスで表現し、`call` メソッドを持たせる。
+- 1 つのユースケースを 1 クラスで表現する。
 - Domain の Repository 抽象にのみ依存する。
 - 複数 Repository を跨ぐ処理やビジネスロジックの手続きはここに置く。
 - Widget や `BuildContext` に依存しない。
 
 ### Data
 
-- Domain の Repository 抽象を実装する (`XxxRepositoryImpl`)。
+- Domain の Repository 抽象を実装する。
 - API・Firebase・ローカルストレージなどのデータソースへのアクセスを担う。
 - DTO (API レスポンスなど) から Domain モデルへの変換はこのレイヤーで行い、DTO を外に漏らさない。
 
@@ -100,9 +100,8 @@ lib/
 複数の Widget・画面で共有される状態や、非同期に取得するデータは Riverpod で管理する。
 
 - 例: ログインユーザー、ユーザー設定、API から取得したデータ。
-- `riverpod_annotation` の `@riverpod` / `@Riverpod(keepAlive: true)` を使用し、手書きの Provider 定義は行わない。
 - 状態を変更するものは `Notifier` / `AsyncNotifier` クラスとして定義する。
-- 非同期データは `AsyncValue` で扱い、Widget 側では `switch` によるパターンマッチで loading / error / data を描き分ける。
+- 非同期データは `AsyncValue` で扱う。
 - アプリ全体で保持すべきもの以外は `keepAlive` を付けず、autoDispose に任せる。
 
 ### 使い分けの基準
