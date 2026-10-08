@@ -1,5 +1,5 @@
 import 'package:dotto/domain/entity/map_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 enum RestroomType {
   men(icon: Icons.man, color: MapColors.restroomMen),

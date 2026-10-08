@@ -5,7 +5,7 @@ import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/feature/map/fun_map.dart';
 import 'package:dotto/feature/map/map_state.dart';
 import 'package:dotto/repository/repository_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'map_reducer.g.dart';

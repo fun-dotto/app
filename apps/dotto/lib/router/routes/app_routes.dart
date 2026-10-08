@@ -6,8 +6,8 @@ import 'package:dotto/router/routes/funch_routes.dart';
 import 'package:dotto/router/routes/map_routes.dart';
 import 'package:dotto/router/routes/setting_routes.dart';
 import 'package:dotto/router/routes/subject_routes.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 part 'app_routes.g.dart';
 

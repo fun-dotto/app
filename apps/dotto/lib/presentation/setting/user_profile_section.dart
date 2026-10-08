@@ -9,8 +9,8 @@ import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/setting/option_select_dialog.dart';
 import 'package:dotto_design_system/component/list_section.dart';
 import 'package:dotto_design_system/component/list_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// 学年・コース・クラスを設定するセクション。
 final class UserProfileSection extends HookConsumerWidget {

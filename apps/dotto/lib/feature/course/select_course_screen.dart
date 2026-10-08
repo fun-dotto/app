@@ -5,8 +5,8 @@ import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/repository/course_registration_repository.dart';
 import 'package:dotto_design_system/component/button.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class SelectCourseScreen extends HookConsumerWidget {
   const new(

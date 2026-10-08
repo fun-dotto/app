@@ -2,8 +2,8 @@ import 'package:dotto/presentation/announcement/announcement_list_tile.dart';
 import 'package:dotto/presentation/announcement/announcement_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class AnnouncementScreen extends HookConsumerWidget {
   const new({super.key});

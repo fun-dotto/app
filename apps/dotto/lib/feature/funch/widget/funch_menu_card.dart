@@ -2,7 +2,7 @@ import 'package:dotto/asset.dart';
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/widget/funch_price_list.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class MenuCard extends StatelessWidget {
   const new(this.menu, {super.key});

@@ -9,9 +9,9 @@ import 'package:dotto/presentation/debug/debug_tokens_state.dart';
 import 'package:dotto/presentation/debug/flag_override_dialog.dart';
 import 'package:dotto_design_system/component/list_section.dart';
 import 'package:dotto_design_system/component/list_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class DebugScreen extends HookConsumerWidget {
   const new({super.key});

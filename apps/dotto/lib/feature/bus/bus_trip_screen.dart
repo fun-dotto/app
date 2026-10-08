@@ -1,8 +1,8 @@
 import 'package:dotto/feature/bus/bus_reducer.dart';
 import 'package:dotto/feature/bus/bus_timetable.dart';
 import 'package:dotto/feature/bus/bus_trip_id.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// バス便の時刻表画面。
 ///

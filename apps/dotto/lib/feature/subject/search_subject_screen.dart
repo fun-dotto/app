@@ -8,9 +8,9 @@ import 'package:dotto/feature/subject/search_subject_reducer.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class SearchSubjectScreen extends HookConsumerWidget {

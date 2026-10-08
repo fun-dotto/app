@@ -1,6 +1,6 @@
 import 'package:dotto/feature/bus/bus_reducer.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class BusStopSelectScreen extends ConsumerWidget {
   const new({super.key});

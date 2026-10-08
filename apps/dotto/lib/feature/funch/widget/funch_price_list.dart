@@ -1,7 +1,7 @@
 import 'package:dotto/feature/funch/domain/funch_menu.dart';
 import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class FunchPriceList extends StatelessWidget {
   const new(this.menu, {super.key, this.isHome = false});

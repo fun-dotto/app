@@ -4,8 +4,8 @@ import 'package:dotto/feature/course/course_cancellation_reducer.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto_design_system/component/button.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:openapi/openapi.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 

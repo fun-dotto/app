@@ -1,6 +1,6 @@
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class MapFloorButton extends StatelessWidget {
   const new({required this.selectedFloor, required this.onPressed, super.key});

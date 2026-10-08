@@ -6,8 +6,8 @@ import 'package:dotto/presentation/onboarding/onboarding_screen.dart';
 import 'package:dotto/presentation/setting/settings_license_screen.dart';
 import 'package:dotto/presentation/setting/settings_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class SettingsRouteData extends GoRouteData with $SettingsRouteData {
   const new();

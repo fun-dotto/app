@@ -1,9 +1,9 @@
 import 'package:dotto/api/api_client.dart';
 import 'package:dotto/feature/subject/subject_detail_add_feedback_screen.dart';
 import 'package:dotto/repository/subject_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// 科目のレビュー投稿画面。
 ///

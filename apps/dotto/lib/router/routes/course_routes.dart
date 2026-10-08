@@ -12,8 +12,8 @@ import 'package:dotto/feature/subject/subject_review_new_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto/router/routes/subject_detail_builder.dart';
 import 'package:dotto/widget/cloudflare_pdf_viewer.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class CourseRouteData extends GoRouteData with $CourseRouteData {
   const new();

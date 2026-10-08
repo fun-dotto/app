@@ -4,9 +4,9 @@ import 'package:dotto/feature/subject/subject_detail_past_exam_screen.dart';
 import 'package:dotto/feature/subject/subject_detail_syllabus_screen.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/repository/subject_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 /// 科目詳細画面のタブ。

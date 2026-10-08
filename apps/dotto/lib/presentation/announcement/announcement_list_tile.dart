@@ -1,7 +1,7 @@
 import 'package:dotto/domain/entity/announcement.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/url_launcher_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class AnnouncementListTile extends StatelessWidget {
   const new({required this.announcement, super.key});

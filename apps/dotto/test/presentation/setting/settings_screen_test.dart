@@ -6,9 +6,9 @@ import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:dotto/presentation/setting/settings_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:openapi/openapi.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

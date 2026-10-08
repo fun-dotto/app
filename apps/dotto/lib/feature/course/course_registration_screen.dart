@@ -6,9 +6,10 @@ import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/feature/course/course_registration_reducer.dart';
 import 'package:dotto/feature/course/select_course_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:dotto/presentation/common/use_tab_controller.dart';
+import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class CourseRegistrationScreen extends HookConsumerWidget {

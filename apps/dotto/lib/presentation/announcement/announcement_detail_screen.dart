@@ -8,8 +8,8 @@ import 'package:dotto/presentation/announcement/announcement_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto_design_system/component/button.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// お知らせの詳細画面。
 ///

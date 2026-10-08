@@ -1,8 +1,8 @@
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/router/app_router.dart';
 import 'package:dotto_design_system/style/theme.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 final class MyApp extends ConsumerWidget {
   const new({super.key});
