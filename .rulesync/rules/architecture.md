@@ -29,13 +29,15 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 - Entity / Value Object は `freezed_annotation` を使用して不変に定義する。
 - Repository は抽象 (`abstract interface class`) としてここに定義する。
 - Flutter・Riverpod・Firebase・API クライアントなど、外部パッケージに依存しない (Dart 純粋)。
-- 複数の UseCase で共有する手続きは Service (`XxxService`) として、Service が扱う複合的なモデルは ServiceModel としてここに定義する。Service は Repository 抽象と他の Domain モデルにのみ依存する。
+- 外部依存を持たない純粋なビジネスルールで、1 つの Entity に収まらないものは Domain Service (`XxxService`) として `domain/service/` に定義する。Domain Service は Domain モデルにのみ依存し、Repository には依存しない。
+- 1 つの Entity で完結するロジックは、Service ではなく Entity 自身のメソッドとして定義する。
 
 ### Application (UseCase)
 
 - 1 つのユースケースを 1 クラスで表現する。
-- Domain の Repository 抽象 (と Service) にのみ依存する。
-- UseCase から別の UseCase を呼ばない。共通化が必要な手続きは Domain の Service に切り出す。
+- Domain の Repository 抽象・Domain Service と、Application Service にのみ依存する。
+- UseCase から別の UseCase を呼ばない。複数の UseCase で共有する手続きは Application Service (`XxxService`) として `application/service/` に切り出す。
+- Application Service は Repository 抽象と Domain モデルに依存してよい。UseCase は呼ばない。Service が扱う複合的なモデル (ServiceModel) は Service と同じ場所に定義する。
 - Repository を素通しするだけの処理であっても UseCase を作り、Presentation から Repository を直接呼ばない。
 - 複数 Repository を跨ぐ処理やビジネスロジックの手続きはここに置く。
 - Widget や `BuildContext` に依存しない。
@@ -62,8 +64,10 @@ lib/
 ├── domain/
 │   ├── entity/          # Entity, Value Object, enum
 │   ├── repository/      # Repository 抽象
-│   └── service/         # Service, ServiceModel
-├── application/         # UseCase
+│   └── service/         # Domain Service
+├── application/
+│   ├── service/         # Application Service, ServiceModel
+│   └── *_use_case.dart  # UseCase
 ├── data/                # Repository 実装, DataSource
 ├── presentation/
 │   └── <feature>/       # Screen, Widget, State
