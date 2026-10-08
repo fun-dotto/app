@@ -34,8 +34,8 @@ final class SyllabusDatabaseHelper {
           type: SqfliteDatabaseFactoryLoggerType.all,
         ),
       );
-      return dbFactory.openDatabase(path);
+      return await dbFactory.openDatabase(path);
     }
-    return openDatabase(path, readOnly: true);
+    return await openDatabase(path, readOnly: true);
   }
 }

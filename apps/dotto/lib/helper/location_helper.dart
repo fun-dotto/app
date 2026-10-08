@@ -55,7 +55,7 @@ abstract class LocationHelper {
 
   static Future<Position?> determinePosition() async {
     if (await requestLocationPermission()) {
-      return Geolocator.getCurrentPosition();
+      return await Geolocator.getCurrentPosition();
     } else {
       return null;
     }

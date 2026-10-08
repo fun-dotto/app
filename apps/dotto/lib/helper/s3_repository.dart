@@ -34,7 +34,7 @@ final class S3Repository {
   }
 
   Future<MinioByteStream> getObject({required String url}) async {
-    return _s3.getObject(_bucketName, url);
+    return await _s3.getObject(_bucketName, url);
   }
 
   Stream<ListObjectsResult> listObjectsV2({

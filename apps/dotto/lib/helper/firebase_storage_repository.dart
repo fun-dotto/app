@@ -20,6 +20,6 @@ final class FirebaseStorageRepository {
 
   Future<Uint8List?> getData(String path) async {
     final ref = _storage.refFromURL('$_baseUrl/$path');
-    return ref.getData();
+    return await ref.getData();
   }
 }

@@ -49,7 +49,7 @@ final class DebugScreen extends HookConsumerWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        onTap: () async => copyToClipboard(token),
+        onTap: () async => await copyToClipboard(token),
       );
     }
 
@@ -122,7 +122,7 @@ final class DebugScreen extends HookConsumerWidget {
             : const DottoListTileTrailing.chevron(),
         onTap: boolFlag == null
             ? null
-            : () async => showFlagOverridePicker(boolFlag),
+            : () async => await showFlagOverridePicker(boolFlag),
       );
     }
 

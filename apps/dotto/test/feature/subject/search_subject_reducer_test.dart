@@ -60,7 +60,7 @@ final class FakeSubjectRepository implements SubjectRepository {
     getSubjectsCallCount += 1;
     final future = futuresByQuery[query];
     if (future != null) {
-      return future;
+      return await future;
     }
     return resultsByQuery[query] ?? const [];
   }

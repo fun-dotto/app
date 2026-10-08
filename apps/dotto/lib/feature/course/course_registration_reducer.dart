@@ -12,7 +12,7 @@ part 'course_registration_reducer.g.dart';
 final class CourseRegistrationReducer extends _$CourseRegistrationReducer {
   @override
   Future<Map<TimetableSemester, List<TimetableItem>>> build() async {
-    return _fetchTimetableItemsBySemester();
+    return await _fetchTimetableItemsBySemester();
   }
 
   Future<void> refresh() async {

@@ -15,6 +15,6 @@ final class FirebaseRealtimeDatabaseRepository {
   );
 
   Future<DataSnapshot> getData(String path) async {
-    return _database.ref().child(path).get();
+    return await _database.ref().child(path).get();
   }
 }
