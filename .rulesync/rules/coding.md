@@ -1,7 +1,7 @@
 ---
 root: false
-targets:
-  - "*"
+targets: ["*"]
+globs: ["**/*"]
 ---
 
 # コーディング

@@ -13,7 +13,7 @@ gcloud = "584.0.0"
 java = "21.0.2"
 node = "26.8.2"
 "npm:@openapitools/openapi-generator-cli" = "2.41.0"
-"npm:rulesync" = "16.28.0"
+"npm:rulesync" = "24.0.0"
 ruby = "4.0.7"
 
 [tasks.pre-commit]
@@ -32,7 +32,7 @@ run = [
 run = "melos run fetch:dart_defines"
 
 [tasks.rulesync]
-run = "rulesync generate --targets claudecode,codexcli,copilot"
+run = "rulesync generate"
 
 [tasks."generate:build_runner"]
 run = "melos run gen:build_runner --no-select"

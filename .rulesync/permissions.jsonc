@@ -1,0 +1,403 @@
+{
+  "permission": {
+    "bash": {
+      "mise setup": "allow",
+      "mise run app": "allow",
+      "mise run build": "allow",
+      "mise run format": "allow",
+      "mise run test-unit": "allow",
+      "mise run widgetbook": "allow",
+      "rm *": "ask",
+      "bash *": "deny",
+      "brew install *": "deny",
+      "chmod *": "deny",
+      "chown *": "deny",
+      "curl *": "deny",
+      "env *": "deny",
+      "eval *": "deny",
+      "export *": "deny",
+      "firebase *": "deny",
+      "gcloud *": "deny",
+      "gem install *": "deny",
+      "git push * --delete *": "deny",
+      "git push * --force *": "deny",
+      "git push * -d *": "deny",
+      "git push * -f *": "deny",
+      "history:*": "deny",
+      "rm -rf *": "deny",
+      "sh *": "deny",
+      "source:*": "deny",
+      "sudo:*": "deny",
+      "telnet:*": "deny",
+      "wget *": "deny",
+      "zsh *": "deny",
+    },
+    "edit": {
+      "*": "allow",
+      "**/*.xcconfig": "deny",
+      "**/.dart_tool/**": "deny",
+      "**/.env": "deny",
+      "**/.env.*": "deny",
+      "**/.envrc": "deny",
+      "**/build/**": "deny",
+      "**/coverage/**": "deny",
+      "**/dart_defines/**": "deny",
+      "**/GoogleService-Info.plist": "deny",
+      "**/google-services.json": "deny",
+      "**/.claude/settings.json": "deny",
+      "**/.claude/settings.local.json": "deny",
+      "**/.codex/config.toml": "deny",
+    },
+    "read": {
+      "*": "allow",
+      "**/*.cer": "deny",
+      "**/*.cert": "deny",
+      "**/*.jks": "deny",
+      "**/*.key": "deny",
+      "**/*.keystore": "deny",
+      "**/*.p8": "deny",
+      "**/*.p12": "deny",
+      "**/*.pem": "deny",
+      "**/*.pfx": "deny",
+      "**/*.xcconfig": "deny",
+      "**/.dart_tool/**": "deny",
+      "**/.env": "deny",
+      "**/.env.*": "deny",
+      "**/.envrc": "deny",
+      "**/build/**": "deny",
+      "**/coverage/**": "deny",
+      "**/dart_defines/**": "deny",
+      "**/GoogleService-Info.plist": "deny",
+      "**/google-services.json": "deny",
+    },
+    "write": {
+      "*": "allow",
+    },
+    "webfetch": {
+      "domain:github.com": "allow",
+      "domain:api.github.com": "allow",
+      "domain:raw.githubusercontent.com": "allow",
+      "domain:gist.github.com": "allow",
+      "domain:gist.githubusercontent.com": "allow",
+      "domain:objects.githubusercontent.com": "allow",
+      "domain:pub.dev": "allow",
+    },
+    "mcp__dart-mcp-server__analyze_files": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__dtd": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__flutter_driver_command": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__get_runtime_errors": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__hot_reload": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__hot_restart": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__lsp": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__pub_dev_search": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__read_package_uris": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__rip_grep_packages": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__widget_inspector": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_code_connect_map": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_code_connect_suggestions": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_context_for_code_connect": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_design_context": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_figjam": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_libraries": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_metadata": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_screenshot": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__get_variable_defs": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__search_design_system": {
+      "*": "allow",
+    },
+    "mcp__dotto-figma__whoami": {
+      "*": "allow",
+    },
+    "mcp__dotto-notion__notion-fetch": {
+      "*": "allow",
+    },
+    "mcp__dotto-notion__notion-get-comments": {
+      "*": "allow",
+    },
+    "mcp__dotto-notion__notion-get-teams": {
+      "*": "allow",
+    },
+    "mcp__dotto-notion__notion-get-users": {
+      "*": "allow",
+    },
+    "mcp__dotto-notion__notion-search": {
+      "*": "allow",
+    },
+    "mcp__plugin_context7_context7__resolve-library-id": {
+      "*": "allow",
+    },
+    "mcp__plugin_context7_context7__query-docs": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_batch_get_events": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_get_issue": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_get_report": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_list_events": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_list_notes": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__developerknowledge_answer_query": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__developerknowledge_get_documents": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__developerknowledge_search_documents": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_deploy_status": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_get_environment": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_get_project": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_get_sdk_config": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_get_security_rules": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_list_apps": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_list_projects": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_read_resources": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firebase_validate_security_rules": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_get_database": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_get_document": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_get_index": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_list_collections": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_list_databases": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_list_documents": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_list_indexes": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__firestore_query_collection": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__functions_get_logs": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__functions_list_functions": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__realtimedatabase_get_data": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__remoteconfig_get_template": {
+      "*": "allow",
+    },
+    "mcp__plugin_firebase_firebase__storage_get_object_download_url": {
+      "*": "allow",
+    },
+    "mcp__dart-mcp-server__pub": {
+      "*": "ask",
+    },
+    "mcp__dotto-figma__add_code_connect_map": {
+      "*": "ask",
+    },
+    "mcp__dotto-figma__create_new_file": {
+      "*": "ask",
+    },
+    "mcp__dotto-figma__generate_diagram": {
+      "*": "ask",
+    },
+    "mcp__dotto-figma__generate_figma_design": {
+      "*": "ask",
+    },
+    "mcp__dotto-figma__send_code_connect_mappings": {
+      "*": "ask",
+    },
+    "mcp__dotto-figma__upload_assets": {
+      "*": "ask",
+    },
+    "mcp__dotto-figma__use_figma": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-create-comment": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-create-database": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-create-pages": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-create-view": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-duplicate-page": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-move-pages": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-update-data-source": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-update-page": {
+      "*": "ask",
+    },
+    "mcp__dotto-notion__notion-update-view": {
+      "*": "ask",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_create_note": {
+      "*": "ask",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_delete_note": {
+      "*": "ask",
+    },
+    "mcp__plugin_firebase_firebase__crashlytics_update_issue": {
+      "*": "ask",
+    },
+    "mcp__plugin_firebase_firebase__firebase_login": {
+      "*": "ask",
+    },
+    "mcp__plugin_firebase_firebase__firebase_logout": {
+      "*": "ask",
+    },
+    "mcp__plugin_firebase_firebase__firebase_update_environment": {
+      "*": "ask",
+    },
+    "mcp__dart-mcp-server__roots": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__auth_get_users": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__auth_set_sms_region_policy": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__auth_update_user": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firebase_create_android_sha": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firebase_create_app": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firebase_create_project": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firebase_deploy": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firebase_init": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_add_document": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_create_database": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_create_index": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_delete_database": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_delete_document": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_delete_index": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_update_database": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__firestore_update_document": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__messaging_send_message": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__realtimedatabase_set_data": {
+      "*": "deny",
+    },
+    "mcp__plugin_firebase_firebase__remoteconfig_update_template": {
+      "*": "deny",
+    },
+  },
+  "claudecode": {
+    "defaultMode": "default",
+    "enabledMcpjsonServers": ["dart-mcp-server", "dotto-figma", "dotto-notion"],
+    "enabledPlugins": {
+      "code-review@claude-plugins-official": true,
+      "codex@openai-codex": true,
+      "context7@claude-plugins-official": true,
+      "firebase@firebase": true,
+      "pr-review-toolkit@claude-plugins-official": true,
+    },
+  },
+}

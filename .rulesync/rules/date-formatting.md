@@ -1,7 +1,7 @@
 ---
 root: false
-targets:
-  - "*"
+targets: ["*"]
+globs: ["**/*"]
 ---
 
 # 日付整形

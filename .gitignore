@@ -111,12 +111,11 @@ Temporary Items
 .claude/worktrees/
 .idea/
 
-AGENTS.md
-CLAUDE.md
+**/AGENTS.md
+**/CLAUDE.md
+.agents/*
 .claude/*
-!.claude/settings.json
 .codex/*
-!.codex/config.toml
 .github/*
 !.github/actions/
 !.github/workflows/
