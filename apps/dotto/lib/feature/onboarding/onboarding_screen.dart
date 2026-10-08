@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 final class OnboardingScreen extends HookWidget {
-  const OnboardingScreen({required this.onDismissed, super.key});
+  const new({required this.onDismissed, super.key});
 
   final void Function() onDismissed;
 

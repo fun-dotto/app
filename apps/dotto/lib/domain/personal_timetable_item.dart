@@ -7,7 +7,7 @@ part 'personal_timetable_item.freezed.dart';
 
 @freezed
 abstract class PersonalTimetableItem with _$PersonalTimetableItem {
-  const factory PersonalTimetableItem({
+  const factory({
     required Period period,
     required SubjectSummary subject,
     required LectureStatus lectureStatus,

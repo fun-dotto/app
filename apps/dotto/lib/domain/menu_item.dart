@@ -6,7 +6,7 @@ part 'menu_item.freezed.dart';
 
 @freezed
 abstract class MenuItem with _$MenuItem {
-  const factory MenuItem({
+  const factory({
     required String id,
     required DateTime date,
     required String name,

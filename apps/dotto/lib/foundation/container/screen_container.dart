@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class ScreenContainer extends ConsumerWidget {
-  const ScreenContainer({required this.states, required this.child, super.key});
+  const new({required this.states, required this.child, super.key});
 
   final ScreenStates states;
   final Widget child;

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/domain/room.dart';
 import 'package:dotto/domain/room_equipment.dart';
@@ -8,7 +7,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class MapDetailBottomSheet extends StatelessWidget {
-  const MapDetailBottomSheet({
+  const new({
     required this.props,
     required this.room,
     required this.dateTime,

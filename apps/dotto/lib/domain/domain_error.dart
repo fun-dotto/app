@@ -2,16 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 final class DomainError implements Exception {
-  const DomainError({
-    required this.type,
-    required this.message,
-    this.stackTrace,
-  });
+  const new({required this.type, required this.message, this.stackTrace});
 
-  factory DomainError.fromException({
-    required Exception e,
-    StackTrace? stackTrace,
-  }) {
+  factory fromException({required Exception e, StackTrace? stackTrace}) {
     if (e is DioException) {
       return DomainError._fromDioException(e: e, stackTrace: stackTrace);
     }
@@ -21,10 +14,7 @@ final class DomainError implements Exception {
     return DomainError.unknown(e: e, stackTrace: stackTrace);
   }
 
-  factory DomainError._fromDioException({
-    required DioException e,
-    StackTrace? stackTrace,
-  }) {
+  factory _fromDioException({required DioException e, StackTrace? stackTrace}) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -56,7 +46,7 @@ final class DomainError implements Exception {
     }
   }
 
-  factory DomainError._fromFirebaseException({
+  factory _fromFirebaseException({
     required FirebaseException e,
     StackTrace? stackTrace,
   }) {
@@ -82,66 +72,55 @@ final class DomainError implements Exception {
     }
   }
 
-  factory DomainError.network({required Exception e, StackTrace? stackTrace}) =>
+  factory network({required Exception e, StackTrace? stackTrace}) =>
       DomainError(
         type: DomainErrorType.network,
         message: e.toString(),
         stackTrace: stackTrace,
       );
 
-  factory DomainError.server({required Exception e, StackTrace? stackTrace}) =>
+  factory server({required Exception e, StackTrace? stackTrace}) => DomainError(
+    type: DomainErrorType.server,
+    message: e.toString(),
+    stackTrace: stackTrace,
+  );
+
+  factory notFound({required Exception e, StackTrace? stackTrace}) =>
       DomainError(
-        type: DomainErrorType.server,
+        type: DomainErrorType.notFound,
         message: e.toString(),
         stackTrace: stackTrace,
       );
 
-  factory DomainError.notFound({
-    required Exception e,
-    StackTrace? stackTrace,
-  }) => DomainError(
-    type: DomainErrorType.notFound,
-    message: e.toString(),
-    stackTrace: stackTrace,
-  );
+  factory invalidResponse({required Exception e, StackTrace? stackTrace}) =>
+      DomainError(
+        type: DomainErrorType.invalidResponse,
+        message: e.toString(),
+        stackTrace: stackTrace,
+      );
 
-  factory DomainError.invalidResponse({
-    required Exception e,
-    StackTrace? stackTrace,
-  }) => DomainError(
-    type: DomainErrorType.invalidResponse,
-    message: e.toString(),
-    stackTrace: stackTrace,
-  );
+  factory unauthorized({required Exception e, StackTrace? stackTrace}) =>
+      DomainError(
+        type: DomainErrorType.unauthorized,
+        message: e.toString(),
+        stackTrace: stackTrace,
+      );
 
-  factory DomainError.unauthorized({
-    required Exception e,
-    StackTrace? stackTrace,
-  }) => DomainError(
-    type: DomainErrorType.unauthorized,
-    message: e.toString(),
-    stackTrace: stackTrace,
-  );
+  factory forbidden({required Exception e, StackTrace? stackTrace}) =>
+      DomainError(
+        type: DomainErrorType.forbidden,
+        message: e.toString(),
+        stackTrace: stackTrace,
+      );
 
-  factory DomainError.forbidden({
-    required Exception e,
-    StackTrace? stackTrace,
-  }) => DomainError(
-    type: DomainErrorType.forbidden,
-    message: e.toString(),
-    stackTrace: stackTrace,
-  );
+  factory invalidData({required Exception e, StackTrace? stackTrace}) =>
+      DomainError(
+        type: DomainErrorType.invalidData,
+        message: e.toString(),
+        stackTrace: stackTrace,
+      );
 
-  factory DomainError.invalidData({
-    required Exception e,
-    StackTrace? stackTrace,
-  }) => DomainError(
-    type: DomainErrorType.invalidData,
-    message: e.toString(),
-    stackTrace: stackTrace,
-  );
-
-  factory DomainError.unknown({required Exception e, StackTrace? stackTrace}) =>
+  factory unknown({required Exception e, StackTrace? stackTrace}) =>
       DomainError(
         type: DomainErrorType.unknown,
         message: e.toString(),

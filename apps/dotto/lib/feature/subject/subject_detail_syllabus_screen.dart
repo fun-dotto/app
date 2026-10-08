@@ -2,7 +2,7 @@ import 'package:dotto/domain/syllabus.dart';
 import 'package:flutter/material.dart';
 
 final class SubjectDetailSyllabusScreen extends StatelessWidget {
-  const SubjectDetailSyllabusScreen({required this.syllabus, super.key});
+  const new({required this.syllabus, super.key});
 
   final Syllabus syllabus;
 

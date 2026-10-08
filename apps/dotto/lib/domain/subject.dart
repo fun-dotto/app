@@ -9,7 +9,7 @@ part 'subject.freezed.dart';
 
 @freezed
 abstract class Subject with _$Subject {
-  const factory Subject({
+  const factory({
     required String id,
     required String name,
     required List<SubjectFaculty> faculties,

@@ -5,7 +5,7 @@ import 'package:dotto/feature/map/widget/map_grid.dart';
 import 'package:flutter/material.dart';
 
 final class Map extends StatelessWidget {
-  const Map({
+  const new({
     required this.mapViewTransformationController,
     required this.selectedFloor,
     required this.rooms,

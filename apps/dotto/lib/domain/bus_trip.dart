@@ -7,7 +7,7 @@ part 'bus_trip.freezed.dart';
 
 @freezed
 abstract class BusTrip with _$BusTrip {
-  const factory BusTrip({
+  const factory({
     required String id,
     required DateTime departureTime,
     required DateTime arrivalTime,

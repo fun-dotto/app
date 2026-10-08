@@ -4,7 +4,7 @@ part 'faculty.freezed.dart';
 
 @freezed
 abstract class Faculty with _$Faculty {
-  const factory Faculty({
+  const factory({
     required String id,
     required String name,
     required String email,

@@ -8,7 +8,7 @@ abstract class RoomResponse with _$RoomResponse {
   //
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory RoomResponse({
+  const factory({
     required String? classroomNo,
     required String? detail,
     required String header,
@@ -16,6 +16,5 @@ abstract class RoomResponse with _$RoomResponse {
     required List<String>? searchWordList,
   }) = _RoomResponse;
 
-  factory RoomResponse.fromJson(Map<String, Object?> json) =>
-      _$RoomResponseFromJson(json);
+  factory fromJson(Map<String, Object?> json) => _$RoomResponseFromJson(json);
 }

@@ -10,7 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 /// URLからは科目IDのみ渡されるため、レビューの投稿先となるシラバスID
 /// （lessonId）を科目詳細から解決してからフォームを表示する。
 final class SubjectReviewNewScreen extends HookConsumerWidget {
-  const SubjectReviewNewScreen({required this.id, super.key});
+  const new({required this.id, super.key});
 
   final String id;
 

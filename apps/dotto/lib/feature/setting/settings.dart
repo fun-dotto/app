@@ -25,7 +25,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 final class SettingsScreen extends HookConsumerWidget {
-  const SettingsScreen({super.key});
+  const new({super.key});
 
   Future<void> _showLogoutConfirmDialog(
     BuildContext context,

@@ -10,7 +10,7 @@ FeatureFlagRepository featureFlagRepository(Ref ref) =>
 
 /// Remote Config から [Flag] の値を型安全に取得する。
 final class FeatureFlagRepository {
-  const FeatureFlagRepository(this._remoteConfigHelper);
+  const new(this._remoteConfigHelper);
 
   final RemoteConfigHelper _remoteConfigHelper;
 

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final class AnnouncementScreen extends ConsumerWidget {
-  const AnnouncementScreen({super.key});
+  const new({super.key});
 
   Widget _announcementListRow(BuildContext context, Announcement announcement) {
     return ListTile(

@@ -20,7 +20,7 @@ abstract class PersonalCalendarRepository {
 
 final class PersonalCalendarRepositoryImpl
     implements PersonalCalendarRepository {
-  PersonalCalendarRepositoryImpl(this.apiClient);
+  new(this.apiClient);
 
   final Openapi apiClient;
 

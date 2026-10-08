@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 final class DottoErrorAlert extends StatelessWidget {
-  const DottoErrorAlert({
-    required this.title,
-    required this.message,
-    super.key,
-  });
+  const new({required this.title, required this.message, super.key});
 
   final String title;
   final String message;
@@ -47,7 +43,7 @@ final class DottoErrorAlert extends StatelessWidget {
 }
 
 final class _Demo extends StatelessWidget {
-  const _Demo({
+  const new({
     required this.title,
     required this.message,
     //
@@ -64,10 +60,7 @@ final class _Demo extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: DottoErrorAlert(
-            title: title,
-            message: message,
-          ),
+          child: DottoErrorAlert(title: title, message: message),
         ),
       ),
     );

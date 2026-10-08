@@ -8,7 +8,7 @@ abstract class GitHubProfileResponse with _$GitHubProfileResponse {
   //
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory GitHubProfileResponse({
+  const factory({
     required int id,
     required String login,
     required String avatarUrl,
@@ -17,6 +17,6 @@ abstract class GitHubProfileResponse with _$GitHubProfileResponse {
     required String? type,
   }) = _GitHubProfileResponse;
 
-  factory GitHubProfileResponse.fromJson(Map<String, Object?> json) =>
+  factory fromJson(Map<String, Object?> json) =>
       _$GitHubProfileResponseFromJson(json);
 }

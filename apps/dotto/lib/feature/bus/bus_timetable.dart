@@ -4,7 +4,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class BusTimetableScreen extends StatelessWidget {
-  const BusTimetableScreen(this.busTrip, {super.key});
+  const new(this.busTrip, {super.key});
   final BusTrip busTrip;
 
   @override

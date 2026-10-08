@@ -5,7 +5,7 @@ part 'dotto_user_preference.freezed.dart';
 
 @freezed
 abstract class DottoUserPreference with _$DottoUserPreference {
-  const factory DottoUserPreference({
+  const factory({
     @Default(TimetablePeriodStyle.numberOnly)
     TimetablePeriodStyle timetablePeriodStyle,
   }) = _DottoUserPreference;

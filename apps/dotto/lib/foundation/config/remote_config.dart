@@ -6,7 +6,7 @@ typedef RemoteConfigGetter<T> = T Function(
 );
 
 final class RemoteConfig<T> {
-  const RemoteConfig({
+  const new({
     required this.key,
     required this.defaultValue,
     required this.remoteDefaultValue,

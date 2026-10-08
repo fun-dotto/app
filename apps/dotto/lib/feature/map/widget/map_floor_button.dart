@@ -3,11 +3,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class MapFloorButton extends StatelessWidget {
-  const MapFloorButton({
-    required this.selectedFloor,
-    required this.onPressed,
-    super.key,
-  });
+  const new({required this.selectedFloor, required this.onPressed, super.key});
 
   final Floor selectedFloor;
   final void Function(Floor) onPressed;

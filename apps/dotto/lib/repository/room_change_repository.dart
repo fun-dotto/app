@@ -13,7 +13,7 @@ abstract class RoomChangeRepository {
 }
 
 final class RoomChangeRepositoryImpl implements RoomChangeRepository {
-  RoomChangeRepositoryImpl(this.ref);
+  new(this.ref);
 
   final Ref ref;
 

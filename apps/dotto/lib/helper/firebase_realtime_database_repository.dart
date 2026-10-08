@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 final class FirebaseRealtimeDatabaseRepository {
-  factory FirebaseRealtimeDatabaseRepository() {
+  factory() {
     return _instance;
   }
-  FirebaseRealtimeDatabaseRepository._internal();
+  new _internal();
   static final FirebaseRealtimeDatabaseRepository _instance =
       FirebaseRealtimeDatabaseRepository._internal();
 

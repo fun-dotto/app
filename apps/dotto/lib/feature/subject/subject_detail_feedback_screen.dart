@@ -10,7 +10,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class SubjectDetailFeedbackScreen extends HookConsumerWidget {
-  const SubjectDetailFeedbackScreen({required this.lessonId, super.key});
+  const new({required this.lessonId, super.key});
 
   final String lessonId;
 

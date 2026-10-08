@@ -2,10 +2,7 @@ import 'package:dotto/domain/day_of_week.dart';
 import 'package:dotto/domain/period.dart';
 
 final class RoomAssignmentIndex {
-  RoomAssignmentIndex({
-    required this.roomNamesBySlotAndTitle,
-    required this.roomNamesByTitle,
-  });
+  new({required this.roomNamesBySlotAndTitle, required this.roomNamesByTitle});
 
   final Map<({DayOfWeek dayOfWeek, Period period, String title}), String>
   roomNamesBySlotAndTitle;

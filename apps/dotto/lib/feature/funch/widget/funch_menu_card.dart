@@ -5,7 +5,7 @@ import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/material.dart';
 
 final class MenuCard extends StatelessWidget {
-  const MenuCard(this.menu, {super.key});
+  const new(this.menu, {super.key});
   final FunchMenu menu;
 
   @override

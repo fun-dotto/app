@@ -7,14 +7,14 @@ enum CourseCancellationType {
   cancellation(label: '休講'),
   makeUp(label: '補講');
 
-  const CourseCancellationType({required this.label});
+  new({required this.label});
 
   final String label;
 }
 
 @freezed
 abstract class CourseCancellation with _$CourseCancellation {
-  const factory CourseCancellation({
+  const factory({
     required DateTime date,
     required Period period,
     required String lessonName,

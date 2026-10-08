@@ -27,7 +27,7 @@ enum Grade {
   d2(label: '博士2年'),
   d3(label: '博士3年');
 
-  const Grade({
+  new({
     required this.label,
     this.deprecatedUserPreferenceKey,
     this.deprecatedFilterOptionChoiceKey,

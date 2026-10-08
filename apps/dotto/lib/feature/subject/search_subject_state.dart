@@ -6,7 +6,7 @@ part 'search_subject_state.freezed.dart';
 
 @freezed
 abstract class SearchSubjectState with _$SearchSubjectState {
-  const factory SearchSubjectState({
+  const factory({
     @Default(<SubjectSummary>[]) List<SubjectSummary> subjects,
     @Default(SubjectFilter()) SubjectFilter filter,
   }) = _SearchSubjectState;

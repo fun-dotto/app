@@ -2,7 +2,7 @@ import 'package:dotto/asset.dart';
 import 'package:flutter/material.dart';
 
 final class SettingsLicenseScreen extends StatelessWidget {
-  const SettingsLicenseScreen({super.key});
+  const new({super.key});
   @override
   Widget build(BuildContext context) {
     return LicensePage(

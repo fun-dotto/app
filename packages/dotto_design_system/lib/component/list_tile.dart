@@ -7,31 +7,31 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 /// [DottoListTile] の右端に表示する要素。
 sealed class DottoListTileTrailing {
-  const DottoListTileTrailing();
+  const new();
 
   /// 何も表示しない。
-  const factory DottoListTileTrailing.none() = _NoneTrailing;
+  const factory none() = _NoneTrailing;
 
   /// 遷移することを示す山形を表示する。
-  const factory DottoListTileTrailing.chevron() = _ChevronTrailing;
+  const factory chevron() = _ChevronTrailing;
 
   /// オン・オフを切り替えるトグルを表示する。
-  const factory DottoListTileTrailing.toggle({
+  const factory toggle({
     required bool value,
     required ValueChanged<bool> onChanged,
   }) = _ToggleTrailing;
 }
 
 final class _NoneTrailing extends DottoListTileTrailing {
-  const _NoneTrailing();
+  const new();
 }
 
 final class _ChevronTrailing extends DottoListTileTrailing {
-  const _ChevronTrailing();
+  const new();
 }
 
 final class _ToggleTrailing extends DottoListTileTrailing {
-  const _ToggleTrailing({required this.value, required this.onChanged});
+  const new({required this.value, required this.onChanged});
 
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -41,7 +41,7 @@ final class _ToggleTrailing extends DottoListTileTrailing {
 ///
 /// 左端の [leading]、最大3行のテキスト、右端の [trailing] で構成する。
 final class DottoListTile extends StatelessWidget {
-  const DottoListTile({
+  const new({
     required this.firstLine,
     super.key,
     this.leading,
@@ -129,7 +129,7 @@ final class DottoListTile extends StatelessWidget {
 ///
 /// 配色をデザインシステムに合わせた material の `Switch`。
 final class _Toggle extends StatelessWidget {
-  const _Toggle({required this.value, required this.onChanged});
+  const new({required this.value, required this.onChanged});
 
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -152,7 +152,7 @@ final class _Toggle extends StatelessWidget {
 
 /// タイル単体を、中身の高さに合わせて表示するデモ。
 final class _Demo extends StatelessWidget {
-  const _Demo({
+  const new({
     required this.tile,
     //
     // ignore: unused_element_parameter
@@ -297,7 +297,7 @@ Widget listTileLongText(BuildContext context) {
 
 /// トグルの切り替えを確認するためのデモ。
 final class _ToggleDemo extends HookWidget {
-  const _ToggleDemo();
+  const new();
 
   @override
   Widget build(BuildContext context) {

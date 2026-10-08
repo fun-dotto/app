@@ -7,7 +7,7 @@ enum Floor {
   sixth(label: 'R6'),
   seventh(label: 'R7');
 
-  const Floor({required this.label});
+  new({required this.label});
 
   final String label;
 

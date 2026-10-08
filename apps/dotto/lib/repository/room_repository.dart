@@ -13,7 +13,7 @@ abstract class RoomRepository {
 }
 
 final class RoomRepositoryImpl implements RoomRepository {
-  RoomRepositoryImpl();
+  new();
 
   @override
   Future<List<Room>> getRooms() async {

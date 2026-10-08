@@ -12,7 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class CourseRegistrationScreen extends HookConsumerWidget {
-  const CourseRegistrationScreen({super.key});
+  const new({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -6,7 +6,7 @@ part 'bus_state.freezed.dart';
 
 @freezed
 abstract class BusState with _$BusState {
-  const factory BusState({
+  const factory({
     /// {from_fun: {holiday: [], weekday: []},
     ///  to_fun: {holiday: [], weekday: []}}
     required Map<String, Map<String, List<BusTrip>>> trips,

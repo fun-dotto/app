@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SearchSubjectFilterSection extends HookWidget {
-  const SearchSubjectFilterSection({
+  const new({
     required this.filter,
     required this.onChanged,
     super.key,

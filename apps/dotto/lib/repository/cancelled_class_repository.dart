@@ -15,7 +15,7 @@ abstract class CancelledClassRepository {
 }
 
 final class CancelledClassRepositoryImpl implements CancelledClassRepository {
-  CancelledClassRepositoryImpl(this.ref);
+  new(this.ref);
 
   final Ref ref;
 

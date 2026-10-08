@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:dotto/controller/user_controller.dart';
 import 'package:dotto/domain/map_tile_props.dart';
 import 'package:dotto/feature/map/map_reducer.dart';
@@ -15,7 +14,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class MapScreen extends HookConsumerWidget {
-  const MapScreen({
+  const new({
     required this.onGoToSettingButtonTapped,
     this.focusedRoomId,
     super.key,

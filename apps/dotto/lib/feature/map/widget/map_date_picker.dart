@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 
 final class MapDatePicker extends StatelessWidget {
-  const MapDatePicker({
+  const new({
     required this.searchDatetime,
     required this.onPeriodButtonTapped,
     required this.onDatePickerConfirmed,

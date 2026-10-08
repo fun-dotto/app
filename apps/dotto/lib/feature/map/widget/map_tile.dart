@@ -4,7 +4,7 @@ import 'package:dotto/domain/room.dart';
 import 'package:flutter/material.dart';
 
 final class MapTile extends StatelessWidget {
-  const MapTile({
+  const new({
     required this.props,
     required this.isFocused,
     required this.dateTime,

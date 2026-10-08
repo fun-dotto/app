@@ -11,7 +11,7 @@ abstract class BusRepository {
 }
 
 final class BusRepositoryImpl implements BusRepository {
-  BusRepositoryImpl(this._database);
+  new(this._database);
 
   final FirebaseRealtimeDatabaseRepository _database;
 

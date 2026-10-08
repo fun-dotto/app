@@ -6,7 +6,7 @@ part 'timetable_item.freezed.dart';
 
 @freezed
 abstract class TimetableItem with _$TimetableItem {
-  const factory TimetableItem({
+  const factory({
     required String id,
     required SubjectSummary subject,
     required TimetableSlot? slot,

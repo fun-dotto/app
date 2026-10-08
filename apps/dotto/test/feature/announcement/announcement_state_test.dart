@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final class FakeAnnouncementRepository implements AnnouncementRepository {
-  FakeAnnouncementRepository();
+  new();
 
   Completer<List<Announcement>> _completer = Completer<List<Announcement>>();
   int callCount = 0;

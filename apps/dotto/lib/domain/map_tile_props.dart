@@ -6,7 +6,7 @@ import 'package:dotto/domain/room_equipment.dart';
 import 'package:flutter/material.dart';
 
 abstract class MapTileProps {
-  MapTileProps({
+  new({
     required this.floor,
     required this.width,
     required this.height,
@@ -35,7 +35,7 @@ abstract class MapTileProps {
 }
 
 final class ClassroomMapTileProps extends MapTileProps {
-  ClassroomMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -57,7 +57,7 @@ final class ClassroomMapTileProps extends MapTileProps {
 }
 
 final class FacultyRoomMapTileProps extends MapTileProps {
-  FacultyRoomMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -76,7 +76,7 @@ final class FacultyRoomMapTileProps extends MapTileProps {
 }
 
 final class SubRoomMapTileProps extends MapTileProps {
-  SubRoomMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -98,7 +98,7 @@ final class SubRoomMapTileProps extends MapTileProps {
 }
 
 final class OtherRoomMapTileProps extends MapTileProps {
-  OtherRoomMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -117,7 +117,7 @@ final class OtherRoomMapTileProps extends MapTileProps {
 }
 
 final class RestroomMapTileProps extends MapTileProps {
-  RestroomMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -137,7 +137,7 @@ final class RestroomMapTileProps extends MapTileProps {
 }
 
 final class StairMapTileProps extends MapTileProps {
-  StairMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -157,7 +157,7 @@ final class StairMapTileProps extends MapTileProps {
 }
 
 final class ElevatorMapTileProps extends MapTileProps {
-  ElevatorMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -174,7 +174,7 @@ final class ElevatorMapTileProps extends MapTileProps {
 }
 
 final class AisleMapTileProps extends MapTileProps {
-  AisleMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,
@@ -192,7 +192,7 @@ final class AisleMapTileProps extends MapTileProps {
 }
 
 final class AtriumMapTileProps extends MapTileProps {
-  AtriumMapTileProps({
+  new({
     required super.floor,
     required super.width,
     required super.height,

@@ -4,7 +4,7 @@ part 'bus_stop.freezed.dart';
 
 @freezed
 abstract class BusStop with _$BusStop {
-  const factory BusStop({
+  const factory({
     required int id,
     required String name,
     required List<String> routeList,
@@ -12,7 +12,7 @@ abstract class BusStop with _$BusStop {
     bool? selectable,
   }) = _BusStop;
 
-  factory BusStop.fromFirebase(Map<String, dynamic> map) {
+  factory fromFirebase(Map<String, dynamic> map) {
     final rawId = map['id'];
     final id = switch (rawId) {
       final int v => v,

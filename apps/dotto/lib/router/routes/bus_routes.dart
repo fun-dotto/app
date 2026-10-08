@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final class BusRouteData extends GoRouteData with $BusRouteData {
-  const BusRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -16,7 +16,7 @@ final class BusRouteData extends GoRouteData with $BusRouteData {
 
 final class BusStopSelectRouteData extends GoRouteData
     with $BusStopSelectRouteData {
-  const BusStopSelectRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -25,7 +25,7 @@ final class BusStopSelectRouteData extends GoRouteData
 }
 
 final class BusTripRouteData extends GoRouteData with $BusTripRouteData {
-  const BusTripRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 

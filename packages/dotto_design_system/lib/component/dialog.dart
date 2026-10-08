@@ -6,7 +6,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 enum DottoDialogType { alert, confirmation, plain }
 
 final class DottoDialog extends StatelessWidget {
-  const DottoDialog({
+  const new({
     required this.type,
     required this.title,
     required this.message,
@@ -87,7 +87,7 @@ final class DottoDialog extends StatelessWidget {
 }
 
 final class _Demo extends StatelessWidget {
-  const _Demo({
+  const new({
     required this.type,
     required this.title,
     required this.message,
@@ -119,9 +119,7 @@ Widget alertDialog(BuildContext context) {
     type: .alert,
     title: 'エラーが発生しました。',
     message: '不明なエラーが発生しました。時間を空けて再度お試しいただくか、サポートまでご連絡ください。',
-    actionButtons: [
-      DottoButton(onPressed: () {}, child: const Text('閉じる')),
-    ],
+    actionButtons: [DottoButton(onPressed: () {}, child: const Text('閉じる'))],
   );
 }
 

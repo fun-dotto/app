@@ -21,7 +21,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 final class FakeCourseRegistrationRepository
     implements CourseRegistrationRepository {
-  FakeCourseRegistrationRepository({required this.result});
+  new({required this.result});
 
   final List<CourseRegistration> result;
   int getCourseRegistrationsCallCount = 0;
@@ -46,10 +46,7 @@ final class FakeCourseRegistrationRepository
 }
 
 final class FakeSubjectRepository implements SubjectRepository {
-  FakeSubjectRepository({
-    required this.resultsByQuery,
-    this.futuresByQuery = const {},
-  });
+  new({required this.resultsByQuery, this.futuresByQuery = const {}});
 
   final Map<String, List<SubjectSummary>> resultsByQuery;
   final Map<String, Future<List<SubjectSummary>>> futuresByQuery;
@@ -90,7 +87,7 @@ final class FakeSubjectRepository implements SubjectRepository {
 }
 
 final class FakeTimetableRepository implements TimetableRepository {
-  FakeTimetableRepository({required this.result});
+  new({required this.result});
 
   final List<TimetableItem> result;
   int getTimetableItemsCallCount = 0;

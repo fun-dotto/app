@@ -1,7 +1,7 @@
 import 'package:dotto/feature/funch/domain/funch_price.dart';
 
 final class FunchMenu {
-  FunchMenu(this.id, this.name, this.categoryId, this.prices, this.imageUrl);
+  new(this.id, this.name, this.categoryId, this.prices, this.imageUrl);
   final String id;
   final String name;
   final int categoryId;
@@ -10,7 +10,7 @@ final class FunchMenu {
 }
 
 final class FunchCommonMenu extends FunchMenu {
-  FunchCommonMenu(
+  new(
     super.id,
     super.name,
     super.categoryId,
@@ -19,7 +19,7 @@ final class FunchCommonMenu extends FunchMenu {
     this.energy,
   );
 
-  factory FunchCommonMenu.fromJson(Map<String, dynamic> json) {
+  factory fromJson(Map<String, dynamic> json) {
     if (json.isEmpty) {
       throw ArgumentError('JSON cannot be empty');
     }
@@ -53,15 +53,9 @@ final class FunchCommonMenu extends FunchMenu {
 }
 
 final class FunchOriginalMenu extends FunchMenu {
-  FunchOriginalMenu(
-    super.id,
-    super.name,
-    super.categoryId,
-    super.prices,
-    super.imageUrl,
-  );
+  new(super.id, super.name, super.categoryId, super.prices, super.imageUrl);
 
-  factory FunchOriginalMenu.fromJson(Map<String, dynamic> json) {
+  factory fromJson(Map<String, dynamic> json) {
     if (json.isEmpty) {
       throw ArgumentError('JSON cannot be empty');
     }

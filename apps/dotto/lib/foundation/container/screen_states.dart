@@ -6,7 +6,7 @@ part 'screen_states.freezed.dart';
 
 @freezed
 abstract class ScreenStates<T extends Object> with _$ScreenStates<T> {
-  const factory ScreenStates({
+  const factory({
     /// 全ての状態
     required List<AsyncEntity> states,
 
@@ -14,7 +14,7 @@ abstract class ScreenStates<T extends Object> with _$ScreenStates<T> {
     @Default([]) List<AsyncEntity> optionalStates,
   }) = _ScreenStates<T>;
 
-  const ScreenStates._();
+  const new _();
 
   /// 必須の状態に読み込み中のものが含まれているか
   bool get isRequiredStatesLoading => states

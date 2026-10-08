@@ -5,13 +5,13 @@ part 'bus_trip_stop.freezed.dart';
 
 @freezed
 abstract class BusTripStop with _$BusTripStop {
-  const factory BusTripStop({
+  const factory({
     required Duration time,
     required BusStop stop,
     int? terminal,
   }) = _BusTripStop;
 
-  factory BusTripStop.fromFirebase(BusStop stop, Map<String, dynamic> map) {
+  factory fromFirebase(BusStop stop, Map<String, dynamic> map) {
     final timeStr = map['time'] as String;
     final timeStrList = timeStr.split(':');
     if (timeStrList.length != 2) {

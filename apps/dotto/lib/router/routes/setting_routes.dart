@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final class SettingsRouteData extends GoRouteData with $SettingsRouteData {
-  const SettingsRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -20,7 +20,7 @@ final class SettingsRouteData extends GoRouteData with $SettingsRouteData {
 
 final class AnnouncementsRouteData extends GoRouteData
     with $AnnouncementsRouteData {
-  const AnnouncementsRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -30,7 +30,7 @@ final class AnnouncementsRouteData extends GoRouteData
 
 final class AnnouncementDetailRouteData extends GoRouteData
     with $AnnouncementDetailRouteData {
-  const AnnouncementDetailRouteData({required this.id});
+  const new({required this.id});
 
   final String id;
 
@@ -41,7 +41,7 @@ final class AnnouncementDetailRouteData extends GoRouteData
 }
 
 final class DevelopersRouteData extends GoRouteData with $DevelopersRouteData {
-  const DevelopersRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -51,7 +51,7 @@ final class DevelopersRouteData extends GoRouteData with $DevelopersRouteData {
 
 final class SettingOnboardingRouteData extends GoRouteData
     with $SettingOnboardingRouteData {
-  const SettingOnboardingRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -61,7 +61,7 @@ final class SettingOnboardingRouteData extends GoRouteData
 
 final class SettingsLicenseRouteData extends GoRouteData
     with $SettingsLicenseRouteData {
-  const SettingsLicenseRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -70,7 +70,7 @@ final class SettingsLicenseRouteData extends GoRouteData
 }
 
 final class DebugRouteData extends GoRouteData with $DebugRouteData {
-  const DebugRouteData();
+  const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {

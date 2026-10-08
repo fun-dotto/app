@@ -11,7 +11,7 @@ import 'package:share_plus/share_plus.dart';
 
 /// Cloudflare R2ストレージからPDFを取得して閲覧するWidget
 final class CloudflarePdfViewer extends StatefulWidget {
-  const CloudflarePdfViewer({required this.url, this.filename, super.key});
+  const new({required this.url, this.filename, super.key});
 
   /// Cloudflare R2ストレージ内のPDFのURL（キー）
   final String url;

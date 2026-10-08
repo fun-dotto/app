@@ -11,7 +11,7 @@ import 'package:share_plus/share_plus.dart';
 
 /// Web上のPDFのURLからPDFを閲覧するWidget
 final class WebPdfViewer extends StatefulWidget {
-  const WebPdfViewer({required this.url, this.filename, super.key});
+  const new({required this.url, this.filename, super.key});
 
   /// PDFのURL
   final String url;

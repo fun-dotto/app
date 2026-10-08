@@ -11,12 +11,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 ///
 /// [header] と [footer] はカードの外側、上下に表示する。
 final class DottoListSection extends StatelessWidget {
-  const DottoListSection({
-    required this.children,
-    super.key,
-    this.header,
-    this.footer,
-  });
+  const new({required this.children, super.key, this.header, this.footer});
 
   final List<Widget> children;
 
@@ -74,7 +69,7 @@ final class DottoListSection extends StatelessWidget {
 
 /// タイルの間に引く区切り線。
 final class _Divider extends StatelessWidget {
-  const _Divider();
+  const new();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +85,7 @@ final class _Divider extends StatelessWidget {
 
 /// セクションを、実際の画面と同じく上寄せで表示するデモ。
 final class _Demo extends StatelessWidget {
-  const _Demo({
+  const new({
     required this.children,
     //
     // ignore: unused_element_parameter
@@ -178,7 +173,7 @@ Widget listSectionWithMixedTrailings(BuildContext context) {
 
 /// トグルを含む、trailing が混在するセクションのデモ。
 final class _MixedTrailingsDemo extends HookWidget {
-  const _MixedTrailingsDemo();
+  const new();
 
   @override
   Widget build(BuildContext context) {

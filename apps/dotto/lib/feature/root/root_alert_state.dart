@@ -11,7 +11,7 @@ part 'root_alert_state.g.dart';
 
 @freezed
 abstract class RootAlerts with _$RootAlerts {
-  const factory RootAlerts({
+  const factory({
     @Default(false) bool hasShownUpdateAlert,
     @Default(false) bool hasShownNotificationAlert,
   }) = _RootAlerts;

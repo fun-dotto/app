@@ -1,5 +1,5 @@
 final class AppVersionEvaluation {
-  const AppVersionEvaluation({
+  const new({
     required this.isValidAppVersion,
     required this.isLatestAppVersion,
   });

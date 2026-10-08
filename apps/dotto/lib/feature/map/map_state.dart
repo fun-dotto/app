@@ -8,7 +8,7 @@ part 'map_state.freezed.dart';
 
 @freezed
 abstract class MapState with _$MapState {
-  const factory MapState({
+  const factory({
     required List<Room> rooms,
     required DateTime searchDatetime,
     required Floor selectedFloor,

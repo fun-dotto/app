@@ -19,7 +19,6 @@ import 'package:dotto/domain/subject_requirement.dart';
 import 'package:dotto/domain/subject_requirement_type.dart';
 import 'package:dotto/domain/subject_summary.dart';
 import 'package:dotto/domain/syllabus.dart';
-import 'package:dotto/extension/iterable_extension.dart';
 import 'package:dotto/helper/syllabus_database_helper.dart';
 import 'package:openapi/openapi.dart'
     hide Faculty, SubjectFaculty, SubjectSummary;
@@ -37,7 +36,7 @@ abstract class SubjectRepository {
 }
 
 final class SubjectRepositoryImpl implements SubjectRepository {
-  SubjectRepositoryImpl(this.apiClient);
+  new(this.apiClient);
 
   final Openapi apiClient;
 

@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final class FirestoreFunchMenu {
-  FirestoreFunchMenu({
+  new({
     required this.date,
     required this.commonMenuIds,
     required this.originalMenuIds,
   });
 
-  factory FirestoreFunchMenu.fromJson(Map<String, dynamic> json) {
+  factory fromJson(Map<String, dynamic> json) {
     if (json.isEmpty) {
       throw ArgumentError('JSON cannot be empty');
     }

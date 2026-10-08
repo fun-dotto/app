@@ -22,7 +22,7 @@ enum CourseNoticeTab {
 }
 
 final class CourseCancellationScreen extends ConsumerWidget {
-  const CourseCancellationScreen({required this.initialTab, super.key});
+  const new({required this.initialTab, super.key});
 
   /// 最初に表示するタブ。
   final CourseNoticeTab initialTab;
@@ -107,7 +107,7 @@ final class CourseCancellationScreen extends ConsumerWidget {
 }
 
 class _LoadingSkeleton extends StatelessWidget {
-  const _LoadingSkeleton();
+  const new();
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class _LoadingSkeleton extends StatelessWidget {
 }
 
 class _ListTileSkeleton extends StatelessWidget {
-  const _ListTileSkeleton();
+  const new();
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +153,7 @@ Widget _skeletonBox({required double height, required double width}) {
 }
 
 class _CancelledClassList extends StatelessWidget {
-  const _CancelledClassList({required this.items, required this.onRefresh});
+  const new({required this.items, required this.onRefresh});
 
   final List<CancelledClass> items;
   final Future<void> Function() onRefresh;
@@ -208,7 +208,7 @@ class _CancelledClassList extends StatelessWidget {
 }
 
 class _MakeupClassList extends StatelessWidget {
-  const _MakeupClassList({required this.items, required this.onRefresh});
+  const new({required this.items, required this.onRefresh});
 
   final List<MakeupClass> items;
   final Future<void> Function() onRefresh;
@@ -263,7 +263,7 @@ class _MakeupClassList extends StatelessWidget {
 }
 
 class _RoomChangeList extends StatelessWidget {
-  const _RoomChangeList({required this.items, required this.onRefresh});
+  const new({required this.items, required this.onRefresh});
 
   final List<RoomChange> items;
   final Future<void> Function() onRefresh;

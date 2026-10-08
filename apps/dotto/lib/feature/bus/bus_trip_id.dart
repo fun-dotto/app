@@ -11,11 +11,7 @@ const _holidayKey = 'holiday';
 /// `{to_fun|from_fun}-{weekday|holiday}-{便リスト内のindex}` 形式で、
 /// [BusState.trips] 内の位置を指す。URLに載せて画面間で受け渡せる。
 final class BusTripId {
-  const BusTripId({
-    required this.isTo,
-    required this.isWeekday,
-    required this.index,
-  });
+  const new({required this.isTo, required this.isWeekday, required this.index});
 
   /// [value] 形式の文字列を解釈する。解釈できない場合は null を返す。
   static BusTripId? tryParse(String value) {

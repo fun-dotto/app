@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 final class UserInfoTile extends StatelessWidget {
-  const UserInfoTile({
-    this.user,
-    super.key,
-    this.onTap,
-    this.isLoading = false,
-  });
+  const new({this.user, super.key, this.onTap, this.isLoading = false});
 
   /// 表示するユーザー（DottoUser）
   final DottoUser? user;

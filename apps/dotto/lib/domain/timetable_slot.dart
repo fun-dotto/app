@@ -6,8 +6,6 @@ part 'timetable_slot.freezed.dart';
 
 @freezed
 abstract class TimetableSlot with _$TimetableSlot {
-  const factory TimetableSlot({
-    required DayOfWeek dayOfWeek,
-    required Period period,
-  }) = _TimetableSlot;
+  const factory({required DayOfWeek dayOfWeek, required Period period}) =
+      _TimetableSlot;
 }
