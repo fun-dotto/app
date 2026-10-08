@@ -1,5 +1,7 @@
-import 'package:dotto/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/funch/domain/funch_menu_category.dart';
+import 'package:dotto/domain/entity/funch_menu.dart';
+import 'package:dotto/domain/entity/funch_menu_category.dart';
+import 'package:dotto/l10n/app_localizations.dart';
+import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -29,7 +31,8 @@ final class FunchPriceList extends StatelessWidget {
         ),
       ];
     }
-    final sizeStr = ['大', '中', '小'];
+    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final sizeStr = [l10n.funchLarge, l10n.funchMedium, l10n.funchSmall];
     final price = [menu.prices.large, menu.prices.medium, menu.prices.small];
 
     for (var i = 0; i < price.length; i++) {

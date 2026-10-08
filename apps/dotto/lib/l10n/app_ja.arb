@@ -78,5 +78,25 @@
         "type": "int"
       }
     }
+  },
+  "funchTitle": "学食",
+  "funchNotice": "メニューは変更される可能性があります",
+  "funchEmpty": "情報が見つかりません",
+  "funchCategoryEmpty": "このカテゴリーのメニューはありません。",
+  "funchSet": "セット・単品",
+  "funchDonCurry": "丼・カレー",
+  "funchNoodle": "麺",
+  "funchSideDish": "副菜",
+  "funchDessert": "デザート",
+  "funchLarge": "大",
+  "funchMedium": "中",
+  "funchSmall": "小",
+  "funchToday": "{date}の学食",
+  "@funchToday": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -147,4 +147,45 @@ class AppLocalizationsJa extends AppLocalizations {
   String mapPeriod(int number) {
     return '$number限';
   }
+
+  @override
+  String get funchTitle => '学食';
+
+  @override
+  String get funchNotice => 'メニューは変更される可能性があります';
+
+  @override
+  String get funchEmpty => '情報が見つかりません';
+
+  @override
+  String get funchCategoryEmpty => 'このカテゴリーのメニューはありません。';
+
+  @override
+  String get funchSet => 'セット・単品';
+
+  @override
+  String get funchDonCurry => '丼・カレー';
+
+  @override
+  String get funchNoodle => '麺';
+
+  @override
+  String get funchSideDish => '副菜';
+
+  @override
+  String get funchDessert => 'デザート';
+
+  @override
+  String get funchLarge => '大';
+
+  @override
+  String get funchMedium => '中';
+
+  @override
+  String get funchSmall => '小';
+
+  @override
+  String funchToday(String date) {
+    return '$dateの学食';
+  }
 }

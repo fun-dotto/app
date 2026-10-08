@@ -148,4 +148,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String mapPeriod(int number) {
     return 'Period $number';
   }
+
+  @override
+  String get funchTitle => 'Cafeteria';
+
+  @override
+  String get funchNotice => 'Menus may change.';
+
+  @override
+  String get funchEmpty => 'No menu information available.';
+
+  @override
+  String get funchCategoryEmpty => 'No menus in this category.';
+
+  @override
+  String get funchSet => 'Set meals';
+
+  @override
+  String get funchDonCurry => 'Rice bowls and curry';
+
+  @override
+  String get funchNoodle => 'Noodles';
+
+  @override
+  String get funchSideDish => 'Side dishes';
+
+  @override
+  String get funchDessert => 'Desserts';
+
+  @override
+  String get funchLarge => 'L';
+
+  @override
+  String get funchMedium => 'M';
+
+  @override
+  String get funchSmall => 'S';
+
+  @override
+  String funchToday(String date) {
+    return 'Cafeteria on $date';
+  }
 }

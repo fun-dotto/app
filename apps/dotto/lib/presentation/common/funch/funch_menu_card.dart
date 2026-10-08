@@ -1,6 +1,6 @@
 import 'package:dotto/asset.dart';
-import 'package:dotto/feature/funch/domain/funch_menu.dart';
-import 'package:dotto/feature/funch/widget/funch_price_list.dart';
+import 'package:dotto/domain/entity/funch_menu.dart';
+import 'package:dotto/presentation/common/funch/funch_price_list.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -10,9 +10,7 @@ final class MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final energy = menu is FunchCommonMenu
-        ? (menu as FunchCommonMenu).energy
-        : null;
+    final energy = menu.energy;
     const double borderRadius = 10;
     return Card(
       margin: const EdgeInsets.all(10),
