@@ -77,6 +77,8 @@ dev_dependencies:
   very_good_analysis: 11.0.0
 
 flutter:
+  # flavor 未指定の flutter run/build でもストア配信用の store flavor を使う
+  default-flavor: store
   assets:
     - assets/
     - assets/map/
