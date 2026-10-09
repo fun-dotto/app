@@ -178,5 +178,62 @@
         "type": "int"
       }
     }
+  },
+  "courseTitle": "講義",
+  "courseSearch": "科目検索",
+  "courseNotices": "休講・補講",
+  "courseAcademicCalendar": "学年歴",
+  "courseCalendarDocument": "学年暦",
+  "courseSpringTimetable": "時間割 前期",
+  "courseFallTimetable": "時間割 後期",
+  "courseHope": "HOPE",
+  "courseStudentPortal": "学生ポータル",
+  "courseDottoWeb": "Dotto Web",
+  "courseMacSupport": "Macサポート",
+  "courseOpinionBox": "大学ポスト",
+  "courseWeeklyTimetable": "1週間の時間割",
+  "courseSignIn": "ログインして時間割機能を使う",
+  "courseFetchError": "データの取得に失敗しました",
+  "courseCustomize": "カスタム",
+  "courseShowTime": "時間割に時刻を表示",
+  "coursePreferenceError": "ユーザー設定の読み込みに失敗しました",
+  "courseRegistration": "科目登録",
+  "courseNoSubjects": "対象の科目はありません",
+  "courseRemove": "削除",
+  "courseAdd": "追加",
+  "courseSlotFull": "1つのコマに2科目以上を設定できません",
+  "courseRegistrationError": "履修登録の更新に失敗しました",
+  "courseLinkError": "{label} を開けませんでした",
+  "@courseLinkError": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDocumentName": "{year}年度 {label}",
+  "@courseDocumentName": {
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "courseSlotTitle": "{semester} {day}曜{period}限",
+  "@courseSlotTitle": {
+    "placeholders": {
+      "semester": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      },
+      "period": {
+        "type": "int"
+      }
+    }
   }
 }

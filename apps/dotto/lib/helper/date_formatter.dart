@@ -55,4 +55,8 @@ abstract class DateFormatter {
   static String date(DateTime dateTime) {
     return DateFormat('yyyy-MM-dd').format(dateTime);
   }
+
+  /// 時限の開始・終了時刻を、日付やタイムゾーンの変換なしで整形する。
+  static String clockTime({required int hour, required int minute}) =>
+      '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
 }

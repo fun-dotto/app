@@ -1,41 +1,37 @@
-import 'dart:async';
-
 import 'package:dotto/domain/entity/day_of_week.dart';
 import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
-import 'package:dotto/feature/course/course_registration_reducer.dart';
-import 'package:dotto/feature/course/select_course_screen.dart';
+import 'package:dotto/l10n/app_localizations.dart';
+import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
-import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
+import 'package:dotto/presentation/course/course_registration_state.dart';
+import 'package:dotto/presentation/course/select_course_screen.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-class CourseRegistrationScreen extends HookConsumerWidget {
+final class CourseRegistrationScreen extends HookConsumerWidget {
   const new({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(courseRegistrationReducerProvider);
+    final state = ref.watch(courseRegistrationStateProvider);
     final tabController = useTabController(
       initialLength: TimetableSemester.values.length,
     );
 
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        unawaited(
-          ref.read(courseRegistrationReducerProvider.notifier).refresh(),
-        );
-      });
-      return null;
-    }, const []);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('科目登録'),
+        title: Text(
+          (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseRegistration,
+        ),
         bottom: TabBar(
-          dividerColor: Colors.transparent,
+          dividerColor: SemanticColor.light.backgroundPrimary.withValues(
+            alpha: 0,
+          ),
           controller: tabController,
           tabs: TimetableSemester.values
               .map((e) => Tab(text: e.label))
@@ -47,22 +43,32 @@ class CourseRegistrationScreen extends HookConsumerWidget {
           controller: tabController,
           children: TimetableSemester.values
               .map(
-                (e) => _personalWeeklyTimetable(
-                  context,
-                  ref,
+                (e) => _PersonalWeeklyTimetable(
+                  this,
                   e,
                   timetableItemsBySemester[e] ?? const <TimetableItem>[],
                 ),
               )
               .toList(),
         ),
-        AsyncLoading() => _courseRegistrationSkeleton(context),
-        AsyncError() => const Center(child: Text('データの取得に失敗しました')),
+        AsyncLoading() => _CourseRegistrationSkeleton(this),
+        AsyncError() => Center(
+          child: Text(
+            (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                .courseFetchError,
+          ),
+        ),
       },
     );
   }
+}
 
-  Widget _courseRegistrationSkeleton(BuildContext context) {
+final class _CourseRegistrationSkeleton extends StatelessWidget {
+  const new(this.owner);
+  final CourseRegistrationScreen owner;
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Padding(
@@ -89,7 +95,7 @@ class CourseRegistrationScreen extends HookConsumerWidget {
             ...Period.values.map(
               (_) => TableRow(
                 children: DayOfWeek.weekdays
-                    .map((_) => _personalWeeklyTimetableCellSkeleton())
+                    .map((_) => _PersonalWeeklyTimetableCellSkeleton(owner))
                     .toList(),
               ),
             ),
@@ -98,53 +104,65 @@ class CourseRegistrationScreen extends HookConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _skeletonBox({
-    required double height,
-    double? width,
-    double radius = 8,
-  }) {
+final class _SkeletonBox extends StatelessWidget {
+  const new(this.owner, {required this.height, this.width, this.radius = 8});
+  final CourseRegistrationScreen owner;
+  final double height;
+  final double? width;
+  final double radius;
+  @override
+  Widget build(BuildContext context) {
     return Shimmer(
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
+          color: SemanticColor.light.backgroundTertiary,
           borderRadius: BorderRadius.circular(radius),
         ),
       ),
     );
   }
+}
 
-  Widget _personalWeeklyTimetableCellSkeleton() {
+final class _PersonalWeeklyTimetableCellSkeleton extends StatelessWidget {
+  const new(this.owner);
+  final CourseRegistrationScreen owner;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(2),
       height: 100,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: SemanticColor.light.backgroundPrimary,
         borderRadius: const BorderRadius.all(Radius.circular(4)),
       ),
       padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _skeletonBox(height: 14, width: 56, radius: 4),
+          _SkeletonBox(owner, height: 14, width: 56, radius: 4),
           const SizedBox(height: 8),
-          _skeletonBox(height: 12, width: 40, radius: 4),
+          _SkeletonBox(owner, height: 12, width: 40, radius: 4),
         ],
       ),
     );
   }
+}
 
-  Widget _personalWeeklyTimetable(
-    BuildContext context,
-    WidgetRef ref,
-    TimetableSemester semester,
-    List<TimetableItem> timetableItems,
-  ) {
+final class _PersonalWeeklyTimetable extends HookConsumerWidget {
+  const new(this.owner, this.semester, this.timetableItems);
+  final CourseRegistrationScreen owner;
+  final TimetableSemester semester;
+  final List<TimetableItem> timetableItems;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return RefreshIndicator(
       onRefresh: () =>
-          ref.read(courseRegistrationReducerProvider.notifier).refresh(),
+          ref.read(courseRegistrationStateProvider.notifier).refresh(),
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(
@@ -182,8 +200,8 @@ class CourseRegistrationScreen extends HookConsumerWidget {
                         filteredTimetableItems
                             .where((item) => item.isAddedToTimetable ?? false)
                             .toList();
-                    return _personalWeeklyTimetableCell(
-                      context,
+                    return _PersonalWeeklyTimetablecell(
+                      owner,
                       filteredRegisteredTimetableItems,
                       onTap: () async {
                         await showModalBottomSheet<void>(
@@ -198,7 +216,7 @@ class CourseRegistrationScreen extends HookConsumerWidget {
                             onChanged: () async {
                               await ref
                                   .read(
-                                    courseRegistrationReducerProvider.notifier,
+                                    courseRegistrationStateProvider.notifier,
                                   )
                                   .refresh();
                             },
@@ -215,12 +233,15 @@ class CourseRegistrationScreen extends HookConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _personalWeeklyTimetableCell(
-    BuildContext context,
-    List<TimetableItem> registeredTimetableItems, {
-    required VoidCallback onTap,
-  }) {
+final class _PersonalWeeklyTimetablecell extends StatelessWidget {
+  const new(this.owner, this.registeredTimetableItems, {required this.onTap});
+  final CourseRegistrationScreen owner;
+  final List<TimetableItem> registeredTimetableItems;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -234,8 +255,10 @@ class CourseRegistrationScreen extends HookConsumerWidget {
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade400),
-                            color: Colors.grey.shade300,
+                            border: Border.all(
+                              color: SemanticColor.light.borderPrimary,
+                            ),
+                            color: SemanticColor.light.backgroundTertiary,
                             borderRadius: const BorderRadius.all(
                               Radius.circular(4),
                             ),
@@ -253,11 +276,14 @@ class CourseRegistrationScreen extends HookConsumerWidget {
               )
             : Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: SemanticColor.light.backgroundPrimary,
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                 ),
                 child: Center(
-                  child: Icon(Icons.add, color: Colors.grey.shade400),
+                  child: Icon(
+                    Icons.add,
+                    color: SemanticColor.light.borderPrimary,
+                  ),
                 ),
               ),
       ),

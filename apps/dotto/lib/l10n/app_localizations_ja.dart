@@ -364,4 +364,91 @@ class AppLocalizationsJa extends AppLocalizations {
   String subjectFeedbackCount(int count) {
     return '$count件のフィードバック';
   }
+
+  @override
+  String get courseTitle => '講義';
+
+  @override
+  String get courseSearch => '科目検索';
+
+  @override
+  String get courseNotices => '休講・補講';
+
+  @override
+  String get courseAcademicCalendar => '学年歴';
+
+  @override
+  String get courseCalendarDocument => '学年暦';
+
+  @override
+  String get courseSpringTimetable => '時間割 前期';
+
+  @override
+  String get courseFallTimetable => '時間割 後期';
+
+  @override
+  String get courseHope => 'HOPE';
+
+  @override
+  String get courseStudentPortal => '学生ポータル';
+
+  @override
+  String get courseDottoWeb => 'Dotto Web';
+
+  @override
+  String get courseMacSupport => 'Macサポート';
+
+  @override
+  String get courseOpinionBox => '大学ポスト';
+
+  @override
+  String get courseWeeklyTimetable => '1週間の時間割';
+
+  @override
+  String get courseSignIn => 'ログインして時間割機能を使う';
+
+  @override
+  String get courseFetchError => 'データの取得に失敗しました';
+
+  @override
+  String get courseCustomize => 'カスタム';
+
+  @override
+  String get courseShowTime => '時間割に時刻を表示';
+
+  @override
+  String get coursePreferenceError => 'ユーザー設定の読み込みに失敗しました';
+
+  @override
+  String get courseRegistration => '科目登録';
+
+  @override
+  String get courseNoSubjects => '対象の科目はありません';
+
+  @override
+  String get courseRemove => '削除';
+
+  @override
+  String get courseAdd => '追加';
+
+  @override
+  String get courseSlotFull => '1つのコマに2科目以上を設定できません';
+
+  @override
+  String get courseRegistrationError => '履修登録の更新に失敗しました';
+
+  @override
+  String courseLinkError(String label) {
+    return '$label を開けませんでした';
+  }
+
+  @override
+  String courseDocumentName(int year, String label) {
+    return '$year年度 $label';
+  }
+
+  @override
+  String courseSlotTitle(String semester, String day, int period) {
+    return '$semester $day曜$period限';
+  }
 }

@@ -763,6 +763,168 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'{count}件のフィードバック'**
   String subjectFeedbackCount(int count);
+
+  /// No description provided for @courseTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'講義'**
+  String get courseTitle;
+
+  /// No description provided for @courseSearch.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目検索'**
+  String get courseSearch;
+
+  /// No description provided for @courseNotices.
+  ///
+  /// In ja, this message translates to:
+  /// **'休講・補講'**
+  String get courseNotices;
+
+  /// No description provided for @courseAcademicCalendar.
+  ///
+  /// In ja, this message translates to:
+  /// **'学年歴'**
+  String get courseAcademicCalendar;
+
+  /// No description provided for @courseCalendarDocument.
+  ///
+  /// In ja, this message translates to:
+  /// **'学年暦'**
+  String get courseCalendarDocument;
+
+  /// No description provided for @courseSpringTimetable.
+  ///
+  /// In ja, this message translates to:
+  /// **'時間割 前期'**
+  String get courseSpringTimetable;
+
+  /// No description provided for @courseFallTimetable.
+  ///
+  /// In ja, this message translates to:
+  /// **'時間割 後期'**
+  String get courseFallTimetable;
+
+  /// No description provided for @courseHope.
+  ///
+  /// In ja, this message translates to:
+  /// **'HOPE'**
+  String get courseHope;
+
+  /// No description provided for @courseStudentPortal.
+  ///
+  /// In ja, this message translates to:
+  /// **'学生ポータル'**
+  String get courseStudentPortal;
+
+  /// No description provided for @courseDottoWeb.
+  ///
+  /// In ja, this message translates to:
+  /// **'Dotto Web'**
+  String get courseDottoWeb;
+
+  /// No description provided for @courseMacSupport.
+  ///
+  /// In ja, this message translates to:
+  /// **'Macサポート'**
+  String get courseMacSupport;
+
+  /// No description provided for @courseOpinionBox.
+  ///
+  /// In ja, this message translates to:
+  /// **'大学ポスト'**
+  String get courseOpinionBox;
+
+  /// No description provided for @courseWeeklyTimetable.
+  ///
+  /// In ja, this message translates to:
+  /// **'1週間の時間割'**
+  String get courseWeeklyTimetable;
+
+  /// No description provided for @courseSignIn.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログインして時間割機能を使う'**
+  String get courseSignIn;
+
+  /// No description provided for @courseFetchError.
+  ///
+  /// In ja, this message translates to:
+  /// **'データの取得に失敗しました'**
+  String get courseFetchError;
+
+  /// No description provided for @courseCustomize.
+  ///
+  /// In ja, this message translates to:
+  /// **'カスタム'**
+  String get courseCustomize;
+
+  /// No description provided for @courseShowTime.
+  ///
+  /// In ja, this message translates to:
+  /// **'時間割に時刻を表示'**
+  String get courseShowTime;
+
+  /// No description provided for @coursePreferenceError.
+  ///
+  /// In ja, this message translates to:
+  /// **'ユーザー設定の読み込みに失敗しました'**
+  String get coursePreferenceError;
+
+  /// No description provided for @courseRegistration.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目登録'**
+  String get courseRegistration;
+
+  /// No description provided for @courseNoSubjects.
+  ///
+  /// In ja, this message translates to:
+  /// **'対象の科目はありません'**
+  String get courseNoSubjects;
+
+  /// No description provided for @courseRemove.
+  ///
+  /// In ja, this message translates to:
+  /// **'削除'**
+  String get courseRemove;
+
+  /// No description provided for @courseAdd.
+  ///
+  /// In ja, this message translates to:
+  /// **'追加'**
+  String get courseAdd;
+
+  /// No description provided for @courseSlotFull.
+  ///
+  /// In ja, this message translates to:
+  /// **'1つのコマに2科目以上を設定できません'**
+  String get courseSlotFull;
+
+  /// No description provided for @courseRegistrationError.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修登録の更新に失敗しました'**
+  String get courseRegistrationError;
+
+  /// No description provided for @courseLinkError.
+  ///
+  /// In ja, this message translates to:
+  /// **'{label} を開けませんでした'**
+  String courseLinkError(String label);
+
+  /// No description provided for @courseDocumentName.
+  ///
+  /// In ja, this message translates to:
+  /// **'{year}年度 {label}'**
+  String courseDocumentName(int year, String label);
+
+  /// No description provided for @courseSlotTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'{semester} {day}曜{period}限'**
+  String courseSlotTitle(String semester, String day, int period);
 }
 
 class _AppLocalizationsDelegate

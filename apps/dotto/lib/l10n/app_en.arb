@@ -178,5 +178,62 @@
         "type": "int"
       }
     }
+  },
+  "courseTitle": "Courses",
+  "courseSearch": "Subject search",
+  "courseNotices": "Course notices",
+  "courseAcademicCalendar": "Academic calendar",
+  "courseCalendarDocument": "Academic calendar",
+  "courseSpringTimetable": "Spring timetable",
+  "courseFallTimetable": "Fall timetable",
+  "courseHope": "HOPE",
+  "courseStudentPortal": "Student portal",
+  "courseDottoWeb": "Dotto Web",
+  "courseMacSupport": "Mac support",
+  "courseOpinionBox": "Feedback",
+  "courseWeeklyTimetable": "Weekly timetable",
+  "courseSignIn": "Sign in to use your timetable",
+  "courseFetchError": "Failed to load data",
+  "courseCustomize": "Customize",
+  "courseShowTime": "Show times in the timetable",
+  "coursePreferenceError": "Failed to load preferences",
+  "courseRegistration": "Course registration",
+  "courseNoSubjects": "No subjects available",
+  "courseRemove": "Remove",
+  "courseAdd": "Add",
+  "courseSlotFull": "You can register up to two subjects per slot",
+  "courseRegistrationError": "Failed to update registration",
+  "courseLinkError": "Could not open {label}",
+  "@courseLinkError": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDocumentName": "{year} {label}",
+  "@courseDocumentName": {
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "courseSlotTitle": "{semester} {day} period {period}",
+  "@courseSlotTitle": {
+    "placeholders": {
+      "semester": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      },
+      "period": {
+        "type": "int"
+      }
+    }
   }
 }
