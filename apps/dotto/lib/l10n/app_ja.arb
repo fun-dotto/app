@@ -18,5 +18,43 @@
         "type": "String"
       }
     }
+  },
+  "busTitle": "バス",
+  "busStopSelectTitle": "バス停選択",
+  "busTimetableTitle": "バス時刻表",
+  "busWeekday": "平日",
+  "busHoliday": "休日",
+  "busError": "エラーが発生しました",
+  "busTripNotFound": "この便の情報が見つかりませんでした。",
+  "busLoadError": "データの取得に失敗しました。",
+  "busServiceEnded": "今日の運行は終了しました。",
+  "busUniversity": "はこだて未来大学",
+  "busKameda": "亀田支所前",
+  "busFromLandmark": "{landmark}から",
+  "busToLandmark": "{landmark}行き",
+  "busTerminal": "{terminal}番乗り場",
+  "busLandmarkKameda": "亀田支所",
+  "busLandmarkGoryokaku": "五稜郭",
+  "busLandmarkShowa": "昭和",
+  "@busFromLandmark": {
+    "placeholders": {
+      "landmark": {
+        "type": "String"
+      }
+    }
+  },
+  "@busToLandmark": {
+    "placeholders": {
+      "landmark": {
+        "type": "String"
+      }
+    }
+  },
+  "@busTerminal": {
+    "placeholders": {
+      "terminal": {
+        "type": "String"
+      }
+    }
   }
 }

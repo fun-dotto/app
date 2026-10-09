@@ -2,6 +2,17 @@ import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
 abstract class DateFormatter {
+  static String busTime(Duration duration) {
+    final sign = duration.isNegative ? '-' : '';
+    final hours = duration.inHours.abs().toString().padLeft(2, '0');
+    final minutes = duration.inMinutes
+        .remainder(60)
+        .abs()
+        .toString()
+        .padLeft(2, '0');
+    return '$sign$hours:$minutes';
+  }
+
   // 2024-01-02T12:00+09:00 → 2024年1月2日 12:00
   static String full(DateTime dateTime) {
     final locale = WidgetsBinding.instance.platformDispatcher.locale;

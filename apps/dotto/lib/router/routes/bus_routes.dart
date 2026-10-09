@@ -1,6 +1,6 @@
-import 'package:dotto/feature/bus/bus_screen.dart';
-import 'package:dotto/feature/bus/bus_stop_select.dart';
-import 'package:dotto/feature/bus/bus_trip_screen.dart';
+import 'package:dotto/presentation/bus/bus_screen.dart';
+import 'package:dotto/presentation/bus/bus_stop_select.dart';
+import 'package:dotto/presentation/bus/bus_trip_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';

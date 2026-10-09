@@ -157,6 +157,108 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'現在のバージョン: {currentVersion}\n最新バージョン: {latestVersion}'**
   String rootVersionComparison(String currentVersion, String latestVersion);
+
+  /// No description provided for @busTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'バス'**
+  String get busTitle;
+
+  /// No description provided for @busStopSelectTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'バス停選択'**
+  String get busStopSelectTitle;
+
+  /// No description provided for @busTimetableTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'バス時刻表'**
+  String get busTimetableTitle;
+
+  /// No description provided for @busWeekday.
+  ///
+  /// In ja, this message translates to:
+  /// **'平日'**
+  String get busWeekday;
+
+  /// No description provided for @busHoliday.
+  ///
+  /// In ja, this message translates to:
+  /// **'休日'**
+  String get busHoliday;
+
+  /// No description provided for @busError.
+  ///
+  /// In ja, this message translates to:
+  /// **'エラーが発生しました'**
+  String get busError;
+
+  /// No description provided for @busTripNotFound.
+  ///
+  /// In ja, this message translates to:
+  /// **'この便の情報が見つかりませんでした。'**
+  String get busTripNotFound;
+
+  /// No description provided for @busLoadError.
+  ///
+  /// In ja, this message translates to:
+  /// **'データの取得に失敗しました。'**
+  String get busLoadError;
+
+  /// No description provided for @busServiceEnded.
+  ///
+  /// In ja, this message translates to:
+  /// **'今日の運行は終了しました。'**
+  String get busServiceEnded;
+
+  /// No description provided for @busUniversity.
+  ///
+  /// In ja, this message translates to:
+  /// **'はこだて未来大学'**
+  String get busUniversity;
+
+  /// No description provided for @busKameda.
+  ///
+  /// In ja, this message translates to:
+  /// **'亀田支所前'**
+  String get busKameda;
+
+  /// No description provided for @busFromLandmark.
+  ///
+  /// In ja, this message translates to:
+  /// **'{landmark}から'**
+  String busFromLandmark(String landmark);
+
+  /// No description provided for @busToLandmark.
+  ///
+  /// In ja, this message translates to:
+  /// **'{landmark}行き'**
+  String busToLandmark(String landmark);
+
+  /// No description provided for @busTerminal.
+  ///
+  /// In ja, this message translates to:
+  /// **'{terminal}番乗り場'**
+  String busTerminal(String terminal);
+
+  /// No description provided for @busLandmarkKameda.
+  ///
+  /// In ja, this message translates to:
+  /// **'亀田支所'**
+  String get busLandmarkKameda;
+
+  /// No description provided for @busLandmarkGoryokaku.
+  ///
+  /// In ja, this message translates to:
+  /// **'五稜郭'**
+  String get busLandmarkGoryokaku;
+
+  /// No description provided for @busLandmarkShowa.
+  ///
+  /// In ja, this message translates to:
+  /// **'昭和'**
+  String get busLandmarkShowa;
 }
 
 class _AppLocalizationsDelegate

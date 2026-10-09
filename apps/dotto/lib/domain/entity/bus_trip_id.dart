@@ -1,6 +1,3 @@
-import 'package:dotto/feature/bus/bus_state.dart';
-import 'package:dotto/repository/model/bus_trip.dart';
-
 const _toFunKey = 'to_fun';
 const _fromFunKey = 'from_fun';
 const _weekdayKey = 'weekday';
@@ -9,7 +6,7 @@ const _holidayKey = 'holiday';
 /// バス便を一意に識別するID。
 ///
 /// `{to_fun|from_fun}-{weekday|holiday}-{便リスト内のindex}` 形式で、
-/// [BusState.trips] 内の位置を指す。URLに載せて画面間で受け渡せる。
+/// 時刻表 内の位置を指す。URLに載せて画面間で受け渡せる。
 final class BusTripId {
   const new({required this.isTo, required this.isWeekday, required this.index});
 
@@ -49,22 +46,4 @@ final class BusTripId {
       '${isTo ? _toFunKey : _fromFunKey}'
       '-${isWeekday ? _weekdayKey : _holidayKey}'
       '-$index';
-}
-
-extension BusStateTrips on BusState {
-  /// 指定した方向・ダイヤの便リストを返す。
-  List<BusTrip> tripsOf({required bool isTo, required bool isWeekday}) {
-    final key = isTo ? _toFunKey : _fromFunKey;
-    final dayKey = isWeekday ? _weekdayKey : _holidayKey;
-    return trips[key]?[dayKey] ?? const [];
-  }
-
-  /// [id] が指す便を返す。見つからない場合は null を返す。
-  BusTrip? tripOf(BusTripId id) {
-    final trips = tripsOf(isTo: id.isTo, isWeekday: id.isWeekday);
-    if (id.index >= trips.length) {
-      return null;
-    }
-    return trips[id.index];
-  }
 }
