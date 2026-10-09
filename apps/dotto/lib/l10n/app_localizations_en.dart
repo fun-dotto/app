@@ -369,4 +369,91 @@ class AppLocalizationsEn extends AppLocalizations {
   String subjectFeedbackCount(int count) {
     return '$count reviews';
   }
+
+  @override
+  String get courseTitle => 'Courses';
+
+  @override
+  String get courseSearch => 'Subject search';
+
+  @override
+  String get courseNotices => 'Course notices';
+
+  @override
+  String get courseAcademicCalendar => 'Academic calendar';
+
+  @override
+  String get courseCalendarDocument => 'Academic calendar';
+
+  @override
+  String get courseSpringTimetable => 'Spring timetable';
+
+  @override
+  String get courseFallTimetable => 'Fall timetable';
+
+  @override
+  String get courseHope => 'HOPE';
+
+  @override
+  String get courseStudentPortal => 'Student portal';
+
+  @override
+  String get courseDottoWeb => 'Dotto Web';
+
+  @override
+  String get courseMacSupport => 'Mac support';
+
+  @override
+  String get courseOpinionBox => 'Feedback';
+
+  @override
+  String get courseWeeklyTimetable => 'Weekly timetable';
+
+  @override
+  String get courseSignIn => 'Sign in to use your timetable';
+
+  @override
+  String get courseFetchError => 'Failed to load data';
+
+  @override
+  String get courseCustomize => 'Customize';
+
+  @override
+  String get courseShowTime => 'Show times in the timetable';
+
+  @override
+  String get coursePreferenceError => 'Failed to load preferences';
+
+  @override
+  String get courseRegistration => 'Course registration';
+
+  @override
+  String get courseNoSubjects => 'No subjects available';
+
+  @override
+  String get courseRemove => 'Remove';
+
+  @override
+  String get courseAdd => 'Add';
+
+  @override
+  String get courseSlotFull => 'You can register up to two subjects per slot';
+
+  @override
+  String get courseRegistrationError => 'Failed to update registration';
+
+  @override
+  String courseLinkError(String label) {
+    return 'Could not open $label';
+  }
+
+  @override
+  String courseDocumentName(int year, String label) {
+    return '$year $label';
+  }
+
+  @override
+  String courseSlotTitle(String semester, String day, int period) {
+    return '$semester $day period $period';
+  }
 }

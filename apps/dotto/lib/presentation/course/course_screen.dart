@@ -1,18 +1,21 @@
 import 'dart:async';
 
-import 'package:dotto/feature/course/course_reducer.dart';
-import 'package:dotto/feature/course/course_state.dart';
-import 'package:dotto/feature/course/personal_timetable_calendar_view.dart';
-import 'package:dotto/feature/course/quick_button.dart';
-import 'package:dotto/foundation/config/config.dart';
-import 'package:dotto/foundation/config/remote_configs.dart';
+import 'package:dotto/application/open_course_link_use_case.dart';
+import 'package:dotto/domain/entity/breaking_announcement.dart';
+import 'package:dotto/domain/entity/course_link_event.dart';
+import 'package:dotto/domain/entity/personal_timetable_day.dart';
+import 'package:dotto/domain/service/timetable_date_service.dart';
 import 'package:dotto/foundation/flag/flags.dart';
-import 'package:dotto/foundation/log/use_logger.dart';
 import 'package:dotto/helper/datetime.dart';
-import 'package:dotto/helper/url_launcher_helper.dart';
+import 'package:dotto/l10n/app_localizations.dart';
+import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
 import 'package:dotto/presentation/common/user_state.dart';
+import 'package:dotto/presentation/course/course_resources_state.dart';
+import 'package:dotto/presentation/course/course_state.dart';
+import 'package:dotto/presentation/course/personal_timetable_calendar_view.dart';
+import 'package:dotto/presentation/course/quick_button.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -26,37 +29,33 @@ final class CourseScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final breakingAnnouncement = ref.watch(
-      configProvider(RemoteConfigs.breakingAnnouncement),
-    );
-    final dottoWebUrl = ref.watch(configProvider(RemoteConfigs.dottoWebUrl));
-    final macSupportDeskUrl = ref.watch(
-      configProvider(RemoteConfigs.macSupportDeskUrl),
-    );
-    final opinionBoxUrl = ref.watch(
-      configProvider(RemoteConfigs.opinionBoxUrl),
-    );
+    final resources = ref.watch(courseResourcesStateProvider);
+    final breakingAnnouncement = resources.breakingAnnouncement;
+    final dottoWebUrl = resources.dottoWebUrl;
+    final macSupportDeskUrl = resources.macSupportDeskUrl;
+    final opinionBoxUrl = resources.opinionBoxUrl;
     final isFunchEnabled = useFlag(Flags.funch);
     final isWebEnabled = useFlag(Flags.web);
     final isOpinionBoxEnabled = useFlag(Flags.opinionBox);
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
-    final logger = useLogger();
     final state = isAuthenticated
-        ? ref.watch(courseReducerProvider)
-        : const AsyncData(CourseState());
+        ? ref.watch(courseStateProvider)
+        : const AsyncData(<PersonalTimetableDay>[]);
     final selectedDate = useState<DateTime?>(null);
 
     final quickFeatures = [
       if (isFunchEnabled)
         QuickButton(
-          label: '科目検索',
+          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseSearch,
           iconUrl: null,
           fallbackIcon: Icons.search,
           onPressed: () => const CourseSubjectsRouteData().push<void>(context),
         ),
       if (isAuthenticated)
         QuickButton(
-          label: '休講・補講',
+          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseNotices,
           iconUrl: null,
           fallbackIcon: Icons.cached,
           onPressed: () =>
@@ -67,14 +66,16 @@ final class CourseScreen extends HookConsumerWidget {
     final academicYear = DateTimeUtility.academicYear(DateTime.now());
     final quickFiles = [
       QuickButton(
-        label: '学年歴',
+        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+            .courseAcademicCalendar,
         iconUrl: null,
         fallbackIcon: Icons.event_note,
         onPressed: () =>
             CourseCalendarRouteData(year: academicYear).push<void>(context),
       ),
       QuickButton(
-        label: '時間割 前期',
+        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+            .courseSpringTimetable,
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
         onPressed: () =>
@@ -82,7 +83,8 @@ final class CourseScreen extends HookConsumerWidget {
                 .push<void>(context),
       ),
       QuickButton(
-        label: '時間割 後期',
+        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+            .courseFallTimetable,
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
         onPressed: () =>
@@ -93,96 +95,93 @@ final class CourseScreen extends HookConsumerWidget {
 
     final quickLinks = [
       QuickButton(
-        label: 'HOPE',
-        iconUrl: 'https://hope.fun.ac.jp/pluginfile.php/1/core_admin/favicon/64x64/1756948564/favicon.ico',
+        label:
+            (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseHope,
+        iconUrl: resources.hopeIconUrl,
         fallbackIcon: Icons.language,
         onPressed: () => _launchQuickLink(
           context,
-          url: 'https://hope.fun.ac.jp/auth/saml2/login.php?idp=1bec319bca7458548c77d545a2a1b3de',
-          label: 'HOPE',
+          url: resources.hopeUrl,
+          label:
+              (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseHope,
         ),
       ),
       QuickButton(
-        label: '学生ポータル',
-        iconUrl: 'https://students.fun.ac.jp/favicon.ico',
+        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+            .courseStudentPortal,
+        iconUrl: resources.studentPortalIconUrl,
         fallbackIcon: Icons.language,
         onPressed: () => _launchQuickLink(
           context,
-          url: 'https://students.fun.ac.jp/Portal',
-          label: '学生ポータル',
+          url: resources.studentPortalUrl,
+          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseStudentPortal,
         ),
       ),
       if (isAuthenticated && isWebEnabled)
         QuickButton(
-          label: 'Dotto Web',
+          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseDottoWeb,
           iconUrl: '$dottoWebUrl/favicon.ico',
           fallbackIcon: Icons.language,
           onPressed: () async {
-            await logger.logEvent(.dottoWebButtonTapped);
-            if (!context.mounted) {
-              return;
-            }
             await _launchQuickLink(
               context,
               url: dottoWebUrl,
-              label: 'Dotto Web',
+              event: CourseLinkEvent.dottoWeb,
+              label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                  .courseDottoWeb,
             );
           },
         ),
       if (isAuthenticated)
         QuickButton(
-          label: 'Macサポート',
+          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseMacSupport,
           iconUrl: null,
           fallbackIcon: Icons.laptop_mac,
           onPressed: () async {
-            await logger.logEvent(.macSupportButtonTapped);
-            if (!context.mounted) {
-              return;
-            }
             await _launchQuickLink(
               context,
               url: macSupportDeskUrl,
-              label: 'Macサポート',
+              event: CourseLinkEvent.macSupport,
+              label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                  .courseMacSupport,
             );
           },
         ),
       if (isAuthenticated && isOpinionBoxEnabled)
         QuickButton(
-          label: '大学ポスト',
+          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseOpinionBox,
           iconUrl: null,
           fallbackIcon: Icons.forward_to_inbox_rounded,
           onPressed: () async {
-            await logger.logEvent(.opinionBoxButtonTapped);
-            if (!context.mounted) {
-              return;
-            }
-            await _launchQuickLink(context, url: opinionBoxUrl, label: '大学ポスト');
+            await _launchQuickLink(
+              context,
+              url: opinionBoxUrl,
+              event: CourseLinkEvent.opinionBox,
+              label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                  .courseOpinionBox,
+            );
           },
         ),
     ];
 
-    // courseReducerProvider.build() already fetches data
-    // when first watched. No need to call refresh() here
-    // as it would duplicate the initial API call.
-
     useEffect(() {
-      final days = state.value?.days;
+      final days = state.asData?.value;
       if (days == null || days.isEmpty) {
         return null;
       }
       if (selectedDate.value == null ||
-          !days.any((e) => _isSameDate(e.date, selectedDate.value!))) {
-        final now = DateTime.now();
-        final today = DateTime(now.year, now.month, now.day);
-        // 平日 → 今日、土日 → 次の月曜日
-        final DateTime initialDate;
-        if (today.weekday <= DateTime.friday) {
-          initialDate = today;
-        } else {
-          initialDate = today.add(
-            Duration(days: DateTime.monday + 7 - today.weekday),
-          );
-        }
+          !days.any(
+            (e) =>
+                selectedDate.value is DateTime &&
+                _isSameDate(e.date, selectedDate.value ?? e.date),
+          )) {
+        final initialDate = const TimetableDateService().initialDate(
+          DateTime.now(),
+        );
         final matchingEntry = days.where(
           (e) => _isSameDate(e.date, initialDate),
         );
@@ -196,7 +195,7 @@ final class CourseScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '講義',
+          (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseTitle,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
@@ -208,40 +207,10 @@ final class CourseScreen extends HookConsumerWidget {
             icon: const Icon(Icons.tune),
           ),
         ],
-        bottom: () {
-          final announcement = breakingAnnouncement;
-          if (announcement == null) {
-            return null;
-          }
-          return PreferredSize(
-            preferredSize: const Size.fromHeight(32),
-            child: Material(
-              color: SemanticColor.light.accentPrimary.withValues(alpha: 0.75),
-              child: InkWell(
-                onTap: () => _launchQuickLink(
-                  context,
-                  url: announcement.url,
-                  label: announcement.title,
-                ),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: Text(
-                    announcement.title,
-                    style: Theme.of(context).textTheme.labelMedium
-                        ?.copyWith(color: SemanticColor.light.labelTertiary),
-                    textAlign: .center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ),
-          );
-        }(),
+        bottom: switch (breakingAnnouncement) {
+          final announcement? => _CourseAnnouncement(this, announcement),
+          null => null,
+        },
       ),
       body: switch (state) {
         AsyncData(value: final courseState) => LayoutBuilder(
@@ -250,7 +219,7 @@ final class CourseScreen extends HookConsumerWidget {
               if (!isAuthenticated) {
                 return;
               }
-              await ref.read(courseReducerProvider.notifier).refresh();
+              await ref.read(courseStateProvider.notifier).refresh();
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -269,7 +238,7 @@ final class CourseScreen extends HookConsumerWidget {
                                 horizontal: 8,
                               ),
                               child: PersonalTimetableCalendarView(
-                                personalTimetableDays: courseState.days,
+                                personalTimetableDays: courseState,
                                 selectedDate: selectedDate.value,
                                 onDateSelected: (newDate) =>
                                     selectedDate.value = newDate,
@@ -290,11 +259,15 @@ final class CourseScreen extends HookConsumerWidget {
                                       return;
                                     }
                                     await ref
-                                        .read(courseReducerProvider.notifier)
+                                        .read(courseStateProvider.notifier)
                                         .refresh();
                                   },
                                   type: DottoButtonType.text,
-                                  child: const Text('1週間の時間割'),
+                                  child: Text(
+                                    (AppLocalizations.of(context) ??
+                                            AppLocalizationsJa())
+                                        .courseWeeklyTimetable,
+                                  ),
                                 ),
                               ],
                             ),
@@ -313,7 +286,11 @@ final class CourseScreen extends HookConsumerWidget {
                                     .read(userStateProvider.notifier)
                                     .signIn();
                               },
-                              child: const Text('ログインして時間割機能を使う'),
+                              child: Text(
+                                (AppLocalizations.of(context) ??
+                                        AppLocalizationsJa())
+                                    .courseSignIn,
+                              ),
                             ),
                           ),
                         ),
@@ -321,8 +298,8 @@ final class CourseScreen extends HookConsumerWidget {
                         padding: const EdgeInsetsGeometry.symmetric(
                           horizontal: 16,
                         ),
-                        child: _shortcutSections(
-                          context,
+                        child: _ShortcutSections(
+                          this,
                           isAuthenticated: isAuthenticated,
                           quickFeatures: quickFeatures,
                           quickFiles: quickFiles,
@@ -336,8 +313,8 @@ final class CourseScreen extends HookConsumerWidget {
             ),
           ),
         ),
-        AsyncLoading() => _loadingSkeleton(
-          context,
+        AsyncLoading() => _LoadingSkeleton(
+          this,
           isAuthenticated: isAuthenticated,
           quickFeatures: quickFeatures,
           quickFiles: quickFiles,
@@ -348,14 +325,19 @@ final class CourseScreen extends HookConsumerWidget {
             if (!isAuthenticated) {
               return;
             }
-            await ref.read(courseReducerProvider.notifier).refresh();
+            await ref.read(courseStateProvider.notifier).refresh();
           },
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.7,
-                child: const Center(child: Text('データの取得に失敗しました')),
+                child: Center(
+                  child: Text(
+                    (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                        .courseFetchError,
+                  ),
+                ),
               ),
             ],
           ),
@@ -364,13 +346,50 @@ final class CourseScreen extends HookConsumerWidget {
     );
   }
 
-  Widget _loadingSkeleton(
+  bool _isSameDate(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  Future<void> _launchQuickLink(
     BuildContext context, {
-    required bool isAuthenticated,
-    required List<QuickButton> quickFeatures,
-    required List<QuickButton> quickFiles,
-    required List<QuickButton> quickLinks,
-  }) {
+    required String url,
+    required String label,
+    CourseLinkEvent? event,
+  }) async {
+    final container = ProviderScope.containerOf(context, listen: false);
+    final launched = await container.read(openCourseLinkUseCaseProvider)(
+      url,
+      event: event,
+    );
+    if (!context.mounted || launched) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          (AppLocalizations.of(context) ?? AppLocalizationsJa())
+              .courseLinkError(label),
+        ),
+      ),
+    );
+  }
+}
+
+final class _LoadingSkeleton extends StatelessWidget {
+  const new(
+    this.owner, {
+    required this.isAuthenticated,
+    required this.quickFeatures,
+    required this.quickFiles,
+    required this.quickLinks,
+  });
+  final CourseScreen owner;
+  final bool isAuthenticated;
+  final List<QuickButton> quickFeatures;
+  final List<QuickButton> quickFiles;
+  final List<QuickButton> quickLinks;
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) => RefreshIndicator(
         onRefresh: () async {},
@@ -383,33 +402,42 @@ final class CourseScreen extends HookConsumerWidget {
                 if (isAuthenticated)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: _courseTimetableSkeleton(context),
+                    child: _CourseTimetableSkeleton(owner),
                   )
                 else
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 48),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 48,
+                    ),
                     child: Center(
                       child: DottoButton(
                         onPressed: null,
-                        child: Text('ログインして時間割機能を使う'),
+                        child: Text(
+                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                              .courseSignIn,
+                        ),
                       ),
                     ),
                   ),
                 if (isAuthenticated)
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       DottoButton(
                         onPressed: null,
                         type: DottoButtonType.text,
-                        child: Text('1週間の時間割'),
+                        child: Text(
+                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                              .courseWeeklyTimetable,
+                        ),
                       ),
                     ],
                   ),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: _shortcutSections(
-                    context,
+                  child: _ShortcutSections(
+                    owner,
                     isAuthenticated: isAuthenticated,
                     quickFeatures: quickFeatures,
                     quickFiles: quickFiles,
@@ -423,8 +451,14 @@ final class CourseScreen extends HookConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _courseTimetableSkeleton(BuildContext context) {
+final class _CourseTimetableSkeleton extends StatelessWidget {
+  const new(this.owner);
+  final CourseScreen owner;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -437,9 +471,9 @@ final class CourseScreen extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
-                    _skeletonBox(height: 14, width: 28),
+                    _SkeletonBox(owner, height: 14, width: 28),
                     const SizedBox(height: 8),
-                    _skeletonCircle(48),
+                    _SkeletonCircle(owner, 48),
                   ],
                 ),
               ),
@@ -455,7 +489,7 @@ final class CourseScreen extends HookConsumerWidget {
               children: [
                 SizedBox(width: 28, child: Center(child: Text('${index + 1}'))),
                 const SizedBox(width: 8),
-                Expanded(child: _courseTimetableCellSkeleton()),
+                Expanded(child: _CourseTimetableCellSkeleton(owner)),
               ],
             ),
           ),
@@ -463,25 +497,37 @@ final class CourseScreen extends HookConsumerWidget {
       ],
     );
   }
+}
 
-  Widget _skeletonCircle(double size) {
+final class _SkeletonCircle extends StatelessWidget {
+  const new(this.owner, this.size);
+  final CourseScreen owner;
+  final double size;
+  @override
+  Widget build(BuildContext context) {
     return Shimmer(
       child: Container(
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
+          color: SemanticColor.light.backgroundTertiary,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
+}
 
-  Widget _courseTimetableCellSkeleton() {
+final class _CourseTimetableCellSkeleton extends StatelessWidget {
+  const new(this.owner);
+  final CourseScreen owner;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 52,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: SemanticColor.light.backgroundPrimary,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -489,38 +535,51 @@ final class CourseScreen extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _skeletonBox(height: 12, width: 96, radius: 4),
+          _SkeletonBox(owner, height: 12, width: 96, radius: 4),
           const SizedBox(height: 8),
-          _skeletonBox(height: 10, width: 48, radius: 4),
+          _SkeletonBox(owner, height: 10, width: 48, radius: 4),
         ],
       ),
     );
   }
+}
 
-  Widget _skeletonBox({
-    required double height,
-    double? width,
-    double radius = 8,
-  }) {
+final class _SkeletonBox extends StatelessWidget {
+  const new(this.owner, {required this.height, this.width, this.radius = 8});
+  final CourseScreen owner;
+  final double height;
+  final double? width;
+  final double radius;
+  @override
+  Widget build(BuildContext context) {
     return Shimmer(
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
+          color: SemanticColor.light.backgroundTertiary,
           borderRadius: BorderRadius.circular(radius),
         ),
       ),
     );
   }
+}
 
-  Widget _shortcutSections(
-    BuildContext context, {
-    required bool isAuthenticated,
-    required List<QuickButton> quickFeatures,
-    required List<QuickButton> quickFiles,
-    required List<QuickButton> quickLinks,
-  }) {
+final class _ShortcutSections extends StatelessWidget {
+  const new(
+    this.owner, {
+    required this.isAuthenticated,
+    required this.quickFeatures,
+    required this.quickFiles,
+    required this.quickLinks,
+  });
+  final CourseScreen owner;
+  final bool isAuthenticated;
+  final List<QuickButton> quickFeatures;
+  final List<QuickButton> quickFiles;
+  final List<QuickButton> quickLinks;
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: SemanticColor.light.borderPrimary),
@@ -533,21 +592,24 @@ final class CourseScreen extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 12,
           children: [
-            _shortcutSection(context, quickButtons: quickFeatures),
+            _ShortcutSection(owner, quickButtons: quickFeatures),
             const Divider(height: 0),
-            _shortcutSection(context, quickButtons: quickFiles),
+            _ShortcutSection(owner, quickButtons: quickFiles),
             const Divider(height: 0),
-            _shortcutSection(context, quickButtons: quickLinks),
+            _ShortcutSection(owner, quickButtons: quickLinks),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _shortcutSection(
-    BuildContext context, {
-    required List<QuickButton> quickButtons,
-  }) {
+final class _ShortcutSection extends StatelessWidget {
+  const new(this.owner, {required this.quickButtons});
+  final CourseScreen owner;
+  final List<QuickButton> quickButtons;
+  @override
+  Widget build(BuildContext context) {
     if (quickButtons.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -565,21 +627,41 @@ final class CourseScreen extends HookConsumerWidget {
       itemBuilder: (context, index) => quickButtons[index],
     );
   }
+}
 
-  bool _isSameDate(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
-  }
-
-  Future<void> _launchQuickLink(
-    BuildContext context, {
-    required String url,
-    required String label,
-  }) async {
-    final launched = await launchUrlSafely(url, mode: .externalApplication);
-    if (!context.mounted || launched) {
-      return;
-    }
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('$label を開けませんでした')));
+final class _CourseAnnouncement extends StatelessWidget
+    implements PreferredSizeWidget {
+  const new(this.owner, this.announcement);
+  final CourseScreen owner;
+  final BreakingAnnouncement announcement;
+  @override
+  Size get preferredSize => const Size.fromHeight(32);
+  @override
+  Widget build(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(32),
+      child: Material(
+        color: SemanticColor.light.accentPrimary.withValues(alpha: 0.75),
+        child: InkWell(
+          onTap: () => owner._launchQuickLink(
+            context,
+            url: announcement.url,
+            label: announcement.title,
+          ),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text(
+              announcement.title,
+              style: Theme.of(context).textTheme.labelMedium
+                  ?.copyWith(color: SemanticColor.light.labelTertiary),
+              textAlign: .center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
