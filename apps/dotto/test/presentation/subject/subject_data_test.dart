@@ -20,57 +20,21 @@ import '../../helpers/fake_auth_data_source.dart';
 import '../../helpers/fake_http_client_adapter.dart';
 import '../../helpers/fake_past_exam_data_source.dart';
 import '../../helpers/fake_subject_data_source.dart';
+import '../../helpers/subject_json.dart';
 
 void main() {
   test('科目詳細のシラバスとローカルの過去問IDを合わせて取得する', () async {
-    final syllabus = <String, Object>{
-      for (final field in [
-        'id',
-        'name',
-        'enName',
-        'grades',
-        'facultyNames',
-        'practicalHomeFacultyCategory',
-        'multiplePersonTeachingForm',
-        'teachingForm',
-        'summary',
-        'learningOutcomes',
-        'assignments',
-        'evaluationMethod',
-        'textbooks',
-        'referenceBooks',
-        'prerequisites',
-        'preLearning',
-        'postLearning',
-        'notes',
-        'keywords',
-        'targetCourses',
-        'targetAreas',
-        'classifications',
-        'teachingLanguage',
-        'contentsAndSchedule',
-        'teachingAndExamForm',
-        'dsopSubject',
-      ])
-        field: '',
-      'credit': 2,
-    }..addAll({'id': '123', 'summary': '授業概要'});
+    final syllabus = syllabusJson(id: '123', fields: {'summary': '授業概要'});
     final adapter = FakeHttpClientAdapter()
       ..on(
         'GET',
         '/v1/subjects/subject',
         (_) => FakeResponse(200, {
-          'subject': {
-            'id': 'subject',
-            'name': '科目詳細',
-            'faculties': <Object>[],
-            'year': 2026,
-            'semester': 'H1',
-            'credit': 2,
-            'eligibleAttributes': <Object>[],
-            'requirements': <Object>[],
-            'syllabus': syllabus,
-          },
+          'subject': subjectDetailJson(
+            'subject',
+            name: '科目詳細',
+            syllabus: syllabus,
+          ),
         }),
       );
     final container = ProviderContainer(
