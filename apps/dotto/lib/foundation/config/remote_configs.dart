@@ -1,6 +1,6 @@
+import 'package:dotto/data/remote_config_data_source.dart';
 import 'package:dotto/domain/entity/breaking_announcement.dart';
 import 'package:dotto/foundation/config/remote_config.dart';
-import 'package:dotto/helper/remote_config_helper.dart';
 
 abstract final class RemoteConfigs {
   /// サポート対象の最小バージョン。
@@ -142,13 +142,13 @@ abstract final class RemoteConfigs {
   ];
 }
 
-String _getString(RemoteConfigHelper helper, String key) =>
+String _getString(RemoteConfigDataSource helper, String key) =>
     helper.getString(key);
 
-bool _getBool(RemoteConfigHelper helper, String key) => helper.getBool(key);
+bool _getBool(RemoteConfigDataSource helper, String key) => helper.getBool(key);
 
 BreakingAnnouncement? _getBreakingAnnouncement(
-  RemoteConfigHelper helper,
+  RemoteConfigDataSource helper,
   String key,
 ) {
   final json = helper.getJSON(key);

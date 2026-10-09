@@ -1,3 +1,4 @@
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/data/room_data_source.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/floor.dart';
@@ -65,7 +66,7 @@ final class RoomRepositoryImpl implements RoomRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (error, stackTrace) {
-      throw DomainError.fromException(e: error, stackTrace: stackTrace);
+      throw mapDomainError(e: error, stackTrace: stackTrace);
     }
   }
 

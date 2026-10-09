@@ -1,6 +1,7 @@
 import 'package:dotto/domain/repository/error_report_repository.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'error_report_repository_impl.g.dart';
 
 @riverpod

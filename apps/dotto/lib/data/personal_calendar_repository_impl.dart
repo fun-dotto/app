@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/day_of_week.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/faculty.dart';
@@ -96,7 +97,7 @@ final class PersonalCalendarRepositoryImpl
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 

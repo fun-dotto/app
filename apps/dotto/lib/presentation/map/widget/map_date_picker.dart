@@ -133,8 +133,18 @@ final class _MapDatePickerButton extends StatelessWidget {
       },
       child: Column(
         children: [
-          Text(DateFormatter.dateWithoutYear(searchDatetime)),
-          Text(DateFormatter.timeWithoutSecond(searchDatetime)),
+          Text(
+            DateFormatter.dateWithoutYear(
+              searchDatetime,
+              locale: Localizations.localeOf(context).toString(),
+            ),
+          ),
+          Text(
+            DateFormatter.timeWithoutSecond(
+              searchDatetime,
+              locale: Localizations.localeOf(context).toString(),
+            ),
+          ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:dotto/data/bus_data_source.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/bus_schedule.dart';
 import 'package:dotto/domain/entity/bus_schedule_stop.dart';
 import 'package:dotto/domain/entity/bus_schedule_trip.dart';
@@ -7,6 +8,7 @@ import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/bus_schedule_repository.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'bus_schedule_repository_impl.g.dart';
 
 @riverpod
@@ -27,7 +29,7 @@ final class BusScheduleRepositoryImpl implements BusScheduleRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (e, st) {
-      throw DomainError.fromException(e: e, stackTrace: st);
+      throw mapDomainError(e: e, stackTrace: st);
     }
     // Firebase の動的データに起因する型不一致を境界で変換する。
     // ignore: avoid_catching_errors

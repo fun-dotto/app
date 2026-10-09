@@ -1,18 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotto/helper/file_helper.dart';
+import 'package:dotto/data/local_file_data_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'funch_data_source.g.dart';
 
 @riverpod
-FunchDataSource funchDataSource(Ref ref) =>
-    FunchDataSource(FirebaseFirestore.instance);
+FunchDataSource funchDataSource(Ref ref) => FunchDataSource(
+  FirebaseFirestore.instance,
+  ref.watch(localFileDataSourceProvider),
+);
 
 /// 学食のローカルキャッシュと Firestore へのアクセスを担う。
 class FunchDataSource {
-  const new(this._firestore);
+  const new(this._firestore, this._files);
+  final LocalFileDataSource _files;
   final FirebaseFirestore _firestore;
   Future<List<dynamic>> readCommonMenus() =>
-      FileHelper.getJSONData('funch/menu.json');
+      _files.getJSONData('funch/menu.json');
   Future<Map<String, Map<String, dynamic>>> readOriginalMenus() async {
     final snapshot = await _firestore.collection('funch_original_menu').get();
     return {for (final doc in snapshot.docs) doc.id: doc.data()};

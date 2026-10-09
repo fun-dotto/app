@@ -1,4 +1,4 @@
-import 'package:dotto/foundation/flag/flag.dart';
+import 'package:dotto/domain/entity/flag.dart';
 
 abstract interface class FeatureFlagRepository {
   /// Remote Config に設定された [flag] の値を返す。

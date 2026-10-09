@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:dotto/feature/course/course_cancellation_screen.dart';
+import 'package:dotto/presentation/common/pdf/cloudflare_pdf_viewer.dart';
 import 'package:dotto/presentation/course/course_customize_screen.dart';
 import 'package:dotto/presentation/course/course_document_screen.dart';
 import 'package:dotto/presentation/course/course_registration_screen.dart';
 import 'package:dotto/presentation/course/course_screen.dart';
+import 'package:dotto/presentation/course_notice/course_cancellation_screen.dart';
 import 'package:dotto/presentation/subject/search_subject_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_past_exam_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_screen.dart';
 import 'package:dotto/presentation/subject/subject_review_new_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto/router/routes/subject_detail_builder.dart';
-import 'package:dotto/widget/cloudflare_pdf_viewer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 

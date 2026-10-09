@@ -154,12 +154,16 @@ final class _CourseNoticeTile extends StatelessWidget {
       RoomChangeNotice(:final originalRoomName, :final newRoomName) =>
         '$originalRoomName → $newRoomName',
     };
+    final noticeDate = DateFormatter.dateWithDayOfWeek(
+      notice.date,
+      locale: Localizations.localeOf(context).toString(),
+    );
     return ListTile(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${DateFormatter.dateWithDayOfWeek(notice.date)} '
+            '$noticeDate '
             '${l10n.courseNoticePeriod(notice.periodNumber)}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),

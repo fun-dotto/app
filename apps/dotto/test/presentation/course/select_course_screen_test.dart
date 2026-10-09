@@ -1,4 +1,4 @@
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
 import 'package:dotto/domain/entity/day_of_week.dart';
 import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/timetable_item.dart';

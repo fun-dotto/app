@@ -1,15 +1,9 @@
 import 'package:dotto/domain/entity/period.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'lecture_override.freezed.dart';
 
-final class LectureOverride {
-  new({required this.lessonName, required this.period});
-
-  final String lessonName;
-  final Period period;
-}
-
-final class LectureCancellationData {
-  new({required this.cancelledByDate, required this.madeUpByDate});
-
-  final Map<String, List<LectureOverride>> cancelledByDate;
-  final Map<String, List<LectureOverride>> madeUpByDate;
+@freezed
+abstract class LectureOverride with _$LectureOverride {
+  const factory({required String lessonName, required Period period}) =
+      _LectureOverride;
 }

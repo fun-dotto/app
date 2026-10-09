@@ -1,4 +1,5 @@
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/announcement.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/announcement_repository.dart';
@@ -38,7 +39,7 @@ final class AnnouncementRepositoryImpl implements AnnouncementRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 }

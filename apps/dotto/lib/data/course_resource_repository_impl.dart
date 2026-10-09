@@ -1,18 +1,18 @@
+import 'package:dotto/data/config_data_source.dart';
 import 'package:dotto/domain/entity/course_resources.dart';
 import 'package:dotto/domain/repository/course_resource_repository.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
-import 'package:dotto/repository/config_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'course_resource_repository_impl.g.dart';
 
 @riverpod
 CourseResourceRepository courseResourceRepository(Ref ref) =>
-    CourseResourceRepositoryImpl(ref.watch(configRepositoryProvider));
+    CourseResourceRepositoryImpl(ref.watch(configDataSourceProvider));
 
 final class CourseResourceRepositoryImpl implements CourseResourceRepository {
   const new(this._config);
-  final ConfigRepository _config;
+  final ConfigDataSource _config;
 
   @override
   CourseResources fetch() => CourseResources(

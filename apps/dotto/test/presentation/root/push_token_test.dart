@@ -1,4 +1,4 @@
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
 import 'package:dotto/data/push_token_data_source.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/presentation/root/push_token_state.dart';

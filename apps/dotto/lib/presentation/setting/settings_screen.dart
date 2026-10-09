@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto/domain/entity/dotto_user.dart';
-import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/setting/app_links_state.dart';
@@ -157,7 +157,9 @@ final class _AboutAppSection extends HookConsumerWidget {
         _LinkTile(
           title: 'フィードバックを送る',
           icon: Icons.messenger_rounded,
-          onTap: () => launchUrlSafely(appLinks.feedbackFormUrl),
+          onTap: () => ref.read(openExternalLinkUseCaseProvider)(
+            appLinks.feedbackFormUrl,
+          ),
         ),
         _LinkTile(
           title: '開発者',
@@ -172,12 +174,16 @@ final class _AboutAppSection extends HookConsumerWidget {
         _LinkTile(
           title: '利用規約',
           icon: Icons.verified_user,
-          onTap: () => launchUrlSafely(appLinks.termsOfServiceUrl),
+          onTap: () => ref.read(openExternalLinkUseCaseProvider)(
+            appLinks.termsOfServiceUrl,
+          ),
         ),
         _LinkTile(
           title: 'プライバシーポリシー',
           icon: Icons.admin_panel_settings,
-          onTap: () => launchUrlSafely(appLinks.privacyPolicyUrl),
+          onTap: () => ref.read(openExternalLinkUseCaseProvider)(
+            appLinks.privacyPolicyUrl,
+          ),
         ),
         _LinkTile(
           title: 'ライセンス',

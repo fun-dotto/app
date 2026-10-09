@@ -1,7 +1,7 @@
 import 'package:dotto/data/flag_override_data_source.dart';
+import 'package:dotto/data/remote_config_data_source.dart';
+import 'package:dotto/domain/entity/flag.dart';
 import 'package:dotto/domain/repository/feature_flag_repository.dart';
-import 'package:dotto/foundation/flag/flag.dart';
-import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'feature_flag_repository_impl.g.dart';
@@ -9,14 +9,14 @@ part 'feature_flag_repository_impl.g.dart';
 @Riverpod(keepAlive: true)
 FeatureFlagRepository featureFlagRepository(Ref ref) =>
     FeatureFlagRepositoryImpl(
-      ref.watch(remoteConfigHelperProvider),
+      ref.watch(remoteConfigDataSourceProvider),
       ref.watch(flagOverrideDataSourceProvider),
     );
 
 final class FeatureFlagRepositoryImpl implements FeatureFlagRepository {
   const new(this._remoteConfigHelper, this._overrideDataSource);
 
-  final RemoteConfigHelper _remoteConfigHelper;
+  final RemoteConfigDataSource _remoteConfigHelper;
   final FlagOverrideDataSource _overrideDataSource;
 
   @override

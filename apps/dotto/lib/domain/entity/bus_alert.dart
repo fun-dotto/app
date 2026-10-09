@@ -1,1 +1,0 @@
-enum BusAlert { none, cancellation }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/data/funch_data_source.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/funch_menu.dart';
@@ -6,6 +7,7 @@ import 'package:dotto/domain/entity/funch_menu_schedule.dart';
 import 'package:dotto/domain/entity/funch_price.dart';
 import 'package:dotto/domain/repository/funch_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'funch_repository_impl.g.dart';
 
 @riverpod
@@ -19,7 +21,7 @@ final class FunchRepositoryImpl implements FunchRepository {
     try {
       return await operation();
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
       // キャッシュと Firestore の型不整合を上位に漏らさない。
       // ignore: avoid_catching_errors
     } on TypeError catch (e, stackTrace) {

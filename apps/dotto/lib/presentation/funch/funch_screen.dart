@@ -38,7 +38,13 @@ final class FunchScreen extends HookConsumerWidget {
                     children: [
                       for (final day in dates)
                         ListTile(
-                          title: Text(DateFormatter.dateWithDayOfWeek(day)),
+                          title: Text(
+                            DateFormatter.dateWithDayOfWeek(
+                              day,
+                              locale: Localizations.localeOf(context)
+                                  .toString(),
+                            ),
+                          ),
                           onTap: () => Navigator.of(context).pop(day),
                         ),
                     ],
@@ -47,7 +53,12 @@ final class FunchScreen extends HookConsumerWidget {
               );
               if (selected != null && context.mounted) date.value = selected;
             },
-            child: Text(DateFormatter.dateWithDayOfWeek(date.value)),
+            child: Text(
+              DateFormatter.dateWithDayOfWeek(
+                date.value,
+                locale: Localizations.localeOf(context).toString(),
+              ),
+            ),
           ),
         ],
       ),

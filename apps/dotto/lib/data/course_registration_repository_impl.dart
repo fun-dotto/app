@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/course_registration.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/faculty.dart';
@@ -94,7 +95,7 @@ final class CourseRegistrationRepositoryImpl
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 
@@ -115,7 +116,7 @@ final class CourseRegistrationRepositoryImpl
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 
@@ -133,7 +134,7 @@ final class CourseRegistrationRepositoryImpl
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 }

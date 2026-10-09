@@ -1,10 +1,10 @@
 import 'package:dotto/data/app_build_info_repository_impl.dart';
+import 'package:dotto/data/config_data_source.dart';
 import 'package:dotto/domain/entity/app_version_status.dart';
 import 'package:dotto/domain/repository/app_build_info_repository.dart';
 import 'package:dotto/domain/repository/app_version_repository.dart';
 import 'package:dotto/domain/service/app_version_evaluator.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
-import 'package:dotto/repository/config_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_version_repository_impl.g.dart';
@@ -12,13 +12,13 @@ part 'app_version_repository_impl.g.dart';
 @riverpod
 AppVersionRepository appVersionRepository(Ref ref) => AppVersionRepositoryImpl(
   ref.watch(appBuildInfoRepositoryProvider),
-  ref.watch(configRepositoryProvider),
+  ref.watch(configDataSourceProvider),
 );
 
 final class AppVersionRepositoryImpl implements AppVersionRepository {
   const new(this._buildInfo, this._config);
   final AppBuildInfoRepository _buildInfo;
-  final ConfigRepository _config;
+  final ConfigDataSource _config;
   @override
   Future<AppVersionStatus> fetch() async {
     final version = (await _buildInfo.fetch()).version;

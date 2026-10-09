@@ -1,4 +1,4 @@
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
 import 'package:dotto/data/clock.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/lecture_status.dart';

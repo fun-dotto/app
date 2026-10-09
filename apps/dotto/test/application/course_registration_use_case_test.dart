@@ -1,6 +1,6 @@
-import 'package:dotto/api/api_client.dart';
 import 'package:dotto/application/register_course_use_case.dart';
 import 'package:dotto/application/unregister_course_use_case.dart';
+import 'package:dotto/data/api_client.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

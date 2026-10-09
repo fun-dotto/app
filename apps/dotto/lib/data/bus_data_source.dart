@@ -1,4 +1,8 @@
 import 'package:dotto/data/bus_data_source_impl.dart';
+import 'package:dotto/data/holiday_data_source.dart';
+import 'package:dotto/data/location_data_source.dart';
+import 'package:dotto/data/preference_data_source.dart';
+import 'package:dotto/data/realtime_database_data_source.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,5 +18,10 @@ abstract interface class BusDataSource {
 }
 
 @riverpod
-BusDataSource busDataSource(Ref ref) =>
-    BusDataSourceImpl(ref.watch(loggerProvider));
+BusDataSource busDataSource(Ref ref) => BusDataSourceImpl(
+  ref.watch(loggerProvider),
+  ref.watch(realtimeDatabaseDataSourceProvider),
+  ref.watch(preferenceDataSourceProvider),
+  ref.watch(locationDataSourceProvider),
+  ref.watch(holidayDataSourceProvider),
+);

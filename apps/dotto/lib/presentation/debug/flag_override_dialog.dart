@@ -1,4 +1,4 @@
-import 'package:dotto/foundation/flag/flag.dart';
+import 'package:dotto/domain/entity/flag.dart';
 import 'package:dotto/presentation/common/feature_flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/data/pdf_data_source.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/pdf_document.dart';
@@ -7,6 +8,7 @@ import 'package:dotto/domain/repository/pdf_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'pdf_repository_impl.g.dart';
 
 @riverpod
@@ -40,7 +42,7 @@ final class PdfRepositoryImpl implements PdfRepository {
     } on Exception catch (error, stack) {
       if (directory != null) await directory.delete(recursive: true);
       if (error is DomainError) rethrow;
-      throw DomainError.fromException(e: error, stackTrace: stack);
+      throw mapDomainError(e: error, stackTrace: stack);
     }
   }
 
@@ -61,7 +63,7 @@ final class PdfRepositoryImpl implements PdfRepository {
       final directory = File(document.path).parent;
       if (directory.existsSync()) await directory.delete(recursive: true);
     } on Exception catch (error, stack) {
-      throw DomainError.fromException(e: error, stackTrace: stack);
+      throw mapDomainError(e: error, stackTrace: stack);
     }
   }
 
@@ -73,7 +75,7 @@ final class PdfRepositoryImpl implements PdfRepository {
     try {
       await _files.share(document.path, origin: origin);
     } on Exception catch (error, stack) {
-      throw DomainError.fromException(e: error, stackTrace: stack);
+      throw mapDomainError(e: error, stackTrace: stack);
     }
   }
 }

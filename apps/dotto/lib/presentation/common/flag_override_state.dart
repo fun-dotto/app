@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dotto/application/fetch_flag_overrides_use_case.dart';
 import 'package:dotto/application/save_flag_override_use_case.dart';
-import 'package:dotto/foundation/flag/flag.dart';
+import 'package:dotto/domain/entity/flag.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'flag_override_state.g.dart';

@@ -1,9 +1,10 @@
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/data/push_token_data_source.dart';
-import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/push_token_repository.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'push_token_repository_impl.g.dart';
 
 @riverpod
@@ -23,7 +24,7 @@ final class PushTokenRepositoryImpl implements PushTokenRepository {
         yield token;
       }
     } on Exception catch (error, stack) {
-      throw DomainError.fromException(e: error, stackTrace: stack);
+      throw mapDomainError(e: error, stackTrace: stack);
     }
   }
 
@@ -36,7 +37,7 @@ final class PushTokenRepositoryImpl implements PushTokenRepository {
         fCMTokenRequest: FCMTokenRequest((builder) => builder.token = value),
       );
     } on Exception catch (error, stack) {
-      throw DomainError.fromException(e: error, stackTrace: stack);
+      throw mapDomainError(e: error, stackTrace: stack);
     }
   }
 }

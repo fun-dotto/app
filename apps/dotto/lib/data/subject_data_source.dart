@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotto/helper/syllabus_database_helper.dart';
+import 'package:dotto/data/syllabus_database_data_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'subject_data_source.g.dart';
 
 @riverpod
-SubjectDataSource subjectDataSource(Ref ref) => const SubjectDataSource();
+SubjectDataSource subjectDataSource(Ref ref) =>
+    SubjectDataSource(ref.watch(syllabusDatabaseDataSourceProvider));
 
 /// シラバスのローカルデータと Firestore のレビューを読み書きする。
 class SubjectDataSource {
-  const new();
+  const new(this._database);
+  final SyllabusDatabaseDataSource _database;
   Future<String?> readPastExamId(String lessonId) async {
-    final db = await SyllabusDatabaseHelper.getDatabase();
+    final db = await _database.getDatabase();
     final records = await db.query(
       'detail',
       columns: ['過去問'],
