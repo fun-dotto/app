@@ -103,6 +103,60 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'ログイン'**
   String get login;
+
+  /// No description provided for @rootUpdateRequired.
+  ///
+  /// In ja, this message translates to:
+  /// **'アップデートが必要です'**
+  String get rootUpdateRequired;
+
+  /// No description provided for @rootLater.
+  ///
+  /// In ja, this message translates to:
+  /// **'あとで'**
+  String get rootLater;
+
+  /// No description provided for @rootUpdateNow.
+  ///
+  /// In ja, this message translates to:
+  /// **'今すぐアップデート'**
+  String get rootUpdateNow;
+
+  /// No description provided for @rootEnableNotifications.
+  ///
+  /// In ja, this message translates to:
+  /// **'通知を有効にしますか？'**
+  String get rootEnableNotifications;
+
+  /// No description provided for @rootOpenSettings.
+  ///
+  /// In ja, this message translates to:
+  /// **'設定を開く'**
+  String get rootOpenSettings;
+
+  /// No description provided for @rootNotificationDenied.
+  ///
+  /// In ja, this message translates to:
+  /// **'通知が拒否されています。休講・補講・教室変更などのお知らせを受け取るには、設定アプリから通知を許可してください。'**
+  String get rootNotificationDenied;
+
+  /// No description provided for @rootNotificationProvisional.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在は静かな配信のみ許可されています。休講・補講・教室変更などのお知らせをバナーやサウンドで受け取るには、設定アプリから通知を許可してください。'**
+  String get rootNotificationProvisional;
+
+  /// No description provided for @rootNotificationAlertDisabled.
+  ///
+  /// In ja, this message translates to:
+  /// **'通知バナーが無効になっています。休講・補講・教室変更などのお知らせを目立つ形で受け取るには、設定アプリから通知バナーを有効にしてください。'**
+  String get rootNotificationAlertDisabled;
+
+  /// No description provided for @rootVersionComparison.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在のバージョン: {currentVersion}\n最新バージョン: {latestVersion}'**
+  String rootVersionComparison(String currentVersion, String latestVersion);
 }
 
 class _AppLocalizationsDelegate

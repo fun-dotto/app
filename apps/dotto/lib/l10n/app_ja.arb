@@ -1,3 +1,22 @@
 {
-  "login": "ログイン"
+  "login": "ログイン",
+  "rootUpdateRequired": "アップデートが必要です",
+  "rootLater": "あとで",
+  "rootUpdateNow": "今すぐアップデート",
+  "rootEnableNotifications": "通知を有効にしますか？",
+  "rootOpenSettings": "設定を開く",
+  "rootNotificationDenied": "通知が拒否されています。休講・補講・教室変更などのお知らせを受け取るには、設定アプリから通知を許可してください。",
+  "rootNotificationProvisional": "現在は静かな配信のみ許可されています。休講・補講・教室変更などのお知らせをバナーやサウンドで受け取るには、設定アプリから通知を許可してください。",
+  "rootNotificationAlertDisabled": "通知バナーが無効になっています。休講・補講・教室変更などのお知らせを目立つ形で受け取るには、設定アプリから通知バナーを有効にしてください。",
+  "rootVersionComparison": "現在のバージョン: {currentVersion}\n最新バージョン: {latestVersion}",
+  "@rootVersionComparison": {
+    "placeholders": {
+      "currentVersion": {
+        "type": "String"
+      },
+      "latestVersion": {
+        "type": "String"
+      }
+    }
+  }
 }
