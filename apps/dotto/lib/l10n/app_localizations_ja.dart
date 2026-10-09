@@ -100,4 +100,51 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get busLandmarkShowa => '昭和';
+
+  @override
+  String get mapTitle => 'マップ';
+
+  @override
+  String get mapSearchHint => '部屋名、教員名、メールアドレスで検索';
+
+  @override
+  String get mapNoResults => '見つかりませんでした';
+
+  @override
+  String get mapSearchError => '検索結果の取得に失敗しました';
+
+  @override
+  String get mapLoading => '読み込み中...';
+
+  @override
+  String get mapError => 'エラーが発生しました';
+
+  @override
+  String get mapInUse => '使用中';
+
+  @override
+  String get mapRestrooms => 'トイレ・給湯室';
+
+  @override
+  String get mapLoginDetails => 'Googleアカウント (@fun.ac.jp) でログインして詳細を確認';
+
+  @override
+  String get mapGoToSettings => '設定に移動する';
+
+  @override
+  String get mapFood => '食べ物';
+
+  @override
+  String get mapDrink => '飲み物';
+
+  @override
+  String get mapOutlet => 'コンセント';
+
+  @override
+  String get mapCurrentTime => '現在';
+
+  @override
+  String mapPeriod(int number) {
+    return '$number限';
+  }
 }

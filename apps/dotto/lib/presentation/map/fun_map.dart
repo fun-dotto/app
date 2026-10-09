@@ -1,15 +1,12 @@
 import 'package:dotto/domain/entity/floor.dart';
-import 'package:dotto/domain/entity/map_stair_type.dart';
-import 'package:dotto/domain/entity/map_tile_props.dart';
-import 'package:dotto/domain/entity/restroom_type.dart';
-import 'package:dotto/domain/entity/room_equipment.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dotto/presentation/map/map_stair_type.dart';
+import 'package:dotto/presentation/map/map_tile_props.dart';
+import 'package:dotto/presentation/map/restroom_type.dart';
+import 'package:dotto/presentation/map/room_equipment.dart';
 import 'package:material_ui/material_ui.dart';
 
-final funMapProvider = Provider<List<MapTileProps>>((ref) => FUNMap.tileProps);
-
-abstract class FUNMap {
-  static final List<MapTileProps> tileProps = [
+abstract final class FUNMap {
+  static final List<MapTileProps> tileProps = List.unmodifiable([
     /// 1F
     AtriumMapTileProps(
       floor: Floor.first,
@@ -6172,5 +6169,5 @@ abstract class FUNMap {
       left: 0,
       types: [],
     ),
-  ];
+  ]);
 }

@@ -1,6 +1,8 @@
-import 'package:dotto/domain/entity/map_colors.dart';
-import 'package:dotto/domain/entity/map_tile_props.dart';
 import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/presentation/map/map_stair_type.dart';
+import 'package:dotto/presentation/map/map_tile_props.dart';
+import 'package:dotto/presentation/map/restroom_type.dart';
+import 'package:dotto_design_system/style/map_colors.dart';
 import 'package:material_ui/material_ui.dart';
 
 final class MapTile extends StatelessWidget {
@@ -29,9 +31,9 @@ final class MapTile extends StatelessWidget {
 
   Color get labelColor {
     return isFocused
-        ? Colors.white
+        ? MapColors.invertedForeground
         : room?.isInUse(dateTime) ?? false
-        ? Colors.black
+        ? MapColors.foreground
         : props.foregroundColor;
   }
 
@@ -87,7 +89,51 @@ final class MapTile extends StatelessWidget {
     );
   }
 
-  Widget get tile {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onTapped?.call(props, room),
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          _MapTileSurface(
+            props: props,
+            tileColor: tileColor,
+            padding: padding,
+            border: border,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(2),
+            child: _MapTileLabel(
+              text: labelText,
+              fontSize: fontSize,
+              color: labelColor,
+            ),
+          ),
+          if (props case RestroomMapTileProps(:final types))
+            _RestroomIcons(types: types, iconSize: iconSize),
+          if (props case StairMapTileProps(:final type))
+            _MapStair(props: props, type: type),
+          if (props is ElevatorMapTileProps) const _MapElevator(),
+        ],
+      ),
+    );
+  }
+}
+
+final class _MapTileSurface extends StatelessWidget {
+  const new({
+    required this.props,
+    required this.tileColor,
+    required this.padding,
+    required this.border,
+  });
+  final MapTileProps props;
+  final Color tileColor;
+  final EdgeInsets padding;
+  final Border border;
+  @override
+  Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Container(
         padding: padding,
@@ -103,101 +149,105 @@ final class MapTile extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _label(BuildContext context) {
+final class _MapTileLabel extends StatelessWidget {
+  const new({required this.text, required this.fontSize, required this.color});
+  final String text;
+  final double fontSize;
+  final Color color;
+  @override
+  Widget build(BuildContext context) {
     return Text(
-      labelText,
+      text,
       style: Theme.of(context).textTheme.labelSmall
-          ?.copyWith(fontSize: fontSize, color: labelColor),
+          ?.copyWith(fontSize: fontSize, color: color),
     );
   }
+}
 
-  Widget get restroomIcons {
+final class _RestroomIcons extends StatelessWidget {
+  const new({required this.types, required this.iconSize});
+  final List<RestroomType> types;
+  final double iconSize;
+  @override
+  Widget build(BuildContext context) {
     return Wrap(
-      children: (props as RestroomMapTileProps).types
+      children: types
           .map((type) => Icon(type.icon, size: iconSize, color: type.color))
           .toList(),
     );
   }
+}
 
-  Widget get stair {
+final class _MapStair extends StatelessWidget {
+  const new({required this.props, required this.type});
+  final MapTileProps props;
+  final MapStairType type;
+  @override
+  Widget build(BuildContext context) {
     final stairWidth = props.width * 2.5;
     final stairHeight = props.height * 2.5;
     return Stack(
       children: [
         SizedBox.expand(
           child: Flex(
-            direction: (props as StairMapTileProps).type.getDirection(),
+            direction: type.getDirection(),
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if ((props as StairMapTileProps).type.direction ==
-                  Axis.horizontal)
+              if (type.direction == Axis.horizontal)
                 for (int i = 0; i < stairWidth.toInt(); i++) ...{
                   const Expanded(
-                    child: VerticalDivider(thickness: 0.3, color: Colors.black),
+                    child: VerticalDivider(
+                      thickness: 0.3,
+                      color: MapColors.foreground,
+                    ),
                   ),
                 }
               else
                 for (int i = 0; i < stairHeight.toInt(); i++) ...{
                   const Expanded(
-                    child: Divider(thickness: 0.3, color: Colors.black),
+                    child: Divider(thickness: 0.3, color: MapColors.foreground),
                   ),
                 },
             ],
           ),
         ),
-        if ((props as StairMapTileProps).type.up &&
-            !(props as StairMapTileProps).type.down)
-          SizedBox.expand(
+        if (type.up && !type.down)
+          const SizedBox.expand(
             child: Center(
               child: Icon(
                 Icons.arrow_upward_rounded,
                 size: 12,
-                color: Colors.grey.shade700,
+                color: MapColors.stairArrow,
               ),
             ),
           ),
-        if (!(props as StairMapTileProps).type.up &&
-            ((props as StairMapTileProps).type.down))
-          SizedBox.expand(
+        if (!type.up && (type.down))
+          const SizedBox.expand(
             child: Center(
               child: Icon(
                 Icons.arrow_downward_rounded,
                 size: 12,
-                color: Colors.grey.shade700,
+                color: MapColors.stairArrow,
               ),
             ),
           ),
-        if (((props as StairMapTileProps).type.up) &&
-            ((props as StairMapTileProps).type.down))
-          const SizedBox.expand(),
+        if ((type.up) && (type.down)) const SizedBox.expand(),
       ],
     );
   }
+}
 
-  Widget get elevator {
+final class _MapElevator extends StatelessWidget {
+  const new();
+  @override
+  Widget build(BuildContext context) {
     return const Icon(
       Icons.elevator_outlined,
       size: 12,
-      color: Colors.white,
+      color: MapColors.invertedForeground,
       weight: 100,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTapped?.call(props, room),
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          tile,
-          Padding(padding: const EdgeInsets.all(2), child: _label(context)),
-          if (props is RestroomMapTileProps) restroomIcons,
-          if (props is StairMapTileProps) stair,
-          if (props is ElevatorMapTileProps) elevator,
-        ],
-      ),
     );
   }
 }

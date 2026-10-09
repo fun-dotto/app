@@ -1,4 +1,4 @@
-import 'package:dotto/feature/map/map_screen.dart';
+import 'package:dotto/presentation/map/map_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto/router/routes/setting_routes.dart';
 import 'package:go_router/go_router.dart';

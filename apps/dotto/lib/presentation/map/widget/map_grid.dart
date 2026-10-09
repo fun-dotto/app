@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/domain/entity/floor.dart';
-import 'package:dotto/domain/entity/map_tile_props.dart';
 import 'package:dotto/domain/entity/room.dart';
-import 'package:dotto/feature/map/fun_map.dart';
-import 'package:dotto/feature/map/widget/map_tile.dart';
+import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/map_tile_props.dart';
+import 'package:dotto/presentation/map/widget/map_tile.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -27,9 +27,6 @@ final class MapGridScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StaggeredGrid.count(
       crossAxisCount: 48,
-      // For debug
-      // mainAxisSpacing: 1,
-      // crossAxisSpacing: 1,
       children: [
         ...FUNMap.tileProps
             .where((e) => e.floor == selectedFloor)

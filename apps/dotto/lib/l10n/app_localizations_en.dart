@@ -100,4 +100,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get busLandmarkShowa => 'Showa';
+
+  @override
+  String get mapTitle => 'Map';
+
+  @override
+  String get mapSearchHint => 'Search rooms, teachers, or email addresses';
+
+  @override
+  String get mapNoResults => 'No results found';
+
+  @override
+  String get mapSearchError => 'Failed to load search results';
+
+  @override
+  String get mapLoading => 'Loading...';
+
+  @override
+  String get mapError => 'An error occurred';
+
+  @override
+  String get mapInUse => 'In use';
+
+  @override
+  String get mapRestrooms => 'Restrooms and kitchenettes';
+
+  @override
+  String get mapLoginDetails =>
+      'Sign in with your Google account (@fun.ac.jp) to view details';
+
+  @override
+  String get mapGoToSettings => 'Go to settings';
+
+  @override
+  String get mapFood => 'Food';
+
+  @override
+  String get mapDrink => 'Drink';
+
+  @override
+  String get mapOutlet => 'Power outlets';
+
+  @override
+  String get mapCurrentTime => 'Now';
+
+  @override
+  String mapPeriod(int number) {
+    return 'Period $number';
+  }
 }
