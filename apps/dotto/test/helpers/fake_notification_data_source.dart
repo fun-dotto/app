@@ -10,8 +10,11 @@ final class FakeNotificationDataSource implements NotificationDataSource {
   @override
   Future<NotificationSettings> fetchSettings() async => settings;
 
+  /// OS の通知設定画面を開いた回数。
+  int openedSettingsCount = 0;
+
   @override
-  Future<void> openSystemSettings() async {}
+  Future<void> openSystemSettings() async => openedSettingsCount++;
 }
 
 NotificationSettings notificationSettings({
