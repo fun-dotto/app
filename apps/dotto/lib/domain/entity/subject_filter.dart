@@ -9,7 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'subject_filter.freezed.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: true)
 abstract class SubjectFilter with _$SubjectFilter {
   const factory({
     @Default([]) List<Grade> grades,

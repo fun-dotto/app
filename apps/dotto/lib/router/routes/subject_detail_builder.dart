@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dotto/feature/subject/subject_detail_screen.dart';
+import 'package:dotto/presentation/subject/subject_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 

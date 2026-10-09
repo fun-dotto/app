@@ -192,4 +192,181 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pdfShareFailed => 'Could not share the PDF. Please try again.';
+
+  @override
+  String get subjectClearFilters => 'Clear filters';
+
+  @override
+  String get subjectSemesterRequirementsAndClassification =>
+      'Semester, requirements and classification';
+
+  @override
+  String get subjectSemester => 'Semester';
+
+  @override
+  String get subjectRequirements => 'Requirements';
+
+  @override
+  String get subjectClassification => 'Classification';
+
+  @override
+  String get subjectCulturalCategory => 'Cultural category';
+
+  @override
+  String get subjectCoursesGradesAndClasses => 'Courses, grades and classes';
+
+  @override
+  String get subjectCoursesAndAreas => 'Courses and areas';
+
+  @override
+  String get subjectGrades => 'Grades';
+
+  @override
+  String get subjectClasses => 'Classes';
+
+  @override
+  String get subjectPostFeedback => 'Post feedback';
+
+  @override
+  String get subjectSelectARating => 'Select a rating.';
+
+  @override
+  String get subjectCouldNotSubmitFeedback => 'Could not submit feedback.';
+
+  @override
+  String get subjectSubmit => 'Submit';
+
+  @override
+  String get subjectTapToRate => 'Tap to rate:';
+
+  @override
+  String get subjectComment => 'Comment';
+
+  @override
+  String get subjectCreditsAttendanceExamsEtc =>
+      'Credits, attendance, exams, etc.';
+
+  @override
+  String get subjectSignInWithAGoogleAccountFunAcJp =>
+      'Sign in with a Google account (@fun.ac.jp).';
+
+  @override
+  String get subjectNoPastExamsAvailable => 'No past exams available';
+
+  @override
+  String get subjectNoFeedbackYet => 'No feedback yet';
+
+  @override
+  String get subjectSignInWithAGoogleAccountFunAcJpPrompt =>
+      'Sign in with a Google account (@fun.ac.jp).';
+
+  @override
+  String get subjectFeedbackSubmitted => 'Feedback submitted.';
+
+  @override
+  String get subjectOutOf5 => 'out of 5';
+
+  @override
+  String get subjectSummary => 'Summary';
+
+  @override
+  String get subjectLearningOutcomes => 'Learning outcomes';
+
+  @override
+  String get subjectAssignments => 'Assignments';
+
+  @override
+  String get subjectEvaluationMethodsAndCriteria =>
+      'Evaluation methods and criteria';
+
+  @override
+  String get subjectTextbooks => 'Textbooks';
+
+  @override
+  String get subjectReferenceBooks => 'Reference books';
+
+  @override
+  String get subjectPrerequisites => 'Prerequisites';
+
+  @override
+  String get subjectPreLearning => 'Pre-learning';
+
+  @override
+  String get subjectPostLearning => 'Post-learning';
+
+  @override
+  String get subjectNotes => 'Notes';
+
+  @override
+  String get subjectKeywords => 'Keywords';
+
+  @override
+  String get subjectTargetCoursesAndAreas => 'Target courses and areas';
+
+  @override
+  String get subjectTargetAreas => 'Target areas';
+
+  @override
+  String get subjectClassificationPrompt => 'Classification';
+
+  @override
+  String get subjectTeachingLanguage => 'Teaching language';
+
+  @override
+  String get subjectContentsAndSchedule => 'Contents and schedule';
+
+  @override
+  String get subjectTeachingAndExamFormat => 'Teaching and exam format';
+
+  @override
+  String get subjectDSOPSubject => 'DSOP subject';
+
+  @override
+  String get subjectCourseRegistrationFailed => 'Course registration failed.';
+
+  @override
+  String get subjectSubjectSearch => 'Subject search';
+
+  @override
+  String get subjectSearchBySubjectName => 'Search by subject name';
+
+  @override
+  String get subjectUnregister => 'Unregister';
+
+  @override
+  String get subjectRegister => 'Register';
+
+  @override
+  String get subjectNoSubjectsFound => 'No subjects found';
+
+  @override
+  String get subjectSubjectSearchFailed => 'Subject search failed.';
+
+  @override
+  String get subjectSyllabus => 'Syllabus';
+
+  @override
+  String get subjectReviews => 'Reviews';
+
+  @override
+  String get subjectPastExams => 'Past exams';
+
+  @override
+  String get subjectCouldNotLoadSubjectInformation =>
+      'Could not load subject information.';
+
+  @override
+  String subjectOtherFacultyCount(String name, int count) {
+    return '$name and $count others';
+  }
+
+  @override
+  String subjectCredits(int credits) {
+    return '$credits credits';
+  }
+
+  @override
+  String subjectFeedbackCount(int count) {
+    return '$count reviews';
+  }
 }

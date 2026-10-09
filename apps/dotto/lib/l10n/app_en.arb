@@ -99,5 +99,84 @@
       }
     }
   },
-  "pdfShareFailed": "Could not share the PDF. Please try again."
+  "pdfShareFailed": "Could not share the PDF. Please try again.",
+  "subjectClearFilters": "Clear filters",
+  "subjectSemesterRequirementsAndClassification": "Semester, requirements and classification",
+  "subjectSemester": "Semester",
+  "subjectRequirements": "Requirements",
+  "subjectClassification": "Classification",
+  "subjectCulturalCategory": "Cultural category",
+  "subjectCoursesGradesAndClasses": "Courses, grades and classes",
+  "subjectCoursesAndAreas": "Courses and areas",
+  "subjectGrades": "Grades",
+  "subjectClasses": "Classes",
+  "subjectPostFeedback": "Post feedback",
+  "subjectSelectARating": "Select a rating.",
+  "subjectCouldNotSubmitFeedback": "Could not submit feedback.",
+  "subjectSubmit": "Submit",
+  "subjectTapToRate": "Tap to rate:",
+  "subjectComment": "Comment",
+  "subjectCreditsAttendanceExamsEtc": "Credits, attendance, exams, etc.",
+  "subjectSignInWithAGoogleAccountFunAcJp": "Sign in with a Google account (@fun.ac.jp).",
+  "subjectNoPastExamsAvailable": "No past exams available",
+  "subjectNoFeedbackYet": "No feedback yet",
+  "subjectSignInWithAGoogleAccountFunAcJpPrompt": "Sign in with a Google account (@fun.ac.jp).",
+  "subjectFeedbackSubmitted": "Feedback submitted.",
+  "subjectOutOf5": "out of 5",
+  "subjectSummary": "Summary",
+  "subjectLearningOutcomes": "Learning outcomes",
+  "subjectAssignments": "Assignments",
+  "subjectEvaluationMethodsAndCriteria": "Evaluation methods and criteria",
+  "subjectTextbooks": "Textbooks",
+  "subjectReferenceBooks": "Reference books",
+  "subjectPrerequisites": "Prerequisites",
+  "subjectPreLearning": "Pre-learning",
+  "subjectPostLearning": "Post-learning",
+  "subjectNotes": "Notes",
+  "subjectKeywords": "Keywords",
+  "subjectTargetCoursesAndAreas": "Target courses and areas",
+  "subjectTargetAreas": "Target areas",
+  "subjectClassificationPrompt": "Classification",
+  "subjectTeachingLanguage": "Teaching language",
+  "subjectContentsAndSchedule": "Contents and schedule",
+  "subjectTeachingAndExamFormat": "Teaching and exam format",
+  "subjectDSOPSubject": "DSOP subject",
+  "subjectCourseRegistrationFailed": "Course registration failed.",
+  "subjectSubjectSearch": "Subject search",
+  "subjectSearchBySubjectName": "Search by subject name",
+  "subjectUnregister": "Unregister",
+  "subjectRegister": "Register",
+  "subjectNoSubjectsFound": "No subjects found",
+  "subjectSubjectSearchFailed": "Subject search failed.",
+  "subjectSyllabus": "Syllabus",
+  "subjectReviews": "Reviews",
+  "subjectPastExams": "Past exams",
+  "subjectCouldNotLoadSubjectInformation": "Could not load subject information.",
+  "subjectOtherFacultyCount": "{name} and {count} others",
+  "subjectCredits": "{credits} credits",
+  "subjectFeedbackCount": "{count} reviews",
+  "@subjectOtherFacultyCount": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@subjectCredits": {
+    "placeholders": {
+      "credits": {
+        "type": "int"
+      }
+    }
+  },
+  "@subjectFeedbackCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }
