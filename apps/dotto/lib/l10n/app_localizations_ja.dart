@@ -451,4 +451,42 @@ class AppLocalizationsJa extends AppLocalizations {
   String courseSlotTitle(String semester, String day, int period) {
     return '$semester $day曜$period限';
   }
+
+  @override
+  String get courseNoticeTitle => '休講・補講・教室変更';
+
+  @override
+  String get courseNoticeSignInRequired => 'Googleアカウント(@fun.ac.jp)ログインが必要です。';
+
+  @override
+  String get courseNoticeRegistered => '履修中';
+
+  @override
+  String get courseNoticeAll => 'すべて';
+
+  @override
+  String get courseNoticeCancellation => '休講';
+
+  @override
+  String get courseNoticeMakeup => '補講';
+
+  @override
+  String get courseNoticeRoomChange => '教室変更';
+
+  @override
+  String get courseNoticeEmptyCancellation => '休講はありません。';
+
+  @override
+  String get courseNoticeEmptyMakeup => '補講はありません。';
+
+  @override
+  String get courseNoticeEmptyRoomChange => '教室変更はありません。';
+
+  @override
+  String get courseNoticeLoadError => 'データの取得に失敗しました。';
+
+  @override
+  String courseNoticePeriod(int period) {
+    return '$period限';
+  }
 }

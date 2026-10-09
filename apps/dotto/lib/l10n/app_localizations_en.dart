@@ -456,4 +456,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String courseSlotTitle(String semester, String day, int period) {
     return '$semester $day period $period';
   }
+
+  @override
+  String get courseNoticeTitle => 'Cancellations, makeups and room changes';
+
+  @override
+  String get courseNoticeSignInRequired =>
+      'Sign in with your @fun.ac.jp Google account.';
+
+  @override
+  String get courseNoticeRegistered => 'Registered';
+
+  @override
+  String get courseNoticeAll => 'All';
+
+  @override
+  String get courseNoticeCancellation => 'Cancellations';
+
+  @override
+  String get courseNoticeMakeup => 'Makeups';
+
+  @override
+  String get courseNoticeRoomChange => 'Room changes';
+
+  @override
+  String get courseNoticeEmptyCancellation => 'There are no cancellations.';
+
+  @override
+  String get courseNoticeEmptyMakeup => 'There are no makeups.';
+
+  @override
+  String get courseNoticeEmptyRoomChange => 'There are no room changes.';
+
+  @override
+  String get courseNoticeLoadError => 'Failed to load data.';
+
+  @override
+  String courseNoticePeriod(int period) {
+    return 'Period $period';
+  }
 }
