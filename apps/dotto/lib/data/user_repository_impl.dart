@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/academic_area.dart';
 import 'package:dotto/domain/entity/academic_class.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
@@ -44,9 +45,9 @@ final class UserRepositoryImpl implements UserRepository {
       if (e.response?.statusCode == _notFoundStatusCode) {
         return null;
       }
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 
@@ -72,7 +73,7 @@ final class UserRepositoryImpl implements UserRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 

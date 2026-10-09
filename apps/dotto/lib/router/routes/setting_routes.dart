@@ -1,8 +1,8 @@
 import 'package:dotto/presentation/announcement/announcement_detail_screen.dart';
 import 'package:dotto/presentation/announcement/announcement_screen.dart';
+import 'package:dotto/presentation/common/onboarding/onboarding_screen.dart';
 import 'package:dotto/presentation/debug/debug_screen.dart';
 import 'package:dotto/presentation/github_contributor/github_contributor_screen.dart';
-import 'package:dotto/presentation/onboarding/onboarding_screen.dart';
 import 'package:dotto/presentation/setting/settings_license_screen.dart';
 import 'package:dotto/presentation/setting/settings_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';

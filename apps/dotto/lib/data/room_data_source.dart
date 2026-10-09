@@ -1,10 +1,11 @@
-import 'package:dotto/helper/firebase_realtime_database_repository.dart';
+import 'package:dotto/data/realtime_database_data_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'room_data_source.g.dart';
 
 @riverpod
-RoomDataSource roomDataSource(Ref ref) => const FirebaseRoomDataSource();
+RoomDataSource roomDataSource(Ref ref) =>
+    FirebaseRoomDataSource(ref.watch(realtimeDatabaseDataSourceProvider));
 
 /// Firebase の部屋情報と利用予定の読み取り境界。
 abstract interface class RoomDataSource {
@@ -13,14 +14,13 @@ abstract interface class RoomDataSource {
 }
 
 final class FirebaseRoomDataSource implements RoomDataSource {
-  const new();
+  const new(this._database);
+  final RealtimeDatabaseDataSource _database;
 
   @override
-  Future<Object?> fetchRooms() async =>
-      (await FirebaseRealtimeDatabaseRepository().getData('map')).value;
+  Future<Object?> fetchRooms() async => (await _database.getData('map')).value;
 
   @override
   Future<Object?> fetchSchedules() async =>
-      (await FirebaseRealtimeDatabaseRepository().getData('map_room_schedule'))
-          .value;
+      (await _database.getData('map_room_schedule')).value;
 }

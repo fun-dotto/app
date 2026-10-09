@@ -1,6 +1,6 @@
 import 'package:dotto/data/feature_flag_repository_impl.dart';
+import 'package:dotto/domain/entity/flag.dart';
 import 'package:dotto/domain/repository/feature_flag_repository.dart';
-import 'package:dotto/foundation/flag/flag.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_remote_flag_value_use_case.g.dart';

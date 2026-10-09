@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:dotto/domain/entity/debug_tokens.dart';
-import 'package:dotto/foundation/flag/flag.dart';
-import 'package:dotto/foundation/flag/flags.dart';
+import 'package:dotto/domain/entity/flag.dart';
+import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/presentation/common/feature_flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
 import 'package:dotto/presentation/debug/debug_tokens_state.dart';

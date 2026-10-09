@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dotto/helper/s3_repository.dart';
+import 'package:dotto/data/s3_data_source.dart';
 import 'package:http/http.dart' as http;
 import 'package:material_ui/material_ui.dart' show Rect;
 import 'package:path_provider/path_provider.dart';
@@ -17,15 +17,17 @@ http.Client pdfHttpClient(Ref ref) {
 }
 
 @riverpod
-PdfDataSource pdfDataSource(Ref ref) => const PdfDataSource();
+PdfDataSource pdfDataSource(Ref ref) =>
+    PdfDataSource(ref.watch(s3DataSourceProvider));
 
 /// PDF一時ファイルとOS共有へのアクセスを提供する。
 class PdfDataSource {
-  const new();
+  const new(this._storage);
+  final S3DataSource _storage;
   Future<Directory> createDirectory() async =>
       await (await getTemporaryDirectory()).createTemp('dotto-pdf-');
   Future<List<int>> fetchPastExam(String key) async {
-    final stream = await S3Repository().getObject(url: key);
+    final stream = await _storage.getObject(url: key);
     return await stream.fold<List<int>>(
       [],
       (bytes, chunk) => bytes..addAll(chunk),

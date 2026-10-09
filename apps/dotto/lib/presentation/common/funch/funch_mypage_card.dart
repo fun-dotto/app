@@ -33,7 +33,14 @@ final class FunchMyPageCard extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.funchToday(DateFormatter.dateWithoutYear(today))),
+              Text(
+                l10n.funchToday(
+                  DateFormatter.dateWithoutYear(
+                    today,
+                    locale: Localizations.localeOf(context).toString(),
+                  ),
+                ),
+              ),
               switch (menus) {
                 AsyncData(:final value) => _TodayMenus(
                   items: value[today]?.menuItems ?? [],

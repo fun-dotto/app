@@ -1,5 +1,3 @@
-import 'package:material_ui/material_ui.dart';
-
 enum DayOfWeek {
   monday,
   tuesday,
@@ -17,16 +15,6 @@ enum DayOfWeek {
     DayOfWeek.friday => '金',
     DayOfWeek.saturday => '土',
     DayOfWeek.sunday => '日',
-  };
-
-  Color get color => switch (this) {
-    DayOfWeek.monday => Colors.black,
-    DayOfWeek.tuesday => Colors.black,
-    DayOfWeek.wednesday => Colors.black,
-    DayOfWeek.thursday => Colors.black,
-    DayOfWeek.friday => Colors.black,
-    DayOfWeek.saturday => Colors.blue,
-    DayOfWeek.sunday => Colors.red,
   };
 
   int get number => index + 1;

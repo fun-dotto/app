@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/data/subject_data_source.dart';
 import 'package:dotto/domain/entity/academic_area.dart';
 import 'package:dotto/domain/entity/academic_class.dart';
@@ -33,7 +34,7 @@ SubjectRepository subjectRepository(Ref ref) => SubjectRepositoryImpl(
 );
 
 final class SubjectRepositoryImpl implements SubjectRepository {
-  const new(this.apiClient, [this._dataSource = const SubjectDataSource()]);
+  const new(this.apiClient, this._dataSource);
 
   final SubjectDataSource _dataSource;
 
@@ -214,7 +215,7 @@ final class SubjectRepositoryImpl implements SubjectRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
       // 型の不整合もキャッシュ/APIの不正なレスポンスとして扱う。
       // ignore: avoid_catching_errors
     } on TypeError catch (e, stackTrace) {
@@ -392,7 +393,7 @@ final class SubjectRepositoryImpl implements SubjectRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
       // 型の不整合もキャッシュ/APIの不正なレスポンスとして扱う。
       // ignore: avoid_catching_errors
     } on TypeError catch (e, stackTrace) {
@@ -419,7 +420,7 @@ final class SubjectRepositoryImpl implements SubjectRepository {
       }
       return List.unmodifiable(feedbacks);
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
       // 型の不整合もキャッシュ/APIの不正なレスポンスとして扱う。
       // ignore: avoid_catching_errors
     } on TypeError catch (e, stackTrace) {
@@ -446,7 +447,7 @@ final class SubjectRepositoryImpl implements SubjectRepository {
         comment: comment,
       );
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
       // 型の不整合もキャッシュ/APIの不正なレスポンスとして扱う。
       // ignore: avoid_catching_errors
     } on TypeError catch (e, stackTrace) {

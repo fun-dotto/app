@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto/domain/entity/announcement.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/helper/url_launcher_helper.dart';
 import 'package:dotto/presentation/announcement/announcement_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
@@ -42,13 +42,13 @@ final class AnnouncementDetailScreen extends HookConsumerWidget {
   }
 }
 
-final class _AnnouncementDetail extends StatelessWidget {
+final class _AnnouncementDetail extends HookConsumerWidget {
   const new({required this.announcement});
 
   final Announcement announcement;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -60,12 +60,17 @@ final class _AnnouncementDetail extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           Text(
-            DateFormatter.full(announcement.date),
+            DateFormatter.full(
+              announcement.date,
+              locale: Localizations.localeOf(context).toString(),
+            ),
             style: Theme.of(context).textTheme.labelMedium,
           ),
           const SizedBox(height: 8),
           DottoButton(
-            onPressed: () => unawaited(launchUrlSafely(announcement.url)),
+            onPressed: () => unawaited(
+              ref.read(openExternalLinkUseCaseProvider)(announcement.url),
+            ),
             child: const Text('お知らせを開く'),
           ),
         ],

@@ -3,11 +3,14 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final loggerProvider = Provider<Logger>((ref) => LoggerImpl());
+part 'logger.g.dart';
 
-abstract class Logger {
+@Riverpod(keepAlive: true)
+Logger logger(Ref ref) => LoggerImpl();
+
+abstract interface class Logger {
   Future<void> setup();
   Future<void> logAppOpen();
   Future<void> logEvent(

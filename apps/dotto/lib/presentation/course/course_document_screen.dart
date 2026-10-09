@@ -1,8 +1,8 @@
 import 'package:dotto/domain/entity/course_document.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/pdf/web_pdf_viewer.dart';
 import 'package:dotto/presentation/course/course_resources_state.dart';
-import 'package:dotto/widget/web_pdf_viewer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 

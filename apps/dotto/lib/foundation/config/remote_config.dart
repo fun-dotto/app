@@ -1,7 +1,7 @@
-import 'package:dotto/helper/remote_config_helper.dart';
+import 'package:dotto/data/remote_config_data_source.dart';
 
 typedef RemoteConfigGetter<T> = T Function(
-  RemoteConfigHelper helper,
+  RemoteConfigDataSource helper,
   String key,
 );
 

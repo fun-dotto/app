@@ -3,4 +3,4 @@ targets:
     builders:
       freezed:
         options:
-          make_collections_unmodifiable: false
+          make_collections_unmodifiable: true

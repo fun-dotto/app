@@ -1,9 +1,9 @@
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/notification_data_source.dart';
+import 'package:dotto/data/remote_config_data_source.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/foundation/log/logger.dart';
-import 'package:dotto/helper/remote_config_helper.dart';
 import 'package:dotto/presentation/setting/settings_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,7 +16,7 @@ import '../../helpers/fake_auth_data_source.dart';
 import '../../helpers/fake_http_client_adapter.dart';
 import '../../helpers/fake_logger.dart';
 import '../../helpers/fake_notification_data_source.dart';
-import '../../helpers/fake_remote_config_helper.dart';
+import '../../helpers/fake_remote_config_data_source.dart';
 
 const _account = AuthAccount(
   id: 'uid',
@@ -43,7 +43,9 @@ Future<void> _pumpSettingsScreen(
           FakeAuthDataSource(currentAccount: currentAccount),
         ),
         loggerProvider.overrideWithValue(FakeLogger()),
-        remoteConfigHelperProvider.overrideWithValue(FakeRemoteConfigHelper()),
+        remoteConfigDataSourceProvider.overrideWithValue(
+          FakeRemoteConfigDataSource(),
+        ),
         notificationDataSourceProvider.overrideWithValue(
           FakeNotificationDataSource(
             notificationSettings(

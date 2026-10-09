@@ -1,6 +1,6 @@
 import 'package:dotto/data/feature_flag_repository_impl.dart';
+import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/domain/repository/feature_flag_repository.dart';
-import 'package:dotto/foundation/flag/flags.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_flag_overrides_use_case.g.dart';

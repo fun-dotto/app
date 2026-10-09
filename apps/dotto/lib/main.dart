@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:dotto/app.dart';
+import 'package:dotto/data/firebase_storage_data_source.dart';
+import 'package:dotto/data/location_data_source.dart';
 import 'package:dotto/firebase_options_flavor.dart';
 import 'package:dotto/foundation/log/logger.dart';
-import 'package:dotto/helper/firebase_storage_repository.dart';
-import 'package:dotto/helper/location_helper.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -19,6 +19,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final container = ProviderContainer();
 
   // Firebase
   await Firebase.initializeApp(
@@ -61,7 +62,7 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // 位置情報の許可をリクエスト
-  await LocationHelper.requestLocationPermission();
+  await container.read(locationDataSourceProvider).requestLocationPermission();
 
   // ローカルタイムゾーンの設定
   tz.initializeTimeZones();
@@ -75,7 +76,9 @@ Future<void> main() async {
 
   // ファイルをダウンロード
   try {
-    await FirebaseStorageRepository().download('funch/menu.json');
+    await container
+        .read(firebaseStorageDataSourceProvider)
+        .download('funch/menu.json');
   } on Exception catch (e, stack) {
     await LoggerImpl().logError(
       e,
@@ -88,7 +91,6 @@ Future<void> main() async {
   await LoggerImpl().logAppOpen();
 
   // アプリの起動
-  final container = ProviderContainer();
   runApp(UncontrolledProviderScope(container: container, child: const MyApp()));
 }
 

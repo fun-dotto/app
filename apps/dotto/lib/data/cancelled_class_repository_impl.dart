@@ -1,12 +1,14 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
 import 'package:dotto/data/course_notice_clock.dart';
 import 'package:dotto/data/course_notice_mapper.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/course_notice.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/cancelled_class_repository.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'cancelled_class_repository_impl.g.dart';
 
 @riverpod
@@ -53,7 +55,7 @@ final class CancelledClassRepositoryImpl implements CancelledClassRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 }

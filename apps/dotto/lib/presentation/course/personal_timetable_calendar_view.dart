@@ -169,7 +169,10 @@ final class _Calendar extends StatelessWidget {
                     width: 48,
                     child: Center(
                       child: Text(
-                        DateFormatter.dayOfWeek(date),
+                        DateFormatter.dayOfWeek(
+                          date,
+                          locale: Localizations.localeOf(context).toString(),
+                        ),
                         style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(color: SemanticColor.light.labelPrimary),
                       ),

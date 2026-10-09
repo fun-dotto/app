@@ -1,4 +1,4 @@
-import 'package:dotto/api/api_client.dart';
+import 'package:dotto/data/api_client.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/domain/entity/domain_error.dart';

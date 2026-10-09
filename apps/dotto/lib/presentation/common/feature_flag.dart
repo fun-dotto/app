@@ -1,5 +1,5 @@
 import 'package:dotto/application/fetch_remote_flag_value_use_case.dart';
-import 'package:dotto/foundation/flag/flag.dart';
+import 'package:dotto/domain/entity/flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

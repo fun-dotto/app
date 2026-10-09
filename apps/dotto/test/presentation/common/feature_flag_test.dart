@@ -1,19 +1,21 @@
-import 'package:dotto/foundation/flag/flags.dart';
-import 'package:dotto/helper/remote_config_helper.dart';
+import 'package:dotto/data/remote_config_data_source.dart';
+import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/presentation/common/feature_flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../helpers/fake_remote_config_helper.dart';
+import '../../helpers/fake_remote_config_data_source.dart';
 
 void main() {
   ProviderContainer createContainer({required bool remoteValue}) {
-    final remoteConfig = FakeRemoteConfigHelper()
+    final remoteConfig = FakeRemoteConfigDataSource()
       ..values[Flags.funch.key] = remoteValue;
     final container = ProviderContainer(
-      overrides: [remoteConfigHelperProvider.overrideWithValue(remoteConfig)],
+      overrides: [
+        remoteConfigDataSourceProvider.overrideWithValue(remoteConfig),
+      ],
     );
     addTearDown(container.dispose);
     return container;

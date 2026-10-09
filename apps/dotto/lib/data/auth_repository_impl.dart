@@ -1,4 +1,5 @@
 import 'package:dotto/data/auth_data_source.dart';
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/auth_repository.dart';
@@ -30,7 +31,7 @@ final class AuthRepositoryImpl implements AuthRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (e, stackTrace) {
-      throw DomainError.fromException(e: e, stackTrace: stackTrace);
+      throw mapDomainError(e: e, stackTrace: stackTrace);
     }
   }
 }

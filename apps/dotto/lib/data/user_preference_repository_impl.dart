@@ -1,3 +1,4 @@
+import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/data/shared_preferences_data_source.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/dotto_user_preference.dart';
@@ -32,7 +33,7 @@ final class UserPreferenceRepositoryImpl implements UserPreferenceRepository {
             TimetablePeriodStyle.numberOnly,
       );
     } on Exception catch (error, stackTrace) {
-      throw DomainError.fromException(e: error, stackTrace: stackTrace);
+      throw mapDomainError(e: error, stackTrace: stackTrace);
     }
   }
 
@@ -53,7 +54,7 @@ final class UserPreferenceRepositoryImpl implements UserPreferenceRepository {
     } on DomainError {
       rethrow;
     } on Exception catch (error, stackTrace) {
-      throw DomainError.fromException(e: error, stackTrace: stackTrace);
+      throw mapDomainError(e: error, stackTrace: stackTrace);
     }
   }
 }

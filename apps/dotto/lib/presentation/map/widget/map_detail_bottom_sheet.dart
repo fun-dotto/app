@@ -131,6 +131,9 @@ final class _RoomScheduleTile extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context).toString();
+    final beginTime = DateFormatter.timeWithoutSecond(begin, locale: locale);
+    final endTime = DateFormatter.timeWithoutSecond(end, locale: locale);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.all(10),
@@ -153,14 +156,15 @@ final class _RoomScheduleTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                DateFormatter.dateWithoutYear(begin),
+                DateFormatter.dateWithoutYear(
+                  begin,
+                  locale: Localizations.localeOf(context).toString(),
+                ),
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               const SizedBox(width: 5),
               Text(
-                '${DateFormatter.timeWithoutSecond(begin)}'
-                '-'
-                '${DateFormatter.timeWithoutSecond(end)}',
+                '$beginTime-$endTime',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
             ],

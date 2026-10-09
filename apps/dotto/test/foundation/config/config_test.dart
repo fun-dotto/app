@@ -1,18 +1,20 @@
+import 'package:dotto/data/config_data_source.dart';
+import 'package:dotto/data/remote_config_data_source.dart';
 import 'package:dotto/foundation/config/config.dart';
 import 'package:dotto/foundation/config/remote_configs.dart';
-import 'package:dotto/helper/remote_config_helper.dart';
-import 'package:dotto/repository/config_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../helpers/fake_remote_config_helper.dart';
+import '../../helpers/fake_remote_config_data_source.dart';
 
 void main() {
   test('invalidateすると最新のRemote ConfigからConfigを再構築する', () {
-    final remoteConfig = FakeRemoteConfigHelper()
+    final remoteConfig = FakeRemoteConfigDataSource()
       ..values[RemoteConfigs.latestAppVersion.key] = '1.0.0';
     final container = ProviderContainer(
-      overrides: [remoteConfigHelperProvider.overrideWithValue(remoteConfig)],
+      overrides: [
+        remoteConfigDataSourceProvider.overrideWithValue(remoteConfig),
+      ],
     );
     addTearDown(container.dispose);
 
@@ -22,7 +24,7 @@ void main() {
     );
 
     remoteConfig.values[RemoteConfigs.latestAppVersion.key] = '2.0.0';
-    container.invalidate(configRepositoryProvider);
+    container.invalidate(configDataSourceProvider);
 
     expect(
       container.read(configProvider(RemoteConfigs.latestAppVersion)),
@@ -31,14 +33,16 @@ void main() {
   });
 
   test('有効な緊急告知をConfigへ変換する', () {
-    final remoteConfig = FakeRemoteConfigHelper()
+    final remoteConfig = FakeRemoteConfigDataSource()
       ..values[RemoteConfigs.breakingAnnouncement.key] = <String, Object?>{
         'title': 'お知らせ',
         'url': 'https://example.com/announcement',
         'is_external': true,
       };
     final container = ProviderContainer(
-      overrides: [remoteConfigHelperProvider.overrideWithValue(remoteConfig)],
+      overrides: [
+        remoteConfigDataSourceProvider.overrideWithValue(remoteConfig),
+      ],
     );
     addTearDown(container.dispose);
 
