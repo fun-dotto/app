@@ -2,7 +2,7 @@ import 'package:dotto/domain/entity/bus_trip_id.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/bus/bus_schedule_state.dart';
-import 'package:dotto/presentation/bus/bus_timetable.dart';
+import 'package:dotto/presentation/bus/bus_trip_content.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -26,7 +26,7 @@ final class BusTripScreen extends HookConsumerWidget {
         if (busTrip == null) {
           return _BusMessage(message: l10n.busTripNotFound);
         }
-        return BusTimetableScreen(busTrip);
+        return BusTripContent(busTrip: busTrip);
       }(),
       AsyncError() => _BusMessage(message: l10n.busLoadError),
       _ => const Scaffold(body: Center(child: CircularProgressIndicator())),

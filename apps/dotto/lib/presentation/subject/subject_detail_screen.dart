@@ -2,7 +2,7 @@ import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/subject/subject_detail_feedback_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_past_exam_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_state.dart';
-import 'package:dotto/presentation/subject/subject_detail_syllabus_screen.dart';
+import 'package:dotto/presentation/subject/subject_detail_syllabus_content.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -59,7 +59,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
         body: TabBarView(
           children: <Widget>[
             switch (subjectState) {
-              AsyncData(:final value) => SubjectDetailSyllabusScreen(
+              AsyncData(:final value) => SubjectDetailSyllabusContent(
                 syllabus: value.syllabus,
               ),
               AsyncError() => Center(

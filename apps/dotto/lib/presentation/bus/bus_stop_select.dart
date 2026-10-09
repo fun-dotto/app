@@ -1,6 +1,7 @@
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/bus/bus_schedule_state.dart';
+import 'package:dotto/presentation/bus/bus_stop_select_content.dart';
 import 'package:dotto/presentation/bus/selected_bus_stop_state.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,30 +18,25 @@ final class BusStopSelectScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.busStopSelectTitle)),
       body: switch (busState) {
-        AsyncData(:final value) => ListView(
-          children: value.allStops
+        AsyncData(:final value) => BusStopSelectContent(
+          stops: value.allStops
               .where((stop) => stop.selectable ?? true)
-              .map(
-                (stop) => ListTile(
-                  title: Text(stop.name),
-                  onTap: () async {
-                    if (isSaving.value) return;
-                    isSaving.value = true;
-                    final didSave = await ref
-                        .read(selectedBusStopStateProvider.notifier)
-                        .selectBusStop(stop);
-                    if (!context.mounted) return;
-                    isSaving.value = false;
-                    if (didSave) {
-                      Navigator.of(context).pop();
-                    } else {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(l10n.busError)));
-                    }
-                  },
-                ),
-              )
               .toList(),
+          onStopSelected: (stop) async {
+            if (isSaving.value) return;
+            isSaving.value = true;
+            final didSave = await ref
+                .read(selectedBusStopStateProvider.notifier)
+                .selectBusStop(stop);
+            if (!context.mounted) return;
+            isSaving.value = false;
+            if (didSave) {
+              Navigator.of(context).pop();
+            } else {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(l10n.busError)));
+            }
+          },
         ),
         AsyncError() => Center(child: Text(l10n.busError)),
         _ => const Center(child: CircularProgressIndicator()),

@@ -1,0 +1,3 @@
+tags:
+  # Widgetbook の Story を撮影する VRT。基準画像は CI の Update Goldens ワークフローで更新する。
+  golden:

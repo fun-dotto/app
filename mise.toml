@@ -49,7 +49,13 @@ run = [
   "cd apps/dotto && flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json",
 ]
 
-[tasks."widgetbook:run"]
+[tasks."app:widgetbook:run"]
+run = [
+  { task = "generate:build_runner" },
+  "cd apps/dotto && flutter run -t widgetbook/main.dart",
+]
+
+[tasks."design_system:widgetbook:run"]
 run = [
   { task = "generate:build_runner" },
   "cd packages/dotto_design_system && flutter run",
@@ -59,10 +65,19 @@ run = [
 run = "dart analyze apps/dotto/ packages/dotto_design_system/ scripts/"
 
 [tasks.format]
-run = "dart fix --apply && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 | xargs -0 dart format"
+run = "dart fix --apply && find apps/dotto/lib apps/dotto/test apps/dotto/widgetbook packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 | xargs -0 dart format"
 
 [tasks.format-dry-run]
-run = "dart fix --dry-run && find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 | xargs -0 dart format --output=none --set-exit-if-changed"
+run = "dart fix --dry-run && find apps/dotto/lib apps/dotto/test apps/dotto/widgetbook packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 | xargs -0 dart format --output=none --set-exit-if-changed"
 
 [tasks.test]
 run = "melos run test:unit_tests"
+
+# VRT は Linux でのみ実行されるため (他の OS では skip)、CI の Update Goldens ワークフローから使う。
+# 削除された Story の基準画像を残さないよう、作り直す。
+[tasks."test:golden:update"]
+run = [
+  { task = "generate:build_runner" },
+  "[ \"$(uname)\" = Linux ] || { echo '基準画像は Linux でのみ更新できます。' >&2; exit 1; }",
+  "cd apps/dotto && rm -rf test/widgetbook/goldens && flutter test --update-goldens --tags golden test/widgetbook",
+]

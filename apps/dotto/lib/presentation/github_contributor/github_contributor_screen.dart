@@ -1,6 +1,9 @@
+import 'dart:async';
+
+import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
-import 'package:dotto/presentation/github_contributor/github_contributor_list_tile.dart';
+import 'package:dotto/presentation/github_contributor/github_contributor_content.dart';
 import 'package:dotto/presentation/github_contributor/github_contributor_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -15,13 +18,11 @@ final class GitHubContributorScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('開発者')),
       body: switch (contributors) {
-        AsyncData(:final value) => RefreshIndicator(
+        AsyncData(:final value) => GitHubContributorContent(
+          contributors: value,
           onRefresh: ref.read(gitHubContributorStateProvider.notifier).refresh,
-          child: ListView.separated(
-            itemCount: value.length,
-            separatorBuilder: (_, _) => const Divider(height: 0),
-            itemBuilder: (_, index) =>
-                GitHubContributorListTile(profile: value[index]),
+          onContributorTap: (profile) => unawaited(
+            ref.read(openExternalLinkUseCaseProvider)(profile.htmlUrl),
           ),
         ),
         AsyncError() => const ErrorView(),

@@ -22,7 +22,8 @@ globs: ["**/*"]
   | DataSource      | `XxxDataSource`                      |
   | UseCase         | `XxxUseCase` (`call` メソッドを持つ) |
   | Notifier        | `XxxState`                           |
-  | 画面            | `XxxScreen`                          |
+  | 画面 (状態あり) | `XxxScreen`                          |
+  | 画面 (状態なし) | `XxxContent`                         |
 
 - bool 値は `is` / `has` / `can` / `should` で始める。
 

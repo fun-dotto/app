@@ -6,18 +6,19 @@ import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/personal_timetable_day.dart';
 import 'package:dotto/domain/entity/personal_timetable_item.dart';
 import 'package:dotto/domain/entity/subject_summary.dart';
-import 'package:dotto/domain/entity/timetable_period_style.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/presentation/common/user_preference_state.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class PersonalTimetableCalendarView extends HookConsumerWidget {
+/// 日ごとの時間割。
+///
+/// 表示中のページは見た目のためだけの状態なので、この Widget 内で持つ。
+final class PersonalTimetableCalendarView extends HookWidget {
   const new({
     required this.personalTimetableDays,
     required this.selectedDate,
+    required this.isTimetableTimeVisible,
     required this.onDateSelected,
     required this.onSubjectSelected,
     super.key,
@@ -25,17 +26,14 @@ final class PersonalTimetableCalendarView extends HookConsumerWidget {
 
   final List<PersonalTimetableDay> personalTimetableDays;
   final DateTime? selectedDate;
+
+  /// 時限に加えて時刻を表示するか。
+  final bool isTimetableTimeVisible;
   final void Function(DateTime) onDateSelected;
   final void Function(SubjectSummary) onSubjectSelected;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userPreference = ref.watch(userPreferenceStateProvider);
-    final isTimetableTimeVisible = switch (userPreference) {
-      AsyncData(value: final preference) =>
-        preference.timetablePeriodStyle == TimetablePeriodStyle.numberAndTime,
-      AsyncError() || AsyncLoading() => false,
-    };
+  Widget build(BuildContext context) {
     final safeSelectedDate =
         selectedDate ??
         (personalTimetableDays.isNotEmpty

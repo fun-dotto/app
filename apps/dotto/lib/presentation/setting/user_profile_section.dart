@@ -2,37 +2,30 @@ import 'dart:async';
 
 import 'package:dotto/domain/entity/academic_area.dart';
 import 'package:dotto/domain/entity/academic_class.dart';
-import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/dotto_user.dart';
 import 'package:dotto/domain/entity/grade.dart';
-import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/setting/option_select_dialog.dart';
 import 'package:dotto_design_system/component/list_section.dart';
 import 'package:dotto_design_system/component/list_tile.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// 学年・コース・クラスを設定するセクション。
-final class UserProfileSection extends HookConsumerWidget {
-  const new({required this.user, super.key});
+final class UserProfileSection extends StatelessWidget {
+  const new({
+    required this.user,
+    required this.onGradeSelected,
+    required this.onCourseSelected,
+    required this.onClassSelected,
+    super.key,
+  });
 
   final DottoUser user;
+  final Future<void> Function(Grade? grade) onGradeSelected;
+  final Future<void> Function(AcademicArea? course) onCourseSelected;
+  final Future<void> Function(AcademicClass? class_) onClassSelected;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(userStateProvider.notifier);
-
-    // 保存に失敗しても表示は元に戻るため、失敗したことだけを伝える
-    Future<void> save(Future<void> Function() update) async {
-      try {
-        await update();
-      } on DomainError {
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('保存に失敗しました')));
-      }
-    }
-
+  Widget build(BuildContext context) {
     return DottoListSection(
       header: const Text('あなたの情報'),
       children: [
@@ -41,21 +34,21 @@ final class UserProfileSection extends HookConsumerWidget {
           options: Grade.values,
           selected: user.grade,
           labelOf: (grade) => grade.label,
-          onSelected: (grade) => save(() => notifier.setGrade(grade)),
+          onSelected: onGradeSelected,
         ),
         _ProfileTile<AcademicArea>(
           title: 'コース',
           options: AcademicArea.values,
           selected: user.course,
           labelOf: (course) => course.label,
-          onSelected: (course) => save(() => notifier.setCourse(course)),
+          onSelected: onCourseSelected,
         ),
         _ProfileTile<AcademicClass>(
           title: 'クラス',
           options: AcademicClass.values,
           selected: user.class_,
           labelOf: (class_) => class_.label,
-          onSelected: (class_) => save(() => notifier.setClass(class_)),
+          onSelected: onClassSelected,
         ),
       ],
     );

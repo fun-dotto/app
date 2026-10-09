@@ -1,4 +1,7 @@
-import 'package:dotto/presentation/announcement/announcement_list_tile.dart';
+import 'dart:async';
+
+import 'package:dotto/application/open_external_link_use_case.dart';
+import 'package:dotto/presentation/announcement/announcement_content.dart';
 import 'package:dotto/presentation/announcement/announcement_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
@@ -15,13 +18,11 @@ final class AnnouncementScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('お知らせ')),
       body: switch (announcements) {
-        AsyncData(:final value) => RefreshIndicator(
+        AsyncData(:final value) => AnnouncementContent(
+          announcements: value,
           onRefresh: ref.read(announcementStateProvider.notifier).refresh,
-          child: ListView.separated(
-            itemCount: value.length,
-            separatorBuilder: (_, _) => const Divider(height: 0),
-            itemBuilder: (_, index) =>
-                AnnouncementListTile(announcement: value[index]),
+          onAnnouncementTap: (announcement) => unawaited(
+            ref.read(openExternalLinkUseCaseProvider)(announcement.url),
           ),
         ),
         AsyncError() => const ErrorView(),

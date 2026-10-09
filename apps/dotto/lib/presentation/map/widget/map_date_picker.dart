@@ -8,18 +8,21 @@ import 'package:material_ui/material_ui.dart';
 
 final class MapDatePicker extends StatelessWidget {
   const new({
+    required this.now,
     required this.searchDatetime,
     required this.onPeriodButtonTapped,
     required this.onDatePickerConfirmed,
     super.key,
   });
+
+  /// 時限ボタンの日時と選択できる期間の基準となる現在日時。
+  final DateTime now;
   final DateTime searchDatetime;
   final void Function(DateTime) onPeriodButtonTapped;
   final void Function(DateTime) onDatePickerConfirmed;
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final monday = today.subtract(Duration(days: today.weekday - 1));
     final nextSunday = monday.add(const Duration(days: 14, minutes: -1));

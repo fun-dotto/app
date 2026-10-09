@@ -2,7 +2,8 @@ import 'package:dotto/domain/entity/syllabus.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class SubjectDetailSyllabusScreen extends StatelessWidget {
+/// シラバスの各項目の表示。
+final class SubjectDetailSyllabusContent extends StatelessWidget {
   const new({required this.syllabus, super.key});
 
   final Syllabus syllabus;

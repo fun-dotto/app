@@ -7,7 +7,7 @@ import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
-import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto/presentation/course/select_course_content.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -55,47 +55,13 @@ final class SelectCourseScreen extends HookConsumerWidget {
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseSlotTitle(semester.label, dayOfWeek.label, period.number),
-        ),
-      ),
-      body: timetableItems.isEmpty
-          ? Center(
-              child: Text(
-                (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                    .courseNoSubjects,
-              ),
-            )
-          : ListView.builder(
-              itemCount: timetableItems.length,
-              itemBuilder: (context, index) {
-                final item = timetableItems[index];
-                final isAdded = item.isAddedToTimetable ?? false;
-                return ListTile(
-                  title: Text(item.subject.name),
-                  trailing: DottoButton(
-                    type: isAdded
-                        ? DottoButtonType.outlined
-                        : DottoButtonType.contained,
-                    onPressed: isSaving.value
-                        ? null
-                        : () => changeRegistration(item),
-                    child: Text(
-                      isAdded
-                          ? (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseRemove
-                          : (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseAdd,
-                    ),
-                  ),
-                );
-              },
-            ),
+    return SelectCourseContent(
+      semester: semester,
+      dayOfWeek: dayOfWeek,
+      period: period,
+      timetableItems: timetableItems,
+      isSaving: isSaving.value,
+      onRegistrationToggled: changeRegistration,
     );
   }
 }

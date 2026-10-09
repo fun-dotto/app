@@ -51,7 +51,13 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 ### Presentation
 
 - Widget・State (Riverpod の Notifier) で構成する。
-- Widget は `HookConsumerWidget` を基本とする。
+- 画面は、状態を持つ Screen と、状態を持たない Content に分ける。
+  - Screen (`XxxScreen`) は `HookConsumerWidget` とし、Provider の監視・Hooks によるローカル状態・UseCase / Notifier の呼び出し・`AsyncValue` の描き分け・画面遷移を担う。
+  - Content (`XxxContent`) は `StatelessWidget` とし、`ref` や Hooks を持たない。表示する値とイベントのコールバック (`onXxx`) をコンストラクタで受け取り、描画のみを行う。
+  - Screen は Content に値とコールバックを渡す。Content から Provider を参照したり、UseCase を呼んだりしない。
+  - Content は Screen とは別ファイル (`xxx_screen.dart` / `xxx_content.dart`) に置き、public クラスとして定義する。Content 配下の子 Widget も同様に値とコールバックのみを受け取る。
+  - Content には必ず dotto 用 Widgetbook の Story を作成する。詳細は「テスト」の「Widgetbook」を参照。
+  - アニメーションなど見た目のためだけに閉じた状態は、例外として子 Widget 内で `HookWidget` として持ってよい (`ref` は持たない)。
 - UseCase を呼び出して状態を更新し、Repository やデータソースを直接呼ばない。
 - `foundation/` の config・flag・logger も Presentation から直接参照せず、Domain の Repository 抽象と UseCase を経由する。
 
@@ -70,7 +76,7 @@ lib/
 │   └── *_use_case.dart  # UseCase
 ├── data/                # Repository 実装, DataSource
 ├── presentation/
-│   └── <feature>/       # Screen, Widget, State
+│   └── <feature>/       # Screen, Content, Widget, State
 ├── foundation/          # 設定・ログ・フラグなど共通基盤
 ├── helper/              # 汎用ユーティリティ (DateFormatter など)
 ├── extension/           # 標準型・外部パッケージ型の extension
@@ -176,6 +182,8 @@ final class SubjectListState extends _$SubjectListState {
   Future<List<Subject>> build() => ref.watch(fetchSubjectsUseCaseProvider)();
 }
 
+// presentation/subject_list/subject_list_screen.dart
+// 状態を持ち、Content に値とコールバックを渡す
 final class SubjectListScreen extends HookConsumerWidget {
   const SubjectListScreen({super.key});
 
@@ -185,13 +193,36 @@ final class SubjectListScreen extends HookConsumerWidget {
     final subjects = ref.watch(subjectListStateProvider);
 
     return switch (subjects) {
-      AsyncData(:final value) => SubjectList(
+      AsyncData(:final value) => SubjectListContent(
           subjects: value.where((s) => s.name.contains(query.value)).toList(),
           onQueryChanged: (q) => query.value = q,
         ),
       AsyncError(:final error) => ErrorView(error: error),
       _ => const LoadingView(),
     };
+  }
+}
+
+// presentation/subject_list/subject_list_content.dart
+// 状態を持たず、受け取った値を描画する
+final class SubjectListContent extends StatelessWidget {
+  const SubjectListContent({
+    required this.subjects,
+    required this.onQueryChanged,
+    super.key,
+  });
+
+  final List<Subject> subjects;
+  final ValueChanged<String> onQueryChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SearchField(onChanged: onQueryChanged),
+        for (final subject in subjects) SubjectTile(subject: subject),
+      ],
+    );
   }
 }
 ```

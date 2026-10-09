@@ -5,8 +5,9 @@ import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class BusTimetableScreen extends StatelessWidget {
-  const new(this.busTrip, {super.key});
+/// バス便の停留所と時刻の表示。
+final class BusTripContent extends StatelessWidget {
+  const new({required this.busTrip, super.key});
   final BusScheduleTrip busTrip;
 
   @override

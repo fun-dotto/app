@@ -1,0 +1,44 @@
+name: Update Goldens
+
+# VRT の基準画像は、比較する CI と同じ環境で作る必要があるため、CI 上で更新してコミットする。
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+jobs:
+  update-goldens:
+    name: Update Goldens
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-ci
+      - run: mise run test:golden:update
+      - name: Commit goldens
+        run: |
+          git add apps/dotto/test/widgetbook/goldens
+          if git diff --cached --quiet; then
+            echo "基準画像に差分はありません。"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "VRTの基準画像を更新"
+          git push

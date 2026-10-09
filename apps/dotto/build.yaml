@@ -1,5 +1,12 @@
 targets:
   $default:
+    # Widgetbook のエントリポイントを lib/ の外に置くため、生成対象に加える
+    sources:
+      - $package$
+      - lib/**
+      - test/**
+      - widgetbook/**
+      - pubspec.yaml
     builders:
       freezed:
         options:

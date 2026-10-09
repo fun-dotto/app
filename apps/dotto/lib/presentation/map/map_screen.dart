@@ -7,14 +7,11 @@ import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/map_body.dart';
+import 'package:dotto/presentation/map/map_content.dart';
 import 'package:dotto/presentation/map/map_state.dart';
 import 'package:dotto/presentation/map/map_tile_props.dart';
-import 'package:dotto/presentation/map/widget/map.dart';
-import 'package:dotto/presentation/map/widget/map_date_picker.dart';
 import 'package:dotto/presentation/map/widget/map_detail_bottom_sheet.dart';
-import 'package:dotto/presentation/map/widget/map_floor_button.dart';
-import 'package:dotto/presentation/map/widget/map_legend.dart';
-import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -130,214 +127,72 @@ final class MapScreen extends HookConsumerWidget {
       return null;
     }, [focusedMapTileProps?.id, searchDatetime, isAuthenticated, rooms]);
 
-    return Scaffold(
-      key: scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapTitle,
-          style: Theme.of(context).textTheme.titleLarge
-              ?.copyWith(color: SemanticColor.light.accentPrimary),
-        ),
-        centerTitle: false,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SearchAnchor(
-              searchController: searchController,
-              textCapitalization: TextCapitalization.none,
-              builder: (context, controller) {
-                return SearchBar(
-                  controller: controller,
-                  focusNode: searchFocusNode,
-                  padding: const WidgetStatePropertyAll<EdgeInsets>(
-                    EdgeInsets.symmetric(horizontal: 16),
-                  ),
-                  textCapitalization: TextCapitalization.none,
+    return MapContent(
+      scaffoldKey: scaffoldKey,
+      searchBar: MapSearchBar(
+        searchController: searchController,
+        focusNode: searchFocusNode,
+        suggestionsBuilder: (context, controller) {
+          final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+          switch (asyncState) {
+            case AsyncData(:final value):
+              final query = controller.text.trim().toLowerCase();
+              if (query.isEmpty) {
+                return const <Widget>[];
+              }
+              final results = value
+                  .where((room) => room.matchesQuery(query))
+                  .toList();
+              if (results.isEmpty) {
+                return [ListTile(title: Text(l10n.mapNoResults))];
+              }
+              return results.map((item) {
+                return ListTile(
+                  title: Text(item.name),
                   onTap: () {
-                    controller.openView();
+                    controller.closeView(controller.text);
+                    searchFocusNode.unfocus();
+                    focusRoom(item);
                   },
-                  onChanged: (value) {
-                    controller.openView();
-                  },
-                  leading: const Icon(Icons.search),
-                  hintText:
-                      (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                          .mapSearchHint,
                 );
-              },
-              suggestionsBuilder: (context, controller) {
-                switch (asyncState) {
-                  case AsyncData(:final value):
-                    final query = controller.text.trim().toLowerCase();
-                    if (query.isEmpty) {
-                      return const <Widget>[];
-                    }
-                    final results = value
-                        .where((room) => room.matchesQuery(query))
-                        .toList();
-                    if (results.isEmpty) {
-                      return [
-                        ListTile(
-                          title: Text(
-                            (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .mapNoResults,
-                          ),
-                        ),
-                      ];
-                    }
-                    return results.map((item) {
-                      return ListTile(
-                        title: Text(item.name),
-                        onTap: () {
-                          controller.closeView(controller.text);
-                          searchFocusNode.unfocus();
-                          focusRoom(item);
-                        },
-                      );
-                    }).toList();
-                  case AsyncError(:final error, :final stackTrace):
-                    debugPrint(
-                      'Failed to build map search suggestions: '
-                      '$error\n$stackTrace',
-                    );
-                    return [
-                      ListTile(
-                        title: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .mapSearchError,
-                        ),
-                      ),
-                    ];
-                  case AsyncLoading():
-                    return [
-                      ListTile(
-                        title: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .mapLoading,
-                        ),
-                      ),
-                    ];
-                }
-              },
-            ),
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: switch (asyncState) {
-          AsyncData(value: final state) => Column(
-            spacing: 8,
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    Column(
-                      spacing: 8,
-                      children: [
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 480),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: MapFloorButton(
-                              selectedFloor: selectedFloor.value,
-                              onPressed: (floor) {
-                                selectedFloor.value = floor;
-                                focusedTile.value = null;
-                                transformationController.value =
-                                    Matrix4.identity();
-                              },
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: [
-                              SizedBox.expand(
-                                child: Map(
-                                  mapViewTransformationController:
-                                      transformationController,
-                                  selectedFloor: selectedFloor.value,
-                                  rooms: state,
-                                  focusedMapTileProps: focusedTile.value,
-                                  dateTime: searchDatetime,
-                                  onTapped: (props, _) {
-                                    focusedTile.value =
-                                        focusedTile.value == props
-                                        ? null
-                                        : props;
-                                  },
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 16),
-                                child: MapLegend(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        _MapDatePickerSection(
-                          isAuthenticated: isAuthenticated,
-                          searchDatetime: searchDatetime,
-                          onPeriodButtonTapped: (dateTime) async {
-                            var setDate = dateTime;
-                            if (setDate.hour == 0) {
-                              setDate = DateTime.now();
-                            }
-                            searchDate.value = setDate;
-                          },
-                          onDatePickerConfirmed: (dateTime) async {
-                            searchDate.value = dateTime;
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          AsyncError() => Center(
-            child: Text(
-              (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapError,
-            ),
-          ),
-          _ => const Center(child: CircularProgressIndicator()),
+              }).toList();
+            case AsyncError(:final error, :final stackTrace):
+              debugPrint(
+                'Failed to build map search suggestions: '
+                '$error\n$stackTrace',
+              );
+              return [ListTile(title: Text(l10n.mapSearchError))];
+            case AsyncLoading():
+              return [ListTile(title: Text(l10n.mapLoading))];
+          }
         },
       ),
+      body: switch (asyncState) {
+        AsyncData(value: final state) => MapBody(
+          rooms: state,
+          selectedFloor: selectedFloor.value,
+          focusedTile: focusedTile.value,
+          now: DateTime.now(),
+          searchDatetime: searchDatetime,
+          isAuthenticated: isAuthenticated,
+          transformationController: transformationController,
+          onFloorSelected: (floor) {
+            selectedFloor.value = floor;
+            focusedTile.value = null;
+            transformationController.value = Matrix4.identity();
+          },
+          onTileTapped: (props) {
+            focusedTile.value = focusedTile.value == props ? null : props;
+          },
+          onPeriodButtonTapped: (dateTime) {
+            // 「現在」ボタンは 0 時を指すため、押した時点の日時に置き換える。
+            searchDate.value = dateTime.hour == 0 ? DateTime.now() : dateTime;
+          },
+          onDatePickerConfirmed: (dateTime) => searchDate.value = dateTime,
+        ),
+        AsyncError() => const MapErrorBody(),
+        _ => const Center(child: CircularProgressIndicator()),
+      },
     );
   }
-}
-
-final class _MapDatePickerSection extends StatelessWidget {
-  const new({
-    required this.isAuthenticated,
-    required this.searchDatetime,
-    required this.onPeriodButtonTapped,
-    required this.onDatePickerConfirmed,
-  });
-
-  final bool isAuthenticated;
-  final DateTime searchDatetime;
-  final void Function(DateTime) onPeriodButtonTapped;
-  final void Function(DateTime) onDatePickerConfirmed;
-
-  @override
-  Widget build(BuildContext context) => isAuthenticated
-      ? ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 480),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: MapDatePicker(
-              searchDatetime: searchDatetime,
-              onPeriodButtonTapped: onPeriodButtonTapped,
-              onDatePickerConfirmed: onDatePickerConfirmed,
-            ),
-          ),
-        )
-      : const SizedBox.shrink();
 }

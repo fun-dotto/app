@@ -1,7 +1,9 @@
-import 'package:dotto/domain/entity/timetable_period_style.dart';
+import 'dart:async';
+
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/user_preference_state.dart';
+import 'package:dotto/presentation/course/course_customize_content.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -20,23 +22,13 @@ final class CourseCustomizeScreen extends HookConsumerWidget {
         ),
       ),
       body: switch (userPreference) {
-        AsyncData(value: final preference) => SwitchListTile(
-          title: Text(
-            (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                .courseShowTime,
-          ),
-          value:
-              preference.timetablePeriodStyle ==
-              TimetablePeriodStyle.numberAndTime,
-          onChanged: (value) async {
-            await ref
+        AsyncData(value: final preference) => CourseCustomizeContent(
+          timetablePeriodStyle: preference.timetablePeriodStyle,
+          onTimetablePeriodStyleChanged: (style) => unawaited(
+            ref
                 .read(userPreferenceStateProvider.notifier)
-                .setTimetablePeriodStyle(
-                  value
-                      ? TimetablePeriodStyle.numberAndTime
-                      : TimetablePeriodStyle.numberOnly,
-                );
-          },
+                .setTimetablePeriodStyle(style),
+          ),
         ),
         AsyncError() => Center(
           child: Text(
