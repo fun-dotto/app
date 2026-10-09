@@ -78,5 +78,25 @@
         "type": "int"
       }
     }
+  },
+  "funchTitle": "Cafeteria",
+  "funchNotice": "Menus may change.",
+  "funchEmpty": "No menu information available.",
+  "funchCategoryEmpty": "No menus in this category.",
+  "funchSet": "Set meals",
+  "funchDonCurry": "Rice bowls and curry",
+  "funchNoodle": "Noodles",
+  "funchSideDish": "Side dishes",
+  "funchDessert": "Desserts",
+  "funchLarge": "L",
+  "funchMedium": "M",
+  "funchSmall": "S",
+  "funchToday": "Cafeteria on {date}",
+  "@funchToday": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

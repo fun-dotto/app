@@ -1,4 +1,4 @@
-import 'package:dotto/feature/funch/funch.dart';
+import 'package:dotto/presentation/funch/funch_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';

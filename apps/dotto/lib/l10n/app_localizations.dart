@@ -349,6 +349,84 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'{number}限'**
   String mapPeriod(int number);
+
+  /// No description provided for @funchTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'学食'**
+  String get funchTitle;
+
+  /// No description provided for @funchNotice.
+  ///
+  /// In ja, this message translates to:
+  /// **'メニューは変更される可能性があります'**
+  String get funchNotice;
+
+  /// No description provided for @funchEmpty.
+  ///
+  /// In ja, this message translates to:
+  /// **'情報が見つかりません'**
+  String get funchEmpty;
+
+  /// No description provided for @funchCategoryEmpty.
+  ///
+  /// In ja, this message translates to:
+  /// **'このカテゴリーのメニューはありません。'**
+  String get funchCategoryEmpty;
+
+  /// No description provided for @funchSet.
+  ///
+  /// In ja, this message translates to:
+  /// **'セット・単品'**
+  String get funchSet;
+
+  /// No description provided for @funchDonCurry.
+  ///
+  /// In ja, this message translates to:
+  /// **'丼・カレー'**
+  String get funchDonCurry;
+
+  /// No description provided for @funchNoodle.
+  ///
+  /// In ja, this message translates to:
+  /// **'麺'**
+  String get funchNoodle;
+
+  /// No description provided for @funchSideDish.
+  ///
+  /// In ja, this message translates to:
+  /// **'副菜'**
+  String get funchSideDish;
+
+  /// No description provided for @funchDessert.
+  ///
+  /// In ja, this message translates to:
+  /// **'デザート'**
+  String get funchDessert;
+
+  /// No description provided for @funchLarge.
+  ///
+  /// In ja, this message translates to:
+  /// **'大'**
+  String get funchLarge;
+
+  /// No description provided for @funchMedium.
+  ///
+  /// In ja, this message translates to:
+  /// **'中'**
+  String get funchMedium;
+
+  /// No description provided for @funchSmall.
+  ///
+  /// In ja, this message translates to:
+  /// **'小'**
+  String get funchSmall;
+
+  /// No description provided for @funchToday.
+  ///
+  /// In ja, this message translates to:
+  /// **'{date}の学食'**
+  String funchToday(String date);
 }
 
 class _AppLocalizationsDelegate
