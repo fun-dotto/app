@@ -98,5 +98,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "pdfShareFailed": "PDFの共有に失敗しました。もう一度お試しください。"
 }

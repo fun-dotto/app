@@ -98,5 +98,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "pdfShareFailed": "Could not share the PDF. Please try again."
 }
