@@ -7,7 +7,7 @@ environment:
   sdk: 3.13.5
 
 dependencies:
-  app_settings: 9.0.0
+  app_settings: 9.0.1
   built_collection: 5.1.1
   carousel_slider: 5.1.2
   cloud_firestore: 6.10.0
