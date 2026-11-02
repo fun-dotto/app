@@ -634,10 +634,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_datetime_picker_plus
-      sha256: f8f15209dc6a2597bd4749afa8b05b13d9fa953e6fbf843a93f59e9d12e4a631
+      sha256: "8caf8c5b199b744ce8dd9cec7f3e1d802d912e71c2151a9f5aa3d97cbf16f814"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1"
   flutter_hooks:
     dependency: transitive
     description:
