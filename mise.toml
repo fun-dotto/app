@@ -18,9 +18,6 @@ node = "26.13.0"
 "npm:rulesync" = "43.4.2"
 ruby = "4.0.9"
 
-[tasks.pre-commit]
-run = "dart run scripts/pre_commit.dart"
-
 [tasks.bootstrap]
 run = [
   "bundle install",
@@ -28,7 +25,7 @@ run = [
   "melos bootstrap",
   { task = "fetch:dart_defines" },
   { task = "fetch:firebase_config" },
-  { task = "rulesync" }
+  { task = "rulesync" },
 ]
 
 [tasks."fetch:dart_defines"]
@@ -49,13 +46,13 @@ run = "melos run watch:build_runner --no-select"
 [tasks."generate:openapi"]
 run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
 
-[tasks."app:run"]
+[tasks."run:app"]
 run = [
   { task = "generate:build_runner" },
   "cd apps/dotto && flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json",
 ]
 
-[tasks."widgetbook:run"]
+[tasks."run:widgetbook"]
 run = [
   { task = "generate:build_runner" },
   "cd packages/dotto_design_system && flutter run",
