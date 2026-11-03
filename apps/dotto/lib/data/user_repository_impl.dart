@@ -8,6 +8,7 @@ import 'package:dotto/domain/entity/dotto_user.dart';
 import 'package:dotto/domain/repository/user_repository.dart';
 import 'package:dotto_app_api/app/v1/user.connect.client.dart';
 import 'package:dotto_app_api/app/v1/user.pb.dart' as api;
+import 'package:protobuf/well_known_types/google/protobuf/field_mask.pb.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_repository_impl.g.dart';
@@ -20,6 +21,8 @@ final class UserRepositoryImpl implements UserRepository {
   const new(this._transport);
 
   final Transport _transport;
+
+  static const _profileFields = ['grade', 'course', 'class'];
 
   UserServiceClient get _client => UserServiceClient(_transport);
 
@@ -60,6 +63,8 @@ final class UserRepositoryImpl implements UserRepository {
           grade: grade == null ? null : toApiGrade(grade),
           course: course == null ? null : toApiCourse(course),
           class_3: class_ == null ? null : toApiClass(class_),
+          // 未設定の項目もサーバー側で消すため、常に全項目を更新対象にする。
+          updateMask: FieldMask(paths: _profileFields),
         ),
       );
       if (!response.hasUser()) {
