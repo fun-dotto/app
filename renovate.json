@@ -217,6 +217,13 @@
       "matchManagers": ["pub"],
       "matchPackageNames": ["intl"],
       "enabled": false
+    },
+    {
+      "description": "protobuf のメジャーは buf.gen.yaml の buf.build/protocolbuffers/dart プラグイン (protoc_plugin) のメジャーと対応させる必要があり、Renovate は buf.gen.yaml を更新しないため、メジャー更新は無効化して手動でプラグインと揃えて上げる",
+      "matchManagers": ["pub"],
+      "matchPackageNames": ["protobuf"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ]
 }
