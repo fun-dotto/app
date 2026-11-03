@@ -121,3 +121,13 @@ Temporary Items
 !.github/workflows/
 !.github/PULL_REQUEST_TEMPLATE.md
 .mcp.json
+
+# Firebase (mise run fetch:firebase_config で取得)
+apps/dotto/android/app/google-services.json
+apps/dotto/android/app/src/*/google-services.json
+apps/dotto/ios/firebase/*/GoogleService-Info.plist
+apps/dotto/ios/Runner/GoogleService-Info.plist
+apps/dotto/lib/firebase_options.dart
+apps/dotto/lib/firebase_options_dev.dart
+apps/dotto/lib/firebase_options_stg.dart
+apps/dotto/lib/firebase_options_prd.dart
