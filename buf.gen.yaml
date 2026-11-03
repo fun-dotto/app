@@ -4,3 +4,6 @@ plugins:
   - remote: buf.build/protocolbuffers/dart:v25.1.0
     out: packages/dotto_app_api/lib
     include_imports: true
+  - remote: buf.build/connectrpc/dart:v2.0.1
+    out: packages/dotto_app_api/lib
+    include_imports: true
