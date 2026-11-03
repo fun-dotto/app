@@ -1,125 +1,48 @@
-import 'package:built_collection/built_collection.dart';
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_mapper.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/domain_error_mapper.dart';
-import 'package:dotto/domain/entity/day_of_week.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
-import 'package:dotto/domain/entity/faculty.dart';
-import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/semester.dart';
-import 'package:dotto/domain/entity/subject_faculty.dart';
-import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_slot.dart';
 import 'package:dotto/domain/repository/timetable_repository.dart';
-import 'package:openapi/openapi.dart'
-    hide Faculty, SubjectFaculty, SubjectSummary, TimetableItem;
+import 'package:dotto_app_api/app/v1/timetable_item.connect.client.dart';
+import 'package:dotto_app_api/app/v1/timetable_item.pb.dart' as api;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'timetable_repository_impl.g.dart';
 
 @riverpod
-TimetableRepository timetableRepository(Ref ref) =>
-    TimetableRepositoryImpl(ref.watch(apiClientProvider));
+TimetableRepository timetableRepository(Ref ref) => TimetableRepositoryImpl(
+  TimetableItemServiceClient(ref.watch(appApiTransportProvider)),
+);
 
 final class TimetableRepositoryImpl implements TimetableRepository {
-  const new(this.apiClient);
+  const new(this._client);
 
-  final Openapi apiClient;
+  final TimetableItemServiceClient _client;
 
   @override
   Future<List<TimetableItem>> getTimetableItems(
     List<Semester> semesters,
   ) async {
     try {
-      final api = apiClient.getTimetableItemsApi();
-      final response = await api.timetableItemsV1List(
-        semesters: BuiltList<DottoFoundationV1CourseSemester>(
-          semesters.map(
-            (e) => switch (e) {
-              Semester.h1 => DottoFoundationV1CourseSemester.H1,
-              Semester.h2 => DottoFoundationV1CourseSemester.H2,
-              Semester.allYear => DottoFoundationV1CourseSemester.allYear,
-              Semester.q1 => DottoFoundationV1CourseSemester.Q1,
-              Semester.q2 => DottoFoundationV1CourseSemester.Q2,
-              Semester.q3 => DottoFoundationV1CourseSemester.Q3,
-              Semester.q4 => DottoFoundationV1CourseSemester.Q4,
-              Semester.summerIntensive =>
-                DottoFoundationV1CourseSemester.summerIntensive,
-              Semester.winterIntensive =>
-                DottoFoundationV1CourseSemester.winterIntensive,
-            },
+      final response = await _client.listTimetableItems(
+        api.ListTimetableItemsRequest(semesters: semesters.map(toApiSemester)),
+      );
+      return List<TimetableItem>.unmodifiable(
+        response.timetableItems.map(
+          (e) => TimetableItem(
+            id: e.id,
+            subject: fromApiSubjectSummary(e.subject),
+            slot: e.hasSlot()
+                ? TimetableSlot(
+                    dayOfWeek: fromApiDayOfWeek(e.slot.dayOfWeek),
+                    period: fromApiPeriod(e.slot.period),
+                  )
+                : null,
           ),
         ),
-      );
-      if (response.statusCode != 200) {
-        throw const DomainError(
-          type: DomainErrorType.invalidResponse,
-          message: 'Failed to get timetable items',
-        );
-      }
-      final data = response.data;
-      if (data == null) {
-        throw const DomainError(
-          type: DomainErrorType.invalidResponse,
-          message: 'Failed to get timetable items',
-        );
-      }
-      return List<TimetableItem>.unmodifiable(
-        data.timetableItems
-            .map(
-              (e) => TimetableItem(
-                id: e.id,
-                subject: SubjectSummary(
-                  id: e.subject.id,
-                  name: e.subject.name,
-                  faculties: e.subject.faculties
-                      .map(
-                        (e) => SubjectFaculty(
-                          faculty: Faculty(
-                            id: e.faculty.id,
-                            name: e.faculty.name,
-                            email: e.faculty.email,
-                          ),
-                          isPrimary: e.isPrimary,
-                        ),
-                      )
-                      .toList(),
-                ),
-                slot: () {
-                  final slot = e.slot;
-                  if (slot == null) return null;
-                  return TimetableSlot(
-                    dayOfWeek: switch (slot.dayOfWeek) {
-                      DottoFoundationV1DayOfWeek.monday => DayOfWeek.monday,
-                      DottoFoundationV1DayOfWeek.tuesday => DayOfWeek.tuesday,
-                      DottoFoundationV1DayOfWeek.wednesday =>
-                        DayOfWeek.wednesday,
-                      DottoFoundationV1DayOfWeek.thursday => DayOfWeek.thursday,
-                      DottoFoundationV1DayOfWeek.friday => DayOfWeek.friday,
-                      DottoFoundationV1DayOfWeek.saturday => DayOfWeek.saturday,
-                      DottoFoundationV1DayOfWeek.sunday => DayOfWeek.sunday,
-                      _ => throw const DomainError(
-                        type: DomainErrorType.invalidData,
-                        message: 'Invalid day of week',
-                      ),
-                    },
-                    period: switch (slot.period) {
-                      DottoFoundationV1Period.period1 => Period.first,
-                      DottoFoundationV1Period.period2 => Period.second,
-                      DottoFoundationV1Period.period3 => Period.third,
-                      DottoFoundationV1Period.period4 => Period.fourth,
-                      DottoFoundationV1Period.period5 => Period.fifth,
-                      DottoFoundationV1Period.period6 => Period.sixth,
-                      _ => throw const DomainError(
-                        type: DomainErrorType.invalidData,
-                        message: 'Invalid period',
-                      ),
-                    },
-                  );
-                }(),
-              ),
-            )
-            .toList(),
       );
     } on DomainError {
       rethrow;

@@ -1,39 +1,39 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/announcement.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/announcement_repository.dart';
-import 'package:openapi/openapi.dart' hide Announcement;
+import 'package:dotto_app_api/app/v1/announcement.connect.client.dart';
+import 'package:dotto_app_api/app/v1/announcement.pb.dart' as api;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'announcement_repository_impl.g.dart';
 
 @riverpod
 AnnouncementRepository announcementRepository(Ref ref) =>
-    AnnouncementRepositoryImpl(ref.watch(apiClientProvider));
+    AnnouncementRepositoryImpl(
+      AnnouncementServiceClient(ref.watch(appApiTransportProvider)),
+    );
 
 final class AnnouncementRepositoryImpl implements AnnouncementRepository {
-  const new(this._apiClient);
+  const new(this._client);
 
-  final Openapi _apiClient;
+  final AnnouncementServiceClient _client;
 
   @override
   Future<List<Announcement>> fetchAll() async {
     try {
-      final response = await _apiClient
-          .getAnnouncementsApi()
-          .announcementsV1List();
-      final data = response.data;
-      if (data == null) {
-        throw const DomainError(
-          type: DomainErrorType.invalidResponse,
-          message: 'Failed to get announcements',
-        );
-      }
+      final response = await _client.listAnnouncements(
+        api.ListAnnouncementsRequest(),
+      );
       return List.unmodifiable(
-        data.announcements.map(
-          (e) =>
-              Announcement(id: e.id, title: e.title, date: e.date, url: e.url),
+        response.announcements.map(
+          (e) => Announcement(
+            id: e.id,
+            title: e.title,
+            date: e.availableFrom.toDateTime(toLocal: true),
+            url: e.url,
+          ),
         ),
       );
     } on DomainError {

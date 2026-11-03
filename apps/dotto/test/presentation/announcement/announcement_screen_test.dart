@@ -1,47 +1,46 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/presentation/announcement/announcement_detail_screen.dart';
 import 'package:dotto/presentation/announcement/announcement_screen.dart';
 import 'package:dotto/presentation/common/error_view.dart';
+import 'package:dotto_app_api/app/v1/announcement.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/announcement.pb.dart' as api;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:openapi/openapi.dart';
+import 'package:protobuf/well_known_types/google/protobuf/timestamp.pb.dart';
 
-import '../../helpers/fake_http_client_adapter.dart';
+import '../../helpers/fake_app_api_transport.dart';
 import '../../helpers/fake_logger.dart';
 import '../../helpers/fake_url_launcher.dart';
 
-FakeHttpClientAdapter _adapter() => FakeHttpClientAdapter()
+FakeAppApiTransport _transport() => FakeAppApiTransport()
   ..on(
-    'GET',
-    '/v1/announcements',
-    (_) => const FakeResponse(200, {
-      'announcements': [
-        {
-          'id': '1',
-          'title': '休講のお知らせ',
-          'date': '2026-04-01T00:00:00Z',
-          'url': 'https://example.com/1',
-        },
+    AnnouncementService.listAnnouncements,
+    (_) => api.ListAnnouncementsResponse(
+      announcements: [
+        api.Announcement(
+          id: '1',
+          title: '休講のお知らせ',
+          url: 'https://example.com/1',
+          availableFrom: Timestamp.fromDateTime(DateTime.utc(2026, 4)),
+        ),
       ],
-    }),
+    ),
   );
 
 Future<FakeUrlLauncher> _pump(
   WidgetTester tester,
   Widget screen, {
-  FakeHttpClientAdapter? adapter,
+  FakeAppApiTransport? transport,
 }) async {
   final launcher = FakeUrlLauncher()..install(addTearDown);
   await tester.pumpWidget(
     ProviderScope(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(
-          Openapi(dio: fakeDio(adapter ?? _adapter())),
-        ),
+        appApiTransportProvider.overrideWithValue(transport ?? _transport()),
         loggerProvider.overrideWithValue(FakeLogger()),
       ],
       child: MaterialApp(home: screen),
@@ -67,7 +66,8 @@ void main() {
     await _pump(
       tester,
       const AnnouncementScreen(),
-      adapter: FakeHttpClientAdapter(),
+      transport: FakeAppApiTransport()
+        ..fail(AnnouncementService.listAnnouncements),
     );
 
     expect(find.byType(ErrorView), findsOneWidget);
@@ -96,7 +96,8 @@ void main() {
     await _pump(
       tester,
       const AnnouncementDetailScreen(id: '1'),
-      adapter: FakeHttpClientAdapter(),
+      transport: FakeAppApiTransport()
+        ..fail(AnnouncementService.listAnnouncements),
     );
 
     expect(find.byType(ErrorView), findsOneWidget);
