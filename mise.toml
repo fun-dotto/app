@@ -1,5 +1,5 @@
 [settings]
-minimum_release_age = "7d"
+minimum_release_age = "24h"
 
 [settings.ruby]
 compile = false
@@ -9,12 +9,12 @@ _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
 buf = "1.75.0"
-flutter = "3.47.6"
-gcloud = "587.0.0"
+flutter = "3.47.8"
+gcloud = "591.0.0"
 java = "21.0.2"
-node = "26.10.0"
-"npm:rulesync" = "24.0.0"
-ruby = "4.0.7"
+node = "26.13.0"
+"npm:rulesync" = "43.4.2"
+ruby = "4.0.9"
 
 [tasks.pre-commit]
 run = "dart run scripts/pre_commit.dart"
