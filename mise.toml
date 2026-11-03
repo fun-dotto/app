@@ -8,6 +8,7 @@ compile = false
 _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
+buf = "1.75.0"
 flutter = "3.47.6"
 gcloud = "587.0.0"
 java = "21.0.2"

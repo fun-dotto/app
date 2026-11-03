@@ -1,0 +1,72 @@
+name: Update Proto
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - update-proto
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+env:
+  BRANCH_NAME: chore/update-proto
+jobs:
+  update-proto:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Create GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.PROTO_UPDATER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.PROTO_UPDATER_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            ${{ github.event.repository.name }}
+            server
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          token: ${{ steps.app-token.outputs.token }}
+      - name: Checkout fun-dotto/server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: fun-dotto/server
+          ref: main
+          path: .server
+          token: ${{ steps.app-token.outputs.token }}
+      - name: Setup mise
+        uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        with:
+          install_args: buf
+      - name: Generate
+        run: buf generate .server
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          SERVER_SHA=$(git -C .server rev-parse HEAD)
+          rm -rf .server
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes"
+            exit 0
+          fi
+
+          APP_SLUG="${{ steps.app-token.outputs.app-slug }}"
+          APP_USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${APP_USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+
+          git checkout -B "$BRANCH_NAME"
+          git add -A
+          git commit -m "Protobufの生成コードを更新" -m "fun-dotto/server@${SERVER_SHA}"
+          git push --force origin "$BRANCH_NAME"
+
+          BODY="fun-dotto/server の main ブランチ (fun-dotto/server@${SERVER_SHA}) から \`buf generate\` で生成したコードに更新します。"
+          if gh pr view "$BRANCH_NAME" --json state --jq .state | grep -q OPEN; then
+            gh pr edit "$BRANCH_NAME" --body "$BODY"
+          else
+            gh pr create --base main --head "$BRANCH_NAME" --title "Protobufの生成コードを更新" --body "$BODY"
+          fi
