@@ -22,16 +22,16 @@ git clone git@github.com:fun-dotto/app.git dotto-app
 cd dotto-app
 ```
 
+### mise でプロジェクトを信頼
+
+```zsh
+mise trust
+```
+
 ### ツールをインストール
 
 ```zsh
 mise install
-```
-
-### pre-commitをセットアップ
-
-```
-mise generate git-pre-commit --write --task=pre-commit
 ```
 
 ### Google Cloud & Firebase を認証
@@ -44,13 +44,13 @@ firebase login
 ### 色々セットアップ
 
 ```zsh
-mise bootstrap
+mise run bootstrap
 ```
 
 ### ビルドして起動する
 
 ```zsh
-mise run app:run
+mise run run:app
 ```
 
 &copy; 2026 Dotto

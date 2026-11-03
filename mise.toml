@@ -13,11 +13,9 @@ flutter = "3.47.8"
 gcloud = "591.0.0"
 java = "21.0.2"
 node = "26.13.0"
+"npm:firebase-tools" = "15.34.1"
 "npm:rulesync" = "43.4.2"
 ruby = "4.0.9"
-
-[tasks.pre-commit]
-run = "dart run scripts/pre_commit.dart"
 
 [tasks.bootstrap]
 run = [
@@ -25,11 +23,15 @@ run = [
   "dart pub global activate melos 7.8.1",
   "melos bootstrap",
   { task = "fetch:dart_defines" },
-  { task = "rulesync" }
+  { task = "fetch:firebase_config" },
+  { task = "rulesync" },
 ]
 
 [tasks."fetch:dart_defines"]
 run = "melos run fetch:dart_defines"
+
+[tasks."fetch:firebase_config"]
+run = "dart run scripts/fetch_firebase_config.dart"
 
 [tasks.rulesync]
 run = "rulesync generate"
@@ -40,13 +42,13 @@ run = "melos run gen:build_runner --no-select"
 [tasks."watch:build_runner"]
 run = "melos run watch:build_runner --no-select"
 
-[tasks."app:run"]
+[tasks."run:app"]
 run = [
   { task = "generate:build_runner" },
   "cd apps/dotto && flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json",
 ]
 
-[tasks."widgetbook:run"]
+[tasks."run:widgetbook"]
 run = [
   { task = "generate:build_runner" },
   "cd packages/dotto_design_system && flutter run",
