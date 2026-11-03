@@ -42,7 +42,7 @@ jobs:
         with:
           install_args: buf
       - name: Generate
-        run: buf generate .server
+        run: buf generate .server --path .server/proto/app
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}

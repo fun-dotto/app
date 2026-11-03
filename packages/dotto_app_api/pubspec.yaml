@@ -1,0 +1,11 @@
+name: dotto_app_api
+resolution: workspace
+publish_to: none
+description: buf generate で生成した app API の Protobuf コード
+
+environment:
+  sdk: 3.13.5
+
+dependencies:
+  fixnum: 1.1.1
+  protobuf: 6.1.0
