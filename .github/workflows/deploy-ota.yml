@@ -110,8 +110,8 @@ jobs:
         run: mise exec -- bundle exec fastlane android build_ota_flavor flavor:${{ matrix.flavor }}
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: ota-apk-${{ matrix.flavor }}
-          path: apps/dotto/build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+          name: ota-aab-${{ matrix.flavor }}
+          path: apps/dotto/build/app/outputs/bundle/${{ matrix.flavor }}Release/app-${{ matrix.flavor }}-release.aab
           if-no-files-found: error
           retention-days: 1
 
@@ -179,8 +179,8 @@ jobs:
       - uses: ./.github/actions/setup-ci
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: ota-apk-${{ matrix.flavor }}
-          path: apps/dotto/build/app/outputs/flutter-apk
+          name: ota-aab-${{ matrix.flavor }}
+          path: apps/dotto/build/app/outputs/bundle/${{ matrix.flavor }}Release
       - name: Distribute Android OTA (${{ matrix.flavor }})
         run: mise exec -- bundle exec fastlane android distribute_ota_flavor flavor:${{ matrix.flavor }}
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
