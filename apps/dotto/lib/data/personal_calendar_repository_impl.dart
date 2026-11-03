@@ -1,18 +1,17 @@
-import 'package:built_collection/built_collection.dart';
+import 'package:connectrpc/connect.dart';
 import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_mapper.dart';
 import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/day_of_week.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
-import 'package:dotto/domain/entity/faculty.dart';
 import 'package:dotto/domain/entity/lecture_status.dart';
 import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/personal_timetable_day.dart';
 import 'package:dotto/domain/entity/personal_timetable_item.dart';
-import 'package:dotto/domain/entity/subject_faculty.dart';
-import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:dotto/domain/repository/personal_calendar_repository.dart';
-import 'package:openapi/openapi.dart'
-    hide Faculty, SubjectFaculty, SubjectSummary;
+import 'package:dotto_app_api/app/v1/common.pbenum.dart' as api;
+import 'package:dotto_app_api/app/v1/personal_calendar_item.connect.client.dart';
+import 'package:dotto_app_api/app/v1/personal_calendar_item.pb.dart' as api;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'personal_calendar_repository_impl.g.dart';
@@ -23,58 +22,29 @@ PersonalCalendarRepository personalCalendarRepository(Ref ref) =>
 
 final class PersonalCalendarRepositoryImpl
     implements PersonalCalendarRepository {
-  const new(this.apiClient);
+  const new(this._transport);
 
-  final Openapi apiClient;
+  final Transport _transport;
 
   @override
   Future<List<PersonalTimetableDay>> getPersonalTimetableDays({
     required List<DateTime> targetDates,
   }) async {
     try {
-      final api = apiClient.getPersonalCalendarItemsApi();
-      final dates = BuiltList<Date>(
-        targetDates.map((d) => Date(d.year, d.month, d.day)),
-      );
-      final response = await api.personalCalendarItemsV1List(dates: dates);
-      if (response.statusCode != 200) {
-        throw DomainError(
-          type: DomainErrorType.invalidResponse,
-          message:
-              'Failed to get personal calendar items: '
-              'status ${response.statusCode}',
-        );
-      }
-      final data = response.data;
-      if (data == null) {
-        throw const DomainError(
-          type: DomainErrorType.invalidResponse,
-          message: 'Failed to get personal calendar items',
-        );
-      }
+      final response = await PersonalCalendarItemServiceClient(_transport)
+          .listPersonalCalendarItems(
+            api.ListPersonalCalendarItemsRequest(
+              dates: targetDates.map(toApiDate),
+            ),
+          );
 
       final itemsByDate = <String, List<PersonalTimetableItem>>{};
-      for (final item in data.personalCalendarItems) {
+      for (final item in response.personalCalendarItems) {
         final dateKey = '${item.date.year}-${item.date.month}-${item.date.day}';
         final timetableItem = PersonalTimetableItem(
           period: toPeriod(item.period),
-          subject: SubjectSummary(
-            id: item.subject.id,
-            name: item.subject.name,
-            faculties: item.subject.faculties
-                .map(
-                  (e) => SubjectFaculty(
-                    faculty: Faculty(
-                      id: e.faculty.id,
-                      name: e.faculty.name,
-                      email: e.faculty.email,
-                    ),
-                    isPrimary: e.isPrimary,
-                  ),
-                )
-                .toList(),
-          ),
-          lectureStatus: toLectureStatus(item.status),
+          subject: toSubjectSummary(item.subject),
+          lectureStatus: toLectureStatus(item.state),
           roomName: item.rooms.map((r) => r.name).join(', '),
         );
         itemsByDate
@@ -101,37 +71,18 @@ final class PersonalCalendarRepositoryImpl
     }
   }
 
-  static Period toPeriod(DottoFoundationV1Period period) {
-    return switch (period) {
-      DottoFoundationV1Period.period1 => Period.first,
-      DottoFoundationV1Period.period2 => Period.second,
-      DottoFoundationV1Period.period3 => Period.third,
-      DottoFoundationV1Period.period4 => Period.fourth,
-      DottoFoundationV1Period.period5 => Period.fifth,
-      DottoFoundationV1Period.period6 => Period.sixth,
-      _ => throw DomainError(
-        type: DomainErrorType.invalidData,
-        message: 'Unsupported DottoFoundationV1Period: $period',
-      ),
-    };
-  }
+  static Period toPeriod(api.Period period) => fromApiPeriod(period);
 
-  static LectureStatus toLectureStatus(
-    DottoFoundationV1PersonalCalendarItemStatus status,
-  ) {
-    return switch (status) {
-      DottoFoundationV1PersonalCalendarItemStatus.normal =>
-        LectureStatus.normal,
-      DottoFoundationV1PersonalCalendarItemStatus.cancelled =>
-        LectureStatus.cancelled,
-      DottoFoundationV1PersonalCalendarItemStatus.makeup =>
-        LectureStatus.madeUp,
-      DottoFoundationV1PersonalCalendarItemStatus.roomChanged =>
+  static LectureStatus toLectureStatus(api.PersonalCalendarItem_State state) {
+    return switch (state) {
+      api.PersonalCalendarItem_State.STATE_NORMAL => LectureStatus.normal,
+      api.PersonalCalendarItem_State.STATE_CANCELLED => LectureStatus.cancelled,
+      api.PersonalCalendarItem_State.STATE_MAKEUP => LectureStatus.madeUp,
+      api.PersonalCalendarItem_State.STATE_ROOM_CHANGED =>
         LectureStatus.roomChanged,
       _ => throw DomainError(
         type: DomainErrorType.invalidData,
-        message:
-            'Unsupported DottoFoundationV1PersonalCalendarItemStatus: $status',
+        message: 'Unsupported PersonalCalendarItem.State: $state',
       ),
     };
   }

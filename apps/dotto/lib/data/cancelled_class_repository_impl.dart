@@ -1,12 +1,14 @@
-import 'package:built_collection/built_collection.dart';
+import 'package:connectrpc/connect.dart';
 import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_mapper.dart';
 import 'package:dotto/data/course_notice_clock.dart';
 import 'package:dotto/data/course_notice_mapper.dart';
 import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/course_notice.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/cancelled_class_repository.dart';
-import 'package:openapi/openapi.dart';
+import 'package:dotto_app_api/app/v1/cancelled_class.connect.client.dart';
+import 'package:dotto_app_api/app/v1/cancelled_class.pb.dart' as api;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cancelled_class_repository_impl.g.dart';
@@ -19,34 +21,25 @@ CancelledClassRepository cancelledClassRepository(Ref ref) =>
     );
 
 final class CancelledClassRepositoryImpl implements CancelledClassRepository {
-  const new(this._apiClient, this._now);
-  final Openapi _apiClient;
+  const new(this._transport, this._now);
+  final Transport _transport;
   final DateTime Function() _now;
   @override
   Future<List<CourseNotice>> fetchAll({List<String>? subjectIds}) async {
     try {
-      final now = _now();
-      final response = await _apiClient
-          .getCancelledClassesApi()
-          .cancelledClassesV1List(
-            from: Date(now.year, now.month, now.day),
-            subjectIds: subjectIds == null
-                ? null
-                : BuiltList<String>(subjectIds),
+      final response = await CancelledClassServiceClient(_transport)
+          .listCancelledClasses(
+            api.ListCancelledClassesRequest(
+              fromDate: toApiDate(_now()),
+              subjectIds: subjectIds,
+            ),
           );
-      final data = response.data;
-      if (response.statusCode != 200 || data == null) {
-        throw const DomainError(
-          type: DomainErrorType.invalidResponse,
-          message: 'Failed to fetch course notices',
-        );
-      }
       return List.unmodifiable(
-        data.cancelledClasses.map(
+        response.cancelledClasses.map(
           (e) => CourseNotice.cancellation(
             id: e.id,
             subject: mapNoticeSubject(e.subject),
-            date: e.date.toDateTime(),
+            date: fromApiDate(e.date),
             periodNumber: mapNoticePeriod(e.period),
             comment: e.comment,
           ),

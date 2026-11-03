@@ -1,8 +1,10 @@
+import 'package:connectrpc/connect.dart';
 import 'package:dotto/data/api_client.dart';
 import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/data/push_token_data_source.dart';
 import 'package:dotto/domain/repository/push_token_repository.dart';
-import 'package:openapi/openapi.dart';
+import 'package:dotto_app_api/app/v1/fcm_token.connect.client.dart';
+import 'package:dotto_app_api/app/v1/fcm_token.pb.dart' as api;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_token_repository_impl.g.dart';
@@ -14,8 +16,8 @@ PushTokenRepository pushTokenRepository(Ref ref) => PushTokenRepositoryImpl(
 );
 
 final class PushTokenRepositoryImpl implements PushTokenRepository {
-  const new(this._api, this._tokens);
-  final Openapi _api;
+  const new(this._transport, this._tokens);
+  final Transport _transport;
   final PushTokenDataSource _tokens;
   @override
   Stream<String> watchRefreshes() async* {
@@ -33,9 +35,8 @@ final class PushTokenRepositoryImpl implements PushTokenRepository {
     try {
       final value = token ?? await _tokens.fetch();
       if (value == null) return;
-      await _api.getFCMTokensApi().fCMTokenV1Upsert(
-        fCMTokenRequest: FCMTokenRequest((builder) => builder.token = value),
-      );
+      await FcmTokenServiceClient(_transport)
+          .registerFcmToken(api.RegisterFcmTokenRequest(token: value));
     } on Exception catch (error, stack) {
       throw mapDomainError(e: error, stackTrace: stack);
     }
