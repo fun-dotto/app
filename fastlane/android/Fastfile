@@ -20,9 +20,8 @@ platform :android do
     sh('melos', 'run', 'gen:build_runner', '--no-select')
   end
 
-  # 指定フレーバーの apk をビルドする
-  # Firebase App Distribution は AAB の配信時に Google Play 連携を要求するため、
-  # OTA では連携不要な APK を配信する
+  # 指定フレーバーの aab をビルドする
+  # Firebase App Distribution で AAB を配信するには、Firebase アプリと Google Play アプリの連携が必要
   def build_android_ota_flavor(flavor, build_number)
     sh(
       'melos',
@@ -31,7 +30,7 @@ platform :android do
       '--',
       'flutter',
       'build',
-      'apk',
+      'appbundle',
       '--release',
       "--flavor=#{flavor}",
       "--dart-define-from-file=dart_defines/#{flavor}.json",
@@ -39,7 +38,7 @@ platform :android do
     )
   end
 
-  # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、APKをビルドする
+  # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、AABをビルドする
   def prepare_android_ota_flavor(flavor)
     config = ANDROID_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
@@ -56,8 +55,8 @@ platform :android do
     config = ANDROID_OTA_FLAVORS.fetch(flavor)
     firebase_app_distribution(
       app: ENV[config[:firebase_app_id_env]],
-      android_artifact_type: "APK",
-      android_artifact_path: "apps/dotto/build/app/outputs/flutter-apk/app-#{flavor}-release.apk",
+      android_artifact_type: "AAB",
+      android_artifact_path: "apps/dotto/build/app/outputs/bundle/#{flavor}Release/app-#{flavor}-release.aab",
       groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
       release_notes: ota_release_notes,
     )
