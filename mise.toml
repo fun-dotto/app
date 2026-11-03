@@ -14,6 +14,7 @@ gcloud = "591.0.0"
 java = "21.0.2"
 node = "26.13.0"
 "npm:@openapitools/openapi-generator-cli" = "2.41.0"
+"npm:firebase-tools" = "15.34.1"
 "npm:rulesync" = "43.4.2"
 ruby = "4.0.9"
 
@@ -26,11 +27,15 @@ run = [
   "dart pub global activate melos 7.8.1",
   "melos bootstrap",
   { task = "fetch:dart_defines" },
+  { task = "fetch:firebase_config" },
   { task = "rulesync" }
 ]
 
 [tasks."fetch:dart_defines"]
 run = "melos run fetch:dart_defines"
+
+[tasks."fetch:firebase_config"]
+run = "dart run scripts/fetch_firebase_config.dart"
 
 [tasks.rulesync]
 run = "rulesync generate"
