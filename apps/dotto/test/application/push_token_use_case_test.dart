@@ -1,24 +1,23 @@
-import 'dart:convert';
-
 import 'package:dotto/application/synchronize_push_token_use_case.dart';
 import 'package:dotto/application/watch_push_token_use_case.dart';
 import 'package:dotto/data/api_client.dart';
 import 'package:dotto/data/push_token_data_source.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
+import 'package:dotto_app_api/app/v1/fcm_token.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/fcm_token.pb.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
 
-import '../helpers/fake_http_client_adapter.dart';
+import '../helpers/fake_app_api.dart';
 import '../helpers/fake_push_token_data_source.dart';
 
 ProviderContainer _container(
-  FakeHttpClientAdapter adapter, {
+  FakeAppApi api, {
   Stream<String> refreshes = const Stream.empty(),
 }) {
   final container = ProviderContainer(
     overrides: [
-      apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(adapter))),
+      apiClientProvider.overrideWithValue(api),
       pushTokenDataSourceProvider.overrideWithValue(
         FakePushTokenDataSource(refreshes),
       ),
@@ -28,21 +27,10 @@ ProviderContainer _container(
   return container;
 }
 
-FakeHttpClientAdapter _server(List<String> received) =>
-    FakeHttpClientAdapter()..on('POST', '/v1/fcmTokens', (options) {
-      final body = switch (options.data) {
-        final String data => jsonDecode(data),
-        final Object? data => data,
-      };
-      final token = (body! as Map)['token'] as String;
-      received.add(token);
-      return FakeResponse(200, {
-        'fcmToken': {
-          'token': token,
-          'createdAt': '2026-04-01T00:00:00Z',
-          'updatedAt': '2026-04-01T00:00:00Z',
-        },
-      });
+FakeAppApi _server(List<String> received) =>
+    FakeAppApi()..on(FcmTokenService.registerFcmToken, (request) {
+      received.add(request.token);
+      return RegisterFcmTokenResponse(fcmToken: FcmToken(token: request.token));
     });
 
 void main() {
@@ -65,7 +53,7 @@ void main() {
   });
 
   test('登録に失敗したらドメインエラーにする', () async {
-    final container = _container(FakeHttpClientAdapter());
+    final container = _container(FakeAppApi());
 
     await expectLater(
       container.read(synchronizePushTokenUseCaseProvider)(),
@@ -75,7 +63,7 @@ void main() {
 
   test('端末のトークン更新を順に通知する', () async {
     final container = _container(
-      FakeHttpClientAdapter(),
+      FakeAppApi(),
       refreshes: Stream.fromIterable(['first', 'second']),
     );
 

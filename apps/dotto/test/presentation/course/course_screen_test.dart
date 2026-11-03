@@ -10,21 +10,26 @@ import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/presentation/course/course_screen.dart';
+import 'package:dotto_app_api/app/v1/common.pbenum.dart' as api;
+import 'package:dotto_app_api/app/v1/personal_calendar_item.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/personal_calendar_item.pb.dart';
+import 'package:dotto_app_api/app/v1/room.pb.dart';
+import 'package:dotto_app_api/app/v1/user.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/user.pb.dart';
 import 'package:dotto_design_system/style/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:openapi/openapi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../helpers/app_api_fixtures.dart';
+import '../../helpers/fake_app_api.dart';
 import '../../helpers/fake_auth_data_source.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 import '../../helpers/fake_logger.dart';
 import '../../helpers/fake_remote_config_data_source.dart';
 import '../../helpers/fake_url_launcher.dart';
 import '../../helpers/route_recorder.dart';
-import '../../helpers/subject_json.dart';
 
 const _account = AuthAccount(
   id: 'uid',
@@ -38,22 +43,16 @@ final DateTime _today = const TimetableDateService().initialDate(
   DateTime.now(),
 );
 
-FakeHttpClientAdapter _adapter({List<Map<String, Object?>> items = const []}) =>
-    FakeHttpClientAdapter()
-      ..on(
-        'GET',
-        '/v1/users',
-        (_) => const FakeResponse(200, {'user': <String, Object?>{}}),
-      )
-      ..on(
-        'GET',
-        '/v1/personalCalendarItems',
-        (_) => FakeResponse(200, {'personalCalendarItems': items}),
-      );
+FakeAppApi _api({List<PersonalCalendarItem> items = const []}) => FakeAppApi()
+  ..on(UserService.getUser, (_) => GetUserResponse(user: User()))
+  ..on(
+    PersonalCalendarItemService.listPersonalCalendarItems,
+    (_) => ListPersonalCalendarItemsResponse(personalCalendarItems: items),
+  );
 
 Future<FakeUrlLauncher> _pump(
   WidgetTester tester, {
-  FakeHttpClientAdapter? adapter,
+  FakeAppApi? fakeApi,
   AuthAccount? currentAccount,
   AuthAccount? accountToSignIn,
   Map<String, Object?> remoteConfig = const {},
@@ -65,9 +64,7 @@ Future<FakeUrlLauncher> _pump(
     ProviderScope(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(
-          Openapi(dio: fakeDio(adapter ?? _adapter())),
-        ),
+        apiClientProvider.overrideWithValue(fakeApi ?? _api()),
         authDataSourceProvider.overrideWithValue(
           FakeAuthDataSource(
             currentAccount: currentAccount,
@@ -138,17 +135,17 @@ void main() {
       await _pump(
         tester,
         currentAccount: _account,
-        adapter: _adapter(
+        fakeApi: _api(
           items: [
-            {
-              'date': DateFormatter.date(_today),
-              'period': 'Period2',
-              'status': 'Cancelled',
-              'subject': subjectSummaryJson('a', name: 'プログラミング'),
-              'rooms': [
-                {'id': '301', 'name': '情報工房', 'floor': 'Floor3'},
+            PersonalCalendarItem(
+              date: toDateFixture(_today),
+              period: api.Period.PERIOD_2,
+              state: PersonalCalendarItem_State.STATE_CANCELLED,
+              subject: subjectSummaryFixture('a', name: 'プログラミング'),
+              rooms: [
+                Room(id: '301', name: '情報工房', floor: RoomFloor.ROOM_FLOOR_3),
               ],
-            },
+            ),
           ],
         ),
       );
@@ -162,15 +159,14 @@ void main() {
       await _pump(
         tester,
         currentAccount: _account,
-        adapter: _adapter(
+        fakeApi: _api(
           items: [
-            {
-              'date': DateFormatter.date(_today),
-              'period': 'Period1',
-              'status': 'Normal',
-              'subject': subjectSummaryJson('a', name: 'プログラミング'),
-              'rooms': <Object>[],
-            },
+            PersonalCalendarItem(
+              date: toDateFixture(_today),
+              period: api.Period.PERIOD_1,
+              state: PersonalCalendarItem_State.STATE_NORMAL,
+              subject: subjectSummaryFixture('a', name: 'プログラミング'),
+            ),
           ],
         ),
       );
@@ -188,15 +184,14 @@ void main() {
       await _pump(
         tester,
         currentAccount: _account,
-        adapter: _adapter(
+        fakeApi: _api(
           items: [
-            {
-              'date': DateFormatter.date(nextDay),
-              'period': 'Period1',
-              'status': 'Makeup',
-              'subject': subjectSummaryJson('b', name: '線形代数'),
-              'rooms': <Object>[],
-            },
+            PersonalCalendarItem(
+              date: toDateFixture(nextDay),
+              period: api.Period.PERIOD_1,
+              state: PersonalCalendarItem_State.STATE_MAKEUP,
+              subject: subjectSummaryFixture('b', name: '線形代数'),
+            ),
           ],
         ),
       );
@@ -210,14 +205,10 @@ void main() {
     });
 
     testWidgets('時間割の取得に失敗したらエラーを表示する', (tester) async {
-      final adapter = _adapter()
-        ..on(
-          'GET',
-          '/v1/personalCalendarItems',
-          (_) => const FakeResponse(500),
-        );
+      final fakeApi = _api()
+        ..fail(PersonalCalendarItemService.listPersonalCalendarItems);
 
-      await _pump(tester, currentAccount: _account, adapter: adapter);
+      await _pump(tester, currentAccount: _account, fakeApi: fakeApi);
 
       expect(find.text('データの取得に失敗しました'), findsOneWidget);
     });

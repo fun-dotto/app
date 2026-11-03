@@ -7,10 +7,8 @@ import 'package:dotto/presentation/course/select_course_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:openapi/openapi.dart' hide TimetableItem;
 
 import '../../helpers/fake_course_api.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 
 Future<void> _pumpSelection(
   WidgetTester tester,
@@ -19,9 +17,7 @@ Future<void> _pumpSelection(
 }) async {
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(api.adapter))),
-      ],
+      overrides: [apiClientProvider.overrideWithValue(api.api)],
       child: MaterialApp(
         home: SelectCourseScreen(
           TimetableSemester.values.first,

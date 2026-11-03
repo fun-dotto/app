@@ -1,59 +1,54 @@
-import 'fake_http_client_adapter.dart';
+import 'package:dotto_app_api/app/v1/course_registration.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/course_registration.pb.dart';
+import 'package:dotto_app_api/app/v1/timetable_item.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/timetable_item.pb.dart';
+
+import 'app_api_fixtures.dart';
+import 'fake_app_api.dart';
 
 /// 履修登録APIの登録結果をメモリ内に保存する。
 final class FakeCourseRegistrationApi {
   new({this.initialRegisteredIds = const []}) {
     for (final id in initialRegisteredIds) {
-      registrations[id] = _registration(id);
+      registrations[id] = courseRegistrationFixture(id, name: id);
     }
-    adapter
+    api
       ..on(
-        'GET',
-        '/v1/courseRegistrations',
-        (_) => FakeResponse(200, {
-          'courseRegistrations': registrations.values.toList(),
-        }),
+        CourseRegistrationService.listCourseRegistrations,
+        (_) => ListCourseRegistrationsResponse(
+          courseRegistrations: registrations.values,
+        ),
       )
       ..on(
-        'GET',
-        '/v1/timetableItems',
-        (_) => FakeResponse(200, {
-          'timetableItems': [
+        TimetableItemService.listTimetableItems,
+        (_) => ListTimetableItemsResponse(
+          timetableItems: [
             for (final id in ['first', 'second', 'target'])
-              {
-                'id': id,
-                'subject': _subject(id),
-                'slot': {'dayOfWeek': 'Monday', 'period': 'Period1'},
-                'rooms': <Object>[],
-              },
+              mondayFirstTimetableItemFixture(
+                id,
+                subjectSummaryFixture(id, name: id),
+              ),
           ],
-        }),
+        ),
       )
-      ..on('POST', '/v1/courseRegistrations', (options) {
-        final id =
-            (options.data as Map<String, dynamic>)['subjectId'] as String;
-        final registration = _registration(id);
-        registrations[id] = registration;
-        return FakeResponse(201, {'courseRegistration': registration});
+      ..on(CourseRegistrationService.createCourseRegistration, (request) {
+        final registration = courseRegistrationFixture(
+          request.subjectId,
+          name: request.subjectId,
+        );
+        registrations[request.subjectId] = registration;
+        return CreateCourseRegistrationResponse(
+          courseRegistration: registration,
+        );
       })
-      ..on('DELETE', '/v1/courseRegistrations/registration-target', (_) {
-        registrations.remove('target');
-        return const FakeResponse(204);
+      ..on(CourseRegistrationService.deleteCourseRegistration, (request) {
+        if (request.id == 'registration-target') {
+          registrations.remove('target');
+        }
+        return DeleteCourseRegistrationResponse();
       });
   }
   final List<String> initialRegisteredIds;
-  final adapter = FakeHttpClientAdapter();
-  final registrations = <String, Map<String, dynamic>>{};
-  Map<String, dynamic> _subject(String id) => {
-    'id': id,
-    'name': id,
-    'faculties': <Object>[],
-    'year': 2026,
-    'semester': 'H1',
-    'credit': 2,
-  };
-  Map<String, dynamic> _registration(String id) => {
-    'id': 'registration-$id',
-    'subject': _subject(id),
-  };
+  final api = FakeAppApi();
+  final registrations = <String, CourseRegistration>{};
 }

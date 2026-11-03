@@ -5,15 +5,15 @@ import 'package:dotto/presentation/root/push_token_state.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
 
+import '../../helpers/fake_app_api.dart';
 import '../../helpers/fake_push_token_data_source.dart';
 
 void main() {
   test('通知トークン更新をドメインの状態へ反映する', () async {
     final container = ProviderContainer(
       overrides: [
-        apiClientProvider.overrideWithValue(Openapi()),
+        apiClientProvider.overrideWithValue(FakeAppApi()),
         pushTokenDataSourceProvider.overrideWithValue(
           FakePushTokenDataSource(Stream.value('updated-token')),
         ),
@@ -32,7 +32,7 @@ void main() {
     final container = ProviderContainer(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(Openapi()),
+        apiClientProvider.overrideWithValue(FakeAppApi()),
         pushTokenDataSourceProvider.overrideWithValue(
           FakePushTokenDataSource(
             Stream.error(

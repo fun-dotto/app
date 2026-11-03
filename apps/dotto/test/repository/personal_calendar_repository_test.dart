@@ -1,61 +1,50 @@
 import 'package:dotto/data/personal_calendar_repository_impl.dart';
 import 'package:dotto/domain/entity/lecture_status.dart';
 import 'package:dotto/domain/entity/period.dart';
+import 'package:dotto_app_api/app/v1/common.pbenum.dart' as api;
+import 'package:dotto_app_api/app/v1/personal_calendar_item.pb.dart' as api;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
 
 void main() {
   group('toPeriod', () {
     test('period1 を Period.first にマッピングする', () {
       expect(
-        PersonalCalendarRepositoryImpl.toPeriod(
-          DottoFoundationV1Period.period1,
-        ),
+        PersonalCalendarRepositoryImpl.toPeriod(api.Period.PERIOD_1),
         Period.first,
       );
     });
 
     test('period2 を Period.second にマッピングする', () {
       expect(
-        PersonalCalendarRepositoryImpl.toPeriod(
-          DottoFoundationV1Period.period2,
-        ),
+        PersonalCalendarRepositoryImpl.toPeriod(api.Period.PERIOD_2),
         Period.second,
       );
     });
 
     test('period3 を Period.third にマッピングする', () {
       expect(
-        PersonalCalendarRepositoryImpl.toPeriod(
-          DottoFoundationV1Period.period3,
-        ),
+        PersonalCalendarRepositoryImpl.toPeriod(api.Period.PERIOD_3),
         Period.third,
       );
     });
 
     test('period4 を Period.fourth にマッピングする', () {
       expect(
-        PersonalCalendarRepositoryImpl.toPeriod(
-          DottoFoundationV1Period.period4,
-        ),
+        PersonalCalendarRepositoryImpl.toPeriod(api.Period.PERIOD_4),
         Period.fourth,
       );
     });
 
     test('period5 を Period.fifth にマッピングする', () {
       expect(
-        PersonalCalendarRepositoryImpl.toPeriod(
-          DottoFoundationV1Period.period5,
-        ),
+        PersonalCalendarRepositoryImpl.toPeriod(api.Period.PERIOD_5),
         Period.fifth,
       );
     });
 
     test('period6 を Period.sixth にマッピングする', () {
       expect(
-        PersonalCalendarRepositoryImpl.toPeriod(
-          DottoFoundationV1Period.period6,
-        ),
+        PersonalCalendarRepositoryImpl.toPeriod(api.Period.PERIOD_6),
         Period.sixth,
       );
     });
@@ -65,7 +54,7 @@ void main() {
     test('cancelled を LectureStatus.cancelled にマッピングする', () {
       expect(
         PersonalCalendarRepositoryImpl.toLectureStatus(
-          DottoFoundationV1PersonalCalendarItemStatus.cancelled,
+          api.PersonalCalendarItem_State.STATE_CANCELLED,
         ),
         LectureStatus.cancelled,
       );
@@ -74,7 +63,7 @@ void main() {
     test('makeup を LectureStatus.madeUp にマッピングする', () {
       expect(
         PersonalCalendarRepositoryImpl.toLectureStatus(
-          DottoFoundationV1PersonalCalendarItemStatus.makeup,
+          api.PersonalCalendarItem_State.STATE_MAKEUP,
         ),
         LectureStatus.madeUp,
       );
@@ -83,7 +72,7 @@ void main() {
     test('normal を LectureStatus.normal にマッピングする', () {
       expect(
         PersonalCalendarRepositoryImpl.toLectureStatus(
-          DottoFoundationV1PersonalCalendarItemStatus.normal,
+          api.PersonalCalendarItem_State.STATE_NORMAL,
         ),
         LectureStatus.normal,
       );
@@ -92,7 +81,7 @@ void main() {
     test('roomChanged を LectureStatus.roomChanged にマッピングする', () {
       expect(
         PersonalCalendarRepositoryImpl.toLectureStatus(
-          DottoFoundationV1PersonalCalendarItemStatus.roomChanged,
+          api.PersonalCalendarItem_State.STATE_ROOM_CHANGED,
         ),
         LectureStatus.roomChanged,
       );
