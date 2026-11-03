@@ -2,7 +2,7 @@ name: dotto_workspace
 publish_to: none
 
 environment:
-  sdk: 3.13.5
+  sdk: 3.13.7
 
 workspace:
   - apps/dotto # dotto
