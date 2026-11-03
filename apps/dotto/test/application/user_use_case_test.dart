@@ -38,11 +38,22 @@ final class _FakeUserApi {
     })
     ..on(UserService.updateUser, (request) {
       saveCount++;
-      final user = pb.User(
-        grade: request.hasGrade() ? request.grade : null,
-        course: request.hasCourse() ? request.course : null,
-        class_3: request.hasClass_3() ? request.class_3 : null,
-      );
+      // サーバーと同じく、update_mask が空なら値のある項目だけを更新する。
+      final mask = request.updateMask.paths;
+      bool updates(String field, {required bool hasValue}) =>
+          mask.isEmpty ? hasValue : mask.contains(field);
+      final user = saved?.deepCopy() ?? pb.User();
+      if (updates('grade', hasValue: request.hasGrade())) {
+        request.hasGrade() ? user.grade = request.grade : user.clearGrade();
+      }
+      if (updates('course', hasValue: request.hasCourse())) {
+        request.hasCourse() ? user.course = request.course : user.clearCourse();
+      }
+      if (updates('class', hasValue: request.hasClass_3())) {
+        request.hasClass_3()
+            ? user.class_3 = request.class_3
+            : user.clearClass_3();
+      }
       saved = user;
       return pb.UpdateUserResponse(user: user);
     });
@@ -131,6 +142,29 @@ void main() {
 
     expect(user.grade, Grade.m1);
     expect(user.course, AcademicArea.advancedICTCourse);
+    expect(user.class_, isNull);
+  });
+
+  test('クラスをなしにして保存するとサーバー上のクラスも消える', () async {
+    final api = _FakeUserApi(
+      pb.User(grade: pb.Grade.GRADE_B2, class_3: pb.Class.CLASS_C),
+    );
+    final container = _container(api);
+
+    await container.read(updateUserProfileUseCaseProvider)(
+      const DottoUser(
+        id: 'uid',
+        name: '未来 太郎',
+        email: 'taro@example.com',
+        avatarUrl: 'https://example.com/taro.png',
+        grade: Grade.b2,
+      ),
+    );
+    final user = await container.read(fetchCurrentUserUseCaseProvider)(
+      _account,
+    );
+
+    expect(user.grade, Grade.b2);
     expect(user.class_, isNull);
   });
 }
