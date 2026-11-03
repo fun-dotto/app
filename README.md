@@ -43,8 +43,6 @@ firebase login
 
 ### 色々セットアップ
 
-Firebase の設定ファイル (`google-services.json` / `GoogleService-Info.plist` / `firebase_options*.dart`) は git 管理しておらず、`mise bootstrap` 内で Firebase CLI から取得します。単体で再取得する場合は `mise run fetch:firebase_config` を実行してください。
-
 ```zsh
 mise bootstrap
 ```
