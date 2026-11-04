@@ -7,7 +7,7 @@ import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course/course_registration_state.dart';
 import 'package:dotto/presentation/course/select_course_screen.dart';
-import 'package:dotto_design_system/style/semantic_color.dart';
+import 'package:dotto_design_system/style/primitive_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -20,6 +20,7 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
     final state = ref.watch(courseRegistrationStateProvider);
     final tabController = useTabController(
       initialLength: TimetableSemester.values.length,
+      initialIndex: TimetableSemester.fall.index,
     );
 
     return Scaffold(
@@ -29,9 +30,7 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
               .courseRegistration,
         ),
         bottom: TabBar(
-          dividerColor: SemanticColor.light.backgroundPrimary.withValues(
-            alpha: 0,
-          ),
+          dividerColor: Colors.transparent,
           controller: tabController,
           tabs: TimetableSemester.values
               .map((e) => Tab(text: e.label))
@@ -119,7 +118,7 @@ final class _SkeletonBox extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: SemanticColor.light.backgroundTertiary,
+          color: PrimitiveColor.gray300,
           borderRadius: BorderRadius.circular(radius),
         ),
       ),
@@ -137,7 +136,7 @@ final class _PersonalWeeklyTimetableCellSkeleton extends StatelessWidget {
       margin: const EdgeInsets.all(2),
       height: 100,
       decoration: BoxDecoration(
-        color: SemanticColor.light.backgroundPrimary,
+        color: PrimitiveColor.gray200,
         borderRadius: const BorderRadius.all(Radius.circular(4)),
       ),
       padding: const EdgeInsets.all(8),
@@ -255,10 +254,8 @@ final class _PersonalWeeklyTimetablecell extends StatelessWidget {
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            border: Border.all(
-                              color: SemanticColor.light.borderPrimary,
-                            ),
-                            color: SemanticColor.light.backgroundTertiary,
+                            border: Border.all(color: PrimitiveColor.gray400),
+                            color: PrimitiveColor.gray300,
                             borderRadius: const BorderRadius.all(
                               Radius.circular(4),
                             ),
@@ -276,14 +273,11 @@ final class _PersonalWeeklyTimetablecell extends StatelessWidget {
               )
             : Container(
                 decoration: BoxDecoration(
-                  color: SemanticColor.light.backgroundPrimary,
+                  color: PrimitiveColor.gray200,
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                 ),
                 child: Center(
-                  child: Icon(
-                    Icons.add,
-                    color: SemanticColor.light.borderPrimary,
-                  ),
+                  child: Icon(Icons.add, color: PrimitiveColor.gray400),
                 ),
               ),
       ),
