@@ -10,20 +10,20 @@ dependencies:
   app_settings: 9.0.1
   built_collection: 5.1.1
   carousel_slider: 5.1.2
-  cloud_firestore: 6.10.0
+  cloud_firestore: 6.10.2
   collection: 1.19.1
   cupertino_icons: 1.0.9
   dio: 5.11.1
   dotto_design_system: any
-  firebase_analytics: 12.6.0
-  firebase_app_check: 0.4.8
-  firebase_auth: 6.7.0
-  firebase_core: 4.15.0
-  firebase_crashlytics: 5.4.0
-  firebase_database: 12.6.0
-  firebase_messaging: 16.7.0
-  firebase_remote_config: 6.7.0
-  firebase_storage: 13.6.0
+  firebase_analytics: 12.6.1
+  firebase_app_check: 0.4.9
+  firebase_auth: 6.7.1
+  firebase_core: 4.15.2
+  firebase_crashlytics: 5.4.1
+  firebase_database: 12.6.1
+  firebase_messaging: 16.7.1
+  firebase_remote_config: 6.7.1
+  firebase_storage: 13.6.1
   flutter:
     sdk: flutter
   flutter_datetime_picker_plus: 2.4.1
