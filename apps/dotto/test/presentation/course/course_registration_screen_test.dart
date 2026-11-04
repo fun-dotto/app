@@ -21,6 +21,12 @@ Future<void> _pump(WidgetTester tester, FakeHttpClientAdapter adapter) async {
   await tester.pumpAndSettle();
 }
 
+/// 初期タブは後期のため、[FakeCourseApi] の科目 (前期) を表示する前期タブへ切り替える。
+Future<void> _selectSpringTab(WidgetTester tester) async {
+  await tester.tap(find.text('前期'));
+  await tester.pumpAndSettle();
+}
+
 /// 月曜1限のコマ。[FakeCourseApi] の科目はすべてこのコマに開講される。
 Finder get _mondayFirstPeriod => find.byIcon(Icons.add).first;
 
@@ -29,6 +35,7 @@ void main() {
     final api = FakeCourseApi(registeredSubjectIds: {'a'});
 
     await _pump(tester, api.adapter);
+    await _selectSpringTab(tester);
 
     expect(find.text('科目a'), findsOneWidget);
     expect(find.text('科目b'), findsNothing);
@@ -37,6 +44,7 @@ void main() {
   testWidgets('コマを選ぶと開講科目を一覧し、追加すると時間割に反映する', (tester) async {
     final api = FakeCourseApi();
     await _pump(tester, api.adapter);
+    await _selectSpringTab(tester);
 
     await tester.tap(_mondayFirstPeriod);
     await tester.pumpAndSettle();
