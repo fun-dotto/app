@@ -1,5 +1,5 @@
 abstract final class EnvironmentConfigs {
-  static const apiBaseUrl = String.fromEnvironment('API_BASE_URL');
+  static const apiBaseUrl = String.fromEnvironment('APP_API_BASE_URL');
   static const cloudflareR2Endpoint = String.fromEnvironment(
     'CLOUDFLARE_R2_ENDPOINT',
   );
