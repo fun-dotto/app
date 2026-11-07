@@ -6,7 +6,6 @@ analyzer:
     - apps/dotto/lib/**/*.freezed.dart
     - apps/dotto/lib/**/*.g.dart
     - apps/dotto/test/**/*.mocks.dart
-    - packages/dotto_api/**
     - packages/dotto_app_api/**
     - packages/dotto_design_system/lib/**/*.g.dart
 formatter:

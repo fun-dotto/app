@@ -1,4 +1,4 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/course_notice_clock.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
@@ -19,7 +19,7 @@ void main() {
     final container = ProviderContainer(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(server.apiClient),
+        appApiTransportProvider.overrideWithValue(server.transport),
         courseNoticeClockProvider.overrideWithValue(() => DateTime(2026, 4)),
       ],
     );
@@ -99,8 +99,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          apiClientProvider.overrideWithValue(
-            FakeCourseNoticeServer().apiClient,
+          appApiTransportProvider.overrideWithValue(
+            FakeCourseNoticeServer().transport,
           ),
           authDataSourceProvider.overrideWithValue(
             FakeAuthDataSource(currentAccount: account),

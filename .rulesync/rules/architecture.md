@@ -46,7 +46,7 @@ Presentation ──▶ Application (UseCase) ──▶ Domain ◀── Data
 
 - Domain の Repository 抽象を実装する。
 - API・Firebase・ローカルストレージなどのデータソースへのアクセスを担う。
-- 独自の DTO は定義しない。API クライアント (`dotto_api`) や Firebase などが返す型から Domain モデルへの変換はこのレイヤーで行い、それらの型を外に漏らさない。
+- 独自の DTO は定義しない。API クライアント (`dotto_app_api`) や Firebase などが返す型から Domain モデルへの変換はこのレイヤーで行い、それらの型を外に漏らさない。
 
 ### Presentation
 

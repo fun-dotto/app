@@ -1,12 +1,13 @@
-import 'package:built_collection/built_collection.dart';
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_mapper.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/course_notice_clock.dart';
 import 'package:dotto/data/course_notice_mapper.dart';
 import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/course_notice.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/repository/makeup_class_repository.dart';
-import 'package:openapi/openapi.dart';
+import 'package:dotto_app_api/app/v1/makeup_class.connect.client.dart';
+import 'package:dotto_app_api/app/v1/makeup_class.pb.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'makeup_class_repository_impl.g.dart';
@@ -14,39 +15,29 @@ part 'makeup_class_repository_impl.g.dart';
 @riverpod
 MakeupClassRepository makeupClassRepository(Ref ref) =>
     MakeupClassRepositoryImpl(
-      ref.watch(apiClientProvider),
+      MakeupClassServiceClient(ref.watch(appApiTransportProvider)),
       ref.watch(courseNoticeClockProvider),
     );
 
 final class MakeupClassRepositoryImpl implements MakeupClassRepository {
-  const new(this._apiClient, this._now);
-  final Openapi _apiClient;
+  const new(this._client, this._now);
+  final MakeupClassServiceClient _client;
   final DateTime Function() _now;
   @override
   Future<List<CourseNotice>> fetchAll({List<String>? subjectIds}) async {
     try {
-      final now = _now();
-      final response = await _apiClient
-          .getMakeupClassesApi()
-          .makeupClassesV1List(
-            from: Date(now.year, now.month, now.day),
-            subjectIds: subjectIds == null
-                ? null
-                : BuiltList<String>(subjectIds),
-          );
-      final data = response.data;
-      if (response.statusCode != 200 || data == null) {
-        throw const DomainError(
-          type: DomainErrorType.invalidResponse,
-          message: 'Failed to fetch course notices',
-        );
-      }
+      final response = await _client.listMakeupClasses(
+        ListMakeupClassesRequest(
+          fromDate: toApiDate(_now()),
+          subjectIds: subjectIds,
+        ),
+      );
       return List.unmodifiable(
-        data.makeupClasses.map(
+        response.makeupClasses.map(
           (e) => CourseNotice.makeup(
             id: e.id,
             subject: mapNoticeSubject(e.subject),
-            date: e.date.toDateTime(),
+            date: fromApiDate(e.date),
             periodNumber: mapNoticePeriod(e.period),
             comment: e.comment,
           ),

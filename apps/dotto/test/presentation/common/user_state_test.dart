@@ -1,16 +1,19 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:connectrpc/connect.dart' as connect;
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/grade.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/presentation/common/user_state.dart';
+import 'package:dotto_app_api/app/v1/common.pbenum.dart' as api;
+import 'package:dotto_app_api/app/v1/user.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/user.pb.dart' as api;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
 
+import '../../helpers/fake_app_api_transport.dart';
 import '../../helpers/fake_auth_data_source.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 import '../../helpers/fake_logger.dart';
 
 const _account = AuthAccount(
@@ -20,29 +23,33 @@ const _account = AuthAccount(
   avatarUrl: 'https://example.com/avatar.png',
 );
 
-/// `/v1/users` をインメモリで保持するフェイクサーバー。
+/// UserService をインメモリで保持するフェイクサーバー。
 final class _FakeUserServer {
   new({this.user, this.shouldFailUpsert = false}) {
-    adapter
-      ..on(
-        'GET',
-        '/v1/users',
-        (_) => switch (user) {
-          final user? => FakeResponse(200, {'user': user}),
-          null => const FakeResponse(404),
-        },
-      )
-      ..on('POST', '/v1/users', (options) {
-        if (shouldFailUpsert) {
-          return const FakeResponse(500);
+    transport
+      ..on(UserService.getUser, (_) {
+        final current = user;
+        if (current == null) {
+          throw connect.ConnectException(connect.Code.notFound, 'not found');
         }
-        user = Map<String, Object?>.from(options.data as Map);
-        return FakeResponse(200, {'user': user});
+        return api.GetUserResponse(user: current);
+      })
+      ..on(UserService.updateUser, (request) {
+        if (shouldFailUpsert) {
+          throw connect.ConnectException(connect.Code.internal, 'failed');
+        }
+        final updated = api.User(
+          grade: request.hasGrade() ? request.grade : null,
+          course: request.hasCourse() ? request.course : null,
+          class_3: request.hasClass_3() ? request.class_3 : null,
+        );
+        user = updated;
+        return api.UpdateUserResponse(user: updated);
       });
   }
 
-  final adapter = FakeHttpClientAdapter();
-  Map<String, Object?>? user;
+  final transport = FakeAppApiTransport();
+  api.User? user;
   bool shouldFailUpsert;
 }
 
@@ -54,9 +61,7 @@ void main() {
   }) {
     final container = ProviderContainer(
       overrides: [
-        apiClientProvider.overrideWithValue(
-          Openapi(dio: fakeDio(server.adapter)),
-        ),
+        appApiTransportProvider.overrideWithValue(server.transport),
         authDataSourceProvider.overrideWithValue(
           FakeAuthDataSource(
             currentAccount: currentAccount,
@@ -79,7 +84,9 @@ void main() {
   });
 
   test('ログインすると登録済みのプロフィールを取得する', () async {
-    final server = _FakeUserServer(user: {'grade': 'B2', 'class': 'C'});
+    final server = _FakeUserServer(
+      user: api.User(grade: api.Grade.GRADE_B2, class_3: api.Class.CLASS_C),
+    );
     final container = createContainer(
       server: server,
       accountToSignIn: _account,
@@ -118,19 +125,19 @@ void main() {
   });
 
   test('学年を保存できる', () async {
-    final server = _FakeUserServer(user: <String, Object?>{});
+    final server = _FakeUserServer(user: api.User());
     final container = createContainer(server: server, currentAccount: _account);
     await container.read(userStateProvider.future);
 
     await container.read(userStateProvider.notifier).setGrade(Grade.b3);
 
     expect(container.read(userStateProvider).value?.grade, Grade.b3);
-    expect(server.user?['grade'], 'B3');
+    expect(server.user?.grade, api.Grade.GRADE_B3);
   });
 
   test('学年の保存に失敗すると元の値に戻る', () async {
     final server = _FakeUserServer(
-      user: {'grade': 'B1'},
+      user: api.User(grade: api.Grade.GRADE_B1),
       shouldFailUpsert: true,
     );
     final container = createContainer(server: server, currentAccount: _account);
