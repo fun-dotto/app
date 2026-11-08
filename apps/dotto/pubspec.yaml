@@ -40,7 +40,7 @@ dependencies:
   flutter_svg: 2.3.2
   freezed_annotation: 3.1.0
   geolocator: 14.0.3
-  go_router: 18.1.1
+  go_router: 18.1.2
   google_sign_in: 7.2.0
   hooks_riverpod: 3.4.3
   http: 1.6.0
@@ -71,7 +71,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: 4.0.1
-  go_router_builder: 4.5.2
+  go_router_builder: 4.5.3
   json_serializable: 6.15.2
   mockito: 5.8.1
   plugin_platform_interface: 2.1.8
