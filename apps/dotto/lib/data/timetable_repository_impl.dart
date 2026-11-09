@@ -4,7 +4,6 @@ import 'package:dotto/data/domain_error_mapper.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/semester.dart';
 import 'package:dotto/domain/entity/timetable_item.dart';
-import 'package:dotto/domain/entity/timetable_slot.dart';
 import 'package:dotto/domain/repository/timetable_repository.dart';
 import 'package:dotto_app_api/app/v1/timetable_item.connect.client.dart';
 import 'package:dotto_app_api/app/v1/timetable_item.pb.dart' as api;
@@ -35,12 +34,7 @@ final class TimetableRepositoryImpl implements TimetableRepository {
           (e) => TimetableItem(
             id: e.id,
             subject: fromApiSubjectSummary(e.subject),
-            slot: e.hasSlot()
-                ? TimetableSlot(
-                    dayOfWeek: fromApiDayOfWeek(e.slot.dayOfWeek),
-                    period: fromApiPeriod(e.slot.period),
-                  )
-                : null,
+            slot: e.hasSlot() ? fromApiTimetableSlot(e.slot) : null,
           ),
         ),
       );

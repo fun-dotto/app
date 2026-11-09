@@ -11,8 +11,10 @@ import 'package:dotto/domain/entity/subject_classification.dart';
 import 'package:dotto/domain/entity/subject_faculty.dart';
 import 'package:dotto/domain/entity/subject_requirement_type.dart';
 import 'package:dotto/domain/entity/subject_summary.dart';
+import 'package:dotto/domain/entity/timetable_slot.dart';
 import 'package:dotto_app_api/app/v1/common.pbenum.dart' as api;
 import 'package:dotto_app_api/app/v1/subject.pb.dart' as api;
+import 'package:dotto_app_api/app/v1/timetable_item.pb.dart' as api;
 import 'package:dotto_app_api/google/type/date.pb.dart' as api;
 import 'package:dotto_app_api/google/type/dayofweek.pbenum.dart' as api;
 
@@ -234,3 +236,18 @@ DayOfWeek fromApiDayOfWeek(api.DayOfWeek dayOfWeek) => switch (dayOfWeek) {
   api.DayOfWeek.SUNDAY => DayOfWeek.sunday,
   _ => throw _invalid('Invalid day of week: $dayOfWeek'),
 };
+
+/// 時間割の枠を変換する。
+///
+/// 集中講義など曜日・時限が確定しない科目は枠が `UNSPECIFIED` で返るため、
+/// 不正データとして扱わず枠なし (`null`) とする。
+TimetableSlot? fromApiTimetableSlot(api.TimetableItemSlot slot) {
+  if (slot.dayOfWeek == api.DayOfWeek.DAY_OF_WEEK_UNSPECIFIED ||
+      slot.period == api.Period.PERIOD_UNSPECIFIED) {
+    return null;
+  }
+  return TimetableSlot(
+    dayOfWeek: fromApiDayOfWeek(slot.dayOfWeek),
+    period: fromApiPeriod(slot.period),
+  );
+}
