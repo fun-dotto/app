@@ -86,10 +86,26 @@ abstract interface class PastExamRepository {
 
 - `lib/data/s3_data_source.dart`、`lib/data/past_exam_data_source.dart`(と `.g.dart`)
 - `PdfDataSource.fetchPastExam`、`PdfRepository.download` の `isPastExam` 引数、`DownloadPdfUseCase` / `pdf_document_state.dart` / `web_pdf_viewer.dart` の同引数
-- `SubjectDataSource.readPastExamId`(と `syllabus.db` の `過去問` 列への依存)
+- `SubjectDataSource.readPastExamId`
+- **`assets/syllabus.db`(約 5.3MB)と、それを扱う周辺一式**(詳細は下記)
 - `EnvironmentConfigs` の `cloudflareR2Endpoint`、`cloudflareR2AccessKeyId`、`cloudflareR2SecretAccessKey`、`cloudflareR2BucketName`
 - ビルド・CI・fastlane の `--dart-define` で渡している R2 関連の値
 - `pubspec.yaml` の `minio` 依存
+
+### `syllabus.db` の削除
+
+サーバー経由化により、`syllabus.db` は不要になり削除できる。調査では、`syllabus.db` を開く唯一のコードは `SyllabusDatabaseDataSource` で、その利用者は `SubjectDataSource` の `readPastExamId` だけだった(同データソースの他のメソッドは Firestore のレビューを扱い、DB を使わない)。
+
+| 削除するもの | 理由 |
+|---|---|
+| `assets/syllabus.db` | 唯一の利用箇所 (`readPastExamId`) がなくなる。アプリのバンドルサイズが約 5.3MB 減る |
+| `Asset.syllabus`(`lib/asset.dart:52`) | 参照元がなくなる |
+| `lib/data/syllabus_database_data_source.dart`(と `.g.dart`) | `SyllabusDatabaseDataSource` が不要になる |
+| `SubjectDataSource` のコンストラクタ引数 `_database` とそれを使うプロバイダーの依存 | `SubjectDataSource` は Firestore のみを扱う形になる |
+| `pubspec.yaml` の `sqflite`、`sqflite_common`、`renovate.json` の `sqflite` グループ | 他に `sqflite` を使うコードがない(要:実装時に再度 grep で確認) |
+| `TimetableSemester.number`(`timetable_semester.dart`)と `enum_entity_test.dart` の該当テスト | 「Legacy: syllabus.db で使用」とコメントされており、`lib` 内の参照がない(テストのみ) |
+
+端末にコピー済みの `getDatabasesPath()/syllabus.db` はアプリのデータ領域に残る。サイズが大きいため、起動時に一度だけ削除する後始末(`deleteDatabase`)を入れるかを検討する。入れる場合は `sqflite` を残す必要があるため、1回限りの処理としてリリース1〜2回分だけ保持し、その後に `sqflite` ごと削除する案が妥当。
 
 ## 8. テスト
 
@@ -100,7 +116,7 @@ abstract interface class PastExamRepository {
 ## 9. 移行・リリース順序
 
 1. サーバー側(proto・DB・ハンドラー)のリリースと、過去問データの GCS への投入を完了する。
-2. アプリ側の proto 生成物を更新し、上記の変更を実装する。
+2. アプリ側の proto 生成物を更新し、上記の変更(`syllabus.db` の削除を含む)を実装する。
 3. アプリをリリースする。
 4. 旧バージョンは R2 を直接参照するため、利用が十分に減るまで R2 を残す。R2 の鍵の失効と廃止はサーバー側の手順に従う。
 
@@ -110,4 +126,5 @@ abstract interface class PastExamRepository {
 
 - PDF 画面のタイトル(ファイル名)の受け渡し方法(`extra` / クエリ / 再取得)
 - 署名付き URL の期限切れ時の挙動(エラー表示のみか、自動再取得か)
+- 端末に残った `syllabus.db` の後始末(`deleteDatabase` を1回だけ実行して `sqflite` を残す期間を設けるか、放置するか)
 - 強制アップデートを併用するかどうか(旧アプリ向け R2 の廃止時期とセットで判断)
