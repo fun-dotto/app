@@ -1,17 +1,21 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/presentation/subject/search_subject_screen.dart';
+import 'package:dotto_app_api/app/v1/course_registration.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/subject.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/subject.pb.dart' as pb;
+import 'package:dotto_app_api/app/v1/timetable_item.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/timetable_item.pb.dart' as pb;
 import 'package:dotto_design_system/style/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:openapi/openapi.dart';
 
+import '../../helpers/api_subject.dart';
+import '../../helpers/fake_app_api_transport.dart';
 import '../../helpers/fake_auth_data_source.dart';
 import '../../helpers/fake_course_api.dart';
-import '../../helpers/fake_http_client_adapter.dart';
-import '../../helpers/subject_json.dart';
 
 const _account = AuthAccount(
   id: 'uid',
@@ -22,7 +26,7 @@ const _account = AuthAccount(
 
 Future<void> _pump(
   WidgetTester tester,
-  FakeHttpClientAdapter adapter, {
+  FakeAppApiTransport transport, {
   AuthAccount? currentAccount,
   ValueChanged<String>? onSubjectSelected,
 }) async {
@@ -30,7 +34,7 @@ Future<void> _pump(
     ProviderScope(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(adapter))),
+        appApiTransportProvider.overrideWithValue(transport),
         authDataSourceProvider.overrideWithValue(
           FakeAuthDataSource(currentAccount: currentAccount),
         ),
@@ -47,29 +51,26 @@ Future<void> _pump(
 }
 
 void _onSubjects(
-  FakeHttpClientAdapter adapter,
-  List<Map<String, Object?>> Function(Map<String, dynamic> query) subjects,
+  FakeAppApiTransport transport,
+  List<pb.Subject> Function(pb.ListSubjectsRequest request) subjects,
 ) {
-  adapter.on(
-    'GET',
-    '/v1/subjects',
-    (options) =>
-        FakeResponse(200, {'subjects': subjects(options.queryParameters)}),
+  transport.on(
+    SubjectService.listSubjects,
+    (request) => pb.ListSubjectsResponse(subjects: subjects(request)),
   );
 }
 
-/// 時間割が空の状態で科目検索に応答するアダプターを作る。
-FakeHttpClientAdapter _subjectAdapter([
-  List<Map<String, Object?>> Function(Map<String, dynamic> query)? subjects,
+/// 時間割が空の状態で科目検索に応答する Transport を作る。
+FakeAppApiTransport _subjectTransport([
+  List<pb.Subject> Function(pb.ListSubjectsRequest request)? subjects,
 ]) {
-  final adapter = FakeHttpClientAdapter()
+  final transport = FakeAppApiTransport()
     ..on(
-      'GET',
-      '/v1/timetableItems',
-      (_) => const FakeResponse(200, {'timetableItems': <Object>[]}),
+      TimetableItemService.listTimetableItems,
+      (_) => pb.ListTimetableItemsResponse(),
     );
-  if (subjects != null) _onSubjects(adapter, subjects);
-  return adapter;
+  if (subjects != null) _onSubjects(transport, subjects);
+  return transport;
 }
 
 Future<void> _search(WidgetTester tester, String query) async {
@@ -80,24 +81,24 @@ Future<void> _search(WidgetTester tester, String query) async {
 
 void main() {
   testWidgets('科目名で検索すると開講時期・単位・担当教員を表示する', (tester) async {
-    final adapter = _subjectAdapter(
-      (query) => [
-        subjectSummaryJson(
+    final transport = _subjectTransport(
+      (request) => [
+        apiSubjectSummary(
           'a',
-          name: '${query['q']}入門',
+          name: '${request.query}入門',
           faculties: [
-            subjectFacultyJson('主担当', isPrimary: true),
-            subjectFacultyJson('副担当'),
+            apiSubjectFaculty('主担当', isPrimary: true),
+            apiSubjectFaculty('副担当'),
           ],
         ),
-        subjectSummaryJson(
+        apiSubjectSummary(
           'b',
           name: '担当未定',
-          faculties: [subjectFacultyJson('教員A'), subjectFacultyJson('教員B')],
+          faculties: [apiSubjectFaculty('教員A'), apiSubjectFaculty('教員B')],
         ),
       ],
     );
-    await _pump(tester, adapter);
+    await _pump(tester, transport);
 
     await _search(tester, '情報');
 
@@ -107,9 +108,9 @@ void main() {
   });
 
   testWidgets('科目を選ぶとその科目IDを通知する', (tester) async {
-    final adapter = _subjectAdapter((_) => [subjectSummaryJson('a')]);
+    final transport = _subjectTransport((_) => [apiSubjectSummary('a')]);
     String? selected;
-    await _pump(tester, adapter, onSubjectSelected: (id) => selected = id);
+    await _pump(tester, transport, onSubjectSelected: (id) => selected = id);
     await _search(tester, '科目');
 
     await tester.tap(find.text('科目a'));
@@ -118,7 +119,7 @@ void main() {
   });
 
   testWidgets('検索に失敗したらエラーを表示する', (tester) async {
-    await _pump(tester, _subjectAdapter());
+    await _pump(tester, _subjectTransport());
 
     await _search(tester, '科目');
 
@@ -126,8 +127,8 @@ void main() {
   });
 
   testWidgets('絞り込み条件を選ぶと再検索し、該当がなければその旨を表示する', (tester) async {
-    final adapter = _subjectAdapter((_) => []);
-    await _pump(tester, adapter);
+    final transport = _subjectTransport((_) => []);
+    await _pump(tester, transport);
 
     await tester.tap(find.text('開講時期・必修/選択・分類'));
     await tester.pumpAndSettle();
@@ -139,8 +140,8 @@ void main() {
   });
 
   testWidgets('条件をクリアすると絞り込みと検索結果を初期化する', (tester) async {
-    final adapter = _subjectAdapter((_) => []);
-    await _pump(tester, adapter);
+    final transport = _subjectTransport((_) => []);
+    await _pump(tester, transport);
     await tester.tap(find.text('コース/領域・学年・クラス'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('学部1年'));
@@ -158,8 +159,8 @@ void main() {
 
   testWidgets('ログイン中は検索結果から履修登録できる', (tester) async {
     final api = FakeCourseApi();
-    _onSubjects(api.adapter, (_) => [subjectSummaryJson('a')]);
-    await _pump(tester, api.adapter, currentAccount: _account);
+    _onSubjects(api.transport, (_) => [apiSubjectSummary('a')]);
+    await _pump(tester, api.transport, currentAccount: _account);
     await _search(tester, '科目');
 
     await tester.tap(find.byTooltip('履修登録'));
@@ -171,8 +172,8 @@ void main() {
 
   testWidgets('ログイン中は検索結果から履修解除できる', (tester) async {
     final api = FakeCourseApi(registeredSubjectIds: {'a'});
-    _onSubjects(api.adapter, (_) => [subjectSummaryJson('a')]);
-    await _pump(tester, api.adapter, currentAccount: _account);
+    _onSubjects(api.transport, (_) => [apiSubjectSummary('a')]);
+    await _pump(tester, api.transport, currentAccount: _account);
     await _search(tester, '科目');
 
     await tester.tap(find.byTooltip('履修解除'));
@@ -184,14 +185,10 @@ void main() {
 
   testWidgets('履修登録に失敗したら通知する', (tester) async {
     final api = FakeCourseApi();
-    _onSubjects(api.adapter, (_) => [subjectSummaryJson('x')]);
-    await _pump(tester, api.adapter, currentAccount: _account);
+    _onSubjects(api.transport, (_) => [apiSubjectSummary('x')]);
+    await _pump(tester, api.transport, currentAccount: _account);
     await _search(tester, '科目');
-    api.adapter.on(
-      'POST',
-      '/v1/courseRegistrations',
-      (_) => const FakeResponse(500),
-    );
+    api.transport.fail(CourseRegistrationService.createCourseRegistration);
 
     await tester.tap(find.byTooltip('履修登録'));
     await tester.pumpAndSettle();
@@ -200,8 +197,8 @@ void main() {
   });
 
   testWidgets('未ログインでは履修登録ボタンを表示しない', (tester) async {
-    final adapter = _subjectAdapter((_) => [subjectSummaryJson('a')]);
-    await _pump(tester, adapter);
+    final transport = _subjectTransport((_) => [apiSubjectSummary('a')]);
+    await _pump(tester, transport);
 
     await _search(tester, '科目');
 

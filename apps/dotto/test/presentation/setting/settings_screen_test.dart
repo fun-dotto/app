@@ -1,19 +1,20 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/notification_data_source.dart';
 import 'package:dotto/data/remote_config_data_source.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/presentation/setting/settings_screen.dart';
+import 'package:dotto_app_api/app/v1/user.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/user.pb.dart' as api;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:openapi/openapi.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../helpers/fake_app_api_transport.dart';
 import '../../helpers/fake_auth_data_source.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 import '../../helpers/fake_logger.dart';
 import '../../helpers/fake_notification_data_source.dart';
 import '../../helpers/fake_remote_config_data_source.dart';
@@ -29,16 +30,12 @@ Future<void> _pumpSettingsScreen(
   WidgetTester tester, {
   AuthAccount? currentAccount,
 }) async {
-  final adapter = FakeHttpClientAdapter()
-    ..on(
-      'GET',
-      '/v1/users',
-      (_) => const FakeResponse(200, {'user': <String, Object?>{}}),
-    );
+  final transport = FakeAppApiTransport()
+    ..on(UserService.getUser, (_) => api.GetUserResponse(user: api.User()));
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(adapter))),
+        appApiTransportProvider.overrideWithValue(transport),
         authDataSourceProvider.overrideWithValue(
           FakeAuthDataSource(currentAccount: currentAccount),
         ),

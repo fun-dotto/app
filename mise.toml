@@ -13,7 +13,6 @@ flutter = "3.47.8"
 gcloud = "591.0.0"
 java = "21.0.2"
 node = "26.13.0"
-"npm:@openapitools/openapi-generator-cli" = "2.41.0"
 "npm:firebase-tools" = "15.34.1"
 "npm:rulesync" = "43.4.2"
 ruby = "4.0.9"
@@ -42,9 +41,6 @@ run = "melos run gen:build_runner --no-select"
 
 [tasks."watch:build_runner"]
 run = "melos run watch:build_runner --no-select"
-
-[tasks."generate:openapi"]
-run = "openapi-generator-cli generate -i ./openapi/openapi.yaml -g dart-dio -o ./packages/dotto_api"
 
 [tasks."run:app"]
 run = [

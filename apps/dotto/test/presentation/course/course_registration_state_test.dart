@@ -1,20 +1,16 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/presentation/course/course_registration_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:openapi/openapi.dart';
 
 import '../../helpers/fake_course_api.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 
 void main() {
   test('時間割候補に履修登録状況を反映して表示できる', () async {
     final api = FakeCourseApi(registeredSubjectIds: {'b'});
     final container = ProviderContainer(
       retry: (_, _) => null,
-      overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(api.adapter))),
-      ],
+      overrides: [appApiTransportProvider.overrideWithValue(api.transport)],
     );
     addTearDown(container.dispose);
 

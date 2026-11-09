@@ -1,4 +1,5 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:connectrpc/connect.dart' as connect;
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/past_exam_data_source.dart';
 import 'package:dotto/data/subject_data_source.dart';
@@ -6,17 +7,20 @@ import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/subject/subject_detail_screen.dart';
 import 'package:dotto/presentation/subject/subject_review_new_screen.dart';
+import 'package:dotto_app_api/app/v1/subject.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/subject.pb.dart' as api;
+import 'package:dotto_app_api/app/v1/user.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/user.pb.dart' as api;
 import 'package:dotto_design_system/style/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:openapi/openapi.dart';
 
+import '../../helpers/api_subject.dart';
+import '../../helpers/fake_app_api_transport.dart';
 import '../../helpers/fake_auth_data_source.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 import '../../helpers/fake_past_exam_data_source.dart';
 import '../../helpers/fake_subject_data_source.dart';
-import '../../helpers/subject_json.dart';
 
 const _account = AuthAccount(
   id: 'uid',
@@ -28,31 +32,28 @@ const _account = AuthAccount(
 /// [FakeSubjectDataSource] は過去問IDを `past-<lessonId>` として返す。
 const _pastExamId = 'past-lesson';
 
-FakeHttpClientAdapter _detailAdapter() => FakeHttpClientAdapter()
-  ..on(
-    'GET',
-    '/v1/subjects/subject',
-    (_) => FakeResponse(200, {
-      'subject': subjectDetailJson(
+FakeAppApiTransport _detailTransport() => FakeAppApiTransport()
+  ..on(SubjectService.getSubject, (request) {
+    if (request.id != 'subject') {
+      throw connect.ConnectException(connect.Code.notFound, 'not found');
+    }
+    return api.GetSubjectResponse(
+      subject: apiSubjectDetail(
         'subject',
         name: '情報処理演習',
-        syllabus: syllabusJson(
+        syllabus: apiSyllabus(
           id: 'lesson',
           fields: {'summary': 'プログラミングの基礎を学ぶ'},
         ),
       ),
-    }),
-  )
-  ..on(
-    'GET',
-    '/v1/users',
-    (_) => const FakeResponse(200, {'user': <String, Object?>{}}),
-  );
+    );
+  })
+  ..on(UserService.getUser, (_) => api.GetUserResponse(user: api.User()));
 
 Future<void> _pump(
   WidgetTester tester,
   Widget child, {
-  FakeHttpClientAdapter? adapter,
+  FakeAppApiTransport? transport,
   FakeSubjectDataSource? subjectDataSource,
   AuthAccount? currentAccount,
   Map<String, List<String>> pastExams = const {},
@@ -61,8 +62,8 @@ Future<void> _pump(
     ProviderScope(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(
-          Openapi(dio: fakeDio(adapter ?? _detailAdapter())),
+        appApiTransportProvider.overrideWithValue(
+          transport ?? _detailTransport(),
         ),
         authDataSourceProvider.overrideWithValue(
           FakeAuthDataSource(currentAccount: currentAccount),
@@ -98,7 +99,7 @@ void main() {
   });
 
   testWidgets('科目の取得に失敗したらエラーを表示する', (tester) async {
-    await _pump(tester, _detail(), adapter: FakeHttpClientAdapter());
+    await _pump(tester, _detail(), transport: FakeAppApiTransport());
 
     expect(find.text('科目情報の読み込みに失敗しました。'), findsOneWidget);
   });
