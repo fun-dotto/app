@@ -45,11 +45,20 @@
 
 ```dart
 final class PastExam {
-  const new({required this.id, required this.subjectId, required this.fileName, required this.createdAt});
+  const new({
+    required this.id,
+    required this.subjectId,
+    required this.fileName,
+    required this.createdAt,
+    required this.year,
+    required this.subjectName,
+  });
   final String id;
-  final String subjectId;
+  final String subjectId; // 紐づく科目。閲覧中の科目と異なる場合がある
   final String fileName;
   final DateTime createdAt;
+  final int year; // 紐づく科目の年度
+  final String subjectName; // 紐づく科目の名称
 }
 
 final class PastExamDownloadUrl {
@@ -66,6 +75,7 @@ abstract interface class PastExamRepository {
 
 - `Subject.pastExamId` は削除する(`subject.dart`、`subject_repository_impl.dart:87` の `readPastExamId` 呼び出しも含む)。
 - 過去問タブは `Subject.id` を渡して一覧を取得する。
+- サーバーは、その科目が属する科目グループ(同一年度の他クラスや別年度の同じ科目)内の全科目の過去問をまとめて返す。そのため `PastExam.subjectId` は閲覧中の科目と一致するとは限らない。アプリは科目グループの存在を意識せず、返ってきた一覧をそのまま表示する。
 
 ## 5. データ層
 
@@ -77,6 +87,7 @@ abstract interface class PastExamRepository {
 ## 6. 画面・ルーティング
 
 - `SubjectDetailPastExamScreen` は `pastExamId` の代わりに `subjectId` を受け取り、`PastExam` の一覧を表示する(表示名は `fileName`。`pastExamFileName` は不要になる)。
+- 一覧は年度の降順で返る。年度ごとにセクション見出し(`year`)を付けるか、各行のサブタイトルに年度と科目名(`subjectName`)を表示する。表示形式は実装時に決める。
 - 未ログイン時の表示は維持する(サーバー側でも拒否されるが、UX のため事前に出す)。
 - ルートの `:pastExamId` は不透明な過去問 ID に変わる(`CourseSubjectPastExamRouteData`、`SubjectPastExamRouteData`)。PDF 画面のタイトル用に、ファイル名は `extra` またはクエリで渡すか、ルート側で再取得する。決めるのは実装時。
 - `onPastExamSelected` の引数を、オブジェクトキーから `PastExam`(または ID とファイル名)に変更する(`subject_detail_screen.dart`、`subject_detail_builder.dart`)。
