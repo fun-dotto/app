@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:dotto/application/save_subject_feedback_use_case.dart';
 import 'package:dotto/application/search_subjects_use_case.dart';
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/past_exam_data_source.dart';
 import 'package:dotto/data/subject_data_source.dart';
@@ -11,35 +13,40 @@ import 'package:dotto/presentation/subject/past_exams_state.dart';
 import 'package:dotto/presentation/subject/search_subject_state.dart';
 import 'package:dotto/presentation/subject/subject_detail_state.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
+import 'package:dotto_app_api/app/v1/common.pbenum.dart' as api;
+import 'package:dotto_app_api/app/v1/course_registration.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/course_registration.pb.dart' as api;
+import 'package:dotto_app_api/app/v1/subject.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/subject.pb.dart' as api;
+import 'package:dotto_app_api/app/v1/timetable_item.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/timetable_item.pb.dart' as api;
+import 'package:dotto_app_api/google/type/dayofweek.pbenum.dart' as api;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
 
-import '../../helpers/delayed_subject_http_client_adapter.dart';
+import '../../helpers/api_subject.dart';
+import '../../helpers/fake_app_api_transport.dart';
 import '../../helpers/fake_auth_data_source.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 import '../../helpers/fake_past_exam_data_source.dart';
 import '../../helpers/fake_subject_data_source.dart';
-import '../../helpers/subject_json.dart';
 
 void main() {
   test('科目詳細のシラバスとローカルの過去問IDを合わせて取得する', () async {
-    final syllabus = syllabusJson(id: '123', fields: {'summary': '授業概要'});
-    final adapter = FakeHttpClientAdapter()
+    final syllabus = apiSyllabus(id: '123', fields: {'summary': '授業概要'});
+    final transport = FakeAppApiTransport()
       ..on(
-        'GET',
-        '/v1/subjects/subject',
-        (_) => FakeResponse(200, {
-          'subject': subjectDetailJson(
+        SubjectService.getSubject,
+        (_) => api.GetSubjectResponse(
+          subject: apiSubjectDetail(
             'subject',
             name: '科目詳細',
             syllabus: syllabus,
           ),
-        }),
+        ),
       );
     final container = ProviderContainer(
       overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(adapter))),
+        appApiTransportProvider.overrideWithValue(transport),
         subjectDataSourceProvider.overrideWithValue(FakeSubjectDataSource()),
       ],
     );
@@ -56,9 +63,7 @@ void main() {
     final container = ProviderContainer(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(
-          Openapi(dio: fakeDio(FakeHttpClientAdapter())),
-        ),
+        appApiTransportProvider.overrideWithValue(FakeAppApiTransport()),
         subjectDataSourceProvider.overrideWithValue(FakeSubjectDataSource()),
       ],
     );
@@ -84,9 +89,7 @@ void main() {
     final container = ProviderContainer(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(
-          Openapi(dio: fakeDio(FakeHttpClientAdapter())),
-        ),
+        appApiTransportProvider.overrideWithValue(FakeAppApiTransport()),
         subjectDataSourceProvider.overrideWithValue(
           FakeSubjectDataSource()..shouldFail = true,
         ),
@@ -115,50 +118,39 @@ void main() {
     expect(exams.clear, throwsUnsupportedError);
   });
   test('科目検索に時間割のコマと現在の履修状態を合わせる', () async {
-    final adapter = FakeHttpClientAdapter();
-    final subject = {
-      'id': 'subject',
-      'name': '科目',
-      'faculties': <Object>[],
-      'year': 2026,
-      'semester': 'H1',
-      'credit': 2,
-    };
-    adapter
+    final subject = apiSubjectSummary('subject', name: '科目');
+    final transport = FakeAppApiTransport()
       ..on(
-        'GET',
-        '/v1/subjects',
-        (_) => FakeResponse(200, {
-          'subjects': [subject],
-        }),
+        SubjectService.listSubjects,
+        (_) => api.ListSubjectsResponse(subjects: [subject]),
       )
       ..on(
-        'GET',
-        '/v1/timetableItems',
-        (_) => FakeResponse(200, {
-          'timetableItems': [
-            {
-              'id': 'item',
-              'subject': subject,
-              'slot': {'dayOfWeek': 'Monday', 'period': 'Period1'},
-              'rooms': <Object>[],
-            },
+        TimetableItemService.listTimetableItems,
+        (_) => api.ListTimetableItemsResponse(
+          timetableItems: [
+            api.TimetableItem(
+              id: 'item',
+              subject: subject,
+              slot: api.TimetableItemSlot(
+                dayOfWeek: api.DayOfWeek.MONDAY,
+                period: api.Period.PERIOD_1,
+              ),
+            ),
           ],
-        }),
+        ),
       )
       ..on(
-        'GET',
-        '/v1/courseRegistrations',
-        (_) => FakeResponse(200, {
-          'courseRegistrations': [
-            {'id': 'registration', 'subject': subject},
+        CourseRegistrationService.listCourseRegistrations,
+        (_) => api.ListCourseRegistrationsResponse(
+          courseRegistrations: [
+            api.CourseRegistration(id: 'registration', subject: subject),
           ],
-        }),
+        ),
       );
     final container = ProviderContainer(
       retry: (_, _) => null,
       overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(adapter))),
+        appApiTransportProvider.overrideWithValue(transport),
         subjectDataSourceProvider.overrideWithValue(FakeSubjectDataSource()),
       ],
     );
@@ -173,33 +165,25 @@ void main() {
     expect(subjects.clear, throwsUnsupportedError);
   });
   test('後から実行した科目検索を遅い先行リクエストで上書きしない', () async {
-    final adapter = FakeHttpClientAdapter()
+    final requested = Completer<void>();
+    final resume = Completer<void>();
+    final transport = FakeAppApiTransport()
+      ..on(SubjectService.listSubjects, (request) async {
+        if (request.query == '遅い') {
+          requested.complete();
+          await resume.future;
+        }
+        return api.ListSubjectsResponse(
+          subjects: [apiSubjectSummary(request.query, name: request.query)],
+        );
+      })
       ..on(
-        'GET',
-        '/v1/subjects',
-        (options) => FakeResponse(200, {
-          'subjects': [
-            {
-              'id': options.queryParameters['q'],
-              'name': options.queryParameters['q'],
-              'faculties': <Object>[],
-              'year': 2026,
-              'semester': 'H1',
-              'credit': 2,
-            },
-          ],
-        }),
-      )
-      ..on(
-        'GET',
-        '/v1/timetableItems',
-        (_) => const FakeResponse(200, {'timetableItems': <Object>[]}),
+        TimetableItemService.listTimetableItems,
+        (_) => api.ListTimetableItemsResponse(),
       );
-    final delayed = DelayedSubjectHttpClientAdapter(adapter);
-    final dio = fakeDio(adapter)..httpClientAdapter = delayed;
     final container = ProviderContainer(
       overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: dio)),
+        appApiTransportProvider.overrideWithValue(transport),
         authDataSourceProvider.overrideWithValue(FakeAuthDataSource()),
       ],
     );
@@ -212,9 +196,9 @@ void main() {
     await container.read(searchSubjectStateProvider.future);
     final notifier = container.read(searchSubjectStateProvider.notifier);
     final first = notifier.search(query: '遅い', filter: const SubjectFilter());
-    await delayed.requested.future;
+    await requested.future;
     await notifier.search(query: '新しい', filter: const SubjectFilter());
-    delayed.resume.complete();
+    resume.complete();
     await first;
     expect(
       container.read(searchSubjectStateProvider).requireValue.single.name,

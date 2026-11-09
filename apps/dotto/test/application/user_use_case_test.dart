@@ -1,17 +1,20 @@
+import 'package:connectrpc/connect.dart' as connect;
 import 'package:dotto/application/fetch_current_user_use_case.dart';
 import 'package:dotto/application/update_user_profile_use_case.dart';
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/domain/entity/academic_area.dart';
 import 'package:dotto/domain/entity/academic_class.dart';
 import 'package:dotto/domain/entity/auth_account.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/dotto_user.dart';
 import 'package:dotto/domain/entity/grade.dart';
+import 'package:dotto_app_api/app/v1/common.pbenum.dart' as pb;
+import 'package:dotto_app_api/app/v1/user.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/user.pb.dart' as pb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
 
-import '../helpers/fake_http_client_adapter.dart';
+import '../helpers/fake_app_api_transport.dart';
 
 const _account = AuthAccount(
   id: 'uid',
@@ -24,30 +27,32 @@ const _account = AuthAccount(
 final class _FakeUserApi {
   new([this.saved]);
 
-  Map<String, Object?>? saved;
+  pb.User? saved;
   int saveCount = 0;
 
-  late final adapter = FakeHttpClientAdapter()
-    ..on(
-      'GET',
-      '/v1/users',
-      (_) => switch (saved) {
-        final user? => FakeResponse(200, {'user': user}),
-        null => const FakeResponse(404),
-      },
-    )
-    ..on('POST', '/v1/users', (options) {
+  late final transport = FakeAppApiTransport()
+    ..on(UserService.getUser, (_) {
+      final user = saved;
+      if (user == null) {
+        throw connect.ConnectException(connect.Code.notFound, 'not found');
+      }
+      return pb.GetUserResponse(user: user);
+    })
+    ..on(UserService.updateUser, (request) {
       saveCount++;
-      saved = Map<String, Object?>.from(options.data as Map);
-      return FakeResponse(200, {'user': saved});
+      final user = pb.User(
+        grade: request.hasGrade() ? request.grade : null,
+        course: request.hasCourse() ? request.course : null,
+        class_3: request.hasClass_3() ? request.class_3 : null,
+      );
+      saved = user;
+      return pb.UpdateUserResponse(user: user);
     });
 }
 
 ProviderContainer _container(_FakeUserApi api) {
   final container = ProviderContainer(
-    overrides: [
-      apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(api.adapter))),
-    ],
+    overrides: [appApiTransportProvider.overrideWithValue(api.transport)],
   );
   addTearDown(container.dispose);
   return container;
@@ -55,11 +60,13 @@ ProviderContainer _container(_FakeUserApi api) {
 
 void main() {
   test('登録済みのユーザーはプロフィールをアカウント情報と合わせて返す', () async {
-    final api = _FakeUserApi({
-      'grade': 'B2',
-      'course': 'InformationDesign',
-      'class': 'C',
-    });
+    final api = _FakeUserApi(
+      pb.User(
+        grade: pb.Grade.GRADE_B2,
+        course: pb.Course.COURSE_INFORMATION_DESIGN,
+        class_3: pb.Class.CLASS_C,
+      ),
+    );
     final container = _container(api);
 
     final user = await container.read(fetchCurrentUserUseCaseProvider)(
@@ -94,12 +101,9 @@ void main() {
   });
 
   test('ユーザーの取得に失敗したらドメインエラーにする', () async {
-    final adapter = FakeHttpClientAdapter()
-      ..on('GET', '/v1/users', (_) => const FakeResponse(500));
+    final transport = FakeAppApiTransport()..fail(UserService.getUser);
     final container = ProviderContainer(
-      overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(adapter))),
-      ],
+      overrides: [appApiTransportProvider.overrideWithValue(transport)],
     );
     addTearDown(container.dispose);
 

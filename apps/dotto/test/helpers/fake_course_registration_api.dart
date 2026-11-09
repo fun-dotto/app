@@ -1,4 +1,12 @@
-import 'fake_http_client_adapter.dart';
+import 'package:dotto_app_api/app/v1/common.pbenum.dart' as api;
+import 'package:dotto_app_api/app/v1/course_registration.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/course_registration.pb.dart' as api;
+import 'package:dotto_app_api/app/v1/timetable_item.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/timetable_item.pb.dart' as api;
+import 'package:dotto_app_api/google/type/dayofweek.pbenum.dart' as api;
+
+import 'api_subject.dart';
+import 'fake_app_api_transport.dart';
 
 /// 履修登録APIの登録結果をメモリ内に保存する。
 final class FakeCourseRegistrationApi {
@@ -6,54 +14,46 @@ final class FakeCourseRegistrationApi {
     for (final id in initialRegisteredIds) {
       registrations[id] = _registration(id);
     }
-    adapter
+    transport
       ..on(
-        'GET',
-        '/v1/courseRegistrations',
-        (_) => FakeResponse(200, {
-          'courseRegistrations': registrations.values.toList(),
-        }),
+        CourseRegistrationService.listCourseRegistrations,
+        (_) => api.ListCourseRegistrationsResponse(
+          courseRegistrations: registrations.values,
+        ),
       )
       ..on(
-        'GET',
-        '/v1/timetableItems',
-        (_) => FakeResponse(200, {
-          'timetableItems': [
+        TimetableItemService.listTimetableItems,
+        (_) => api.ListTimetableItemsResponse(
+          timetableItems: [
             for (final id in ['first', 'second', 'target'])
-              {
-                'id': id,
-                'subject': _subject(id),
-                'slot': {'dayOfWeek': 'Monday', 'period': 'Period1'},
-                'rooms': <Object>[],
-              },
+              api.TimetableItem(
+                id: id,
+                subject: apiSubjectSummary(id, name: id),
+                slot: api.TimetableItemSlot(
+                  dayOfWeek: api.DayOfWeek.MONDAY,
+                  period: api.Period.PERIOD_1,
+                ),
+              ),
           ],
-        }),
+        ),
       )
-      ..on('POST', '/v1/courseRegistrations', (options) {
-        final id =
-            (options.data as Map<String, dynamic>)['subjectId'] as String;
-        final registration = _registration(id);
-        registrations[id] = registration;
-        return FakeResponse(201, {'courseRegistration': registration});
+      ..on(CourseRegistrationService.createCourseRegistration, (request) {
+        final registration = _registration(request.subjectId);
+        registrations[request.subjectId] = registration;
+        return api.CreateCourseRegistrationResponse(
+          courseRegistration: registration,
+        );
       })
-      ..on('DELETE', '/v1/courseRegistrations/registration-target', (_) {
-        registrations.remove('target');
-        return const FakeResponse(204);
+      ..on(CourseRegistrationService.deleteCourseRegistration, (request) {
+        registrations.removeWhere((_, value) => value.id == request.id);
+        return api.DeleteCourseRegistrationResponse();
       });
   }
   final List<String> initialRegisteredIds;
-  final adapter = FakeHttpClientAdapter();
-  final registrations = <String, Map<String, dynamic>>{};
-  Map<String, dynamic> _subject(String id) => {
-    'id': id,
-    'name': id,
-    'faculties': <Object>[],
-    'year': 2026,
-    'semester': 'H1',
-    'credit': 2,
-  };
-  Map<String, dynamic> _registration(String id) => {
-    'id': 'registration-$id',
-    'subject': _subject(id),
-  };
+  final transport = FakeAppApiTransport();
+  final registrations = <String, api.CourseRegistration>{};
+  api.CourseRegistration _registration(String id) => api.CourseRegistration(
+    id: 'registration-$id',
+    subject: apiSubjectSummary(id, name: id),
+  );
 }

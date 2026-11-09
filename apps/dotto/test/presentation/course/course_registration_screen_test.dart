@@ -1,20 +1,17 @@
-import 'package:dotto/data/api_client.dart';
+import 'package:dotto/data/app_api_transport.dart';
 import 'package:dotto/presentation/course/course_registration_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:openapi/openapi.dart';
 
+import '../../helpers/fake_app_api_transport.dart';
 import '../../helpers/fake_course_api.dart';
-import '../../helpers/fake_http_client_adapter.dart';
 
-Future<void> _pump(WidgetTester tester, FakeHttpClientAdapter adapter) async {
+Future<void> _pump(WidgetTester tester, FakeAppApiTransport transport) async {
   await tester.pumpWidget(
     ProviderScope(
       retry: (_, _) => null,
-      overrides: [
-        apiClientProvider.overrideWithValue(Openapi(dio: fakeDio(adapter))),
-      ],
+      overrides: [appApiTransportProvider.overrideWithValue(transport)],
       child: const MaterialApp(home: CourseRegistrationScreen()),
     ),
   );
@@ -28,7 +25,7 @@ void main() {
   testWidgets('履修中の科目を週間時間割のコマに表示する', (tester) async {
     final api = FakeCourseApi(registeredSubjectIds: {'a'});
 
-    await _pump(tester, api.adapter);
+    await _pump(tester, api.transport);
 
     expect(find.text('科目a'), findsOneWidget);
     expect(find.text('科目b'), findsNothing);
@@ -36,7 +33,7 @@ void main() {
 
   testWidgets('コマを選ぶと開講科目を一覧し、追加すると時間割に反映する', (tester) async {
     final api = FakeCourseApi();
-    await _pump(tester, api.adapter);
+    await _pump(tester, api.transport);
 
     await tester.tap(_mondayFirstPeriod);
     await tester.pumpAndSettle();
@@ -49,7 +46,7 @@ void main() {
   });
 
   testWidgets('取得に失敗したらエラーを表示する', (tester) async {
-    await _pump(tester, FakeHttpClientAdapter());
+    await _pump(tester, FakeAppApiTransport());
 
     expect(find.text('データの取得に失敗しました'), findsOneWidget);
   });

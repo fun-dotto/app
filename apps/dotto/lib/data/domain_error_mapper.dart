@@ -1,8 +1,12 @@
+import 'package:connectrpc/connect.dart' as connect;
 import 'package:dio/dio.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 DomainError mapDomainError({required Exception e, StackTrace? stackTrace}) {
+  if (e is connect.ConnectException) {
+    return _fromConnectException(e: e, stackTrace: stackTrace);
+  }
   if (e is DioException) {
     return _fromDioException(e: e, stackTrace: stackTrace);
   }
@@ -10,6 +14,37 @@ DomainError mapDomainError({required Exception e, StackTrace? stackTrace}) {
     return _fromFirebaseException(e: e, stackTrace: stackTrace);
   }
   return DomainError.unknown(e: e, stackTrace: stackTrace);
+}
+
+DomainError _fromConnectException({
+  required connect.ConnectException e,
+  StackTrace? stackTrace,
+}) {
+  switch (e.code) {
+    case connect.Code.unavailable:
+    case connect.Code.deadlineExceeded:
+    case connect.Code.canceled:
+      return DomainError.network(e: e, stackTrace: stackTrace);
+    case connect.Code.unauthenticated:
+      return DomainError.unauthorized(e: e, stackTrace: stackTrace);
+    case connect.Code.permissionDenied:
+      return DomainError.forbidden(e: e, stackTrace: stackTrace);
+    case connect.Code.notFound:
+      return DomainError.notFound(e: e, stackTrace: stackTrace);
+    case connect.Code.internal:
+    case connect.Code.dataLoss:
+    case connect.Code.unimplemented:
+    case connect.Code.resourceExhausted:
+      return DomainError.server(e: e, stackTrace: stackTrace);
+    case connect.Code.invalidArgument:
+    case connect.Code.failedPrecondition:
+    case connect.Code.outOfRange:
+    case connect.Code.alreadyExists:
+    case connect.Code.aborted:
+      return DomainError.invalidData(e: e, stackTrace: stackTrace);
+    case connect.Code.unknown:
+      return DomainError.unknown(e: e, stackTrace: stackTrace);
+  }
 }
 
 DomainError _fromDioException({
