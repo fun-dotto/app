@@ -5,8 +5,6 @@ import 'package:dotto/presentation/common/tab_item.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
-const _verticalBarWidth = 80.0;
-
 // タブが収まらないほど低い範囲しか取れないときは、下部タブに戻す。
 const _minimumVerticalBarHeight = 360.0;
 
@@ -18,7 +16,8 @@ const _verticalTabBarService = VerticalTabBarService();
 /// タブバーを備えたルートの Scaffold。
 ///
 /// [screenLayout] が縦型バーを推奨し、かつ隠れる領域を避けて置けるときは
-/// 画面の端に縦並びで、それ以外は下部に横並びで表示する。
+/// システムが縦バー用に確保した端の帯に縦並びで、それ以外は下部に横並びで
+/// 表示する。
 final class RootTabScaffold extends StatelessWidget {
   const new({
     required this.body,
@@ -63,57 +62,43 @@ final class RootTabScaffold extends StatelessWidget {
       );
     }
 
-    final mediaQuery = MediaQuery.of(context);
-    final isLeft = placement.isLeft;
-    // タブバーが占める側の安全領域は、本体ではなくタブバー側で扱う。
-    final verticalBar = SafeArea(
-      top: false,
-      bottom: false,
-      left: isLeft,
-      right: !isLeft,
-      child: SizedBox(
-        width: _verticalBarWidth,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: placement.span.top,
-            bottom: mediaQuery.size.height - placement.span.bottom,
-          ),
-          child: NavigationRail(
-            backgroundColor: backgroundColor,
-            minWidth: _verticalBarWidth,
-            groupAlignment: 0,
-            labelType: NavigationRailLabelType.all,
-            selectedIndex: selectedIndex,
-            onDestinationSelected: onDestinationSelected,
-            destinations: [
-              for (final tab in tabs)
-                NavigationRailDestination(
-                  selectedIcon: Icon(tab.selectedIcon),
-                  icon: Icon(tab.icon),
-                  label: Text(tab.label),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-    final content = Expanded(
-      child: MediaQuery.removePadding(
-        context: context,
-        removeLeft: isLeft,
-        removeRight: !isLeft,
-        child: body,
+    // 縦型バーはシステムが端のセーフエリアとして確保した帯なので、
+    // 本文はその内側に任せ、タブバーを帯に重ねて置く。
+    final verticalBar = Positioned(
+      left: placement.isLeft ? 0 : null,
+      right: placement.isLeft ? null : 0,
+      top: placement.span.top,
+      bottom: MediaQuery.sizeOf(context).height - placement.span.bottom,
+      width: placement.width,
+      child: NavigationRail(
+        backgroundColor: backgroundColor,
+        minWidth: placement.width,
+        groupAlignment: 0,
+        labelType: NavigationRailLabelType.all,
+        selectedIndex: selectedIndex,
+        onDestinationSelected: onDestinationSelected,
+        destinations: [
+          for (final tab in tabs)
+            NavigationRailDestination(
+              selectedIcon: Icon(tab.selectedIcon),
+              icon: Icon(tab.icon),
+              label: Text(tab.label),
+            ),
+        ],
       ),
     );
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Row(
-        children: isLeft ? [verticalBar, content] : [content, verticalBar],
+      body: Stack(
+        children: [
+          Positioned.fill(child: body),
+          verticalBar,
+        ],
       ),
     );
   }
 
-  ({bool isLeft, VerticalTabBarSpan span})? _verticalPlacement(
+  ({bool isLeft, double width, VerticalTabBarSpan span})? _verticalPlacement(
     BuildContext context,
   ) {
     final edge = screenLayout.verticalBarEdge;
@@ -122,9 +107,12 @@ final class RootTabScaffold extends StatelessWidget {
     final isLeft = (edge == VerticalBarEdge.leading) == isLeftToRight;
     final mediaQuery = MediaQuery.of(context);
     final size = mediaQuery.size;
+    // システムが縦バー用に確保した帯の幅。
+    final width = isLeft ? mediaQuery.padding.left : mediaQuery.padding.right;
+    if (width <= 0) return null;
     final span = _verticalTabBarService.place(
-      barLeft: isLeft ? 0 : size.width - _verticalBarWidth,
-      barWidth: _verticalBarWidth,
+      barLeft: isLeft ? 0 : size.width - width,
+      barWidth: width,
       minTop: mediaQuery.padding.top,
       maxBottom: size.height - mediaQuery.padding.bottom,
       occlusions: screenLayout.occlusions,
@@ -133,6 +121,6 @@ final class RootTabScaffold extends StatelessWidget {
     if (span == null || span.bottom - span.top < _minimumVerticalBarHeight) {
       return null;
     }
-    return (isLeft: isLeft, span: span);
+    return (isLeft: isLeft, width: width, span: span);
   }
 }
