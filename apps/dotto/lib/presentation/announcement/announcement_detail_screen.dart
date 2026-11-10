@@ -8,6 +8,7 @@ import 'package:dotto/presentation/announcement/announcement_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -50,8 +51,8 @@ final class _AnnouncementDetail extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return DottoContentPadding(
+      vertical: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 8,
