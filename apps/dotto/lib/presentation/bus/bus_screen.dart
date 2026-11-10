@@ -13,6 +13,7 @@ import 'package:dotto/presentation/bus/bus_schedule_state.dart';
 import 'package:dotto/presentation/bus/selected_bus_stop_state.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/router/routes/bus_routes.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter/rendering.dart' show ScrollCacheExtent;
@@ -237,37 +238,41 @@ final class _BusTripList extends HookWidget {
       });
       return null;
     }, [upcoming, isTo, stop, hasScrolled.value]);
-    return ListView.separated(
-      scrollCacheExtent: const ScrollCacheExtent.pixels(10000),
-      controller: scrollController,
-      itemCount: entries.length,
-      separatorBuilder: (_, _) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        final entry = entries[index];
-        if (entry.leg case final leg?) {
-          return _BusTripTile(
-            key: entry.index == upcoming ? scrollKey : null,
-            route: entry.trip.route,
-            beginTime: leg.from.time,
-            endTime: leg.to.time,
-            isTo: isTo,
-            isKameda: leg.isFallback,
-            myBusStopName: stop.name,
-            onTap: entry.trip.route == '0'
-                ? null
-                : () async {
-                    await BusTripRouteData(
-                      id: BusTripId(
-                        isTo: isTo,
-                        isWeekday: isWeekday,
-                        index: entry.index,
-                      ).value,
-                    ).push<void>(context);
-                  },
-          );
-        }
-        return const SizedBox.shrink();
-      },
+    return DottoContentInsets(
+      margin: false,
+      builder: (_, insets) => ListView.separated(
+        padding: insets + MediaQuery.paddingOf(context),
+        scrollCacheExtent: const ScrollCacheExtent.pixels(10000),
+        controller: scrollController,
+        itemCount: entries.length,
+        separatorBuilder: (_, _) => const Divider(height: 1),
+        itemBuilder: (context, index) {
+          final entry = entries[index];
+          if (entry.leg case final leg?) {
+            return _BusTripTile(
+              key: entry.index == upcoming ? scrollKey : null,
+              route: entry.trip.route,
+              beginTime: leg.from.time,
+              endTime: leg.to.time,
+              isTo: isTo,
+              isKameda: leg.isFallback,
+              myBusStopName: stop.name,
+              onTap: entry.trip.route == '0'
+                  ? null
+                  : () async {
+                      await BusTripRouteData(
+                        id: BusTripId(
+                          isTo: isTo,
+                          isWeekday: isWeekday,
+                          index: entry.index,
+                        ).value,
+                      ).push<void>(context);
+                    },
+            );
+          }
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }
