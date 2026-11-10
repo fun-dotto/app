@@ -2,6 +2,7 @@ import 'package:dotto/domain/entity/timetable_period_style.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/user_preference_state.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -21,23 +22,25 @@ final class CourseCustomizeScreen extends HookConsumerWidget {
         ),
       ),
       body: switch (userPreference) {
-        AsyncData(value: final preference) => SwitchListTile(
-          title: Text(
-            (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                .courseShowTime,
+        AsyncData(value: final preference) => DottoContent.single(
+          child: SwitchListTile(
+            title: Text(
+              (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                  .courseShowTime,
+            ),
+            value:
+                preference.timetablePeriodStyle ==
+                TimetablePeriodStyle.numberAndTime,
+            onChanged: (value) async {
+              await ref
+                  .read(userPreferenceStateProvider.notifier)
+                  .setTimetablePeriodStyle(
+                    value
+                        ? TimetablePeriodStyle.numberAndTime
+                        : TimetablePeriodStyle.numberOnly,
+                  );
+            },
           ),
-          value:
-              preference.timetablePeriodStyle ==
-              TimetablePeriodStyle.numberAndTime,
-          onChanged: (value) async {
-            await ref
-                .read(userPreferenceStateProvider.notifier)
-                .setTimetablePeriodStyle(
-                  value
-                      ? TimetablePeriodStyle.numberAndTime
-                      : TimetablePeriodStyle.numberOnly,
-                );
-          },
         ),
         AsyncError() => Center(
           child: Text(

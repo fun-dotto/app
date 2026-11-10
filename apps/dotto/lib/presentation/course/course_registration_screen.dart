@@ -8,7 +8,9 @@ import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course/course_registration_state.dart';
 import 'package:dotto/presentation/course/select_course_screen.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/style/layout.dart';
 import 'package:dotto_design_system/style/primitive_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -72,8 +74,9 @@ final class _CourseRegistrationSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
+      child: DottoContentPadding(
+        layout: DottoContentLayout.singleWide,
+        vertical: 8,
         child: Table(
           columnWidths: {
             for (final e in Period.values) e.number: const FlexColumnWidth(),
@@ -167,8 +170,9 @@ final class _PersonalWeeklyTimetable extends HookConsumerWidget {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.zero.withBottomBarInset(context),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
+        child: DottoContentPadding(
+          layout: DottoContentLayout.singleWide,
+          vertical: 8,
           child: Table(
             columnWidths: {
               for (final e in Period.values) e.number: const FlexColumnWidth(),
