@@ -13,5 +13,57 @@ import Flutter
     
     func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
         GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+        ScreenLayoutChannel.register(
+            messenger: engineBridge.applicationRegistrar.messenger()
+        )
+    }
+}
+
+/// タブバーの配置に必要な画面形状 (縦型バーの端・隠れる領域) を Flutter へ渡す。
+///
+/// 対応するチャンネル名は Dart 側の `screenLayoutChannelName`。
+enum ScreenLayoutChannel {
+    private static let name = "jp.ac.fun.dotto/screen_layout"
+
+    static func register(messenger: FlutterBinaryMessenger) {
+        let channel = FlutterMethodChannel(name: name, binaryMessenger: messenger)
+        channel.setMethodCallHandler { call, result in
+            switch call.method {
+            case "getScreenLayout":
+                result(screenLayout())
+            default:
+                result(FlutterMethodNotImplemented)
+            }
+        }
+    }
+
+    private static func screenLayout() -> [String: Any] {
+        guard #available(iOS 27.1, *), let view = flutterView() else {
+            return ["verticalBarEdge": NSNull(), "occlusions": []]
+        }
+        let edge: Any = switch view.traitCollection.verticalBarEdge {
+        case .leading: "leading"
+        case .trailing: "trailing"
+        default: NSNull()
+        }
+        let occlusions = view.reservedRegions(kind: .occlusion)
+            .filter { $0.isActive }
+            .map { region in
+                [
+                    "x": region.frame.origin.x,
+                    "y": region.frame.origin.y,
+                    "width": region.frame.size.width,
+                    "height": region.frame.size.height,
+                ]
+            }
+        return ["verticalBarEdge": edge, "occlusions": occlusions]
+    }
+
+    private static func flutterView() -> UIView? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?
+            .rootViewController?.view
     }
 }

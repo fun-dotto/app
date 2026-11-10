@@ -7,6 +7,7 @@ import 'package:dotto/application/should_prompt_notification_use_case.dart';
 import 'package:dotto/application/synchronize_push_token_use_case.dart';
 import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/domain/entity/notification_alert_status.dart';
+import 'package:dotto/domain/entity/screen_layout.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/auth_account_state.dart';
@@ -16,13 +17,15 @@ import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:dotto/presentation/common/onboarding/onboarding_screen.dart';
 import 'package:dotto/presentation/common/tab_item.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
+import 'package:dotto/presentation/common/use_metrics_changed.dart';
 import 'package:dotto/presentation/root/invalid_app_version_screen.dart';
 import 'package:dotto/presentation/root/push_token_state.dart';
 import 'package:dotto/presentation/root/root_app_tutorial_state.dart';
 import 'package:dotto/presentation/root/root_app_version_state.dart';
 import 'package:dotto/presentation/root/root_initialization_state.dart';
+import 'package:dotto/presentation/root/root_tab_scaffold.dart';
+import 'package:dotto/presentation/root/screen_layout_state.dart';
 import 'package:dotto/router/routes/app_routes.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -119,10 +122,17 @@ final class RootScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
       final listener = AppLifecycleListener(
-        onResume: () => ref.invalidate(notificationAlertStatusStateProvider),
+        onResume: () => ref
+          ..invalidate(notificationAlertStatusStateProvider)
+          ..invalidate(screenLayoutStateProvider),
       );
       return listener.dispose;
     }, const []);
+    // 分割表示や回転で縦型バーの端・隠れる領域が変わるため取り直す。
+    useMetricsChanged(() => ref.invalidate(screenLayoutStateProvider));
+    final screenLayout =
+        ref.watch(screenLayoutStateProvider).asData?.value ??
+        ScreenLayout.standard;
 
     final isSchedulingAlerts = useRef(false);
     final hasShownUpdateAlert = useState(false);
@@ -225,32 +235,19 @@ final class RootScreen extends HookConsumerWidget {
           router.pop();
         }
       },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
+      child: RootTabScaffold(
         body: navigationShell,
-        bottomNavigationBar: NavigationBar(
-          backgroundColor: switch (appFlavor) {
-            'dev' => Colors.blue.withValues(alpha: 0.15),
-            'stg' => Colors.orange.withValues(alpha: 0.15),
-            _ => null,
-          },
-          onDestinationSelected: (index) {
-            final tab = activeTabs[index];
-            final branchIndex = branchIndexForTab(tab);
-            navigationShell.goBranch(
-              branchIndex,
-              initialLocation: branchIndex == navigationShell.currentIndex,
-            );
-          },
-          selectedIndex: navigationBarSelectedIndex,
-          destinations: activeTabs.map((tab) {
-            return NavigationDestination(
-              selectedIcon: Icon(tab.selectedIcon),
-              icon: Icon(tab.icon),
-              label: tab.label,
-            );
-          }).toList(),
-        ),
+        tabs: activeTabs,
+        selectedIndex: navigationBarSelectedIndex,
+        screenLayout: screenLayout,
+        onDestinationSelected: (index) {
+          final tab = activeTabs[index];
+          final branchIndex = branchIndexForTab(tab);
+          navigationShell.goBranch(
+            branchIndex,
+            initialLocation: branchIndex == navigationShell.currentIndex,
+          );
+        },
       ),
     );
   }
