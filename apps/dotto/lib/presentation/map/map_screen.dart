@@ -16,6 +16,7 @@ import 'package:dotto/presentation/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/presentation/map/widget/map_floor_button.dart';
 import 'package:dotto/presentation/map/widget/map_legend.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/style/layout.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -248,9 +249,15 @@ final class MapScreen extends HookConsumerWidget {
                       spacing: 8,
                       children: [
                         ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 480),
+                          constraints: const BoxConstraints(
+                            maxWidth:
+                                DottoLayout.narrowMaxWidth +
+                                DottoLayout.horizontalMargin * 2,
+                          ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: DottoLayout.horizontalMargin,
+                            ),
                             child: MapFloorButton(
                               selectedFloor: selectedFloor.value,
                               onPressed: (floor) {
@@ -338,9 +345,14 @@ final class _MapDatePickerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => isAuthenticated
       ? ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 480),
+          constraints: const BoxConstraints(
+            maxWidth:
+                DottoLayout.narrowMaxWidth + DottoLayout.horizontalMargin * 2,
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(
+              horizontal: DottoLayout.horizontalMargin,
+            ),
             child: MapDatePicker(
               searchDatetime: searchDatetime,
               onPeriodButtonTapped: onPeriodButtonTapped,
