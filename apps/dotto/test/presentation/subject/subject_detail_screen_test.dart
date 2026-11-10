@@ -150,7 +150,7 @@ void main() {
     testWidgets('未ログインで投稿しようとするとログインを促す', (tester) async {
       await _pump(tester, _detail(initialTab: SubjectDetailTab.reviews));
 
-      await tester.tap(find.byType(FloatingActionButton));
+      await tester.tap(find.byTooltip('フィードバックを投稿'));
       await tester.pumpAndSettle();
 
       expect(find.text('Googleアカウント (@fun.ac.jp) による認証が必要です。'), findsOneWidget);
@@ -162,10 +162,10 @@ void main() {
         _detail(initialTab: SubjectDetailTab.reviews),
         currentAccount: _account,
       );
-      await tester.tap(find.byType(FloatingActionButton));
+      await tester.tap(find.byTooltip('フィードバックを投稿'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('投稿する'));
+      await tester.tap(find.byTooltip('投稿する'));
       await tester.pumpAndSettle();
 
       // 投稿画面と下の画面の両方の Scaffold に表示される
@@ -178,12 +178,12 @@ void main() {
         _detail(initialTab: SubjectDetailTab.reviews),
         currentAccount: _account,
       );
-      await tester.tap(find.byType(FloatingActionButton));
+      await tester.tap(find.byTooltip('フィードバックを投稿'));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byIcon(Icons.star).at(3));
       await tester.enterText(find.byType(TextFormField), '課題が多い');
-      await tester.tap(find.text('投稿する'));
+      await tester.tap(find.byTooltip('投稿する'));
       await tester.pumpAndSettle();
 
       expect(find.text('フィードバックを投稿しました。'), findsOneWidget);
@@ -197,7 +197,7 @@ void main() {
         _detail(initialTab: SubjectDetailTab.reviews),
         currentAccount: _account,
       );
-      await tester.tap(find.byType(FloatingActionButton));
+      await tester.tap(find.byTooltip('フィードバックを投稿'));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byIcon(Icons.close));
@@ -255,7 +255,7 @@ void main() {
     );
 
     await tester.tap(find.byIcon(Icons.star).last);
-    await tester.tap(find.text('投稿する'));
+    await tester.tap(find.byTooltip('投稿する'));
     await tester.pumpAndSettle();
 
     expect(await dataSource.readFeedbacks('lesson'), hasLength(1));

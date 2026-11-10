@@ -20,6 +20,7 @@ import 'package:dotto/presentation/course/quick_button.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -203,10 +204,11 @@ final class CourseScreen extends HookConsumerWidget {
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         actions: [
-          IconButton(
-            onPressed: () =>
-                const CourseCustomizeRouteData().push<void>(context),
+          DottoAppBarAction(
             icon: const Icon(Icons.tune),
+            label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                .courseCustomize,
+            action: () => const CourseCustomizeRouteData().push<void>(context),
           ),
         ],
         bottom: switch (breakingAnnouncement) {

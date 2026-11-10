@@ -8,6 +8,7 @@ import 'package:dotto/presentation/common/funch/funch_menu_card.dart';
 import 'package:dotto/presentation/common/funch/funch_menus_state.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -25,8 +26,13 @@ final class FunchScreen extends HookConsumerWidget {
       appBar: DottoAppBar(
         title: Text(l10n.funchTitle),
         actions: [
-          TextButton(
-            onPressed: () async {
+          DottoAppBarAction(
+            icon: const Icon(Icons.calendar_today),
+            label: DateFormatter.dateWithDayOfWeek(
+              date.value,
+              locale: Localizations.localeOf(context).toString(),
+            ),
+            action: () async {
               final dates = switch (menus) {
                 AsyncData(:final value) => value.keys.toList()..sort(),
                 _ => <DateTime>[],
@@ -54,12 +60,6 @@ final class FunchScreen extends HookConsumerWidget {
               );
               if (selected != null && context.mounted) date.value = selected;
             },
-            child: Text(
-              DateFormatter.dateWithDayOfWeek(
-                date.value,
-                locale: Localizations.localeOf(context).toString(),
-              ),
-            ),
           ),
         ],
       ),

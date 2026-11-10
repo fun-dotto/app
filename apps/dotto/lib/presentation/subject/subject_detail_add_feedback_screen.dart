@@ -4,6 +4,7 @@ import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -25,15 +26,18 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: DottoAppBar(
         title: Text(context.subjectL10n.subjectPostFeedback),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.close),
-        ),
         actions: [
-          TextButton(
-            onPressed: switch (user) {
+          DottoAppBarAction(
+            role: DottoAppBarActionRole.dismiss,
+            icon: const Icon(Icons.close),
+            label: MaterialLocalizations.of(context).closeButtonLabel,
+            action: () => Navigator.of(context).pop(),
+          ),
+          DottoAppBarAction(
+            role: DottoAppBarActionRole.confirmation,
+            icon: const Icon(Icons.check),
+            label: context.subjectL10n.subjectSubmit,
+            action: switch (user) {
               AsyncData(:final value) when !isSubmitting.value => () async {
                 if (value == null) return;
                 try {
@@ -76,7 +80,6 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
               },
               _ => null,
             },
-            child: Text(context.subjectL10n.subjectSubmit),
           ),
         ],
       ),

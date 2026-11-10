@@ -191,6 +191,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get pdfShare => 'Share';
+
+  @override
   String get pdfShareFailed => 'Could not share the PDF. Please try again.';
 
   @override

@@ -190,6 +190,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get pdfShare => '共有';
+
+  @override
   String get pdfShareFailed => 'PDFの共有に失敗しました。もう一度お試しください。';
 
   @override

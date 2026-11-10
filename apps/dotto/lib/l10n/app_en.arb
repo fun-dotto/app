@@ -99,6 +99,7 @@
       }
     }
   },
+  "pdfShare": "Share",
   "pdfShareFailed": "Could not share the PDF. Please try again.",
   "subjectClearFilters": "Clear filters",
   "subjectSemesterRequirementsAndClassification": "Semester, requirements and classification",

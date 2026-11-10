@@ -11,6 +11,7 @@ import 'package:dotto/presentation/subject/search_subject_filter_section.dart';
 import 'package:dotto/presentation/subject/search_subject_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -90,14 +91,15 @@ final class SearchSubjectScreen extends HookConsumerWidget {
         ),
         centerTitle: false,
         actions: [
-          TextButton(
-            onPressed: filter.hasActiveFilters
+          DottoAppBarAction(
+            icon: const Icon(Icons.filter_alt_off),
+            label: context.subjectL10n.subjectClearFilters,
+            action: filter.hasActiveFilters
                 ? () {
                     selectedFilter.value = const SubjectFilter();
                     ref.read(searchSubjectStateProvider.notifier).clear();
                   }
                 : null,
-            child: Text(context.subjectL10n.subjectClearFilters),
           ),
         ],
       ),
