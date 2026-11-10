@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:collection/collection.dart';
 import 'package:dotto/domain/entity/occlusion_region.dart';
 
 /// 縦型タブバーを置く縦方向の範囲。
@@ -9,11 +10,12 @@ typedef VerticalTabBarSpan = ({double top, double bottom});
 final class VerticalTabBarService {
   const new();
 
-  /// 隠れる領域を避けて、縦型タブバーを置ける最も高い範囲を返す。
+  /// 隠れる領域を避けて、縦型タブバーを置ける最も下の範囲を返す。
   ///
   /// [barLeft] と [barWidth] で表すバーの列と重なる [occlusions] の上下に
-  /// [margin] を加えた範囲を除き、残った範囲のうち最も高いものを選ぶ。
-  /// [minTop] から [maxBottom] の間に置ける範囲がなければ `null` を返す。
+  /// [margin] を加えた範囲を除き、残った範囲のうち高さが [minHeight] 以上で
+  /// 最も下にあるものを選ぶ。[minTop] から [maxBottom] の間に置ける範囲が
+  /// なければ `null` を返す。
   VerticalTabBarSpan? place({
     required double barLeft,
     required double barWidth,
@@ -21,6 +23,7 @@ final class VerticalTabBarService {
     required double maxBottom,
     required List<OcclusionRegion> occlusions,
     double margin = 0,
+    double minHeight = 0,
   }) {
     final barRight = barLeft + barWidth;
     final blocked =
@@ -35,21 +38,17 @@ final class VerticalTabBarService {
             .toList()
           ..sort((a, b) => a.top.compareTo(b.top));
 
-    VerticalTabBarSpan? best;
-    var bestHeight = 0.0;
-    void consider(double top, double bottom) {
-      if (bottom - top <= bestHeight) return;
-      bestHeight = bottom - top;
-      best = (top: top, bottom: bottom);
-    }
-
+    final spans = <VerticalTabBarSpan>[];
     var cursor = minTop;
-
     for (final region in blocked) {
-      consider(cursor, region.top);
+      spans.add((top: cursor, bottom: region.top));
       cursor = math.max(cursor, region.bottom);
     }
-    consider(cursor, maxBottom);
-    return best;
+    spans.add((top: cursor, bottom: maxBottom));
+
+    // 下寄せで置くため、必要な高さを満たす範囲のうち最も下のものを選ぶ。
+    return spans.lastWhereOrNull(
+      (s) => s.bottom - s.top > 0 && s.bottom - s.top >= minHeight,
+    );
   }
 }

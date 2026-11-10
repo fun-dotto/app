@@ -1,15 +1,19 @@
+import 'package:dotto/domain/entity/occlusion_region.dart';
 import 'package:dotto/domain/entity/screen_layout.dart';
 import 'package:dotto/domain/entity/vertical_bar_edge.dart';
 import 'package:dotto/presentation/common/tab_item.dart';
+import 'package:dotto/presentation/root/glass_tab_bar.dart';
 import 'package:dotto/presentation/root/root_tab_scaffold.dart';
+import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
 // システムが縦バー用に確保する端の帯は、セーフエリアとして渡される。
 Widget _app(ScreenLayout layout, {EdgeInsets padding = EdgeInsets.zero}) =>
     MaterialApp(
+      theme: ThemeData(extensions: [SemanticColor.light]),
       builder: (context, child) => MediaQuery(
-        data: MediaQueryData(size: const Size(800, 1000), padding: padding),
+        data: MediaQuery.of(context).copyWith(padding: padding),
         child: child ?? const SizedBox.shrink(),
       ),
       home: RootTabScaffold(
@@ -21,15 +25,31 @@ Widget _app(ScreenLayout layout, {EdgeInsets padding = EdgeInsets.zero}) =>
       ),
     );
 
+void _useLargeScreen(WidgetTester tester) {
+  tester.view
+    ..physicalSize = const Size(800, 1000)
+    ..devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
+Axis _barAxis(WidgetTester tester) =>
+    tester.widget<GlassTabBar>(find.byType(GlassTabBar)).axis;
+
 void main() {
-  testWidgets('縦型バーの指定がなければ下部にタブバーを表示する', (tester) async {
+  testWidgets('縦型バーの指定がなければ下部に横並びで表示する', (tester) async {
+    _useLargeScreen(tester);
     await tester.pumpWidget(_app(ScreenLayout.standard));
 
-    expect(find.byType(NavigationBar), findsOneWidget);
-    expect(find.byType(NavigationRail), findsNothing);
+    expect(_barAxis(tester), Axis.horizontal);
+    expect(tester.getRect(find.byType(GlassTabBar)).bottom, lessThan(1000));
+    expect(
+      tester.getRect(find.byKey(const Key('body'))).bottom,
+      lessThan(1000),
+    );
   });
 
-  testWidgets('leading 指定のときは左端の帯に縦型タブバーを表示する', (tester) async {
+  testWidgets('leading 指定のときは左端の帯に縦並びで表示する', (tester) async {
+    _useLargeScreen(tester);
     await tester.pumpWidget(
       _app(
         const ScreenLayout(
@@ -40,14 +60,37 @@ void main() {
       ),
     );
 
-    final rail = tester.getRect(find.byType(NavigationRail));
-    expect(find.byType(NavigationBar), findsNothing);
-    expect(rail.left, 0);
-    expect(rail.width, 80);
+    final bar = tester.getRect(find.byType(GlassTabBar));
+    expect(_barAxis(tester), Axis.vertical);
+    expect(bar.left, greaterThanOrEqualTo(0));
+    expect(bar.right, lessThanOrEqualTo(80));
     expect(tester.getRect(find.byKey(const Key('body'))).left, 80);
+    // 下寄せで表示する。
+    expect(bar.bottom, 1000);
   });
 
-  testWidgets('trailing 指定のときは右端の帯に縦型タブバーを表示する', (tester) async {
+  testWidgets('カメラホールと重なる帯では、ホールを避けた範囲の下寄せに表示する', (tester) async {
+    _useLargeScreen(tester);
+    await tester.pumpWidget(
+      _app(
+        const ScreenLayout(
+          verticalBarEdge: VerticalBarEdge.leading,
+          occlusions: [
+            OcclusionRegion(left: 0, top: 100, width: 80, height: 40),
+          ],
+        ),
+        padding: const EdgeInsets.only(left: 80),
+      ),
+    );
+
+    final bar = tester.getRect(find.byType(GlassTabBar));
+    // ホールの下側(148〜1000)の下寄せに置かれ、ホールと重ならない。
+    expect(bar.top, greaterThanOrEqualTo(148));
+    expect(bar.bottom, 1000);
+  });
+
+  testWidgets('trailing 指定のときは右端の帯に縦並びで表示する', (tester) async {
+    _useLargeScreen(tester);
     await tester.pumpWidget(
       _app(
         const ScreenLayout(
@@ -58,14 +101,16 @@ void main() {
       ),
     );
 
-    final rail = tester.getRect(find.byType(NavigationRail));
-    expect(rail.right, 800);
-    expect(rail.width, 80);
+    final bar = tester.getRect(find.byType(GlassTabBar));
+    expect(_barAxis(tester), Axis.vertical);
+    expect(bar.left, greaterThanOrEqualTo(720));
+    expect(bar.right, lessThanOrEqualTo(800));
     // 本文は帯にはみ出さない。
     expect(tester.getRect(find.byKey(const Key('body'))).right, 720);
   });
 
   testWidgets('帯が確保されていなければ縦型バーでも下部に表示する', (tester) async {
+    _useLargeScreen(tester);
     await tester.pumpWidget(
       _app(
         const ScreenLayout(
@@ -75,6 +120,6 @@ void main() {
       ),
     );
 
-    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(_barAxis(tester), Axis.horizontal);
   });
 }

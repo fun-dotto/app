@@ -26,12 +26,28 @@ void main() {
     expect(span, (top: 50.0, bottom: 800.0));
   });
 
-  test('隠れる領域を避けて最も高い範囲を選ぶ', () {
+  test('隠れる領域を避けて最も下の範囲を選ぶ', () {
     final span = place([
-      const OcclusionRegion(left: 0, top: 100, width: 40, height: 40),
+      const OcclusionRegion(left: 0, top: 400, width: 40, height: 40),
     ]);
 
-    expect(span, (top: 150.0, bottom: 800.0));
+    expect(span, (top: 450.0, bottom: 800.0));
+  });
+
+  test('下の範囲が必要な高さに満たなければ上の範囲を選ぶ', () {
+    final span = service.place(
+      barLeft: 0,
+      barWidth: 80,
+      minTop: 50,
+      maxBottom: 800,
+      occlusions: [
+        const OcclusionRegion(left: 0, top: 700, width: 40, height: 40),
+      ],
+      margin: 10,
+      minHeight: 200,
+    );
+
+    expect(span, (top: 50.0, bottom: 690.0));
   });
 
   test('領域が列全体を塞ぐときは置ける範囲がない', () {

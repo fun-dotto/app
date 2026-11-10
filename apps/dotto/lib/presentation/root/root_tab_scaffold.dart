@@ -2,11 +2,16 @@ import 'package:dotto/domain/entity/screen_layout.dart';
 import 'package:dotto/domain/entity/vertical_bar_edge.dart';
 import 'package:dotto/domain/service/vertical_tab_bar_service.dart';
 import 'package:dotto/presentation/common/tab_item.dart';
+import 'package:dotto/presentation/root/flavor_accent_color.dart';
+import 'package:dotto/presentation/root/glass_tab_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 // タブが収まらないほど低い範囲しか取れないときは、下部タブに戻す。
 const _minimumVerticalBarHeight = 360.0;
+
+const _barMargin = 16.0;
+const _maxBarWidth = 420.0;
 
 // カメラなどの隠れる領域とタブバーが近づきすぎないようにする余白。
 const _occlusionMargin = 8.0;
@@ -36,28 +41,31 @@ final class RootTabScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = switch (appFlavor) {
-      'dev' => Colors.blue.withValues(alpha: 0.15),
-      'stg' => Colors.orange.withValues(alpha: 0.15),
-      _ => null,
-    };
+    final accentColor = flavorAccentColor(appFlavor);
     final placement = _verticalPlacement(context);
     if (placement == null) {
       return Scaffold(
         resizeToAvoidBottomInset: false,
         body: body,
-        bottomNavigationBar: NavigationBar(
-          backgroundColor: backgroundColor,
-          onDestinationSelected: onDestinationSelected,
-          selectedIndex: selectedIndex,
-          destinations: [
-            for (final tab in tabs)
-              NavigationDestination(
-                selectedIcon: Icon(tab.selectedIcon),
-                icon: Icon(tab.icon),
-                label: tab.label,
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: _barMargin,
+              vertical: _barMargin / 2,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: _maxBarWidth),
+                child: GlassTabBar(
+                  tabs: tabs,
+                  selectedIndex: selectedIndex,
+                  onSelected: onDestinationSelected,
+                  accentColor: accentColor,
+                ),
               ),
-          ],
+            ),
+          ),
         ),
       );
     }
@@ -68,24 +76,21 @@ final class RootTabScaffold extends StatelessWidget {
       width: placement.width,
       child: Padding(
         padding: EdgeInsets.only(
+          left: _barMargin / 2,
+          right: _barMargin / 2,
           top: placement.span.top,
           bottom: MediaQuery.sizeOf(context).height - placement.span.bottom,
         ),
-        child: NavigationRail(
-          backgroundColor: backgroundColor,
-          minWidth: placement.width,
-          groupAlignment: 0,
-          labelType: NavigationRailLabelType.all,
-          selectedIndex: selectedIndex,
-          onDestinationSelected: onDestinationSelected,
-          destinations: [
-            for (final tab in tabs)
-              NavigationRailDestination(
-                selectedIcon: Icon(tab.selectedIcon),
-                icon: Icon(tab.icon),
-                label: Text(tab.label),
-              ),
-          ],
+        // カメラホールなどを避けた範囲の中で、下寄せにする。
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: GlassTabBar(
+            tabs: tabs,
+            selectedIndex: selectedIndex,
+            onSelected: onDestinationSelected,
+            accentColor: accentColor,
+            axis: Axis.vertical,
+          ),
         ),
       ),
     );
@@ -101,6 +106,7 @@ final class RootTabScaffold extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: placement.isLeft
             ? [verticalBar, content]
             : [content, verticalBar],
@@ -127,10 +133,9 @@ final class RootTabScaffold extends StatelessWidget {
       maxBottom: size.height - mediaQuery.padding.bottom,
       occlusions: screenLayout.occlusions,
       margin: _occlusionMargin,
+      minHeight: _minimumVerticalBarHeight,
     );
-    if (span == null || span.bottom - span.top < _minimumVerticalBarHeight) {
-      return null;
-    }
+    if (span == null) return null;
     return (isLeft: isLeft, width: width, span: span);
   }
 }
