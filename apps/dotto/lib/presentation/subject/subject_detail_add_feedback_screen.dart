@@ -1,5 +1,6 @@
 import 'package:dotto/application/save_subject_feedback_use_case.dart';
 import 'package:dotto/domain/entity/subject_feedback.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
@@ -22,7 +23,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
     final commentTextEditingController = useTextEditingController();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(context.subjectL10n.subjectPostFeedback),
         leading: IconButton(
           onPressed: () {

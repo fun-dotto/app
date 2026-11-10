@@ -6,9 +6,11 @@ import 'package:material_ui/material_ui.dart';
 ///
 /// 縦バーが使われているとき ([VerticalBarScope] の配下) は、[actions] を
 /// AppBar ではなく縦バーに表示する。戻るボタンも同様に縦バーへ移す。
+/// [leading] を指定した場合は、戻るボタンの代わりにそれを表示する。
 final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
   const new({
     required this.title,
+    this.leading,
     this.actions = const [],
     this.bottom,
     this.centerTitle,
@@ -16,6 +18,7 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
   });
 
   final Widget title;
+  final Widget? leading;
   final List<Widget> actions;
   final PreferredSizeWidget? bottom;
   final bool? centerTitle;
@@ -29,7 +32,10 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
     final scope = VerticalBarScope.maybeOf(context);
     final canPop = Navigator.canPop(context);
     // 縦バーでは、戻るボタンをツールバーアイテムの先頭に置く。
-    final barActions = [if (canPop) const _VerticalBarBackButton(), ...actions];
+    final barActions = [
+      ?leading ?? (canPop ? const _VerticalBarBackButton() : null),
+      ...actions,
+    ];
     // 他の画面が重なっている間や、タブ切り替えで裏に回っている間
     // (TickerMode が無効) は、表示中の画面にアクションの表示を譲る。
     final isCurrent =
@@ -51,6 +57,7 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
     return AppBar(
       title: title,
       centerTitle: centerTitle,
+      leading: scope == null ? leading : null,
       automaticallyImplyLeading: scope == null,
       actions: scope == null ? actions : null,
       bottom: bottom,
