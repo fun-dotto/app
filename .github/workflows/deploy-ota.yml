@@ -26,7 +26,7 @@ env:
 jobs:
   ios-build:
     name: Build iOS OTA (${{ matrix.flavor }})
-    runs-on: macos-27
+    runs-on: xcode-27
     timeout-minutes: 60
     strategy:
       fail-fast: true
