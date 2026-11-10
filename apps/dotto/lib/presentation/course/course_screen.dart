@@ -19,6 +19,7 @@ import 'package:dotto/presentation/course/personal_timetable_calendar_view.dart'
 import 'package:dotto/presentation/course/quick_button.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -233,86 +234,74 @@ final class CourseScreen extends HookConsumerWidget {
                   // 下部のタブバーの背後まで本文が広がるため、その分を底上げする。
                   padding: const EdgeInsets.symmetric(vertical: 16)
                       .withBottomBarInset(context),
-                  child: Column(
-                    spacing: 16,
-                    children: [
-                      if (isAuthenticated)
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsGeometry.symmetric(
-                                horizontal: 8,
-                              ),
-                              child: PersonalTimetableCalendarView(
-                                personalTimetableDays: courseState,
-                                selectedDate: selectedDate.value,
-                                onDateSelected: (newDate) =>
-                                    selectedDate.value = newDate,
-                                onSubjectSelected: (subject) =>
-                                    CourseSubjectSyllabusRouteData(
-                                      id: subject.id,
-                                    ).push<void>(context),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: .end,
-                              children: [
-                                DottoButton(
-                                  onPressed: () async {
-                                    await const CourseRegistrationRouteData()
-                                        .push<void>(context);
-                                    if (!context.mounted) {
-                                      return;
-                                    }
-                                    await ref
-                                        .read(courseStateProvider.notifier)
-                                        .refresh();
-                                  },
-                                  type: DottoButtonType.text,
-                                  child: Text(
-                                    (AppLocalizations.of(context) ??
-                                            AppLocalizationsJa())
-                                        .courseWeeklyTimetable,
-                                  ),
+                  child: DottoContent.twoColumn(
+                    primary: isAuthenticated
+                        ? Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsGeometry.symmetric(
+                                  horizontal: 8,
                                 ),
-                              ],
-                            ),
-                          ],
-                        )
-                      else
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 48,
-                          ),
-                          child: Center(
-                            child: DottoButton(
-                              onPressed: () async {
-                                await ref
-                                    .read(userStateProvider.notifier)
-                                    .signIn();
-                              },
-                              child: Text(
-                                (AppLocalizations.of(context) ??
-                                        AppLocalizationsJa())
-                                    .courseSignIn,
+                                child: PersonalTimetableCalendarView(
+                                  personalTimetableDays: courseState,
+                                  selectedDate: selectedDate.value,
+                                  onDateSelected: (newDate) =>
+                                      selectedDate.value = newDate,
+                                  onSubjectSelected: (subject) =>
+                                      CourseSubjectSyllabusRouteData(
+                                        id: subject.id,
+                                      ).push<void>(context),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: .end,
+                                children: [
+                                  DottoButton(
+                                    onPressed: () async {
+                                      await const CourseRegistrationRouteData()
+                                          .push<void>(context);
+                                      if (!context.mounted) {
+                                        return;
+                                      }
+                                      await ref
+                                          .read(courseStateProvider.notifier)
+                                          .refresh();
+                                    },
+                                    type: DottoButtonType.text,
+                                    child: Text(
+                                      (AppLocalizations.of(context) ??
+                                              AppLocalizationsJa())
+                                          .courseWeeklyTimetable,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 48),
+                            child: Center(
+                              child: DottoButton(
+                                onPressed: () async {
+                                  await ref
+                                      .read(userStateProvider.notifier)
+                                      .signIn();
+                                },
+                                child: Text(
+                                  (AppLocalizations.of(context) ??
+                                          AppLocalizationsJa())
+                                      .courseSignIn,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      Padding(
-                        padding: const EdgeInsetsGeometry.symmetric(
-                          horizontal: 16,
-                        ),
-                        child: _ShortcutSections(
-                          this,
-                          isAuthenticated: isAuthenticated,
-                          quickFeatures: quickFeatures,
-                          quickFiles: quickFiles,
-                          quickLinks: quickLinks,
-                        ),
-                      ),
-                    ],
+                    secondary: _ShortcutSections(
+                      this,
+                      isAuthenticated: isAuthenticated,
+                      quickFeatures: quickFeatures,
+                      quickFiles: quickFiles,
+                      quickLinks: quickLinks,
+                    ),
                   ),
                 ),
               ),
@@ -404,54 +393,55 @@ final class _LoadingSkeleton extends StatelessWidget {
           padding: EdgeInsets.zero.withBottomBarInset(context),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: Column(
-              children: [
-                if (isAuthenticated)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: _CourseTimetableSkeleton(owner),
-                  )
-                else
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 48,
-                    ),
-                    child: Center(
-                      child: DottoButton(
-                        onPressed: null,
-                        child: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .courseSignIn,
+            child: DottoContent.twoColumn(
+              primary: Column(
+                children: [
+                  if (isAuthenticated)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: _CourseTimetableSkeleton(owner),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 48),
+                      child: Center(
+                        child: DottoButton(
+                          onPressed: null,
+                          child: Text(
+                            (AppLocalizations.of(context) ??
+                                    AppLocalizationsJa())
+                                .courseSignIn,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                if (isAuthenticated)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      DottoButton(
-                        onPressed: null,
-                        type: DottoButtonType.text,
-                        child: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .courseWeeklyTimetable,
+                  if (isAuthenticated)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        DottoButton(
+                          onPressed: null,
+                          type: DottoButtonType.text,
+                          child: Text(
+                            (AppLocalizations.of(context) ??
+                                    AppLocalizationsJa())
+                                .courseWeeklyTimetable,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: _ShortcutSections(
-                    owner,
-                    isAuthenticated: isAuthenticated,
-                    quickFeatures: quickFeatures,
-                    quickFiles: quickFiles,
-                    quickLinks: quickLinks,
-                  ),
+                      ],
+                    ),
+                ],
+              ),
+              secondary: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: _ShortcutSections(
+                  owner,
+                  isAuthenticated: isAuthenticated,
+                  quickFeatures: quickFeatures,
+                  quickFiles: quickFiles,
+                  quickLinks: quickLinks,
                 ),
-              ],
+              ),
             ),
           ),
         ),
