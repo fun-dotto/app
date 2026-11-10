@@ -17,4 +17,19 @@ void main() {
       });
     }
   });
+
+  group('DottoLayout.horizontalInsets(margin: false)', () {
+    for (final (width, expected) in [
+      (360.0, 0.0),
+      (512.0, 0.0),
+      (1100.0, 294.0),
+    ]) {
+      test('$width → $expected', () {
+        expect(
+          DottoLayout.horizontalInsets(width, margin: false).left,
+          expected,
+        );
+      });
+    }
+  });
 }

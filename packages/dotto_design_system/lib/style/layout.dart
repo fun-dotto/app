@@ -53,14 +53,19 @@ abstract final class DottoLayout {
   ///
   /// スクロールできる範囲は全幅のまま、中身だけを本文の最大幅に収めて
   /// 中央に寄せるために使う。余白は [horizontalMargin] 以上になる。
+  ///
+  /// `ListTile` のように中身が自前で左右の余白を持つときは [margin] を
+  /// false にする。余白込みで本文の最大幅 + [horizontalMargin] * 2 に収め、
+  /// 幅が足りなければ余白は 0 になる。
   static EdgeInsets horizontalInsets(
     double width, {
     DottoContentLayout layout = DottoContentLayout.singleNarrow,
+    bool margin = true,
   }) {
-    final side = math.max(
-      horizontalMargin,
-      (width - singleMaxWidth(width, layout)) / 2,
-    );
+    final maxWidth = singleMaxWidth(width, layout);
+    final side = margin
+        ? math.max(horizontalMargin, (width - maxWidth) / 2)
+        : math.max(0, (width - maxWidth) / 2 - horizontalMargin).toDouble();
     return EdgeInsets.symmetric(horizontal: side);
   }
 }
