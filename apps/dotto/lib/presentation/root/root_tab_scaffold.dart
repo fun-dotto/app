@@ -16,8 +16,8 @@ const _verticalTabBarService = VerticalTabBarService();
 /// タブバーを備えたルートの Scaffold。
 ///
 /// [screenLayout] が縦型バーを推奨し、かつ隠れる領域を避けて置けるときは
-/// システムが縦バー用に確保した端の帯に縦並びで、それ以外は下部に横並びで
-/// 表示する。
+/// システムが縦バー用に確保した端の帯に縦並びで(本文は帯の外)、それ以外は
+/// 下部に横並びで表示する。
 final class RootTabScaffold extends StatelessWidget {
   const new({
     required this.body,
@@ -62,38 +62,48 @@ final class RootTabScaffold extends StatelessWidget {
       );
     }
 
-    // 縦型バーはシステムが端のセーフエリアとして確保した帯なので、
-    // 本文はその内側に任せ、タブバーを帯に重ねて置く。
-    final verticalBar = Positioned(
-      left: placement.isLeft ? 0 : null,
-      right: placement.isLeft ? null : 0,
-      top: placement.span.top,
-      bottom: MediaQuery.sizeOf(context).height - placement.span.bottom,
+    // 縦型バーはシステムが確保した帯なので、そこに表示するのはタブバーのみ。
+    // 本文は帯の幅を除いた領域に収め、帯へはみ出さないようにする。
+    final verticalBar = SizedBox(
       width: placement.width,
-      child: NavigationRail(
-        backgroundColor: backgroundColor,
-        minWidth: placement.width,
-        groupAlignment: 0,
-        labelType: NavigationRailLabelType.all,
-        selectedIndex: selectedIndex,
-        onDestinationSelected: onDestinationSelected,
-        destinations: [
-          for (final tab in tabs)
-            NavigationRailDestination(
-              selectedIcon: Icon(tab.selectedIcon),
-              icon: Icon(tab.icon),
-              label: Text(tab.label),
-            ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: placement.span.top,
+          bottom: MediaQuery.sizeOf(context).height - placement.span.bottom,
+        ),
+        child: NavigationRail(
+          backgroundColor: backgroundColor,
+          minWidth: placement.width,
+          groupAlignment: 0,
+          labelType: NavigationRailLabelType.all,
+          selectedIndex: selectedIndex,
+          onDestinationSelected: onDestinationSelected,
+          destinations: [
+            for (final tab in tabs)
+              NavigationRailDestination(
+                selectedIcon: Icon(tab.selectedIcon),
+                icon: Icon(tab.icon),
+                label: Text(tab.label),
+              ),
+          ],
+        ),
+      ),
+    );
+    // 帯の幅は端のセーフエリアと同じなので、本文側ではその分を二重に引かない。
+    final content = Expanded(
+      child: MediaQuery.removePadding(
+        context: context,
+        removeLeft: placement.isLeft,
+        removeRight: !placement.isLeft,
+        child: body,
       ),
     );
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          Positioned.fill(child: body),
-          verticalBar,
-        ],
+      body: Row(
+        children: placement.isLeft
+            ? [verticalBar, content]
+            : [content, verticalBar],
       ),
     );
   }

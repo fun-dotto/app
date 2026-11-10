@@ -44,6 +44,7 @@ void main() {
     expect(find.byType(NavigationBar), findsNothing);
     expect(rail.left, 0);
     expect(rail.width, 80);
+    expect(tester.getRect(find.byKey(const Key('body'))).left, 80);
   });
 
   testWidgets('trailing 指定のときは右端の帯に縦型タブバーを表示する', (tester) async {
@@ -60,6 +61,8 @@ void main() {
     final rail = tester.getRect(find.byType(NavigationRail));
     expect(rail.right, 800);
     expect(rail.width, 80);
+    // 本文は帯にはみ出さない。
+    expect(tester.getRect(find.byKey(const Key('body'))).right, 720);
   });
 
   testWidgets('帯が確保されていなければ縦型バーでも下部に表示する', (tester) async {
