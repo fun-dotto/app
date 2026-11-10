@@ -21,11 +21,10 @@ enum ScreenLayoutChannel {
 
     private static func screenLayout() -> [String: Any] {
         guard let view = flutterView() else {
-            return ["verticalBarEdge": NSNull(), "occlusions": [], "isPartialWindow": false]
+            return ["verticalBarEdge": NSNull(), "occlusions": []]
         }
-        let isPartialWindow = isPartialWindow(of: view)
         guard #available(iOS 27.1, *) else {
-            return ["verticalBarEdge": NSNull(), "occlusions": [], "isPartialWindow": isPartialWindow]
+            return ["verticalBarEdge": NSNull(), "occlusions": []]
         }
         let edge: Any = switch view.traitCollection.verticalBarEdge {
         case .leading: "leading"
@@ -42,15 +41,7 @@ enum ScreenLayoutChannel {
                     "height": region.frame.size.height,
                 ]
             }
-        return ["verticalBarEdge": edge, "occlusions": occlusions, "isPartialWindow": isPartialWindow]
-    }
-
-    // 分割表示などで、ウィンドウが画面全体より小さいかを判定する。
-    private static func isPartialWindow(of view: UIView) -> Bool {
-        guard let screen = view.window?.windowScene?.screen else { return false }
-        let window = view.window?.bounds.size ?? screen.bounds.size
-        let full = screen.bounds.size
-        return window.width < full.width - 1 || window.height < full.height - 1
+        return ["verticalBarEdge": edge, "occlusions": occlusions]
     }
 
     private static func flutterView() -> UIView? {

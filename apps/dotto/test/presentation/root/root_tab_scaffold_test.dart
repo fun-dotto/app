@@ -128,26 +128,6 @@ void main() {
     );
   });
 
-  testWidgets('縦バーがなくても、分割表示のウィンドウなら左側にタブバーの帯を設ける', (tester) async {
-    _useLargeScreen(tester);
-    await tester.pumpWidget(
-      _app(
-        const ScreenLayout(
-          verticalBarEdge: null,
-          occlusions: [],
-          isPartialWindow: true,
-        ),
-      ),
-    );
-
-    final bar = tester.getRect(find.byType(GlassTabBar));
-    expect(_barAxis(tester), Axis.vertical);
-    expect(
-      tester.getRect(find.byKey(const Key('body'))).left,
-      greaterThanOrEqualTo(bar.right),
-    );
-  });
-
   testWidgets('横向きで縦バーの指定がなければ、左側にタブバーの帯を設ける', (tester) async {
     tester.view
       ..physicalSize = const Size(900, 400)

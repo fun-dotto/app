@@ -156,9 +156,9 @@ final class RootTabScaffold extends HookWidget {
     final isLeftToRight = Directionality.of(context) == TextDirection.ltr;
     if (edge == null) {
       final mediaQuery = MediaQuery.of(context);
-      // 横向きや分割表示では、下部だと本文が狭くなるため左側に置く。
+      // 横向きでは、下部だと本文が狭くなるため左側に置く。
       final isLandscape = mediaQuery.size.width > mediaQuery.size.height;
-      return screenLayout.isPartialWindow || isLandscape
+      return isLandscape
           ? _placementOutsideSystemBar(mediaQuery, isLeftToRight)
           : null;
     }
