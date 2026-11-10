@@ -3,6 +3,7 @@ import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/bus/bus_schedule_state.dart';
 import 'package:dotto/presentation/bus/bus_timetable.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -41,7 +42,7 @@ final class _BusMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.busTimetableTitle)),
+      appBar: DottoAppBar(title: Text(l10n.busTimetableTitle)),
       body: Center(child: Text(message)),
     );
   }

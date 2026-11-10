@@ -129,7 +129,7 @@ void main() {
     await pumpScreen(tester, account: account);
     expect(find.text('数学'), findsOneWidget);
     expect(find.text('英語'), findsNothing);
-    await tester.tap(find.text('履修中'));
+    await tester.tap(find.byTooltip('履修中'));
     await tester.pumpAndSettle();
     expect(find.text('英語'), findsOneWidget);
     expect(find.text('休講連絡'), findsNWidgets(2));

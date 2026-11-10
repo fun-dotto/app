@@ -147,12 +147,15 @@ void main() {
     await tester.tap(find.text('学部1年'));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('条件をクリア'));
+    await tester.tap(find.byTooltip('条件をクリア'));
     await tester.pumpAndSettle();
 
     expect(find.text('科目が見つかりませんでした'), findsNothing);
-    final clearButton = tester.widget<TextButton>(
-      find.widgetWithText(TextButton, '条件をクリア'),
+    final clearButton = tester.widget<IconButton>(
+      find.ancestor(
+        of: find.byIcon(Icons.filter_alt_off),
+        matching: find.byType(IconButton),
+      ),
     );
     expect(clearButton.onPressed, isNull);
   });

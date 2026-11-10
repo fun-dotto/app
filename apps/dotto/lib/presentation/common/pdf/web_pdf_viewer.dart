@@ -6,6 +6,8 @@ import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto/presentation/common/pdf/pdf_document_state.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -48,7 +50,7 @@ final class WebPdfViewer extends HookConsumerWidget {
         },
       ),
       AsyncError() => Scaffold(
-        appBar: AppBar(title: Text(filename ?? 'PDF')),
+        appBar: DottoAppBar(title: Text(filename ?? 'PDF')),
         body: const ErrorView(),
         floatingActionButton: FloatingActionButton(
           onPressed: () => ref.invalidate(provider),
@@ -79,13 +81,15 @@ final class _PdfContent extends HookConsumerWidget {
   final VoidCallback onRetry;
   @override
   Widget build(BuildContext context, WidgetRef ref) => Scaffold(
-    appBar: AppBar(
+    appBar: DottoAppBar(
       title: Text(document.title),
       actions: [
-        IconButton(
+        DottoAppBarAction(
           key: shareKey,
           icon: const Icon(Icons.share),
-          onPressed: () async {
+          label:
+              (AppLocalizations.of(context) ?? AppLocalizationsJa()).pdfShare,
+          action: () async {
             final report = ref.read(reportErrorUseCaseProvider);
             final box = shareKey.currentContext?.findRenderObject();
             final origin = switch (box) {

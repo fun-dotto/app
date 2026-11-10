@@ -85,12 +85,12 @@ void main() {
     await _pump(tester, FakeFunchDataSource(days: [_today, tomorrow]));
     await _selectCategory(tester, '麺');
 
-    await tester.tap(find.text(_dateLabel(_today)));
+    await tester.tap(find.byTooltip(_dateLabel(_today)));
     await tester.pumpAndSettle();
     await tester.tap(find.text(_dateLabel(tomorrow)));
     await tester.pumpAndSettle();
 
-    expect(find.text(_dateLabel(tomorrow)), findsOneWidget);
+    expect(find.byTooltip(_dateLabel(tomorrow)), findsOneWidget);
     expect(find.text('日次メニュー'), findsOneWidget);
   });
 

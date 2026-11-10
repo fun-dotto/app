@@ -2,6 +2,7 @@ import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto/presentation/github_contributor/github_contributor_list_tile.dart';
 import 'package:dotto/presentation/github_contributor/github_contributor_state.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -13,7 +14,7 @@ final class GitHubContributorScreen extends HookConsumerWidget {
     final contributors = ref.watch(gitHubContributorStateProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('開発者')),
+      appBar: const DottoAppBar(title: Text('開発者')),
       body: switch (contributors) {
         AsyncData(:final value) => RefreshIndicator(
           onRefresh: ref.read(gitHubContributorStateProvider.notifier).refresh,

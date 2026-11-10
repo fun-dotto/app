@@ -1,3 +1,4 @@
+import 'package:dotto_design_system/component/glass_tab_bar.dart';
 import 'package:material_ui/material_ui.dart';
 
 enum TabItem {
@@ -49,6 +50,10 @@ enum TabItem {
   final IconData selectedIcon;
   final IconData icon;
   final String label;
+
+  /// タブバーに並べる項目。
+  GlassTabBarItem get glassItem =>
+      GlassTabBarItem(label: label, icon: icon, selectedIcon: selectedIcon);
 
   static final List<TabItem> v2 = [.course, .funch, .map, .bus, .setting];
 }

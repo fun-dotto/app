@@ -8,6 +8,7 @@ import 'package:dotto/presentation/announcement/announcement_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -25,7 +26,7 @@ final class AnnouncementDetailScreen extends HookConsumerWidget {
     final announcements = ref.watch(announcementStateProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('お知らせ')),
+      appBar: const DottoAppBar(title: Text('お知らせ')),
       body: switch (announcements) {
         AsyncData(:final value) => switch (value.firstWhereOrNull(
           (announcement) => announcement.id == id,

@@ -13,5 +13,8 @@ import Flutter
     
     func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
         GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+        ScreenLayoutChannel.register(
+            messenger: engineBridge.applicationRegistrar.messenger()
+        )
     }
 }

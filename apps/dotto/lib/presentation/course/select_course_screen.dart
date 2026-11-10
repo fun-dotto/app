@@ -8,6 +8,7 @@ import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -56,7 +57,7 @@ final class SelectCourseScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           (AppLocalizations.of(context) ?? AppLocalizationsJa())
               .courseSlotTitle(semester.label, dayOfWeek.label, period.number),

@@ -6,6 +6,7 @@ import 'package:dotto/domain/entity/course_link_event.dart';
 import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/domain/entity/personal_timetable_day.dart';
 import 'package:dotto/domain/service/timetable_date_service.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
@@ -18,6 +19,8 @@ import 'package:dotto/presentation/course/personal_timetable_calendar_view.dart'
 import 'package:dotto/presentation/course/quick_button.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -193,18 +196,19 @@ final class CourseScreen extends HookConsumerWidget {
     }, [state]);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
+        centerTitle: false,
         title: Text(
           (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseTitle,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
-        centerTitle: false,
         actions: [
-          IconButton(
-            onPressed: () =>
-                const CourseCustomizeRouteData().push<void>(context),
+          DottoAppBarAction(
             icon: const Icon(Icons.tune),
+            label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
+                .courseCustomize,
+            action: () => const CourseCustomizeRouteData().push<void>(context),
           ),
         ],
         bottom: switch (breakingAnnouncement) {
@@ -226,7 +230,9 @@ final class CourseScreen extends HookConsumerWidget {
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  // 下部のタブバーの背後まで本文が広がるため、その分を底上げする。
+                  padding: const EdgeInsets.symmetric(vertical: 16)
+                      .withBottomBarInset(context),
                   child: Column(
                     spacing: 16,
                     children: [
@@ -395,6 +401,7 @@ final class _LoadingSkeleton extends StatelessWidget {
         onRefresh: () async {},
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.zero.withBottomBarInset(context),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: Column(
@@ -604,6 +611,9 @@ final class _ShortcutSections extends StatelessWidget {
   }
 }
 
+// アイコン・余白と、2 行に折り返したラベルが収まる高さ。
+const _shortcutTileHeight = 72.0;
+
 final class _ShortcutSection extends StatelessWidget {
   const new(this.owner, {required this.quickButtons});
   final CourseScreen owner;
@@ -616,13 +626,15 @@ final class _ShortcutSection extends StatelessWidget {
 
     return GridView.builder(
       shrinkWrap: true,
+      // 既定では画面端の余白が加わり、セクション間が広がってしまう。
+      padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: quickButtons.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
-        mainAxisExtent: 64,
+        mainAxisExtent: _shortcutTileHeight,
       ),
       itemBuilder: (context, index) => quickButtons[index],
     );

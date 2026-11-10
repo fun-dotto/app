@@ -1,5 +1,6 @@
 import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -19,7 +20,7 @@ final class InvalidAppVersionScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           'Dottoのアップデートが必要です',
           style: Theme.of(context).textTheme.titleLarge

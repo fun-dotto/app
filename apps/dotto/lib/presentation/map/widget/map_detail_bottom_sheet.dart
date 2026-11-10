@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
@@ -45,6 +46,8 @@ final class MapDetailBottomSheet extends StatelessWidget {
           if (isAuthenticated)
             Expanded(
               child: SingleChildScrollView(
+                // 末尾までスクロールしたとき、タブバーに隠れないようにする。
+                padding: EdgeInsets.zero.withBottomBarInset(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[

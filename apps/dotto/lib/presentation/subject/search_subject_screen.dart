@@ -5,10 +5,13 @@ import 'package:dotto/application/unregister_course_use_case.dart';
 import 'package:dotto/domain/entity/subject_faculty.dart';
 import 'package:dotto/domain/entity/subject_filter.dart';
 import 'package:dotto/domain/entity/subject_summary.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/subject/search_subject_filter_section.dart';
 import 'package:dotto/presentation/subject/search_subject_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/component/text_field.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -80,7 +83,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           context.subjectL10n.subjectSubjectSearch,
           style: Theme.of(context).textTheme.titleLarge
@@ -88,62 +91,60 @@ final class SearchSubjectScreen extends HookConsumerWidget {
         ),
         centerTitle: false,
         actions: [
-          TextButton(
-            onPressed: filter.hasActiveFilters
+          DottoAppBarAction(
+            icon: const Icon(Icons.filter_alt_off),
+            label: context.subjectL10n.subjectClearFilters,
+            action: filter.hasActiveFilters
                 ? () {
                     selectedFilter.value = const SubjectFilter();
                     ref.read(searchSubjectStateProvider.notifier).clear();
                   }
                 : null,
-            child: Text(context.subjectL10n.subjectClearFilters),
           ),
         ],
       ),
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 8,
-            children: [
-              DottoTextField(
-                placeholder: context.subjectL10n.subjectSearchBySubjectName,
-                controller: textEditingController,
-                focusNode: focusNode,
-                onSubmitted: (_) => search(),
-              ),
-              SearchSubjectFilterSection(
-                filter: filter,
-                onChanged: (value) {
-                  selectedFilter.value = value;
-                  final notifier = ref.read(
-                    searchSubjectStateProvider.notifier,
-                  );
-                  unawaited(
-                    notifier.search(
-                      query: textEditingController.text,
-                      filter: value,
-                    ),
-                  );
-                },
-              ),
-              const Divider(height: 0),
-              _SearchResults(
-                searchState: searchState,
-                filter: filter,
-                isAuthenticated: isAuthenticated,
-                processingIds: processingSubjectIds.value,
-                onSelected: onSubjectSelected,
-                onToggle: (id, {required isAddedToTimetable}) => unawaited(
-                  toggleCourseRegistration(
-                    subjectId: id,
-                    isAddedToTimetable: isAddedToTimetable,
+        padding: const EdgeInsets.symmetric(horizontal: 16)
+            .withBottomBarInset(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 8,
+          children: [
+            DottoTextField(
+              placeholder: context.subjectL10n.subjectSearchBySubjectName,
+              controller: textEditingController,
+              focusNode: focusNode,
+              onSubmitted: (_) => search(),
+            ),
+            SearchSubjectFilterSection(
+              filter: filter,
+              onChanged: (value) {
+                selectedFilter.value = value;
+                final notifier = ref.read(searchSubjectStateProvider.notifier);
+                unawaited(
+                  notifier.search(
+                    query: textEditingController.text,
+                    filter: value,
                   ),
+                );
+              },
+            ),
+            const Divider(height: 0),
+            _SearchResults(
+              searchState: searchState,
+              filter: filter,
+              isAuthenticated: isAuthenticated,
+              processingIds: processingSubjectIds.value,
+              onSelected: onSubjectSelected,
+              onToggle: (id, {required isAddedToTimetable}) => unawaited(
+                toggleCourseRegistration(
+                  subjectId: id,
+                  isAddedToTimetable: isAddedToTimetable,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

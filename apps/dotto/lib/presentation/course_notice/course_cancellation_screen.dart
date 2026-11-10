@@ -6,7 +6,8 @@ import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course_notice/course_notices_state.dart';
-import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,37 +31,29 @@ final class CourseCancellationScreen extends HookConsumerWidget {
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     if (!isAuthenticated) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.courseNoticeTitle)),
+        appBar: DottoAppBar(title: Text(l10n.courseNoticeTitle)),
         body: Center(child: Text(l10n.courseNoticeSignInRequired)),
       );
     }
     final provider = courseNoticesStateProvider(scope.value);
     final state = ref.watch(provider);
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(l10n.courseNoticeTitle),
         actions: [
-          DottoButton(
-            onPressed: () =>
+          DottoAppBarAction(
+            icon: Icon(
+              scope.value == CourseNoticeScope.registered
+                  ? Icons.filter_alt
+                  : Icons.filter_alt_outlined,
+            ),
+            label: scope.value == CourseNoticeScope.registered
+                ? l10n.courseNoticeRegistered
+                : l10n.courseNoticeAll,
+            action: () =>
                 scope.value = scope.value == CourseNoticeScope.registered
                 ? CourseNoticeScope.all
                 : CourseNoticeScope.registered,
-            type: DottoButtonType.text,
-            child: Row(
-              spacing: 4,
-              children: [
-                Icon(
-                  scope.value == CourseNoticeScope.registered
-                      ? Icons.filter_alt
-                      : Icons.filter_alt_outlined,
-                ),
-                Text(
-                  scope.value == CourseNoticeScope.registered
-                      ? l10n.courseNoticeRegistered
-                      : l10n.courseNoticeAll,
-                ),
-              ],
-            ),
           ),
         ],
         bottom: TabBar(

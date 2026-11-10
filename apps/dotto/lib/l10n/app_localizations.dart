@@ -428,6 +428,12 @@ abstract class AppLocalizations {
   /// **'{date}の学食'**
   String funchToday(String date);
 
+  /// No description provided for @pdfShare.
+  ///
+  /// In ja, this message translates to:
+  /// **'共有'**
+  String get pdfShare;
+
   /// No description provided for @pdfShareFailed.
   ///
   /// In ja, this message translates to:

@@ -51,6 +51,8 @@ final class QuickButton extends StatelessWidget {
               label,
               style: Theme.of(context).textTheme.labelSmall,
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

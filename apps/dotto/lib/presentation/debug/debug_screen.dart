@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:dotto/domain/entity/debug_tokens.dart';
 import 'package:dotto/domain/entity/flag.dart';
 import 'package:dotto/domain/entity/flags.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/feature_flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
 import 'package:dotto/presentation/debug/debug_tokens_state.dart';
 import 'package:dotto/presentation/debug/flag_override_dialog.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/list_section.dart';
 import 'package:dotto_design_system/component/list_tile.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +23,7 @@ final class DebugScreen extends HookConsumerWidget {
     final tokens = ref.watch(debugTokensStateProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Debug')),
+      appBar: const DottoAppBar(title: Text('Debug')),
       body: switch (tokens) {
         AsyncData(:final value) => _DebugContent(tokens: value),
         AsyncError(:final error) => Padding(
@@ -42,7 +44,7 @@ final class _DebugContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16).withBottomBarInset(context),
       child: Column(
         spacing: 16,
         children: [
