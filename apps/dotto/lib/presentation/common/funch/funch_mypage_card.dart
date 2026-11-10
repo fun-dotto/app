@@ -1,12 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotto/domain/entity/funch_menu.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/funch/funch_menu_card.dart';
 import 'package:dotto/presentation/common/funch/funch_menus_state.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/router/routes/funch_routes.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,7 +21,7 @@ final class FunchMyPageCard extends HookConsumerWidget {
     final today = DateTime(now.year, now.month, now.day);
     final menus = ref.watch(funchMenusStateProvider(isTodayOnly: true));
     final index = useState(0);
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     return InkWell(
       onTap: () async {
         await const FunchRouteData().push<void>(context);
@@ -59,7 +58,7 @@ final class FunchMyPageCard extends HookConsumerWidget {
   }
 }
 
-final class _TodayMenus extends StatelessWidget {
+final class _TodayMenus extends HookWidget {
   const new({
     required this.items,
     required this.selectedIndex,
@@ -70,10 +69,9 @@ final class _TodayMenus extends StatelessWidget {
   final ValueChanged<int> onChanged;
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     if (items.isEmpty) {
-      return Text(
-        (AppLocalizations.of(context) ?? AppLocalizationsJa()).funchEmpty,
-      );
+      return Text(l10n.funchEmpty);
     }
     return Column(
       children: [

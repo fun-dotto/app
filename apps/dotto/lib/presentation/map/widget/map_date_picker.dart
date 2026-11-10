@@ -1,12 +1,12 @@
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/style/map_colors.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class MapDatePicker extends StatelessWidget {
+final class MapDatePicker extends HookWidget {
   const new({
     required this.searchDatetime,
     required this.onPeriodButtonTapped,
@@ -19,23 +19,18 @@ final class MapDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final monday = today.subtract(Duration(days: today.weekday - 1));
     final nextSunday = monday.add(const Duration(days: 14, minutes: -1));
     final timeMap = <String, DateTime>{
-      (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapPeriod(1): today
-          .add(const Duration(hours: 9)),
-      (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapPeriod(2): today
-          .add(const Duration(hours: 10, minutes: 40)),
-      (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapPeriod(3): today
-          .add(const Duration(hours: 13, minutes: 10)),
-      (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapPeriod(4): today
-          .add(const Duration(hours: 14, minutes: 50)),
-      (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapPeriod(5): today
-          .add(const Duration(hours: 16, minutes: 30)),
-      (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapCurrentTime:
-          today,
+      l10n.mapPeriod(1): today.add(const Duration(hours: 9)),
+      l10n.mapPeriod(2): today.add(const Duration(hours: 10, minutes: 40)),
+      l10n.mapPeriod(3): today.add(const Duration(hours: 13, minutes: 10)),
+      l10n.mapPeriod(4): today.add(const Duration(hours: 14, minutes: 50)),
+      l10n.mapPeriod(5): today.add(const Duration(hours: 16, minutes: 30)),
+      l10n.mapCurrentTime: today,
     };
 
     return Row(

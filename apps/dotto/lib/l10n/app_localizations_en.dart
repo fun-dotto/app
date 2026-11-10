@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -498,4 +497,193 @@ class AppLocalizationsEn extends AppLocalizations {
   String courseNoticePeriod(int period) {
     return 'Period $period';
   }
+
+  @override
+  String get commonNone => 'None';
+
+  @override
+  String get commonUnset => 'Not set';
+
+  @override
+  String get commonErrorTitle => 'An error occurred.';
+
+  @override
+  String get commonErrorMessage => 'Please try again later.';
+
+  @override
+  String get tabCourse => 'Courses';
+
+  @override
+  String get tabFunch => 'Cafeteria';
+
+  @override
+  String get tabMap => 'Map';
+
+  @override
+  String get tabBus => 'Bus';
+
+  @override
+  String get tabSetting => 'Settings';
+
+  @override
+  String get tabSubject => 'Subjects';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsSignInFailedTitle => 'Sign-in failed';
+
+  @override
+  String get settingsSignInFailedMessage =>
+      'Please try again in a little while.';
+
+  @override
+  String get settingsOk => 'OK';
+
+  @override
+  String get settingsSignOutConfirmTitle => 'Sign out?';
+
+  @override
+  String get settingsCancel => 'Cancel';
+
+  @override
+  String get settingsSignOut => 'Sign out';
+
+  @override
+  String get settingsAboutApp => 'About the app';
+
+  @override
+  String get settingsAnnouncements => 'Announcements';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsNotificationChecking => 'Checking…';
+
+  @override
+  String get settingsSendFeedback => 'Send feedback';
+
+  @override
+  String get settingsDevelopers => 'Developers';
+
+  @override
+  String get settingsHowToUse => 'How to use the app';
+
+  @override
+  String get settingsTermsOfService => 'Terms of Service';
+
+  @override
+  String get settingsPrivacyPolicy => 'Privacy Policy';
+
+  @override
+  String get settingsLicenses => 'Licenses';
+
+  @override
+  String get settingsMyInfo => 'Your information';
+
+  @override
+  String get settingsGrade => 'Year';
+
+  @override
+  String get settingsCourse => 'Course';
+
+  @override
+  String get settingsClass => 'Class';
+
+  @override
+  String get settingsSaveFailed => 'Failed to save';
+
+  @override
+  String userInfoSignedInAs(String email) {
+    return 'Signed in as ${email}';
+  }
+
+  @override
+  String get userInfoSignInPrompt =>
+      'Sign in with your Google account (@fun.ac.jp)';
+
+  @override
+  String get notificationStatusEnabled => 'Enabled';
+
+  @override
+  String get notificationStatusProvisional => 'Delivered quietly';
+
+  @override
+  String get notificationStatusAlertDisabled => 'Banners disabled';
+
+  @override
+  String get notificationStatusDenied => 'Denied';
+
+  @override
+  String get notificationStatusNotDetermined => 'Not set';
+
+  @override
+  String get invalidAppVersionTitle => 'Dotto needs to be updated';
+
+  @override
+  String get announcementTitle => 'Announcements';
+
+  @override
+  String get announcementNotFound => 'Announcement not found.';
+
+  @override
+  String get announcementOpen => 'Open announcement';
+
+  @override
+  String get onboardingTitle => 'How to use Dotto';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome';
+
+  @override
+  String get onboardingWelcomeBodyTop => 'With Dotto,';
+
+  @override
+  String get onboardingWelcomeBodyBottom =>
+      'get everything about\nFuture University Hakodate';
+
+  @override
+  String get onboardingTimetableTitle => 'Manage your timetable';
+
+  @override
+  String get onboardingTimetableDescription =>
+      'Set up your timetable and\nget notices of cancelled and make-up classes';
+
+  @override
+  String get onboardingBusTitle => 'Bus timetable';
+
+  @override
+  String get onboardingBusDescription =>
+      'Check the timetable from\nthe university to the nearest bus stop';
+
+  @override
+  String get onboardingMapTitle => 'Campus map';
+
+  @override
+  String get onboardingMapDescription =>
+      'Find empty classrooms and\nsearch for laboratories';
+
+  @override
+  String get onboardingSubjectTitle => 'Subject search';
+
+  @override
+  String get onboardingSubjectDescription => 'Browse reviews and\npast exams';
+
+  @override
+  String get onboardingFunchTitle => 'Cafeteria menu';
+
+  @override
+  String get onboardingFunchDescription =>
+      'Check the cafeteria\nmenu and prices';
 }

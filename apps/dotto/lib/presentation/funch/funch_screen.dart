@@ -1,12 +1,11 @@
 import 'package:dotto/domain/entity/funch_menu.dart';
 import 'package:dotto/domain/entity/funch_menu_category.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/funch/funch_menu_card.dart';
 import 'package:dotto/presentation/common/funch/funch_menus_state.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,7 +20,7 @@ final class FunchScreen extends HookConsumerWidget {
     final date = useState(DateTime(now.year, now.month, now.day));
     final category = useState(FunchMenuCategory.set);
     final menus = ref.watch(funchMenusStateProvider());
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     return Scaffold(
       appBar: DottoAppBar(
         title: Text(l10n.funchTitle),
@@ -109,20 +108,17 @@ final class FunchScreen extends HookConsumerWidget {
   }
 }
 
-final class _MenuList extends StatelessWidget {
+final class _MenuList extends HookWidget {
   const new({required this.items, required this.hasMenu});
   final List<Widget> items;
   final bool hasMenu;
   @override
-  Widget build(BuildContext context) => items.isEmpty
-      ? Center(
-          child: Text(
-            hasMenu
-                ? (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                      .funchCategoryEmpty
-                : (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                      .funchEmpty,
-          ),
-        )
-      : ListView(children: items);
+  Widget build(BuildContext context) {
+    final l10n = useLocalization();
+    return items.isEmpty
+        ? Center(
+            child: Text(hasMenu ? l10n.funchCategoryEmpty : l10n.funchEmpty),
+          )
+        : ListView(children: items);
+  }
 }

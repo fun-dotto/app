@@ -1,9 +1,11 @@
+import 'package:dotto/presentation/common/use_localization.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// 「なし」を含む選択肢から 1 つを選ぶダイアログ。
 ///
 /// 選ばれた値 (「なし」の場合は `null`) を [onSelected] に渡す。
-final class OptionSelectDialog<T> extends StatelessWidget {
+final class OptionSelectDialog<T> extends HookWidget {
   const new({
     required this.title,
     required this.options,
@@ -21,11 +23,12 @@ final class OptionSelectDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return SimpleDialog(
       title: Text(title),
       children: [
         _OptionButton(
-          label: 'なし',
+          label: l10n.commonNone,
           isSelected: selected == null,
           onPressed: () => _select(context, null),
         ),

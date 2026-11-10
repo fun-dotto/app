@@ -2,6 +2,7 @@ import 'package:dotto/domain/entity/screen_layout.dart';
 import 'package:dotto/domain/entity/vertical_bar_edge.dart';
 import 'package:dotto/domain/service/vertical_tab_bar_service.dart';
 import 'package:dotto/presentation/common/tab_item.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/root/flavor_accent_color.dart';
 import 'package:dotto_design_system/component/glass_surface.dart';
 import 'package:dotto_design_system/component/glass_tab_bar.dart';
@@ -56,6 +57,7 @@ final class RootTabScaffold extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final accentColor = flavorAccentColor(appFlavor);
     final verticalBarActions = useMemoized(
       () => ValueNotifier<List<Widget>>(const []),
@@ -82,7 +84,7 @@ final class RootTabScaffold extends HookWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: _maxBarWidth),
                 child: GlassTabBar(
-                  tabs: tabs.map((tab) => tab.glassItem).toList(),
+                  tabs: tabs.map((tab) => tab.glassItem(l10n)).toList(),
                   selectedIndex: selectedIndex,
                   onSelected: onDestinationSelected,
                   accentColor: accentColor,
@@ -119,7 +121,7 @@ final class RootTabScaffold extends HookWidget {
               ),
             ),
             GlassTabBar(
-              tabs: tabs.map((tab) => tab.glassItem).toList(),
+              tabs: tabs.map((tab) => tab.glassItem(l10n)).toList(),
               selectedIndex: selectedIndex,
               onSelected: onDestinationSelected,
               accentColor: accentColor,

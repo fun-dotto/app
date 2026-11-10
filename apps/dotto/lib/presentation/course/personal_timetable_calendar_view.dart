@@ -8,6 +8,7 @@ import 'package:dotto/domain/entity/personal_timetable_item.dart';
 import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:dotto/domain/entity/timetable_period_style.dart';
 import 'package:dotto/helper/date_formatter.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/user_preference_state.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -438,12 +439,13 @@ final class _PeriodRow extends StatelessWidget {
   }
 }
 
-final class _ItemButton extends StatelessWidget {
+final class _ItemButton extends HookWidget {
   const new(this.owner, this.item);
   final PersonalTimetableCalendarView owner;
   final PersonalTimetableItem? item;
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final item = this.item;
     return SizedBox(
       width: double.infinity,
@@ -488,19 +490,19 @@ final class _ItemButton extends StatelessWidget {
                   if (item != null)
                     switch (item.lectureStatus) {
                       LectureStatus.cancelled => Text(
-                        '休講',
+                        l10n.courseNoticeCancellation,
                         style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(color: SemanticColor.light.accentError),
                       ),
                       LectureStatus.madeUp => Text(
-                        '補講',
+                        l10n.courseNoticeMakeup,
                         style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(
                               color: SemanticColor.light.accentWarning,
                             ),
                       ),
                       LectureStatus.roomChanged => Text(
-                        '教室変更',
+                        l10n.courseNoticeRoomChange,
                         style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(color: SemanticColor.light.accentInfo),
                       ),

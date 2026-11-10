@@ -1,6 +1,7 @@
 import 'package:dotto/domain/entity/subject_feedback.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/subject/subject_detail_add_feedback_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_feedback_screen.dart';
@@ -46,6 +47,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final subjectState = ref.watch(subjectDetailStateProvider(id));
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
 
@@ -65,7 +67,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
             if (subjectState case AsyncData(:final value))
               DottoAppBarAction(
                 icon: const Icon(Icons.add),
-                label: context.subjectL10n.subjectPostFeedback,
+                label: l10n.subjectPostFeedback,
                 action: () async {
                   // 未ログインのときは投稿画面を開かず、ログインを促す。
                   if (!isAuthenticated) {
@@ -91,11 +93,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
                   if (result != null && context.mounted) {
                     ref.invalidate(subjectFeedbacksStateProvider(lessonId));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          context.subjectL10n.subjectFeedbackSubmitted,
-                        ),
-                      ),
+                      SnackBar(content: Text(l10n.subjectFeedbackSubmitted)),
                     );
                   }
                 },
@@ -105,9 +103,9 @@ final class SubjectDetailScreen extends HookConsumerWidget {
           controller: tabController,
           dividerColor: Colors.transparent,
           tabs: <Widget>[
-            Tab(text: context.subjectL10n.subjectSyllabus),
-            Tab(text: context.subjectL10n.subjectReviews),
-            Tab(text: context.subjectL10n.subjectPastExams),
+            Tab(text: l10n.subjectSyllabus),
+            Tab(text: l10n.subjectReviews),
+            Tab(text: l10n.subjectPastExams),
           ],
         ),
       ),
@@ -119,9 +117,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
               syllabus: value.syllabus,
             ),
             AsyncError() => Center(
-              child: Text(
-                context.subjectL10n.subjectCouldNotLoadSubjectInformation,
-              ),
+              child: Text(l10n.subjectCouldNotLoadSubjectInformation),
             ),
             _ => const _SubjectDetailSyllabusSkeleton(),
           },
@@ -130,9 +126,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
               lessonId: value.syllabus.id,
             ),
             AsyncError() => Center(
-              child: Text(
-                context.subjectL10n.subjectCouldNotLoadSubjectInformation,
-              ),
+              child: Text(l10n.subjectCouldNotLoadSubjectInformation),
             ),
             _ => const _SubjectDetailFeedbackSkeleton(),
           },
@@ -143,9 +137,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
               onPastExamSelected: onPastExamSelected,
             ),
             AsyncError() => Center(
-              child: Text(
-                context.subjectL10n.subjectCouldNotLoadSubjectInformation,
-              ),
+              child: Text(l10n.subjectCouldNotLoadSubjectInformation),
             ),
             _ => const _SubjectDetailPastExamSkeleton(),
           },

@@ -3,6 +3,7 @@ import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/onboarding/onboarding_page.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -17,8 +18,9 @@ final class OnboardingScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final isFunchEnabled = useFlag(Flags.funch);
-    final pages = OnboardingPage.pages(isFunchEnabled: isFunchEnabled);
+    final pages = OnboardingPage.pages(l10n, isFunchEnabled: isFunchEnabled);
     final pageController = usePageController();
     final currentPage = useState(0);
 
@@ -36,7 +38,7 @@ final class OnboardingScreen extends HookConsumerWidget {
     }, [pages.length]);
 
     return Scaffold(
-      appBar: const DottoAppBar(title: Text('Dottoの使い方')),
+      appBar: DottoAppBar(title: Text(l10n.onboardingTitle)),
       body: SafeArea(
         top: false,
         child: Stack(
@@ -91,7 +93,7 @@ final class OnboardingScreen extends HookConsumerWidget {
   }
 }
 
-final class _TopBar extends StatelessWidget {
+final class _TopBar extends HookWidget {
   const new({required this.isVisible, required this.onSkipped});
 
   final bool isVisible;
@@ -99,6 +101,7 @@ final class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return IgnorePointer(
       ignoring: !isVisible,
       child: Opacity(
@@ -122,7 +125,7 @@ final class _TopBar extends StatelessWidget {
                     horizontal: 10,
                   ),
                 ),
-                child: const Text('スキップ'),
+                child: Text(l10n.onboardingSkip),
               ),
             ],
           ),
@@ -288,7 +291,7 @@ final class _FeaturePage extends StatelessWidget {
   }
 }
 
-final class _BottomArea extends StatelessWidget {
+final class _BottomArea extends HookWidget {
   const new({
     required this.activeIndicatorIndex,
     required this.pageCount,
@@ -301,6 +304,7 @@ final class _BottomArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final indicatorCount = pageCount - 1;
 
     return Padding(
@@ -331,7 +335,9 @@ final class _BottomArea extends StatelessWidget {
             child: DottoButton(
               onPressed: onNextButtonTapped,
               child: Text(
-                activeIndicatorIndex == indicatorCount - 1 ? 'はじめる' : '次へ',
+                activeIndicatorIndex == indicatorCount - 1
+                    ? l10n.onboardingStart
+                    : l10n.onboardingNext,
               ),
             ),
           ),

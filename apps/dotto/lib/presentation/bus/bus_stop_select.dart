@@ -1,7 +1,6 @@
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/bus/bus_schedule_state.dart';
 import 'package:dotto/presentation/bus/selected_bus_stop_state.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +11,7 @@ final class BusStopSelectScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     final busState = ref.watch(busScheduleStateProvider);
     final isSaving = useState(false);
     return Scaffold(

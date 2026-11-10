@@ -1,5 +1,6 @@
 import 'package:dotto/application/save_subject_feedback_use_case.dart';
 import 'package:dotto/domain/entity/subject_feedback.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
@@ -18,6 +19,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final user = ref.watch(userStateProvider);
     final isSubmitting = useState(false);
     final score = useState<int?>(null);
@@ -25,7 +27,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: DottoAppBar(
-        title: Text(context.subjectL10n.subjectPostFeedback),
+        title: Text(l10n.subjectPostFeedback),
         actions: [
           DottoAppBarAction(
             role: DottoAppBarActionRole.dismiss,
@@ -36,7 +38,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
           DottoAppBarAction(
             role: DottoAppBarActionRole.confirmation,
             icon: const Icon(Icons.check),
-            label: context.subjectL10n.subjectSubmit,
+            label: l10n.subjectSubmit,
             action: switch (user) {
               AsyncData(:final value) when !isSubmitting.value => () async {
                 if (value == null) return;
@@ -44,9 +46,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
                   final selectedScore = score.value;
                   if (selectedScore == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(context.subjectL10n.subjectSelectARating),
-                      ),
+                      SnackBar(content: Text(l10n.subjectSelectARating)),
                     );
                     return;
                   }
@@ -68,9 +68,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
-                          context.subjectL10n.subjectCouldNotSubmitFeedback,
-                        ),
+                        content: Text(l10n.subjectCouldNotSubmitFeedback),
                       ),
                     );
                   }
@@ -94,7 +92,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    context.subjectL10n.subjectTapToRate,
+                    l10n.subjectTapToRate,
                     style: Theme.of(context).textTheme.titleMedium
                         ?.copyWith(color: SemanticColor.light.accentPrimary),
                   ),
@@ -116,7 +114,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
               spacing: 8,
               children: [
                 Text(
-                  context.subjectL10n.subjectComment,
+                  l10n.subjectComment,
                   style: Theme.of(context).textTheme.titleMedium
                       ?.copyWith(color: SemanticColor.light.accentPrimary),
                 ),
@@ -127,8 +125,7 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
                   decoration: InputDecoration(
                     floatingLabelAlignment: FloatingLabelAlignment.start,
                     border: const OutlineInputBorder(),
-                    hintText:
-                        context.subjectL10n.subjectCreditsAttendanceExamsEtc,
+                    hintText: l10n.subjectCreditsAttendanceExamsEtc,
                   ),
                   controller: commentTextEditingController,
                 ),

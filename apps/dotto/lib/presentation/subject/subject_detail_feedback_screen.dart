@@ -1,6 +1,7 @@
 import 'package:dotto/domain/entity/subject_feedback.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -12,13 +13,14 @@ final class SubjectDetailFeedbackScreen extends HookConsumerWidget {
   final String lessonId;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final feedbacks = ref.watch(subjectFeedbacksStateProvider(lessonId));
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: switch (feedbacks) {
           AsyncData(:final value) when value.isEmpty => Center(
-            child: Text(context.subjectL10n.subjectNoFeedbackYet),
+            child: Text(l10n.subjectNoFeedbackYet),
           ),
           AsyncData(:final value) => Column(
             children: [
@@ -35,11 +37,12 @@ final class SubjectDetailFeedbackScreen extends HookConsumerWidget {
   }
 }
 
-final class _FeedbackSummary extends StatelessWidget {
+final class _FeedbackSummary extends HookWidget {
   const new({required this.feedbacks});
   final List<SubjectFeedback> feedbacks;
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final averageScore =
         feedbacks.fold(0, (sum, item) => sum + item.score) / feedbacks.length;
     return Padding(
@@ -55,7 +58,7 @@ final class _FeedbackSummary extends StatelessWidget {
                 averageScore.toStringAsFixed(1),
                 style: Theme.of(context).textTheme.displayLarge,
               ),
-              Text(context.subjectL10n.subjectOutOf5),
+              Text(l10n.subjectOutOf5),
             ],
           ),
           Expanded(
@@ -69,9 +72,7 @@ final class _FeedbackSummary extends StatelessWidget {
                         feedbacks.where((item) => item.score == rating).length /
                         feedbacks.length,
                   ),
-                Text(
-                  context.subjectL10n.subjectFeedbackCount(feedbacks.length),
-                ),
+                Text(l10n.subjectFeedbackCount(feedbacks.length)),
               ],
             ),
           ),

@@ -8,8 +8,6 @@ import 'package:dotto/application/synchronize_push_token_use_case.dart';
 import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/domain/entity/notification_alert_status.dart';
 import 'package:dotto/domain/entity/screen_layout.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/auth_account_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
@@ -17,6 +15,7 @@ import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:dotto/presentation/common/onboarding/onboarding_screen.dart';
 import 'package:dotto/presentation/common/tab_item.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/use_metrics_changed.dart';
 import 'package:dotto/presentation/root/invalid_app_version_screen.dart';
 import 'package:dotto/presentation/root/push_token_state.dart';
@@ -263,75 +262,61 @@ final class _UpdateAlertDialog extends HookConsumerWidget {
   final String currentAppVersion;
   final String latestAppVersion;
   @override
-  Widget build(BuildContext context, WidgetRef ref) => AlertDialog(
-    title: Text(
-      (AppLocalizations.of(context) ?? AppLocalizationsJa()).rootUpdateRequired,
-    ),
-    content: Text(
-      (AppLocalizations.of(context) ?? AppLocalizationsJa())
-          .rootVersionComparison(currentAppVersion, latestAppVersion),
-    ),
-    actions: [
-      TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa()).rootLater,
-        ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
+    return AlertDialog(
+      title: Text(l10n.rootUpdateRequired),
+      content: Text(
+        l10n.rootVersionComparison(currentAppVersion, latestAppVersion),
       ),
-      TextButton(
-        onPressed: () => ref.read(openExternalLinkUseCaseProvider)(
-          appStorePageUrl,
-          shouldOpenExternally: true,
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.rootLater),
         ),
-        child: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa()).rootUpdateNow,
+        TextButton(
+          onPressed: () => ref.read(openExternalLinkUseCaseProvider)(
+            appStorePageUrl,
+            shouldOpenExternally: true,
+          ),
+          child: Text(l10n.rootUpdateNow),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
 
 final class _NotificationAlertDialog extends HookConsumerWidget {
   const new({required this.status});
   final NotificationAlertStatus status;
   @override
-  Widget build(BuildContext context, WidgetRef ref) => AlertDialog(
-    title: Text(
-      (AppLocalizations.of(context) ?? AppLocalizationsJa())
-          .rootEnableNotifications,
-    ),
-    content: Text(switch (status) {
-      NotificationAlertStatus.denied =>
-        (AppLocalizations.of(context) ?? AppLocalizationsJa())
-            .rootNotificationDenied,
-      NotificationAlertStatus.provisional =>
-        (AppLocalizations.of(context) ?? AppLocalizationsJa())
-            .rootNotificationProvisional,
-      NotificationAlertStatus.alertDisabled =>
-        (AppLocalizations.of(context) ?? AppLocalizationsJa())
-            .rootNotificationAlertDisabled,
-      NotificationAlertStatus.enabled ||
-      NotificationAlertStatus.notDetermined => '',
-    }),
-    actions: [
-      TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa()).rootLater,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
+    return AlertDialog(
+      title: Text(l10n.rootEnableNotifications),
+      content: Text(switch (status) {
+        NotificationAlertStatus.denied => l10n.rootNotificationDenied,
+        NotificationAlertStatus.provisional => l10n.rootNotificationProvisional,
+        NotificationAlertStatus.alertDisabled =>
+          l10n.rootNotificationAlertDisabled,
+        NotificationAlertStatus.enabled ||
+        NotificationAlertStatus.notDetermined => '',
+      }),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.rootLater),
         ),
-      ),
-      TextButton(
-        onPressed: () async {
-          Navigator.of(context).pop();
-          await ref
-              .read(notificationAlertStatusStateProvider.notifier)
-              .openSystemSettings();
-        },
-        child: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .rootOpenSettings,
+        TextButton(
+          onPressed: () async {
+            Navigator.of(context).pop();
+            await ref
+                .read(notificationAlertStatusStateProvider.notifier)
+                .openSystemSettings();
+          },
+          child: Text(l10n.rootOpenSettings),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }

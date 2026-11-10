@@ -5,12 +5,11 @@ import 'package:dotto/domain/entity/bus_schedule.dart';
 import 'package:dotto/domain/entity/bus_schedule_stop.dart';
 import 'package:dotto/domain/entity/bus_trip_id.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/bus/bus_initial_direction_state.dart';
 import 'package:dotto/presentation/bus/bus_initial_weekday_state.dart';
 import 'package:dotto/presentation/bus/bus_schedule_state.dart';
 import 'package:dotto/presentation/bus/selected_bus_stop_state.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/router/routes/bus_routes.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
@@ -25,7 +24,7 @@ final class BusScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     final state = ref.watch(busScheduleStateProvider);
     final selectedStopState = ref.watch(selectedBusStopStateProvider);
     final selectedStop = selectedStopState.value;
@@ -317,7 +316,7 @@ final class _BusStopCard extends StatelessWidget {
   }
 }
 
-final class _BusTripTile extends StatelessWidget {
+final class _BusTripTile extends HookWidget {
   const new({
     required this.route,
     required this.beginTime,
@@ -348,7 +347,7 @@ final class _BusTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     if (route == '0') {
       return ListTile(title: Text(l10n.busServiceEnded));
     }

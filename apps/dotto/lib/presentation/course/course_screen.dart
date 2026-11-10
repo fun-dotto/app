@@ -9,9 +9,9 @@ import 'package:dotto/domain/service/timetable_date_service.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/course/course_resources_state.dart';
 import 'package:dotto/presentation/course/course_state.dart';
@@ -32,6 +32,7 @@ final class CourseScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final resources = ref.watch(courseResourcesStateProvider);
     final breakingAnnouncement = resources.breakingAnnouncement;
     final dottoWebUrl = resources.dottoWebUrl;
@@ -49,16 +50,14 @@ final class CourseScreen extends HookConsumerWidget {
     final quickFeatures = [
       if (isFunchEnabled)
         QuickButton(
-          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseSearch,
+          label: l10n.courseSearch,
           iconUrl: null,
           fallbackIcon: Icons.search,
           onPressed: () => const CourseSubjectsRouteData().push<void>(context),
         ),
       if (isAuthenticated)
         QuickButton(
-          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseNotices,
+          label: l10n.courseNotices,
           iconUrl: null,
           fallbackIcon: Icons.cached,
           onPressed: () =>
@@ -69,16 +68,14 @@ final class CourseScreen extends HookConsumerWidget {
     final academicYear = DateTimeUtility.academicYear(DateTime.now());
     final quickFiles = [
       QuickButton(
-        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-            .courseAcademicCalendar,
+        label: l10n.courseAcademicCalendar,
         iconUrl: null,
         fallbackIcon: Icons.event_note,
         onPressed: () =>
             CourseCalendarRouteData(year: academicYear).push<void>(context),
       ),
       QuickButton(
-        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-            .courseSpringTimetable,
+        label: l10n.courseSpringTimetable,
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
         onPressed: () =>
@@ -86,8 +83,7 @@ final class CourseScreen extends HookConsumerWidget {
                 .push<void>(context),
       ),
       QuickButton(
-        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-            .courseFallTimetable,
+        label: l10n.courseFallTimetable,
         iconUrl: null,
         fallbackIcon: Icons.calendar_view_month,
         onPressed: () =>
@@ -98,74 +94,69 @@ final class CourseScreen extends HookConsumerWidget {
 
     final quickLinks = [
       QuickButton(
-        label:
-            (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseHope,
+        label: l10n.courseHope,
         iconUrl: resources.hopeIconUrl,
         fallbackIcon: Icons.language,
         onPressed: () => _launchQuickLink(
           context,
+          l10n,
           url: resources.hopeUrl,
-          label:
-              (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseHope,
+          label: l10n.courseHope,
         ),
       ),
       QuickButton(
-        label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-            .courseStudentPortal,
+        label: l10n.courseStudentPortal,
         iconUrl: resources.studentPortalIconUrl,
         fallbackIcon: Icons.language,
         onPressed: () => _launchQuickLink(
           context,
+          l10n,
           url: resources.studentPortalUrl,
-          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseStudentPortal,
+          label: l10n.courseStudentPortal,
         ),
       ),
       if (isAuthenticated && isWebEnabled)
         QuickButton(
-          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseDottoWeb,
+          label: l10n.courseDottoWeb,
           iconUrl: '$dottoWebUrl/favicon.ico',
           fallbackIcon: Icons.language,
           onPressed: () async {
             await _launchQuickLink(
               context,
+              l10n,
               url: dottoWebUrl,
               event: CourseLinkEvent.dottoWeb,
-              label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                  .courseDottoWeb,
+              label: l10n.courseDottoWeb,
             );
           },
         ),
       if (isAuthenticated)
         QuickButton(
-          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseMacSupport,
+          label: l10n.courseMacSupport,
           iconUrl: null,
           fallbackIcon: Icons.laptop_mac,
           onPressed: () async {
             await _launchQuickLink(
               context,
+              l10n,
               url: macSupportDeskUrl,
               event: CourseLinkEvent.macSupport,
-              label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                  .courseMacSupport,
+              label: l10n.courseMacSupport,
             );
           },
         ),
       if (isAuthenticated && isOpinionBoxEnabled)
         QuickButton(
-          label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseOpinionBox,
+          label: l10n.courseOpinionBox,
           iconUrl: null,
           fallbackIcon: Icons.forward_to_inbox_rounded,
           onPressed: () async {
             await _launchQuickLink(
               context,
+              l10n,
               url: opinionBoxUrl,
               event: CourseLinkEvent.opinionBox,
-              label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                  .courseOpinionBox,
+              label: l10n.courseOpinionBox,
             );
           },
         ),
@@ -199,15 +190,14 @@ final class CourseScreen extends HookConsumerWidget {
       appBar: DottoAppBar(
         centerTitle: false,
         title: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseTitle,
+          l10n.courseTitle,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
         actions: [
           DottoAppBarAction(
             icon: const Icon(Icons.tune),
-            label: (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                .courseCustomize,
+            label: l10n.courseCustomize,
             action: () => const CourseCustomizeRouteData().push<void>(context),
           ),
         ],
@@ -269,11 +259,7 @@ final class CourseScreen extends HookConsumerWidget {
                                         .refresh();
                                   },
                                   type: DottoButtonType.text,
-                                  child: Text(
-                                    (AppLocalizations.of(context) ??
-                                            AppLocalizationsJa())
-                                        .courseWeeklyTimetable,
-                                  ),
+                                  child: Text(l10n.courseWeeklyTimetable),
                                 ),
                               ],
                             ),
@@ -292,11 +278,7 @@ final class CourseScreen extends HookConsumerWidget {
                                     .read(userStateProvider.notifier)
                                     .signIn();
                               },
-                              child: Text(
-                                (AppLocalizations.of(context) ??
-                                        AppLocalizationsJa())
-                                    .courseSignIn,
-                              ),
+                              child: Text(l10n.courseSignIn),
                             ),
                           ),
                         ),
@@ -338,12 +320,7 @@ final class CourseScreen extends HookConsumerWidget {
             children: [
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.7,
-                child: Center(
-                  child: Text(
-                    (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                        .courseFetchError,
-                  ),
-                ),
+                child: Center(child: Text(l10n.courseFetchError)),
               ),
             ],
           ),
@@ -357,7 +334,8 @@ final class CourseScreen extends HookConsumerWidget {
   }
 
   Future<void> _launchQuickLink(
-    BuildContext context, {
+    BuildContext context,
+    AppLocalizations l10n, {
     required String url,
     required String label,
     CourseLinkEvent? event,
@@ -370,18 +348,12 @@ final class CourseScreen extends HookConsumerWidget {
     if (!context.mounted || launched) {
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseLinkError(label),
-        ),
-      ),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.courseLinkError(label))));
   }
 }
 
-final class _LoadingSkeleton extends StatelessWidget {
+final class _LoadingSkeleton extends HookWidget {
   const new(
     this.owner, {
     required this.isAuthenticated,
@@ -396,6 +368,7 @@ final class _LoadingSkeleton extends StatelessWidget {
   final List<QuickButton> quickLinks;
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return LayoutBuilder(
       builder: (context, constraints) => RefreshIndicator(
         onRefresh: () async {},
@@ -420,10 +393,7 @@ final class _LoadingSkeleton extends StatelessWidget {
                     child: Center(
                       child: DottoButton(
                         onPressed: null,
-                        child: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .courseSignIn,
-                        ),
+                        child: Text(l10n.courseSignIn),
                       ),
                     ),
                   ),
@@ -434,10 +404,7 @@ final class _LoadingSkeleton extends StatelessWidget {
                       DottoButton(
                         onPressed: null,
                         type: DottoButtonType.text,
-                        child: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .courseWeeklyTimetable,
-                        ),
+                        child: Text(l10n.courseWeeklyTimetable),
                       ),
                     ],
                   ),
@@ -641,7 +608,7 @@ final class _ShortcutSection extends StatelessWidget {
   }
 }
 
-final class _CourseAnnouncement extends StatelessWidget
+final class _CourseAnnouncement extends HookWidget
     implements PreferredSizeWidget {
   const new(this.owner, this.announcement);
   final CourseScreen owner;
@@ -650,6 +617,7 @@ final class _CourseAnnouncement extends StatelessWidget
   Size get preferredSize => const Size.fromHeight(32);
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return PreferredSize(
       preferredSize: const Size.fromHeight(32),
       child: Material(
@@ -657,6 +625,7 @@ final class _CourseAnnouncement extends StatelessWidget
         child: InkWell(
           onTap: () => owner._launchQuickLink(
             context,
+            l10n,
             url: announcement.url,
             label: announcement.title,
           ),

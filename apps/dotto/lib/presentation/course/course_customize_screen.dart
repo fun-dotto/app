@@ -1,6 +1,5 @@
 import 'package:dotto/domain/entity/timetable_period_style.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/user_preference_state.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,21 +10,14 @@ final class CourseCustomizeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final userPreference = ref.watch(userPreferenceStateProvider);
 
     return Scaffold(
-      appBar: DottoAppBar(
-        title: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseCustomize,
-        ),
-      ),
+      appBar: DottoAppBar(title: Text(l10n.courseCustomize)),
       body: switch (userPreference) {
         AsyncData(value: final preference) => SwitchListTile(
-          title: Text(
-            (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                .courseShowTime,
-          ),
+          title: Text(l10n.courseShowTime),
           value:
               preference.timetablePeriodStyle ==
               TimetablePeriodStyle.numberAndTime,
@@ -39,12 +31,7 @@ final class CourseCustomizeScreen extends HookConsumerWidget {
                 );
           },
         ),
-        AsyncError() => Center(
-          child: Text(
-            (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                .coursePreferenceError,
-          ),
-        ),
+        AsyncError() => Center(child: Text(l10n.coursePreferenceError)),
         AsyncLoading() => const Center(child: CircularProgressIndicator()),
       },
     );

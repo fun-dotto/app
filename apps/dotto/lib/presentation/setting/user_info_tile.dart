@@ -1,9 +1,11 @@
 import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-final class UserInfoTile extends StatelessWidget {
+final class UserInfoTile extends HookWidget {
   const new({this.user, super.key, this.onTap, this.isLoading = false});
 
   /// 表示するユーザー。未ログインの場合は `null`。
@@ -13,11 +15,12 @@ final class UserInfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final photoUrl = _nonEmpty(user?.avatarUrl);
-    final name = _nonEmpty(user?.name) ?? 'ログイン';
+    final name = _nonEmpty(user?.name) ?? l10n.login;
     final email = switch (_nonEmpty(user?.email)) {
-      final String email => '$emailでログイン中',
-      null => 'Google アカウント (@fun.ac.jp) でログイン',
+      final String email => l10n.userInfoSignedInAs(email),
+      null => l10n.userInfoSignInPrompt,
     };
 
     return Material(

@@ -2,15 +2,15 @@ import 'package:collection/collection.dart';
 import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/map/map_tile_props.dart';
 import 'package:dotto/presentation/map/room_equipment.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class MapDetailBottomSheet extends StatelessWidget {
+final class MapDetailBottomSheet extends HookWidget {
   const new({
     required this.props,
     required this.room,
@@ -33,6 +33,7 @@ final class MapDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -107,17 +108,11 @@ final class MapDetailBottomSheet extends StatelessWidget {
           else
             Column(
               children: [
-                Text(
-                  (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                      .mapLoginDetails,
-                ),
+                Text(l10n.mapLoginDetails),
                 DottoButton(
                   onPressed: onGoToSettingButtonTapped,
                   type: DottoButtonType.text,
-                  child: Text(
-                    (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                        .mapGoToSettings,
-                  ),
+                  child: Text(l10n.mapGoToSettings),
                 ),
               ],
             ),
@@ -178,11 +173,12 @@ final class _RoomScheduleTile extends StatelessWidget {
   }
 }
 
-final class _RoomEquipmentTile extends StatelessWidget {
+final class _RoomEquipmentTile extends HookWidget {
   const new({required this.equipment});
   final RoomEquipment equipment;
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final fontColor = SemanticColor.light.labelTertiary;
     return Container(
       width: 140,
@@ -198,13 +194,9 @@ final class _RoomEquipmentTile extends StatelessWidget {
           Icon(equipment.icon, color: fontColor, size: 20),
           Text(
             switch (equipment) {
-              RoomEquipmentFood() =>
-                (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapFood,
-              RoomEquipmentDrink() =>
-                (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapDrink,
-              _ =>
-                (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                    .mapOutlet,
+              RoomEquipmentFood() => l10n.mapFood,
+              RoomEquipmentDrink() => l10n.mapDrink,
+              _ => l10n.mapOutlet,
             },
             style: Theme.of(context).textTheme.labelMedium
                 ?.copyWith(color: fontColor),

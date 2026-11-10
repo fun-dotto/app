@@ -1,5 +1,6 @@
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/github_contributor/github_contributor_list_tile.dart';
 import 'package:dotto/presentation/github_contributor/github_contributor_state.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
@@ -11,10 +12,11 @@ final class GitHubContributorScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final contributors = ref.watch(gitHubContributorStateProvider);
 
     return Scaffold(
-      appBar: const DottoAppBar(title: Text('開発者')),
+      appBar: DottoAppBar(title: Text(l10n.settingsDevelopers)),
       body: switch (contributors) {
         AsyncData(:final value) => RefreshIndicator(
           onRefresh: ref.read(gitHubContributorStateProvider.notifier).refresh,

@@ -1,24 +1,26 @@
 import 'package:dotto/domain/entity/funch_menu.dart';
 import 'package:dotto/domain/entity/funch_menu_category.dart';
 import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class FunchPriceList extends StatelessWidget {
+final class FunchPriceList extends HookWidget {
   const new(this.menu, {super.key, this.isHome = false});
   final FunchMenu menu;
   final bool isHome;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
-      children: priceText(context),
+      children: priceText(context, l10n),
     );
   }
 
-  List<Widget> priceText(BuildContext context) {
+  List<Widget> priceText(BuildContext context, AppLocalizations l10n) {
     final priceText = <Widget>[];
     if (![
       ...FunchMenuCategory.donCurry.categoryIds,
@@ -31,7 +33,6 @@ final class FunchPriceList extends StatelessWidget {
         ),
       ];
     }
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
     final sizeStr = [l10n.funchLarge, l10n.funchMedium, l10n.funchSmall];
     final price = [menu.prices.large, menu.prices.medium, menu.prices.small];
 

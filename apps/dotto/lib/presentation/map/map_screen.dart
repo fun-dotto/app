@@ -4,9 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/map/fun_map.dart';
 import 'package:dotto/presentation/map/map_state.dart';
 import 'package:dotto/presentation/map/map_tile_props.dart';
@@ -35,6 +34,7 @@ final class MapScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final asyncState = ref.watch(mapStateProvider);
     final searchDate = useState(DateTime.now());
     final selectedFloor = useState(Floor.third);
@@ -140,7 +140,7 @@ final class MapScreen extends HookConsumerWidget {
       resizeToAvoidBottomInset: false,
       appBar: DottoAppBar(
         title: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapTitle,
+          l10n.mapTitle,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
@@ -167,9 +167,7 @@ final class MapScreen extends HookConsumerWidget {
                     controller.openView();
                   },
                   leading: const Icon(Icons.search),
-                  hintText:
-                      (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                          .mapSearchHint,
+                  hintText: l10n.mapSearchHint,
                 );
               },
               suggestionsBuilder: (context, controller) {
@@ -183,15 +181,7 @@ final class MapScreen extends HookConsumerWidget {
                         .where((room) => room.matchesQuery(query))
                         .toList();
                     if (results.isEmpty) {
-                      return [
-                        ListTile(
-                          title: Text(
-                            (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .mapNoResults,
-                          ),
-                        ),
-                      ];
+                      return [ListTile(title: Text(l10n.mapNoResults))];
                     }
                     return [
                       for (final item in results)
@@ -211,23 +201,9 @@ final class MapScreen extends HookConsumerWidget {
                       'Failed to build map search suggestions: '
                       '$error\n$stackTrace',
                     );
-                    return [
-                      ListTile(
-                        title: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .mapSearchError,
-                        ),
-                      ),
-                    ];
+                    return [ListTile(title: Text(l10n.mapSearchError))];
                   case AsyncLoading():
-                    return [
-                      ListTile(
-                        title: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .mapLoading,
-                        ),
-                      ),
-                    ];
+                    return [ListTile(title: Text(l10n.mapLoading))];
                 }
               },
             ),
@@ -310,11 +286,7 @@ final class MapScreen extends HookConsumerWidget {
               ),
             ],
           ),
-          AsyncError() => Center(
-            child: Text(
-              (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapError,
-            ),
-          ),
+          AsyncError() => Center(child: Text(l10n.mapError)),
           _ => const Center(child: CircularProgressIndicator()),
         },
       ),

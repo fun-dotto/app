@@ -5,8 +5,7 @@ import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -30,6 +29,7 @@ final class SelectCourseScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final isSaving = useState(false);
     Future<void> changeRegistration(TimetableItem item) async {
       if (isSaving.value) return;
@@ -45,10 +45,8 @@ final class SelectCourseScreen extends HookConsumerWidget {
       } on DomainError catch (error) {
         if (!context.mounted) return;
         final message = error.type == DomainErrorType.invalidData
-            ? (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                  .courseSlotFull
-            : (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                  .courseRegistrationError;
+            ? l10n.courseSlotFull
+            : l10n.courseRegistrationError;
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(message)));
       } finally {
@@ -59,17 +57,11 @@ final class SelectCourseScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: DottoAppBar(
         title: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseSlotTitle(semester.label, dayOfWeek.label, period.number),
+          l10n.courseSlotTitle(semester.label, dayOfWeek.label, period.number),
         ),
       ),
       body: timetableItems.isEmpty
-          ? Center(
-              child: Text(
-                (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                    .courseNoSubjects,
-              ),
-            )
+          ? Center(child: Text(l10n.courseNoSubjects))
           : ListView.builder(
               itemCount: timetableItems.length,
               itemBuilder: (context, index) {
@@ -84,15 +76,7 @@ final class SelectCourseScreen extends HookConsumerWidget {
                     onPressed: isSaving.value
                         ? null
                         : () => changeRegistration(item),
-                    child: Text(
-                      isAdded
-                          ? (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseRemove
-                          : (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseAdd,
-                    ),
+                    child: Text(isAdded ? l10n.courseRemove : l10n.courseAdd),
                   ),
                 );
               },

@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -492,4 +491,186 @@ class AppLocalizationsJa extends AppLocalizations {
   String courseNoticePeriod(int period) {
     return '$period限';
   }
+
+  @override
+  String get commonNone => 'なし';
+
+  @override
+  String get commonUnset => '未設定';
+
+  @override
+  String get commonErrorTitle => 'エラーが発生しました。';
+
+  @override
+  String get commonErrorMessage => '時間を空けてもう一度お試しください。';
+
+  @override
+  String get tabCourse => '講義';
+
+  @override
+  String get tabFunch => '学食';
+
+  @override
+  String get tabMap => 'マップ';
+
+  @override
+  String get tabBus => 'バス';
+
+  @override
+  String get tabSetting => '設定';
+
+  @override
+  String get tabSubject => '科目検索';
+
+  @override
+  String get settingsTitle => '設定';
+
+  @override
+  String get settingsSignInFailedTitle => 'ログインに失敗しました';
+
+  @override
+  String get settingsSignInFailedMessage => '時間をおいてもう一度お試しください。';
+
+  @override
+  String get settingsOk => 'OK';
+
+  @override
+  String get settingsSignOutConfirmTitle => 'ログアウトしますか？';
+
+  @override
+  String get settingsCancel => 'キャンセル';
+
+  @override
+  String get settingsSignOut => 'ログアウト';
+
+  @override
+  String get settingsAboutApp => 'アプリについて';
+
+  @override
+  String get settingsAnnouncements => 'お知らせ';
+
+  @override
+  String get settingsNotifications => '通知';
+
+  @override
+  String get settingsNotificationChecking => '確認中';
+
+  @override
+  String get settingsSendFeedback => 'フィードバックを送る';
+
+  @override
+  String get settingsDevelopers => '開発者';
+
+  @override
+  String get settingsHowToUse => 'アプリの使い方';
+
+  @override
+  String get settingsTermsOfService => '利用規約';
+
+  @override
+  String get settingsPrivacyPolicy => 'プライバシーポリシー';
+
+  @override
+  String get settingsLicenses => 'ライセンス';
+
+  @override
+  String get settingsMyInfo => 'あなたの情報';
+
+  @override
+  String get settingsGrade => '学年';
+
+  @override
+  String get settingsCourse => 'コース';
+
+  @override
+  String get settingsClass => 'クラス';
+
+  @override
+  String get settingsSaveFailed => '保存に失敗しました';
+
+  @override
+  String userInfoSignedInAs(String email) {
+    return '${email}でログイン中';
+  }
+
+  @override
+  String get userInfoSignInPrompt => 'Google アカウント (@fun.ac.jp) でログイン';
+
+  @override
+  String get notificationStatusEnabled => '有効';
+
+  @override
+  String get notificationStatusProvisional => '静かな配信';
+
+  @override
+  String get notificationStatusAlertDisabled => 'バナー無効';
+
+  @override
+  String get notificationStatusDenied => '拒否';
+
+  @override
+  String get notificationStatusNotDetermined => '未設定';
+
+  @override
+  String get invalidAppVersionTitle => 'Dottoのアップデートが必要です';
+
+  @override
+  String get announcementTitle => 'お知らせ';
+
+  @override
+  String get announcementNotFound => 'お知らせが見つかりませんでした。';
+
+  @override
+  String get announcementOpen => 'お知らせを開く';
+
+  @override
+  String get onboardingTitle => 'Dottoの使い方';
+
+  @override
+  String get onboardingSkip => 'スキップ';
+
+  @override
+  String get onboardingNext => '次へ';
+
+  @override
+  String get onboardingStart => 'はじめる';
+
+  @override
+  String get onboardingWelcomeTitle => 'ようこそ';
+
+  @override
+  String get onboardingWelcomeBodyTop => 'Dottoで';
+
+  @override
+  String get onboardingWelcomeBodyBottom => 'はこだて未来大学のすべてを';
+
+  @override
+  String get onboardingTimetableTitle => '時間割の管理';
+
+  @override
+  String get onboardingTimetableDescription => '自分の時間割を設定して\n休講/補講情報を受け取ろう';
+
+  @override
+  String get onboardingBusTitle => 'バスの時刻表';
+
+  @override
+  String get onboardingBusDescription => '大学から最寄りのバス停までの\n時刻表を確認しよう';
+
+  @override
+  String get onboardingMapTitle => '学内マップ';
+
+  @override
+  String get onboardingMapDescription => '空き教室を確認したり\n研究室を検索しよう';
+
+  @override
+  String get onboardingSubjectTitle => '科目検索';
+
+  @override
+  String get onboardingSubjectDescription => 'レビューや過去問を\n閲覧しよう';
+
+  @override
+  String get onboardingFunchTitle => '学食メニュー';
+
+  @override
+  String get onboardingFunchDescription => '学食のメニューや価格を\n確認しよう';
 }

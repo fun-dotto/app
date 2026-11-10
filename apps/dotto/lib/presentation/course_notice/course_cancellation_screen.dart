@@ -1,9 +1,8 @@
 import 'package:dotto/domain/entity/course_notice.dart';
 import 'package:dotto/domain/entity/course_notice_scope.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course_notice/course_notices_state.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
@@ -22,7 +21,7 @@ final class CourseCancellationScreen extends HookConsumerWidget {
   final CourseNoticeTab initialTab;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     final tabController = useTabController(
       initialLength: CourseNoticeTab.values.length,
       initialIndex: initialTab.index,
@@ -135,12 +134,12 @@ final class _CourseNoticeList extends StatelessWidget {
   }
 }
 
-final class _CourseNoticeTile extends StatelessWidget {
+final class _CourseNoticeTile extends HookWidget {
   const new({required this.notice});
   final CourseNotice notice;
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     final subtitle = switch (notice) {
       CancellationNotice(:final comment) ||
       MakeupNotice(:final comment) => comment.trim(),

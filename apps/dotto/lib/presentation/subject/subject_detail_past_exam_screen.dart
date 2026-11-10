@@ -1,5 +1,6 @@
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/subject/past_exams_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,14 +22,13 @@ final class SubjectDetailPastExamScreen extends HookConsumerWidget {
   final ValueChanged<String> onPastExamSelected;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     if (!isAuthenticated) {
-      return Center(
-        child: Text(context.subjectL10n.subjectSignInWithAGoogleAccountFunAcJp),
-      );
+      return Center(child: Text(l10n.subjectSignInWithAGoogleAccountFunAcJp));
     }
     return switch (ref.watch(pastExamsStateProvider(pastExamId))) {
       AsyncData(:final value) when value.isEmpty => Center(
-        child: Text(context.subjectL10n.subjectNoPastExamsAvailable),
+        child: Text(l10n.subjectNoPastExamsAvailable),
       ),
       AsyncData(:final value) => ListView.separated(
         itemCount: value.length,

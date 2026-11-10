@@ -1,59 +1,57 @@
+import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto_design_system/component/glass_tab_bar.dart';
 import 'package:material_ui/material_ui.dart';
 
 enum TabItem {
   course(
     key: 'course',
-    label: '講義',
     icon: Icons.description_outlined,
     selectedIcon: Icons.description,
   ),
   funch(
     key: 'funch',
-    label: '学食',
     icon: Icons.restaurant_outlined,
     selectedIcon: Icons.restaurant,
   ),
-  map(
-    key: 'map',
-    label: 'マップ',
-    icon: Icons.map_outlined,
-    selectedIcon: Icons.map,
-  ),
+  map(key: 'map', icon: Icons.map_outlined, selectedIcon: Icons.map),
   bus(
     key: 'bus',
-    label: 'バス',
     icon: Icons.directions_bus_outlined,
     selectedIcon: Icons.directions_bus,
   ),
   setting(
     key: 'setting',
-    label: '設定',
     icon: Icons.settings_outlined,
     selectedIcon: Icons.settings,
   ),
   subject(
     key: 'subject',
-    label: '科目検索',
     icon: Icons.search_outlined,
     selectedIcon: Icons.search,
   );
 
-  new({
-    required this.key,
-    required this.label,
-    required this.icon,
-    required this.selectedIcon,
-  });
+  new({required this.key, required this.icon, required this.selectedIcon});
 
   final String key;
   final IconData selectedIcon;
   final IconData icon;
-  final String label;
+
+  /// 現在のロケールに合わせたタブ名。
+  String label(AppLocalizations l10n) => switch (this) {
+    course => l10n.tabCourse,
+    funch => l10n.tabFunch,
+    map => l10n.tabMap,
+    bus => l10n.tabBus,
+    setting => l10n.tabSetting,
+    subject => l10n.tabSubject,
+  };
 
   /// タブバーに並べる項目。
-  GlassTabBarItem get glassItem =>
-      GlassTabBarItem(label: label, icon: icon, selectedIcon: selectedIcon);
+  GlassTabBarItem glassItem(AppLocalizations l10n) => GlassTabBarItem(
+    label: label(l10n),
+    icon: icon,
+    selectedIcon: selectedIcon,
+  );
 
   static final List<TabItem> v2 = [.course, .funch, .map, .bus, .setting];
 }

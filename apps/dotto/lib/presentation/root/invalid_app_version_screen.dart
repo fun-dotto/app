@@ -1,4 +1,5 @@
 import 'package:dotto/application/open_external_link_use_case.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -19,10 +20,11 @@ final class InvalidAppVersionScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     return Scaffold(
       appBar: DottoAppBar(
         title: Text(
-          'Dottoのアップデートが必要です',
+          l10n.invalidAppVersionTitle,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
@@ -34,7 +36,7 @@ final class InvalidAppVersionScreen extends HookConsumerWidget {
           spacing: 64,
           children: [
             Text(
-              '現在のバージョン: $currentAppVersion\n最新バージョン: $latestAppVersion',
+              l10n.rootVersionComparison(currentAppVersion, latestAppVersion),
               textAlign: TextAlign.center,
             ),
             DottoButton(
@@ -42,7 +44,7 @@ final class InvalidAppVersionScreen extends HookConsumerWidget {
                 appStorePageUrl,
                 shouldOpenExternally: true,
               ),
-              child: const Text('今すぐアップデート'),
+              child: Text(l10n.rootUpdateNow),
             ),
           ],
         ),

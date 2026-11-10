@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations_en.dart';
 import 'app_localizations_ja.dart';
 
@@ -1003,6 +1002,366 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'{period}限'**
   String courseNoticePeriod(int period);
+
+  /// No description provided for @commonNone.
+  ///
+  /// In ja, this message translates to:
+  /// **'なし'**
+  String get commonNone;
+
+  /// No description provided for @commonUnset.
+  ///
+  /// In ja, this message translates to:
+  /// **'未設定'**
+  String get commonUnset;
+
+  /// No description provided for @commonErrorTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'エラーが発生しました。'**
+  String get commonErrorTitle;
+
+  /// No description provided for @commonErrorMessage.
+  ///
+  /// In ja, this message translates to:
+  /// **'時間を空けてもう一度お試しください。'**
+  String get commonErrorMessage;
+
+  /// No description provided for @tabCourse.
+  ///
+  /// In ja, this message translates to:
+  /// **'講義'**
+  String get tabCourse;
+
+  /// No description provided for @tabFunch.
+  ///
+  /// In ja, this message translates to:
+  /// **'学食'**
+  String get tabFunch;
+
+  /// No description provided for @tabMap.
+  ///
+  /// In ja, this message translates to:
+  /// **'マップ'**
+  String get tabMap;
+
+  /// No description provided for @tabBus.
+  ///
+  /// In ja, this message translates to:
+  /// **'バス'**
+  String get tabBus;
+
+  /// No description provided for @tabSetting.
+  ///
+  /// In ja, this message translates to:
+  /// **'設定'**
+  String get tabSetting;
+
+  /// No description provided for @tabSubject.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目検索'**
+  String get tabSubject;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'設定'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsSignInFailedTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログインに失敗しました'**
+  String get settingsSignInFailedTitle;
+
+  /// No description provided for @settingsSignInFailedMessage.
+  ///
+  /// In ja, this message translates to:
+  /// **'時間をおいてもう一度お試しください。'**
+  String get settingsSignInFailedMessage;
+
+  /// No description provided for @settingsOk.
+  ///
+  /// In ja, this message translates to:
+  /// **'OK'**
+  String get settingsOk;
+
+  /// No description provided for @settingsSignOutConfirmTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログアウトしますか？'**
+  String get settingsSignOutConfirmTitle;
+
+  /// No description provided for @settingsCancel.
+  ///
+  /// In ja, this message translates to:
+  /// **'キャンセル'**
+  String get settingsCancel;
+
+  /// No description provided for @settingsSignOut.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログアウト'**
+  String get settingsSignOut;
+
+  /// No description provided for @settingsAboutApp.
+  ///
+  /// In ja, this message translates to:
+  /// **'アプリについて'**
+  String get settingsAboutApp;
+
+  /// No description provided for @settingsAnnouncements.
+  ///
+  /// In ja, this message translates to:
+  /// **'お知らせ'**
+  String get settingsAnnouncements;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In ja, this message translates to:
+  /// **'通知'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsNotificationChecking.
+  ///
+  /// In ja, this message translates to:
+  /// **'確認中'**
+  String get settingsNotificationChecking;
+
+  /// No description provided for @settingsSendFeedback.
+  ///
+  /// In ja, this message translates to:
+  /// **'フィードバックを送る'**
+  String get settingsSendFeedback;
+
+  /// No description provided for @settingsDevelopers.
+  ///
+  /// In ja, this message translates to:
+  /// **'開発者'**
+  String get settingsDevelopers;
+
+  /// No description provided for @settingsHowToUse.
+  ///
+  /// In ja, this message translates to:
+  /// **'アプリの使い方'**
+  String get settingsHowToUse;
+
+  /// No description provided for @settingsTermsOfService.
+  ///
+  /// In ja, this message translates to:
+  /// **'利用規約'**
+  String get settingsTermsOfService;
+
+  /// No description provided for @settingsPrivacyPolicy.
+  ///
+  /// In ja, this message translates to:
+  /// **'プライバシーポリシー'**
+  String get settingsPrivacyPolicy;
+
+  /// No description provided for @settingsLicenses.
+  ///
+  /// In ja, this message translates to:
+  /// **'ライセンス'**
+  String get settingsLicenses;
+
+  /// No description provided for @settingsMyInfo.
+  ///
+  /// In ja, this message translates to:
+  /// **'あなたの情報'**
+  String get settingsMyInfo;
+
+  /// No description provided for @settingsGrade.
+  ///
+  /// In ja, this message translates to:
+  /// **'学年'**
+  String get settingsGrade;
+
+  /// No description provided for @settingsCourse.
+  ///
+  /// In ja, this message translates to:
+  /// **'コース'**
+  String get settingsCourse;
+
+  /// No description provided for @settingsClass.
+  ///
+  /// In ja, this message translates to:
+  /// **'クラス'**
+  String get settingsClass;
+
+  /// No description provided for @settingsSaveFailed.
+  ///
+  /// In ja, this message translates to:
+  /// **'保存に失敗しました'**
+  String get settingsSaveFailed;
+
+  /// No description provided for @userInfoSignedInAs.
+  ///
+  /// In ja, this message translates to:
+  /// **'{email}でログイン中'**
+  String userInfoSignedInAs(String email);
+
+  /// No description provided for @userInfoSignInPrompt.
+  ///
+  /// In ja, this message translates to:
+  /// **'Google アカウント (@fun.ac.jp) でログイン'**
+  String get userInfoSignInPrompt;
+
+  /// No description provided for @notificationStatusEnabled.
+  ///
+  /// In ja, this message translates to:
+  /// **'有効'**
+  String get notificationStatusEnabled;
+
+  /// No description provided for @notificationStatusProvisional.
+  ///
+  /// In ja, this message translates to:
+  /// **'静かな配信'**
+  String get notificationStatusProvisional;
+
+  /// No description provided for @notificationStatusAlertDisabled.
+  ///
+  /// In ja, this message translates to:
+  /// **'バナー無効'**
+  String get notificationStatusAlertDisabled;
+
+  /// No description provided for @notificationStatusDenied.
+  ///
+  /// In ja, this message translates to:
+  /// **'拒否'**
+  String get notificationStatusDenied;
+
+  /// No description provided for @notificationStatusNotDetermined.
+  ///
+  /// In ja, this message translates to:
+  /// **'未設定'**
+  String get notificationStatusNotDetermined;
+
+  /// No description provided for @invalidAppVersionTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'Dottoのアップデートが必要です'**
+  String get invalidAppVersionTitle;
+
+  /// No description provided for @announcementTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'お知らせ'**
+  String get announcementTitle;
+
+  /// No description provided for @announcementNotFound.
+  ///
+  /// In ja, this message translates to:
+  /// **'お知らせが見つかりませんでした。'**
+  String get announcementNotFound;
+
+  /// No description provided for @announcementOpen.
+  ///
+  /// In ja, this message translates to:
+  /// **'お知らせを開く'**
+  String get announcementOpen;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'Dottoの使い方'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In ja, this message translates to:
+  /// **'スキップ'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In ja, this message translates to:
+  /// **'次へ'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In ja, this message translates to:
+  /// **'はじめる'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'ようこそ'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeBodyTop.
+  ///
+  /// In ja, this message translates to:
+  /// **'Dottoで'**
+  String get onboardingWelcomeBodyTop;
+
+  /// No description provided for @onboardingWelcomeBodyBottom.
+  ///
+  /// In ja, this message translates to:
+  /// **'はこだて未来大学のすべてを'**
+  String get onboardingWelcomeBodyBottom;
+
+  /// No description provided for @onboardingTimetableTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'時間割の管理'**
+  String get onboardingTimetableTitle;
+
+  /// No description provided for @onboardingTimetableDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'自分の時間割を設定して\n休講/補講情報を受け取ろう'**
+  String get onboardingTimetableDescription;
+
+  /// No description provided for @onboardingBusTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'バスの時刻表'**
+  String get onboardingBusTitle;
+
+  /// No description provided for @onboardingBusDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'大学から最寄りのバス停までの\n時刻表を確認しよう'**
+  String get onboardingBusDescription;
+
+  /// No description provided for @onboardingMapTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'学内マップ'**
+  String get onboardingMapTitle;
+
+  /// No description provided for @onboardingMapDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'空き教室を確認したり\n研究室を検索しよう'**
+  String get onboardingMapDescription;
+
+  /// No description provided for @onboardingSubjectTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目検索'**
+  String get onboardingSubjectTitle;
+
+  /// No description provided for @onboardingSubjectDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'レビューや過去問を\n閲覧しよう'**
+  String get onboardingSubjectDescription;
+
+  /// No description provided for @onboardingFunchTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'学食メニュー'**
+  String get onboardingFunchTitle;
+
+  /// No description provided for @onboardingFunchDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'学食のメニューや価格を\n確認しよう'**
+  String get onboardingFunchDescription;
 }
 
 class _AppLocalizationsDelegate

@@ -7,6 +7,7 @@ import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/presentation/announcement/announcement_state.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,10 +24,11 @@ final class AnnouncementDetailScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final announcements = ref.watch(announcementStateProvider);
 
     return Scaffold(
-      appBar: const DottoAppBar(title: Text('お知らせ')),
+      appBar: DottoAppBar(title: Text(l10n.announcementTitle)),
       body: switch (announcements) {
         AsyncData(:final value) => switch (value.firstWhereOrNull(
           (announcement) => announcement.id == id,
@@ -34,7 +36,7 @@ final class AnnouncementDetailScreen extends HookConsumerWidget {
           final Announcement announcement => _AnnouncementDetail(
             announcement: announcement,
           ),
-          null => const Center(child: Text('お知らせが見つかりませんでした。')),
+          null => Center(child: Text(l10n.announcementNotFound)),
         },
         AsyncError() => const ErrorView(),
         _ => const LoadingView(),
@@ -50,6 +52,7 @@ final class _AnnouncementDetail extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -72,7 +75,7 @@ final class _AnnouncementDetail extends HookConsumerWidget {
             onPressed: () => unawaited(
               ref.read(openExternalLinkUseCaseProvider)(announcement.url),
             ),
-            child: const Text('お知らせを開く'),
+            child: Text(l10n.announcementOpen),
           ),
         ],
       ),

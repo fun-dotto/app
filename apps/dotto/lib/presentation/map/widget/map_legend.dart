@@ -1,14 +1,15 @@
-import 'package:dotto/l10n/app_localizations.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/style/map_colors.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class MapLegend extends StatelessWidget {
+final class MapLegend extends HookWidget {
   const new({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final l10n = useLocalization();
     return Container(
       width: 128,
       height: 64,
@@ -17,13 +18,10 @@ final class MapLegend extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _MapLegendTile(
-            color: MapColors.roomInUseTile,
-            text: l10n?.mapInUse ?? '',
-          ),
+          _MapLegendTile(color: MapColors.roomInUseTile, text: l10n.mapInUse),
           _MapLegendTile(
             color: MapColors.restroomTile,
-            text: l10n?.mapRestrooms ?? '',
+            text: l10n.mapRestrooms,
           ),
         ],
       ),

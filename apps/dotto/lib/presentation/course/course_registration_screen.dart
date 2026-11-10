@@ -3,8 +3,7 @@ import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course/course_registration_state.dart';
 import 'package:dotto/presentation/course/select_course_screen.dart';
@@ -19,6 +18,7 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final state = ref.watch(courseRegistrationStateProvider);
     final tabController = useTabController(
       initialLength: TimetableSemester.values.length,
@@ -27,10 +27,7 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: DottoAppBar(
-        title: Text(
-          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-              .courseRegistration,
-        ),
+        title: Text(l10n.courseRegistration),
         bottom: TabBar(
           dividerColor: Colors.transparent,
           controller: tabController,
@@ -53,12 +50,7 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
               .toList(),
         ),
         AsyncLoading() => _CourseRegistrationSkeleton(this),
-        AsyncError() => Center(
-          child: Text(
-            (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                .courseFetchError,
-          ),
-        ),
+        AsyncError() => Center(child: Text(l10n.courseFetchError)),
       },
     );
   }

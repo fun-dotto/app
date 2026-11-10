@@ -1,11 +1,10 @@
 import 'package:dotto/application/report_error_use_case.dart';
 import 'package:dotto/application/share_pdf_use_case.dart';
 import 'package:dotto/domain/entity/pdf_document.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto/presentation/common/pdf/pdf_document_state.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -80,60 +79,59 @@ final class _PdfContent extends HookConsumerWidget {
   final ValueChanged<String> onError;
   final VoidCallback onRetry;
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
-    appBar: DottoAppBar(
-      title: Text(document.title),
-      actions: [
-        DottoAppBarAction(
-          key: shareKey,
-          icon: const Icon(Icons.share),
-          label:
-              (AppLocalizations.of(context) ?? AppLocalizationsJa()).pdfShare,
-          action: () async {
-            final report = ref.read(reportErrorUseCaseProvider);
-            final box = shareKey.currentContext?.findRenderObject();
-            final origin = switch (box) {
-              final RenderBox box => (
-                left: box.localToGlobal(Offset.zero).dx,
-                top: box.localToGlobal(Offset.zero).dy,
-                width: box.size.width,
-                height: box.size.height,
-              ),
-              _ => null,
-            };
-            try {
-              await ref.read(sharePdfUseCaseProvider)(document, origin: origin);
-            } on Exception catch (error, stack) {
-              await report(error, stack, reason: 'PDFの共有に失敗');
-              if (!context.mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                        .pdfShareFailed,
-                  ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
+    return Scaffold(
+      appBar: DottoAppBar(
+        title: Text(document.title),
+        actions: [
+          DottoAppBarAction(
+            key: shareKey,
+            icon: const Icon(Icons.share),
+            label: l10n.pdfShare,
+            action: () async {
+              final report = ref.read(reportErrorUseCaseProvider);
+              final box = shareKey.currentContext?.findRenderObject();
+              final origin = switch (box) {
+                final RenderBox box => (
+                  left: box.localToGlobal(Offset.zero).dx,
+                  top: box.localToGlobal(Offset.zero).dy,
+                  width: box.size.width,
+                  height: box.size.height,
                 ),
-              );
-            }
-          },
-        ),
-      ],
-    ),
-    floatingActionButton: error == null
-        ? null
-        : FloatingActionButton(
-            onPressed: onRetry,
-            child: const Icon(Icons.refresh),
+                _ => null,
+              };
+              try {
+                await ref.read(sharePdfUseCaseProvider)(
+                  document,
+                  origin: origin,
+                );
+              } on Exception catch (error, stack) {
+                await report(error, stack, reason: 'PDFの共有に失敗');
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(l10n.pdfShareFailed)));
+              }
+            },
           ),
-    body: error == null
-        ? PDFView(
-            filePath: document.path,
-            defaultPage: currentPage,
-            autoSpacing: false,
-            onError: (error) => onError(error.toString()),
-            onPageError: (page, error) => onError(error.toString()),
-            onPageChanged: (page, total) => onPageChanged(page ?? 0),
-          )
-        : const ErrorView(),
-  );
+        ],
+      ),
+      floatingActionButton: error == null
+          ? null
+          : FloatingActionButton(
+              onPressed: onRetry,
+              child: const Icon(Icons.refresh),
+            ),
+      body: error == null
+          ? PDFView(
+              filePath: document.path,
+              defaultPage: currentPage,
+              autoSpacing: false,
+              onError: (error) => onError(error.toString()),
+              onPageError: (page, error) => onError(error.toString()),
+              onPageChanged: (page, total) => onPageChanged(page ?? 0),
+            )
+          : const ErrorView(),
+    );
+  }
 }

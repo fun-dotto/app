@@ -1,18 +1,18 @@
 import 'package:dotto/domain/entity/bus_schedule_trip.dart';
 import 'package:dotto/helper/date_formatter.dart';
-import 'package:dotto/l10n/app_localizations.dart';
-import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 
-final class BusTimetableScreen extends StatelessWidget {
+final class BusTimetableScreen extends HookWidget {
   const new(this.busTrip, {super.key});
   final BusScheduleTrip busTrip;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
+    final l10n = useLocalization();
     return Scaffold(
       appBar: DottoAppBar(title: Text(busTrip.route)),
       body: Padding(

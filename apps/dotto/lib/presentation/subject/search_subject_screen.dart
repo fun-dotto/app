@@ -6,7 +6,9 @@ import 'package:dotto/domain/entity/subject_faculty.dart';
 import 'package:dotto/domain/entity/subject_filter.dart';
 import 'package:dotto/domain/entity/subject_summary.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
+import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/subject/search_subject_filter_section.dart';
 import 'package:dotto/presentation/subject/search_subject_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
@@ -29,6 +31,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = useLocalization();
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     final textEditingController = useTextEditingController();
     final focusNode = useFocusNode();
@@ -66,11 +69,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
         if (context.mounted) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                context.subjectL10n.subjectCourseRegistrationFailed,
-              ),
-            ),
+            SnackBar(content: Text(l10n.subjectCourseRegistrationFailed)),
           );
         }
       } finally {
@@ -85,7 +84,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: DottoAppBar(
         title: Text(
-          context.subjectL10n.subjectSubjectSearch,
+          l10n.subjectSubjectSearch,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
@@ -93,7 +92,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
         actions: [
           DottoAppBarAction(
             icon: const Icon(Icons.filter_alt_off),
-            label: context.subjectL10n.subjectClearFilters,
+            label: l10n.subjectClearFilters,
             action: filter.hasActiveFilters
                 ? () {
                     selectedFilter.value = const SubjectFilter();
@@ -112,7 +111,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
           spacing: 8,
           children: [
             DottoTextField(
-              placeholder: context.subjectL10n.subjectSearchBySubjectName,
+              placeholder: l10n.subjectSearchBySubjectName,
               controller: textEditingController,
               focusNode: focusNode,
               onSubmitted: (_) => search(),
@@ -151,7 +150,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
   }
 }
 
-final class _SubjectTile extends StatelessWidget {
+final class _SubjectTile extends HookWidget {
   const new({
     required this.subject,
     required this.isAuthenticated,
@@ -164,7 +163,7 @@ final class _SubjectTile extends StatelessWidget {
   final bool isProcessing;
   final ValueChanged<String> onSelected;
   final void Function(String, {required bool isAddedToTimetable}) onToggle;
-  String? _facultyLabel(BuildContext context, List<SubjectFaculty> faculties) {
+  String? _facultyLabel(AppLocalizations l10n, List<SubjectFaculty> faculties) {
     if (faculties.isEmpty) {
       return null;
     }
@@ -176,10 +175,7 @@ final class _SubjectTile extends StatelessWidget {
     if (primaryNames.isNotEmpty) {
       final otherCount = faculties.length - primaryNames.length;
       return otherCount > 0
-          ? context.subjectL10n.subjectOtherFacultyCount(
-              primaryNames.join(', '),
-              otherCount,
-            )
+          ? l10n.subjectOtherFacultyCount(primaryNames.join(', '), otherCount)
           : primaryNames.join(', ');
     }
 
@@ -188,15 +184,13 @@ final class _SubjectTile extends StatelessWidget {
         .toList();
     final otherCount = fallbackNames.length - 1;
     return otherCount > 0
-        ? context.subjectL10n.subjectOtherFacultyCount(
-            fallbackNames.first,
-            otherCount,
-          )
+        ? l10n.subjectOtherFacultyCount(fallbackNames.first, otherCount)
         : fallbackNames.first;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return ListTile(
       title: Text(subject.name),
       subtitle: () {
@@ -209,13 +203,13 @@ final class _SubjectTile extends StatelessWidget {
                   .join(',')
             : null;
         final creditLabel = subject.credit != null
-            ? context.subjectL10n.subjectCredits(subject.credit ?? 0)
+            ? l10n.subjectCredits(subject.credit ?? 0)
             : null;
         final timeLine = [?semesterLabel, ?slotLabel, ?creditLabel].join(' ');
         if (timeLine.isNotEmpty) {
           lines.add(timeLine);
         }
-        final facultyLabel = _facultyLabel(context, subject.faculties);
+        final facultyLabel = _facultyLabel(l10n, subject.faculties);
         if (facultyLabel != null) {
           lines.add(facultyLabel);
         }
@@ -272,8 +266,8 @@ final class _SubjectTile extends StatelessWidget {
                   ),
           ),
           tooltip: isAddedToTimetable
-              ? context.subjectL10n.subjectUnregister
-              : context.subjectL10n.subjectRegister,
+              ? l10n.subjectUnregister
+              : l10n.subjectRegister,
         );
       }(),
     );
@@ -327,7 +321,7 @@ final class _SearchLoadingSkeleton extends StatelessWidget {
   }
 }
 
-final class _SearchResults extends StatelessWidget {
+final class _SearchResults extends HookWidget {
   const new({
     required this.searchState,
     required this.filter,
@@ -344,14 +338,13 @@ final class _SearchResults extends StatelessWidget {
   final void Function(String, {required bool isAddedToTimetable}) onToggle;
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     return switch (searchState) {
       AsyncData(:final value) =>
         value.isEmpty && filter.hasActiveFilters
             ? Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
-                child: Center(
-                  child: Text(context.subjectL10n.subjectNoSubjectsFound),
-                ),
+                child: Center(child: Text(l10n.subjectNoSubjectsFound)),
               )
             : Column(
                 children: [
@@ -369,9 +362,7 @@ final class _SearchResults extends StatelessWidget {
               ),
       AsyncError() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Center(
-          child: Text(context.subjectL10n.subjectSubjectSearchFailed),
-        ),
+        child: Center(child: Text(l10n.subjectSubjectSearchFailed)),
       ),
       AsyncLoading() => const _SearchLoadingSkeleton(),
     };

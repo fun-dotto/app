@@ -6,6 +6,7 @@ import 'package:dotto/domain/entity/semester.dart';
 import 'package:dotto/domain/entity/subject_classification.dart';
 import 'package:dotto/domain/entity/subject_filter.dart';
 import 'package:dotto/domain/entity/subject_requirement_type.dart';
+import 'package:dotto/presentation/common/use_localization.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:dotto_design_system/style/theme_extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -33,6 +34,7 @@ final class SearchSubjectFilterSection extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = useLocalization();
     final hasCulturalClassification = filter.classifications.contains(
       SubjectClassification.cultural,
     );
@@ -54,13 +56,12 @@ final class SearchSubjectFilterSection extends HookWidget {
             alignment: Alignment.centerRight,
             child: TextButton(
               onPressed: filter.hasActiveFilters ? onClear : null,
-              child: Text(context.subjectL10n.subjectClearFilters),
+              child: Text(l10n.subjectClearFilters),
             ),
           ),
         ],
         _CollapsibleSection(
-          label:
-              context.subjectL10n.subjectSemesterRequirementsAndClassification,
+          label: l10n.subjectSemesterRequirementsAndClassification,
           isExpanded: isOtherAttributesExpanded.value,
           onExpandedChanged: (value) => isOtherAttributesExpanded.value = value,
           badgeCount: otherFilterCount,
@@ -69,21 +70,21 @@ final class SearchSubjectFilterSection extends HookWidget {
             spacing: 8,
             children: [
               _FilterChipGroup<Semester>(
-                label: context.subjectL10n.subjectSemester,
+                label: l10n.subjectSemester,
                 values: Semester.values,
                 selected: filter.semesters,
                 onChanged: (v) => onChanged(filter.copyWith(semesters: v)),
                 labelBuilder: (v) => v.label,
               ),
               _FilterChipGroup<SubjectRequirementType>(
-                label: context.subjectL10n.subjectRequirements,
+                label: l10n.subjectRequirements,
                 values: SubjectRequirementType.values,
                 selected: filter.requirements,
                 onChanged: (v) => onChanged(filter.copyWith(requirements: v)),
                 labelBuilder: (v) => v.label,
               ),
               _FilterChipGroup<SubjectClassification>(
-                label: context.subjectL10n.subjectClassification,
+                label: l10n.subjectClassification,
                 values: SubjectClassification.values,
                 selected: filter.classifications,
                 onChanged: (v) {
@@ -103,7 +104,7 @@ final class SearchSubjectFilterSection extends HookWidget {
               ),
               if (hasCulturalClassification)
                 _FilterChipGroup<CulturalSubjectCategory>(
-                  label: context.subjectL10n.subjectCulturalCategory,
+                  label: l10n.subjectCulturalCategory,
                   values: CulturalSubjectCategory.values,
                   selected: filter.culturalSubjectCategories,
                   onChanged: (v) =>
@@ -115,7 +116,7 @@ final class SearchSubjectFilterSection extends HookWidget {
         ),
         const Divider(height: 0),
         _CollapsibleSection(
-          label: context.subjectL10n.subjectCoursesGradesAndClasses,
+          label: l10n.subjectCoursesGradesAndClasses,
           isExpanded: isBasicAttributesExpanded.value,
           onExpandedChanged: (value) => isBasicAttributesExpanded.value = value,
           badgeCount: basicFilterCount,
@@ -124,21 +125,21 @@ final class SearchSubjectFilterSection extends HookWidget {
             spacing: 8,
             children: [
               _FilterChipGroup<AcademicArea>(
-                label: context.subjectL10n.subjectCoursesAndAreas,
+                label: l10n.subjectCoursesAndAreas,
                 values: AcademicArea.values,
                 selected: filter.courses,
                 onChanged: (v) => onChanged(filter.copyWith(courses: v)),
                 labelBuilder: (v) => v.label,
               ),
               _FilterChipGroup<Grade>(
-                label: context.subjectL10n.subjectGrades,
+                label: l10n.subjectGrades,
                 values: _availableGrades,
                 selected: filter.grades,
                 onChanged: (v) => onChanged(filter.copyWith(grades: v)),
                 labelBuilder: (v) => v.label,
               ),
               _FilterChipGroup<AcademicClass>(
-                label: context.subjectL10n.subjectClasses,
+                label: l10n.subjectClasses,
                 values: AcademicClass.values,
                 selected: filter.classes,
                 onChanged: (v) => onChanged(filter.copyWith(classes: v)),
