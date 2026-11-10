@@ -2,6 +2,7 @@ import 'package:dotto/domain/entity/day_of_week.dart';
 import 'package:dotto/domain/entity/period.dart';
 import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
@@ -165,6 +166,7 @@ final class _PersonalWeeklyTimetable extends HookConsumerWidget {
           ref.read(courseRegistrationStateProvider.notifier).refresh(),
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.zero.withBottomBarInset(context),
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Table(

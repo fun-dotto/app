@@ -1,3 +1,4 @@
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/subject/subject_detail_feedback_screen.dart';
@@ -125,7 +126,10 @@ final class _SubjectDetailSyllabusSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ).withBottomBarInset(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

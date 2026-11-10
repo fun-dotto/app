@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
@@ -189,16 +190,19 @@ final class MapScreen extends HookConsumerWidget {
                         ),
                       ];
                     }
-                    return results.map((item) {
-                      return ListTile(
-                        title: Text(item.name),
-                        onTap: () {
-                          controller.closeView(controller.text);
-                          searchFocusNode.unfocus();
-                          focusRoom(item);
-                        },
-                      );
-                    }).toList();
+                    return [
+                      for (final item in results)
+                        ListTile(
+                          title: Text(item.name),
+                          onTap: () {
+                            controller.closeView(controller.text);
+                            searchFocusNode.unfocus();
+                            focusRoom(item);
+                          },
+                        ),
+                      // 末尾の候補がタブバーに隠れないよう底上げする。
+                      SizedBox(height: MediaQuery.paddingOf(context).bottom),
+                    ];
                   case AsyncError(:final error, :final stackTrace):
                     debugPrint(
                       'Failed to build map search suggestions: '
@@ -228,7 +232,8 @@ final class MapScreen extends HookConsumerWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 8),
+        // 地図は固定レイアウトのため、下部のタブバーの上に収める。
+        padding: const EdgeInsets.only(top: 8).withBottomBarInset(context),
         child: switch (asyncState) {
           AsyncData(value: final state) => Column(
             spacing: 8,

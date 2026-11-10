@@ -11,6 +11,7 @@ final class MapFloorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GridView.count(
     shrinkWrap: true,
+    padding: EdgeInsets.zero,
     physics: const NeverScrollableScrollPhysics(),
     crossAxisCount: Floor.values.length,
     children: [

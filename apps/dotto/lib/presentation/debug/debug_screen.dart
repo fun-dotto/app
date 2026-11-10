@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dotto/domain/entity/debug_tokens.dart';
 import 'package:dotto/domain/entity/flag.dart';
 import 'package:dotto/domain/entity/flags.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/feature_flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
@@ -43,7 +44,7 @@ final class _DebugContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16).withBottomBarInset(context),
       child: Column(
         spacing: 16,
         children: [

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:dotto/presentation/common/user_state.dart';
@@ -43,7 +44,7 @@ final class SettingsScreen extends HookConsumerWidget {
         centerTitle: false,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16).withBottomBarInset(context),
         child: Column(
           spacing: 16,
           children: [

@@ -6,6 +6,7 @@ import 'package:dotto/domain/entity/course_link_event.dart';
 import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/domain/entity/personal_timetable_day.dart';
 import 'package:dotto/domain/service/timetable_date_service.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
@@ -227,7 +228,9 @@ final class CourseScreen extends HookConsumerWidget {
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  // 下部のタブバーの背後まで本文が広がるため、その分を底上げする。
+                  padding: const EdgeInsets.symmetric(vertical: 16)
+                      .withBottomBarInset(context),
                   child: Column(
                     spacing: 16,
                     children: [
@@ -396,56 +399,61 @@ final class _LoadingSkeleton extends StatelessWidget {
         onRefresh: () async {},
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: Column(
-              children: [
-                if (isAuthenticated)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: _CourseTimetableSkeleton(owner),
-                  )
-                else
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 48,
-                    ),
-                    child: Center(
-                      child: DottoButton(
-                        onPressed: null,
-                        child: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .courseSignIn,
+          child: Padding(
+            padding: EdgeInsets.zero.withBottomBarInset(context),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                children: [
+                  if (isAuthenticated)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: _CourseTimetableSkeleton(owner),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 48,
+                      ),
+                      child: Center(
+                        child: DottoButton(
+                          onPressed: null,
+                          child: Text(
+                            (AppLocalizations.of(context) ??
+                                    AppLocalizationsJa())
+                                .courseSignIn,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                if (isAuthenticated)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      DottoButton(
-                        onPressed: null,
-                        type: DottoButtonType.text,
-                        child: Text(
-                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .courseWeeklyTimetable,
+                  if (isAuthenticated)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        DottoButton(
+                          onPressed: null,
+                          type: DottoButtonType.text,
+                          child: Text(
+                            (AppLocalizations.of(context) ??
+                                    AppLocalizationsJa())
+                                .courseWeeklyTimetable,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: _ShortcutSections(
+                      owner,
+                      isAuthenticated: isAuthenticated,
+                      quickFeatures: quickFeatures,
+                      quickFiles: quickFiles,
+                      quickLinks: quickLinks,
+                    ),
                   ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: _ShortcutSections(
-                    owner,
-                    isAuthenticated: isAuthenticated,
-                    quickFeatures: quickFeatures,
-                    quickFiles: quickFiles,
-                    quickLinks: quickLinks,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -620,6 +628,8 @@ final class _ShortcutSection extends StatelessWidget {
 
     return GridView.builder(
       shrinkWrap: true,
+      // 既定では画面端の余白が加わり、セクション間が広がってしまう。
+      padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: quickButtons.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

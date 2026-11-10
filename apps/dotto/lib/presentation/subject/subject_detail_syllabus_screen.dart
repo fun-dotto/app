@@ -1,4 +1,5 @@
 import 'package:dotto/domain/entity/syllabus.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -10,7 +11,10 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ).withBottomBarInset(context),
       child: Column(
         spacing: 8,
         crossAxisAlignment: CrossAxisAlignment.start,

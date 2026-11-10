@@ -1,5 +1,6 @@
 import 'package:dotto/asset.dart';
 import 'package:dotto/domain/entity/flags.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/onboarding/onboarding_page.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
@@ -141,7 +142,12 @@ final class _WelcomePage extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
+          padding: const EdgeInsets.fromLTRB(
+            24,
+            20,
+            24,
+            20,
+          ).withBottomBarInset(context),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight > 40

@@ -5,6 +5,7 @@ import 'package:dotto/application/unregister_course_use_case.dart';
 import 'package:dotto/domain/entity/subject_faculty.dart';
 import 'package:dotto/domain/entity/subject_filter.dart';
 import 'package:dotto/domain/entity/subject_summary.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/subject/search_subject_filter_section.dart';
@@ -102,8 +103,10 @@ final class SearchSubjectScreen extends HookConsumerWidget {
       ),
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        padding: const EdgeInsets.symmetric(horizontal: 16)
+            .withBottomBarInset(context),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.zero,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 8,
