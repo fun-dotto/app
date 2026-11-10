@@ -250,7 +250,8 @@ final class MapScreen extends HookConsumerWidget {
                       children: [
                         ConstrainedBox(
                           constraints: const BoxConstraints(
-                            maxWidth: DottoLayout.narrowMaxWidth +
+                            maxWidth:
+                                DottoLayout.narrowMaxWidth +
                                 DottoLayout.horizontalMargin * 2,
                           ),
                           child: Padding(

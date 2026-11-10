@@ -24,7 +24,7 @@ class DottoContent extends StatelessWidget {
   ///
   /// [layout] は [DottoContentLayout.singleNarrow] か
   /// [DottoContentLayout.singleWide] を指定する。
-  const DottoContent.single({
+  const new single({
     required Widget this.child,
     this.layout = DottoContentLayout.singleNarrow,
     super.key,
@@ -40,7 +40,7 @@ class DottoContent extends StatelessWidget {
        spacing = 0;
 
   /// ブレイクポイント以上で [primary] を左、[secondary] を右に表示する。
-  const DottoContent.twoColumn({
+  const new twoColumn({
     required Widget this.primary,
     required Widget this.secondary,
     this.collapse = DottoCollapse.stack,
@@ -52,16 +52,13 @@ class DottoContent extends StatelessWidget {
        sections = const [];
 
   /// [sections] を縦に並べ、ブレイクポイント以上では左右2列に交互に振り分ける。
-  const DottoContent.flow({
-    required this.sections,
-    this.spacing = 16,
-    super.key,
-  }) : _kind = _Kind.flow,
-       layout = DottoContentLayout.twoColumn,
-       child = null,
-       primary = null,
-       secondary = null,
-       collapse = DottoCollapse.stack;
+  const new flow({required this.sections, this.spacing = 16, super.key})
+    : _kind = _Kind.flow,
+      layout = DottoContentLayout.twoColumn,
+      child = null,
+      primary = null,
+      secondary = null,
+      collapse = DottoCollapse.stack;
 
   final _Kind _kind;
 
@@ -91,10 +88,9 @@ class DottoContent extends StatelessWidget {
     builder: (context, constraints) {
       final width = constraints.maxWidth;
       final isExpanded = DottoLayout.isExpanded(width);
-      final available = math.max(
-        0,
-        width - DottoLayout.horizontalMargin * 2,
-      ).toDouble();
+      final available = math
+          .max(0, width - DottoLayout.horizontalMargin * 2)
+          .toDouble();
       final narrowWidth = math.min(DottoLayout.narrowMaxWidth, available);
 
       switch (_kind) {
@@ -102,10 +98,7 @@ class DottoContent extends StatelessWidget {
           final maxWidth = isExpanded && layout == DottoContentLayout.singleWide
               ? DottoLayout.wideMaxWidth
               : DottoLayout.narrowMaxWidth;
-          return _Centered(
-            width: math.min(maxWidth, available),
-            child: child!,
-          );
+          return _Centered(width: math.min(maxWidth, available), child: child!);
 
         case _Kind.twoColumn:
           if (!isExpanded) {
@@ -130,10 +123,7 @@ class DottoContent extends StatelessWidget {
 
         case _Kind.flow:
           if (!isExpanded) {
-            return _Centered(
-              width: narrowWidth,
-              child: _stack(sections),
-            );
+            return _Centered(width: narrowWidth, child: _stack(sections));
           }
           return _TwoColumns(
             columnWidth: _columnWidth(available),
@@ -155,18 +145,20 @@ class DottoContent extends StatelessWidget {
     children: children,
   );
 
-  static double _columnWidth(double available) => math.max(
-    0,
-    math.min(
-      DottoLayout.narrowMaxWidth,
-      (available - DottoLayout.columnGutter) / 2,
-    ),
-  ).toDouble();
+  static double _columnWidth(double available) => math
+      .max(
+        0,
+        math.min(
+          DottoLayout.narrowMaxWidth,
+          (available - DottoLayout.columnGutter) / 2,
+        ),
+      )
+      .toDouble();
 }
 
 /// 左右に余白をとり、幅 [width] の本文を上端中央に置く。
 class _Centered extends StatelessWidget {
-  const _Centered({required this.width, required this.child});
+  const new({required this.width, required this.child});
 
   final double width;
   final Widget child;
@@ -184,7 +176,7 @@ class _Centered extends StatelessWidget {
 }
 
 class _TwoColumns extends StatelessWidget {
-  const _TwoColumns({
+  const new({
     required this.columnWidth,
     required this.left,
     required this.right,

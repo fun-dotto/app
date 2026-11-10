@@ -6,19 +6,24 @@ import 'package:material_ui/material_ui.dart';
 const _a = Key('a');
 const _b = Key('b');
 
-Future<void> _pump(WidgetTester tester, double width, Widget content) =>
-    tester.pumpWidget(
-      MaterialApp(
-        home: Align(
-          alignment: Alignment.topLeft,
-          child: SizedBox(
-            width: width,
-            height: 800,
-            child: SingleChildScrollView(child: content),
-          ),
+Future<void> _pump(WidgetTester tester, double width, Widget content) {
+  tester.view
+    ..physicalSize = Size(width, 800)
+    ..devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+  return tester.pumpWidget(
+    MaterialApp(
+      home: Align(
+        alignment: Alignment.topLeft,
+        child: SizedBox(
+          width: width,
+          height: 800,
+          child: SingleChildScrollView(child: content),
         ),
       ),
-    );
+    ),
+  );
+}
 
 Widget _box(Key key) => SizedBox(key: key, height: 100);
 
