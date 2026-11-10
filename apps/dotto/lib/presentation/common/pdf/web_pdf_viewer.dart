@@ -3,6 +3,7 @@ import 'package:dotto/application/share_pdf_use_case.dart';
 import 'package:dotto/domain/entity/pdf_document.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto/presentation/common/pdf/pdf_document_state.dart';
@@ -48,7 +49,7 @@ final class WebPdfViewer extends HookConsumerWidget {
         },
       ),
       AsyncError() => Scaffold(
-        appBar: AppBar(title: Text(filename ?? 'PDF')),
+        appBar: DottoAppBar(title: Text(filename ?? 'PDF')),
         body: const ErrorView(),
         floatingActionButton: FloatingActionButton(
           onPressed: () => ref.invalidate(provider),
@@ -79,7 +80,7 @@ final class _PdfContent extends HookConsumerWidget {
   final VoidCallback onRetry;
   @override
   Widget build(BuildContext context, WidgetRef ref) => Scaffold(
-    appBar: AppBar(
+    appBar: DottoAppBar(
       title: Text(document.title),
       actions: [
         IconButton(
