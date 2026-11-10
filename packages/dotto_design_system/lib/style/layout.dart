@@ -1,3 +1,7 @@
+import 'dart:math' as math;
+
+import 'package:flutter/painting.dart';
+
 /// 本文の組み方。
 ///
 /// 本文に使える幅が [DottoLayout.breakpoint] 未満のときは、どれを選んでも
@@ -38,4 +42,25 @@ abstract final class DottoLayout {
 
   /// 本文に使える幅 [width] がブレイクポイント以上か。
   static bool isExpanded(double width) => width >= breakpoint;
+
+  /// 本文に使える幅 [width] で、1カラムの本文がとる最大幅。
+  static double singleMaxWidth(double width, DottoContentLayout layout) =>
+      isExpanded(width) && layout == DottoContentLayout.singleWide
+      ? wideMaxWidth
+      : narrowMaxWidth;
+
+  /// スクロールビューの左右に入れる余白。
+  ///
+  /// スクロールできる範囲は全幅のまま、中身だけを本文の最大幅に収めて
+  /// 中央に寄せるために使う。余白は [horizontalMargin] 以上になる。
+  static EdgeInsets horizontalInsets(
+    double width, {
+    DottoContentLayout layout = DottoContentLayout.singleNarrow,
+  }) {
+    final side = math.max(
+      horizontalMargin,
+      (width - singleMaxWidth(width, layout)) / 2,
+    );
+    return EdgeInsets.symmetric(horizontal: side);
+  }
 }
