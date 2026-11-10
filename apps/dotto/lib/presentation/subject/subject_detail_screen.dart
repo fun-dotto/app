@@ -1,13 +1,14 @@
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/subject/subject_add_feedback_button.dart';
 import 'package:dotto/presentation/subject/subject_detail_feedback_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_past_exam_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_state.dart';
 import 'package:dotto/presentation/subject/subject_detail_syllabus_screen.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -57,8 +58,9 @@ final class SubjectDetailScreen extends HookConsumerWidget {
       appBar: DottoAppBar(
         title: Text(subjectState.value?.name ?? ''),
         actions: [
-          if (isReviewsTab && subjectState case AsyncData(:final value))
-            SubjectAddFeedbackButton(lessonId: value.syllabus.id),
+          if (isReviewsTab)
+            if (subjectState case AsyncData(:final value))
+              SubjectAddFeedbackButton(lessonId: value.syllabus.id),
         ],
         bottom: TabBar(
           controller: tabController,
