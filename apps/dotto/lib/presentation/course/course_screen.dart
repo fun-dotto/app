@@ -604,6 +604,9 @@ final class _ShortcutSections extends StatelessWidget {
   }
 }
 
+// アイコン・余白と、2 行に折り返したラベルが収まる高さ。
+const _shortcutTileHeight = 72.0;
+
 final class _ShortcutSection extends StatelessWidget {
   const new(this.owner, {required this.quickButtons});
   final CourseScreen owner;
@@ -622,7 +625,7 @@ final class _ShortcutSection extends StatelessWidget {
         crossAxisCount: 4,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
-        mainAxisExtent: 64,
+        mainAxisExtent: _shortcutTileHeight,
       ),
       itemBuilder: (context, index) => quickButtons[index],
     );
