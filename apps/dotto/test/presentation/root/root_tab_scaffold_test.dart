@@ -41,11 +41,10 @@ void main() {
     await tester.pumpWidget(_app(ScreenLayout.standard));
 
     expect(_barAxis(tester), Axis.horizontal);
-    expect(tester.getRect(find.byType(GlassTabBar)).bottom, lessThan(1000));
-    expect(
-      tester.getRect(find.byKey(const Key('body'))).bottom,
-      lessThan(1000),
-    );
+    // タブバーは下端に寄り、本文は画面の大部分を占める。
+    expect(tester.getRect(find.byType(GlassTabBar)).bottom, greaterThan(900));
+    // 本文はタブバーの領域まではみ出す。
+    expect(tester.getRect(find.byKey(const Key('body'))).bottom, 1000);
   });
 
   testWidgets('leading 指定のときは左端の帯に縦並びで表示する', (tester) async {
@@ -140,6 +139,21 @@ void main() {
         ),
       ),
     );
+
+    final bar = tester.getRect(find.byType(GlassTabBar));
+    expect(_barAxis(tester), Axis.vertical);
+    expect(
+      tester.getRect(find.byKey(const Key('body'))).left,
+      greaterThanOrEqualTo(bar.right),
+    );
+  });
+
+  testWidgets('横向きで縦バーの指定がなければ、左側にタブバーの帯を設ける', (tester) async {
+    tester.view
+      ..physicalSize = const Size(900, 400)
+      ..devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(_app(ScreenLayout.standard));
 
     final bar = tester.getRect(find.byType(GlassTabBar));
     expect(_barAxis(tester), Axis.vertical);

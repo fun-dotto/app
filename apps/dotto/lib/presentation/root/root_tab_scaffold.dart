@@ -14,6 +14,9 @@ import 'package:material_ui/material_ui.dart';
 // タブが収まらないほど低い範囲しか取れないときは、下部タブに戻す。
 const _minimumVerticalBarHeight = 360.0;
 
+// システムの縦バーがない帯は、タブバーだけが収まればよい。
+const _minimumOutsideBarHeight = 280.0;
+
 const _barMargin = 16.0;
 
 // システムの縦バーがないときに、タブバーのために確保する帯の幅。
@@ -59,7 +62,9 @@ final class RootTabScaffold extends HookWidget {
     );
     final placement = _verticalPlacement(context);
     if (placement == null) {
+      // 下部のタブバーは本文の上に浮かべ、本文はその領域まで広げる。
       return Scaffold(
+        extendBody: true,
         resizeToAvoidBottomInset: false,
         body: body,
         bottomNavigationBar: SafeArea(
@@ -69,7 +74,10 @@ final class RootTabScaffold extends HookWidget {
               horizontal: _barMargin,
               vertical: _barMargin / 2,
             ),
+            // bottomNavigationBar は高さが緩い制約で渡されるため、高さは中身に
+            // 合わせないと全体に広がり、本文が潰れてしまう。
             child: Center(
+              heightFactor: 1,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: _maxBarWidth),
                 child: GlassTabBar(
@@ -101,7 +109,14 @@ final class RootTabScaffold extends HookWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            VerticalBarActions(actions: verticalBarActions),
+            // 範囲が低いときは、ツールバーを縮めてあふれないようにする。
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.topCenter,
+                child: VerticalBarActions(actions: verticalBarActions),
+              ),
+            ),
             GlassTabBar(
               tabs: tabs,
               selectedIndex: selectedIndex,
@@ -139,8 +154,11 @@ final class RootTabScaffold extends HookWidget {
     final edge = screenLayout.verticalBarEdge;
     final isLeftToRight = Directionality.of(context) == TextDirection.ltr;
     if (edge == null) {
-      return screenLayout.isPartialWindow
-          ? _placementOutsideSystemBar(MediaQuery.of(context), isLeftToRight)
+      final mediaQuery = MediaQuery.of(context);
+      // 横向きや分割表示では、下部だと本文が狭くなるため左側に置く。
+      final isLandscape = mediaQuery.size.width > mediaQuery.size.height;
+      return screenLayout.isPartialWindow || isLandscape
+          ? _placementOutsideSystemBar(mediaQuery, isLeftToRight)
           : null;
     }
     final isLeft = (edge == VerticalBarEdge.leading) == isLeftToRight;
@@ -164,16 +182,20 @@ final class RootTabScaffold extends HookWidget {
     return (isLeft: isLeft, width: width, span: span);
   }
 
-  // 分割表示などで、このウィンドウの端にシステムの縦バーがないときは、
-  // 画面の端に置く代わりに、ウィンドウの左側へタブバーだけの帯を設ける。
-  // 縦バー用の帯がないので、隠れる領域は考慮しない。
+  // システムの縦バーがないときは、ウィンドウの左側へタブバーだけの帯を設ける。
+  // 帯はシステムのものではないので、カメラホールなどの隠れる領域は避ける。
   ({bool isLeft, double width, VerticalTabBarSpan span})?
   _placementOutsideSystemBar(MediaQueryData mediaQuery, bool isLeftToRight) {
-    final span = (
-      top: mediaQuery.padding.top,
-      bottom: mediaQuery.size.height - mediaQuery.padding.bottom,
+    final span = _verticalTabBarService.place(
+      barLeft: isLeftToRight ? 0 : mediaQuery.size.width - _outsideBarWidth,
+      barWidth: _outsideBarWidth,
+      minTop: mediaQuery.padding.top,
+      maxBottom: mediaQuery.size.height - mediaQuery.padding.bottom,
+      occlusions: screenLayout.occlusions,
+      margin: _occlusionMargin,
+      minHeight: _minimumOutsideBarHeight,
     );
-    if (span.bottom - span.top < _minimumVerticalBarHeight) return null;
+    if (span == null) return null;
     return (isLeft: isLeftToRight, width: _outsideBarWidth, span: span);
   }
 }
