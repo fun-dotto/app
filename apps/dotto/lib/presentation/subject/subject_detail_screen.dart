@@ -1,11 +1,13 @@
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
+import 'package:dotto/presentation/subject/subject_add_feedback_button.dart';
 import 'package:dotto/presentation/subject/subject_detail_feedback_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_past_exam_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_state.dart';
 import 'package:dotto/presentation/subject/subject_detail_syllabus_screen.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -43,60 +45,70 @@ final class SubjectDetailScreen extends HookConsumerWidget {
     final subjectState = ref.watch(subjectDetailStateProvider(id));
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
 
-    return DefaultTabController(
-      length: SubjectDetailTab.values.length,
+    final tabController = useTabController(
+      initialLength: SubjectDetailTab.values.length,
       initialIndex: initialTab.index,
-      child: Scaffold(
-        appBar: DottoAppBar(
-          title: Text(subjectState.value?.name ?? ''),
-          bottom: TabBar(
-            dividerColor: Colors.transparent,
-            tabs: <Widget>[
-              Tab(text: context.subjectL10n.subjectSyllabus),
-              Tab(text: context.subjectL10n.subjectReviews),
-              Tab(text: context.subjectL10n.subjectPastExams),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: <Widget>[
-            switch (subjectState) {
-              AsyncData(:final value) => SubjectDetailSyllabusScreen(
-                syllabus: value.syllabus,
-              ),
-              AsyncError() => Center(
-                child: Text(
-                  context.subjectL10n.subjectCouldNotLoadSubjectInformation,
-                ),
-              ),
-              _ => const _SubjectDetailSyllabusSkeleton(),
-            },
-            switch (subjectState) {
-              AsyncData(:final value) => SubjectDetailFeedbackScreen(
-                lessonId: value.syllabus.id,
-              ),
-              AsyncError() => Center(
-                child: Text(
-                  context.subjectL10n.subjectCouldNotLoadSubjectInformation,
-                ),
-              ),
-              _ => const _SubjectDetailFeedbackSkeleton(),
-            },
-            switch (subjectState) {
-              AsyncData(:final value) => SubjectDetailPastExamScreen(
-                pastExamId: value.pastExamId,
-                isAuthenticated: isAuthenticated,
-                onPastExamSelected: onPastExamSelected,
-              ),
-              AsyncError() => Center(
-                child: Text(
-                  context.subjectL10n.subjectCouldNotLoadSubjectInformation,
-                ),
-              ),
-              _ => const _SubjectDetailPastExamSkeleton(),
-            },
+    );
+    // タブの切り替えに合わせて、ツールバーのアクションを出し分ける。
+    useListenable(tabController);
+    final isReviewsTab = tabController.index == SubjectDetailTab.reviews.index;
+
+    return Scaffold(
+      appBar: DottoAppBar(
+        title: Text(subjectState.value?.name ?? ''),
+        actions: [
+          if (isReviewsTab && subjectState case AsyncData(:final value))
+            SubjectAddFeedbackButton(lessonId: value.syllabus.id),
+        ],
+        bottom: TabBar(
+          controller: tabController,
+          dividerColor: Colors.transparent,
+          tabs: <Widget>[
+            Tab(text: context.subjectL10n.subjectSyllabus),
+            Tab(text: context.subjectL10n.subjectReviews),
+            Tab(text: context.subjectL10n.subjectPastExams),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: tabController,
+        children: <Widget>[
+          switch (subjectState) {
+            AsyncData(:final value) => SubjectDetailSyllabusScreen(
+              syllabus: value.syllabus,
+            ),
+            AsyncError() => Center(
+              child: Text(
+                context.subjectL10n.subjectCouldNotLoadSubjectInformation,
+              ),
+            ),
+            _ => const _SubjectDetailSyllabusSkeleton(),
+          },
+          switch (subjectState) {
+            AsyncData(:final value) => SubjectDetailFeedbackScreen(
+              lessonId: value.syllabus.id,
+            ),
+            AsyncError() => Center(
+              child: Text(
+                context.subjectL10n.subjectCouldNotLoadSubjectInformation,
+              ),
+            ),
+            _ => const _SubjectDetailFeedbackSkeleton(),
+          },
+          switch (subjectState) {
+            AsyncData(:final value) => SubjectDetailPastExamScreen(
+              pastExamId: value.pastExamId,
+              isAuthenticated: isAuthenticated,
+              onPastExamSelected: onPastExamSelected,
+            ),
+            AsyncError() => Center(
+              child: Text(
+                context.subjectL10n.subjectCouldNotLoadSubjectInformation,
+              ),
+            ),
+            _ => const _SubjectDetailPastExamSkeleton(),
+          },
+        ],
       ),
     );
   }
