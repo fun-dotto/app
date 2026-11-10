@@ -107,49 +107,46 @@ final class SearchSubjectScreen extends HookConsumerWidget {
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.symmetric(horizontal: 16)
             .withBottomBarInset(context),
-        child: Padding(
-          padding: EdgeInsets.zero,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 8,
-            children: [
-              DottoTextField(
-                placeholder: context.subjectL10n.subjectSearchBySubjectName,
-                controller: textEditingController,
-                focusNode: focusNode,
-                onSubmitted: (_) => search(),
-              ),
-              SearchSubjectFilterSection(
-                filter: filter,
-                onChanged: (value) {
-                  selectedFilter.value = value;
-                  final notifier = ref.read(
-                    searchSubjectStateProvider.notifier,
-                  );
-                  unawaited(
-                    notifier.search(
-                      query: textEditingController.text,
-                      filter: value,
-                    ),
-                  );
-                },
-              ),
-              const Divider(height: 0),
-              _SearchResults(
-                searchState: searchState,
-                filter: filter,
-                isAuthenticated: isAuthenticated,
-                processingIds: processingSubjectIds.value,
-                onSelected: onSubjectSelected,
-                onToggle: (id, {required isAddedToTimetable}) => unawaited(
-                  toggleCourseRegistration(
-                    subjectId: id,
-                    isAddedToTimetable: isAddedToTimetable,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 8,
+          children: [
+            DottoTextField(
+              placeholder: context.subjectL10n.subjectSearchBySubjectName,
+              controller: textEditingController,
+              focusNode: focusNode,
+              onSubmitted: (_) => search(),
+            ),
+            SearchSubjectFilterSection(
+              filter: filter,
+              onChanged: (value) {
+                selectedFilter.value = value;
+                final notifier = ref.read(
+                  searchSubjectStateProvider.notifier,
+                );
+                unawaited(
+                  notifier.search(
+                    query: textEditingController.text,
+                    filter: value,
                   ),
+                );
+              },
+            ),
+            const Divider(height: 0),
+            _SearchResults(
+              searchState: searchState,
+              filter: filter,
+              isAuthenticated: isAuthenticated,
+              processingIds: processingSubjectIds.value,
+              onSelected: onSubjectSelected,
+              onToggle: (id, {required isAddedToTimetable}) => unawaited(
+                toggleCourseRegistration(
+                  subjectId: id,
+                  isAddedToTimetable: isAddedToTimetable,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
