@@ -401,61 +401,59 @@ final class _LoadingSkeleton extends StatelessWidget {
         onRefresh: () async {},
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.zero.withBottomBarInset(context),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Column(
-                children: [
-                  if (isAuthenticated)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: _CourseTimetableSkeleton(owner),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 48,
-                      ),
-                      child: Center(
-                        child: DottoButton(
-                          onPressed: null,
-                          child: Text(
-                            (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseSignIn,
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (isAuthenticated)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        DottoButton(
-                          onPressed: null,
-                          type: DottoButtonType.text,
-                          child: Text(
-                            (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseWeeklyTimetable,
-                          ),
-                        ),
-                      ],
-                    ),
+          padding: EdgeInsets.zero.withBottomBarInset(context),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Column(
+              children: [
+                if (isAuthenticated)
                   Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: _ShortcutSections(
-                      owner,
-                      isAuthenticated: isAuthenticated,
-                      quickFeatures: quickFeatures,
-                      quickFiles: quickFiles,
-                      quickLinks: quickLinks,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: _CourseTimetableSkeleton(owner),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 48,
+                    ),
+                    child: Center(
+                      child: DottoButton(
+                        onPressed: null,
+                        child: Text(
+                          (AppLocalizations.of(context) ??
+                                  AppLocalizationsJa())
+                              .courseSignIn,
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
+                if (isAuthenticated)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      DottoButton(
+                        onPressed: null,
+                        type: DottoButtonType.text,
+                        child: Text(
+                          (AppLocalizations.of(context) ??
+                                  AppLocalizationsJa())
+                              .courseWeeklyTimetable,
+                        ),
+                      ),
+                    ],
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: _ShortcutSections(
+                    owner,
+                    isAuthenticated: isAuthenticated,
+                    quickFeatures: quickFeatures,
+                    quickFiles: quickFiles,
+                    quickLinks: quickLinks,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
