@@ -22,7 +22,8 @@ Future<void> _pump(WidgetTester tester, double width, Widget content) =>
 
 Widget _box(Key key) => SizedBox(key: key, height: 100);
 
-double _width(WidgetTester tester, Key key) => tester.getSize(find.byKey(key)).width;
+double _width(WidgetTester tester, Key key) =>
+    tester.getSize(find.byKey(key)).width;
 
 void main() {
   group('DottoContent.single', () {
