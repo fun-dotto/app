@@ -1,3 +1,4 @@
+import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/component/vertical_bar_actions.dart';
 import 'package:dotto_design_system/component/vertical_bar_scope.dart';
 import 'package:dotto_design_system/story/glass_backdrop.dart';
@@ -9,11 +10,10 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 ///
 /// 縦バーが使われているとき ([VerticalBarScope] の配下) は、[actions] を
 /// AppBar ではなく縦バーに表示する。戻るボタンも同様に縦バーへ移す。
-/// [leading] を指定した場合は、戻るボタンの代わりにそれを表示する。
+/// [DottoAppBarActionRole.dismiss] のアクションは、戻るボタンの代わりに表示する。
 final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
   const new({
     required this.title,
-    this.leading,
     this.actions = const [],
     this.bottom,
     this.centerTitle,
@@ -21,8 +21,7 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
   });
 
   final Widget title;
-  final Widget? leading;
-  final List<Widget> actions;
+  final List<DottoAppBarAction> actions;
   final PreferredSizeWidget? bottom;
   final bool? centerTitle;
 
@@ -34,10 +33,17 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final scope = VerticalBarScope.maybeOf(context);
     final canPop = Navigator.canPop(context);
+    final dismissAction = actions
+        .where((action) => action.role == DottoAppBarActionRole.dismiss)
+        .firstOrNull;
+    final trailingActions = [
+      for (final action in actions)
+        if (!identical(action, dismissAction)) action,
+    ];
     // 縦バーでは、戻るボタンをツールバーアイテムの先頭に置く。
-    final barActions = [
-      ?leading ?? (canPop ? const _VerticalBarBackButton() : null),
-      ...actions,
+    final barActions = <Widget>[
+      ?dismissAction ?? (canPop ? const _VerticalBarBackButton() : null),
+      ...trailingActions,
     ];
     // 他の画面が重なっている間や、タブ切り替えで裏に回っている間
     // (TickerMode が無効) は、表示中の画面にアクションの表示を譲る。
@@ -60,9 +66,9 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
     return AppBar(
       title: title,
       centerTitle: centerTitle,
-      leading: scope == null ? leading : null,
+      leading: scope == null ? dismissAction : null,
       automaticallyImplyLeading: scope == null,
-      actions: scope == null ? actions : null,
+      actions: scope == null ? trailingActions : null,
       bottom: bottom,
     );
   }
@@ -80,18 +86,37 @@ final class _VerticalBarBackButton extends StatelessWidget {
 }
 
 @widgetbook.UseCase(name: 'Default', type: DottoAppBar)
-Widget dottoAppBarDefault(BuildContext context) => const Scaffold(
+Widget dottoAppBarDefault(BuildContext context) => Scaffold(
   appBar: DottoAppBar(
-    title: Text('講義'),
-    actions: [Icon(Icons.tune), SizedBox(width: 16)],
+    title: const Text('講義'),
+    actions: [
+      DottoAppBarAction(
+        icon: const Icon(Icons.tune),
+        label: 'カスタム',
+        action: () {},
+      ),
+    ],
   ),
 );
 
-@widgetbook.UseCase(name: 'With Leading', type: DottoAppBar)
-Widget dottoAppBarWithLeading(BuildContext context) => Scaffold(
+@widgetbook.UseCase(name: 'With Roles', type: DottoAppBar)
+Widget dottoAppBarWithRoles(BuildContext context) => Scaffold(
   appBar: DottoAppBar(
     title: const Text('レビュー投稿'),
-    leading: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
+    actions: [
+      DottoAppBarAction(
+        role: DottoAppBarActionRole.dismiss,
+        icon: const Icon(Icons.close),
+        label: '閉じる',
+        action: () {},
+      ),
+      DottoAppBarAction(
+        role: DottoAppBarActionRole.confirmation,
+        icon: const Icon(Icons.check),
+        label: '投稿する',
+        action: () {},
+      ),
+    ],
   ),
 );
 
@@ -113,11 +138,22 @@ final class _VerticalBarDemo extends HookWidget {
         alignment: Alignment.centerRight,
         child: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Scaffold(
                 appBar: DottoAppBar(
-                  title: Text('講義'),
-                  actions: [Icon(Icons.tune), Icon(Icons.add)],
+                  title: const Text('講義'),
+                  actions: [
+                    DottoAppBarAction(
+                      icon: const Icon(Icons.tune),
+                      label: 'カスタム',
+                      action: () {},
+                    ),
+                    DottoAppBarAction(
+                      icon: const Icon(Icons.add),
+                      label: '追加',
+                      action: () {},
+                    ),
+                  ],
                 ),
               ),
             ),
