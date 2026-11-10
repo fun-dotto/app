@@ -2,7 +2,7 @@ import 'package:dotto/domain/entity/bus_schedule_trip.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
-import 'package:dotto/presentation/common/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:material_ui/material_ui.dart';
 

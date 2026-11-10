@@ -5,10 +5,10 @@ import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto/domain/entity/announcement.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/presentation/announcement/announcement_state.dart';
-import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 

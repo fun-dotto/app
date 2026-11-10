@@ -1,5 +1,4 @@
 import 'package:dotto/extension/edge_insets_extension.dart';
-import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/subject/subject_add_feedback_button.dart';
@@ -8,6 +7,7 @@ import 'package:dotto/presentation/subject/subject_detail_past_exam_screen.dart'
 import 'package:dotto/presentation/subject/subject_detail_state.dart';
 import 'package:dotto/presentation/subject/subject_detail_syllabus_screen.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';

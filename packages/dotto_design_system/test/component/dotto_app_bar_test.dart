@@ -1,5 +1,5 @@
-import 'package:dotto/presentation/common/dotto_app_bar.dart';
-import 'package:dotto/presentation/common/vertical_bar_scope.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
+import 'package:dotto_design_system/component/vertical_bar_scope.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 

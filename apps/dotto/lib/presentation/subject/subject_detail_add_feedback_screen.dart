@@ -1,9 +1,9 @@
 import 'package:dotto/application/save_subject_feedback_use_case.dart';
 import 'package:dotto/domain/entity/subject_feedback.dart';
-import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

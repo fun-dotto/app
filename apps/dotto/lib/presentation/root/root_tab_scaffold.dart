@@ -2,11 +2,11 @@ import 'package:dotto/domain/entity/screen_layout.dart';
 import 'package:dotto/domain/entity/vertical_bar_edge.dart';
 import 'package:dotto/domain/service/vertical_tab_bar_service.dart';
 import 'package:dotto/presentation/common/tab_item.dart';
-import 'package:dotto/presentation/common/vertical_bar_scope.dart';
 import 'package:dotto/presentation/root/flavor_accent_color.dart';
-import 'package:dotto/presentation/root/glass_surface.dart';
-import 'package:dotto/presentation/root/glass_tab_bar.dart';
-import 'package:dotto/presentation/root/vertical_bar_actions.dart';
+import 'package:dotto_design_system/component/glass_surface.dart';
+import 'package:dotto_design_system/component/glass_tab_bar.dart';
+import 'package:dotto_design_system/component/vertical_bar_actions.dart';
+import 'package:dotto_design_system/component/vertical_bar_scope.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
@@ -82,7 +82,7 @@ final class RootTabScaffold extends HookWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: _maxBarWidth),
                 child: GlassTabBar(
-                  tabs: tabs,
+                  tabs: tabs.map((tab) => tab.glassItem).toList(),
                   selectedIndex: selectedIndex,
                   onSelected: onDestinationSelected,
                   accentColor: accentColor,
@@ -119,7 +119,7 @@ final class RootTabScaffold extends HookWidget {
               ),
             ),
             GlassTabBar(
-              tabs: tabs,
+              tabs: tabs.map((tab) => tab.glassItem).toList(),
               selectedIndex: selectedIndex,
               onSelected: onDestinationSelected,
               accentColor: accentColor,

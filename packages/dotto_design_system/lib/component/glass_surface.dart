@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:dotto_design_system/story/glass_backdrop.dart';
 import 'package:dotto_design_system/style/theme_extension.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 /// アイコンのみの項目の一辺。縦バーのタブとアクションで揃える。
 const glassIconOnlyItemExtent = 52.0;
@@ -63,3 +65,10 @@ final class GlassSurface extends StatelessWidget {
     );
   }
 }
+
+@widgetbook.UseCase(name: 'Default', type: GlassSurface)
+Widget glassSurfaceDefault(BuildContext context) => const GlassBackdrop(
+  child: GlassSurface(
+    child: Padding(padding: EdgeInsets.all(16), child: Text('Glass surface')),
+  ),
+);

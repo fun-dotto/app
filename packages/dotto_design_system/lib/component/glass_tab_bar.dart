@@ -1,8 +1,9 @@
-import 'package:dotto/presentation/common/tab_item.dart';
-import 'package:dotto/presentation/root/glass_surface.dart';
+import 'package:dotto_design_system/component/glass_surface.dart';
+import 'package:dotto_design_system/story/glass_backdrop.dart';
 import 'package:dotto_design_system/style/theme_extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 const _itemExtent = 64.0;
 const _iconSize = 26.0;
@@ -35,6 +36,19 @@ final _bounceTween = TweenSequence<double>([
   ),
 ]);
 
+/// [GlassTabBar] に並べる項目。
+final class GlassTabBarItem {
+  const new({
+    required this.label,
+    required this.icon,
+    required this.selectedIcon,
+  });
+
+  final String label;
+  final IconData icon;
+  final IconData selectedIcon;
+}
+
 /// Liquid Glass 風のタブバー。
 ///
 /// すりガラス状の面に、色を付けずアイコンとラベルだけを並べる。選択中の
@@ -53,7 +67,7 @@ final class GlassTabBar extends StatelessWidget {
     super.key,
   });
 
-  final List<TabItem> tabs;
+  final List<GlassTabBarItem> tabs;
   final int selectedIndex;
   final ValueChanged<int> onSelected;
   final Color accentColor;
@@ -114,7 +128,7 @@ final class _GlassTabItem extends HookWidget {
     required this.onTap,
   });
 
-  final TabItem tab;
+  final GlassTabBarItem tab;
   final bool isSelected;
   final Color accentColor;
   final bool showsLabel;
@@ -170,5 +184,64 @@ final class _GlassTabItem extends HookWidget {
             positionDelegate: _positionAwayFromNearestWall,
             child: item,
           );
+  }
+}
+
+const _storyTabs = [
+  GlassTabBarItem(
+    label: '講義',
+    icon: Icons.description_outlined,
+    selectedIcon: Icons.description,
+  ),
+  GlassTabBarItem(
+    label: '学食',
+    icon: Icons.restaurant_outlined,
+    selectedIcon: Icons.restaurant,
+  ),
+  GlassTabBarItem(
+    label: 'マップ',
+    icon: Icons.map_outlined,
+    selectedIcon: Icons.map,
+  ),
+  GlassTabBarItem(
+    label: 'バス',
+    icon: Icons.directions_bus_outlined,
+    selectedIcon: Icons.directions_bus,
+  ),
+];
+
+@widgetbook.UseCase(name: 'Horizontal', type: GlassTabBar)
+Widget glassTabBarHorizontal(BuildContext context) => const GlassBackdrop(
+  alignment: Alignment.bottomCenter,
+  child: Padding(
+    padding: EdgeInsets.all(16),
+    child: _SelectableGlassTabBar(axis: Axis.horizontal),
+  ),
+);
+
+@widgetbook.UseCase(name: 'Vertical', type: GlassTabBar)
+Widget glassTabBarVertical(BuildContext context) => const GlassBackdrop(
+  alignment: Alignment.centerLeft,
+  child: Padding(
+    padding: EdgeInsets.all(16),
+    child: _SelectableGlassTabBar(axis: Axis.vertical),
+  ),
+);
+
+final class _SelectableGlassTabBar extends HookWidget {
+  const new({required this.axis});
+
+  final Axis axis;
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState(0);
+    return GlassTabBar(
+      tabs: _storyTabs,
+      selectedIndex: selectedIndex.value,
+      onSelected: (index) => selectedIndex.value = index,
+      accentColor: Colors.blue,
+      axis: axis,
+    );
   }
 }

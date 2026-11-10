@@ -1,8 +1,24 @@
-import 'package:dotto/presentation/common/tab_item.dart';
-import 'package:dotto/presentation/root/glass_tab_bar.dart';
+import 'package:dotto_design_system/component/glass_tab_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+
+const _course = GlassTabBarItem(
+  label: '講義',
+  icon: Icons.description_outlined,
+  selectedIcon: Icons.description,
+);
+const _map = GlassTabBarItem(
+  label: 'マップ',
+  icon: Icons.map_outlined,
+  selectedIcon: Icons.map,
+);
+const _bus = GlassTabBarItem(
+  label: 'バス',
+  icon: Icons.directions_bus_outlined,
+  selectedIcon: Icons.directions_bus,
+);
+const List<GlassTabBarItem> _tabs = [_course, _map, _bus];
 
 const _accent = Color(0xFF123456);
 
@@ -17,7 +33,7 @@ Widget _app({
     body: Align(
       alignment: alignment,
       child: GlassTabBar(
-        tabs: TabItem.v2,
+        tabs: _tabs,
         selectedIndex: selectedIndex,
         onSelected: onSelected ?? (_) {},
         accentColor: _accent,
@@ -37,16 +53,16 @@ void main() {
   testWidgets('選択中のアイコンだけをアクセントカラーで塗る', (tester) async {
     await tester.pumpWidget(_app(selectedIndex: 0));
 
-    expect(_iconColor(tester, TabItem.course.selectedIcon), _accent);
-    expect(_iconColor(tester, TabItem.map.icon), isNot(_accent));
-    expect(_iconColor(tester, TabItem.bus.icon), isNot(_accent));
+    expect(_iconColor(tester, _course.selectedIcon), _accent);
+    expect(_iconColor(tester, _map.icon), isNot(_accent));
+    expect(_iconColor(tester, _bus.icon), isNot(_accent));
   });
 
   testWidgets('選択中のラベルだけをアクセントカラーで塗る', (tester) async {
     await tester.pumpWidget(_app(selectedIndex: 0));
 
-    expect(_labelColor(tester, TabItem.course.label), _accent);
-    expect(_labelColor(tester, TabItem.map.label), isNot(_accent));
+    expect(_labelColor(tester, _course.label), _accent);
+    expect(_labelColor(tester, _map.label), isNot(_accent));
   });
 
   testWidgets('タブをタップすると選択された位置を通知する', (tester) async {
@@ -55,20 +71,20 @@ void main() {
       _app(selectedIndex: 0, onSelected: (index) => selected = index),
     );
 
-    await tester.tap(find.text(TabItem.bus.label));
+    await tester.tap(find.text(_bus.label));
 
-    expect(selected, TabItem.v2.indexOf(TabItem.bus));
+    expect(selected, _tabs.indexOf(_bus));
   });
 
   testWidgets('縦並びではラベルを表示せず、長押しで表示する', (tester) async {
     await tester.pumpWidget(_app(selectedIndex: 0, axis: Axis.vertical));
 
-    expect(find.text(TabItem.bus.label), findsNothing);
+    expect(find.text(_bus.label), findsNothing);
 
-    await tester.longPress(find.byIcon(TabItem.bus.icon));
+    await tester.longPress(find.byIcon(_bus.icon));
     await tester.pumpAndSettle();
 
-    expect(find.text(TabItem.bus.label), findsOneWidget);
+    expect(find.text(_bus.label), findsOneWidget);
   });
 
   testWidgets('左端の縦バーではラベルを右側に表示する', (tester) async {
@@ -79,13 +95,13 @@ void main() {
         alignment: Alignment.bottomLeft,
       ),
     );
-    final icon = find.byIcon(TabItem.bus.icon);
+    final icon = find.byIcon(_bus.icon);
     final iconRect = tester.getRect(icon);
 
     await tester.longPress(icon);
     await tester.pumpAndSettle();
 
-    final label = tester.getRect(find.text(TabItem.bus.label));
+    final label = tester.getRect(find.text(_bus.label));
     expect(label.left, greaterThan(iconRect.right));
   });
 
@@ -97,13 +113,13 @@ void main() {
         alignment: Alignment.bottomRight,
       ),
     );
-    final icon = find.byIcon(TabItem.bus.icon);
+    final icon = find.byIcon(_bus.icon);
     final iconRect = tester.getRect(icon);
 
     await tester.longPress(icon);
     await tester.pumpAndSettle();
 
-    final label = tester.getRect(find.text(TabItem.bus.label));
+    final label = tester.getRect(find.text(_bus.label));
     expect(label.right, lessThan(iconRect.left));
   });
 }

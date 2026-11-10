@@ -10,7 +10,6 @@ import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
-import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
 import 'package:dotto/presentation/common/user_state.dart';
@@ -20,6 +19,7 @@ import 'package:dotto/presentation/course/personal_timetable_calendar_view.dart'
 import 'package:dotto/presentation/course/quick_button.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
