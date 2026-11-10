@@ -11,6 +11,9 @@ abstract class ScreenLayout with _$ScreenLayout {
     /// 縦型バーを置く端。`null` のときは縦型バーを使わず下部に置く。
     required VerticalBarEdge? verticalBarEdge,
     required List<OcclusionRegion> occlusions,
+
+    /// ウィンドウが画面の一部だけを占めている (分割表示など) か。
+    @Default(false) bool isPartialWindow,
   }) = _ScreenLayout;
 
   const new _();

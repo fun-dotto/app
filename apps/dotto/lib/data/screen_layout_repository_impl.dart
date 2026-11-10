@@ -67,6 +67,7 @@ final class ScreenLayoutRepositoryImpl implements ScreenLayoutRepository {
     return ScreenLayout(
       verticalBarEdge: edge,
       occlusions: List.unmodifiable(occlusions),
+      isPartialWindow: map['isPartialWindow'] == true,
     );
   }
 
