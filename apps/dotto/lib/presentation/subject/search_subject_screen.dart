@@ -5,6 +5,7 @@ import 'package:dotto/application/unregister_course_use_case.dart';
 import 'package:dotto/domain/entity/subject_faculty.dart';
 import 'package:dotto/domain/entity/subject_filter.dart';
 import 'package:dotto/domain/entity/subject_summary.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/subject/search_subject_filter_section.dart';
 import 'package:dotto/presentation/subject/search_subject_state.dart';
@@ -80,7 +81,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           context.subjectL10n.subjectSubjectSearch,
           style: Theme.of(context).textTheme.titleLarge

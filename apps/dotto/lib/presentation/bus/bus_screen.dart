@@ -11,6 +11,7 @@ import 'package:dotto/presentation/bus/bus_initial_direction_state.dart';
 import 'package:dotto/presentation/bus/bus_initial_weekday_state.dart';
 import 'package:dotto/presentation/bus/bus_schedule_state.dart';
 import 'package:dotto/presentation/bus/selected_bus_stop_state.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/router/routes/bus_routes.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -105,7 +106,7 @@ final class BusScreen extends HookConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           l10n.busTitle,
           style: Theme.of(context).textTheme.titleLarge

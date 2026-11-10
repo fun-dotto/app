@@ -1,5 +1,6 @@
 import 'package:dotto/asset.dart';
 import 'package:dotto/domain/entity/flags.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/onboarding/onboarding_page.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
 import 'package:dotto_design_system/component/button.dart';
@@ -34,7 +35,7 @@ final class OnboardingScreen extends HookConsumerWidget {
     }, [pages.length]);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dottoの使い方')),
+      appBar: const DottoAppBar(title: Text('Dottoの使い方')),
       body: SafeArea(
         top: false,
         child: Stack(

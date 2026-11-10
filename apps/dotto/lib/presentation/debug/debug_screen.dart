@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dotto/domain/entity/debug_tokens.dart';
 import 'package:dotto/domain/entity/flag.dart';
 import 'package:dotto/domain/entity/flags.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/feature_flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
 import 'package:dotto/presentation/debug/debug_tokens_state.dart';
@@ -21,7 +22,7 @@ final class DebugScreen extends HookConsumerWidget {
     final tokens = ref.watch(debugTokensStateProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Debug')),
+      appBar: const DottoAppBar(title: Text('Debug')),
       body: switch (tokens) {
         AsyncData(:final value) => _DebugContent(tokens: value),
         AsyncError(:final error) => Padding(

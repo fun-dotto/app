@@ -1,3 +1,4 @@
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/subject/subject_detail_feedback_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_past_exam_screen.dart';
@@ -45,7 +46,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
       length: SubjectDetailTab.values.length,
       initialIndex: initialTab.index,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: DottoAppBar(
           title: Text(subjectState.value?.name ?? ''),
           bottom: TabBar(
             dividerColor: Colors.transparent,

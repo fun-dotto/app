@@ -3,6 +3,7 @@ import 'package:dotto/domain/entity/funch_menu_category.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/funch/funch_menu_card.dart';
 import 'package:dotto/presentation/common/funch/funch_menus_state.dart';
@@ -21,7 +22,7 @@ final class FunchScreen extends HookConsumerWidget {
     final menus = ref.watch(funchMenusStateProvider());
     final l10n = AppLocalizations.of(context) ?? AppLocalizationsJa();
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(l10n.funchTitle),
         actions: [
           TextButton(

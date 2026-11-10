@@ -5,6 +5,7 @@ import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/map/fun_map.dart';
 import 'package:dotto/presentation/map/map_state.dart';
@@ -133,7 +134,7 @@ final class MapScreen extends HookConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapTitle,
           style: Theme.of(context).textTheme.titleLarge

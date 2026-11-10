@@ -3,6 +3,7 @@ import 'package:dotto/domain/entity/course_notice_scope.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course_notice/course_notices_state.dart';
@@ -30,14 +31,14 @@ final class CourseCancellationScreen extends HookConsumerWidget {
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
     if (!isAuthenticated) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.courseNoticeTitle)),
+        appBar: DottoAppBar(title: Text(l10n.courseNoticeTitle)),
         body: Center(child: Text(l10n.courseNoticeSignInRequired)),
       );
     }
     final provider = courseNoticesStateProvider(scope.value);
     final state = ref.watch(provider);
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(l10n.courseNoticeTitle),
         actions: [
           DottoButton(

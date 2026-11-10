@@ -4,6 +4,7 @@ import 'package:dotto/domain/entity/timetable_item.dart';
 import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course/course_registration_state.dart';
 import 'package:dotto/presentation/course/select_course_screen.dart';
@@ -24,7 +25,7 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           (AppLocalizations.of(context) ?? AppLocalizationsJa())
               .courseRegistration,
@@ -135,9 +136,9 @@ final class _PersonalWeeklyTimetableCellSkeleton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(2),
       height: 100,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: PrimitiveColor.gray200,
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -272,11 +273,11 @@ final class _PersonalWeeklyTimetablecell extends StatelessWidget {
                     .toList(),
               )
             : Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: PrimitiveColor.gray200,
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(Icons.add, color: PrimitiveColor.gray400),
                 ),
               ),

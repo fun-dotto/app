@@ -195,6 +195,7 @@ final class CourseScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: DottoAppBar(
+        centerTitle: false,
         title: Text(
           (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseTitle,
           style: Theme.of(context).textTheme.titleLarge

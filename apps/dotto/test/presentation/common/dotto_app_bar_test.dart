@@ -53,4 +53,36 @@ void main() {
 
     expect(find.byIcon(Icons.tune), findsOneWidget);
   });
+
+  testWidgets('戻れる画面では、戻るボタンをAppBarではなく縦バーの先頭に渡す', (tester) async {
+    final actions = ValueNotifier<List<Widget>>(const []);
+    addTearDown(actions.dispose);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: VerticalBarScope(
+          actions: actions,
+          child: Navigator(
+            pages: const [
+              MaterialPage<void>(child: Scaffold(body: Text('一覧'))),
+              MaterialPage<void>(
+                child: Scaffold(
+                  appBar: DottoAppBar(
+                    title: Text('詳細'),
+                    actions: [Icon(Icons.tune)],
+                  ),
+                ),
+              ),
+            ],
+            onDidRemovePage: (_) {},
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(BackButton), findsNothing);
+    expect(find.byType(BackButtonIcon), findsNothing);
+    expect(actions.value, hasLength(2));
+    expect(actions.value.first, isNot(isA<Icon>()));
+  });
 }

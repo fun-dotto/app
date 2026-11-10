@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto/domain/entity/dotto_user.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/setting/app_links_state.dart';
@@ -33,7 +34,7 @@ final class SettingsScreen extends HookConsumerWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           '設定',
           style: Theme.of(context).textTheme.titleLarge
