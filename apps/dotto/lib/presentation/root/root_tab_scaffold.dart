@@ -61,12 +61,13 @@ final class RootTabScaffold extends HookWidget {
       () => ValueNotifier<List<Widget>>(const []),
     );
     final placement = _verticalPlacement(context);
+    final paddedBody = _TopInsetFallback(child: body);
     if (placement == null) {
       // 下部のタブバーは本文の上に浮かべ、本文はその領域まで広げる。
       return Scaffold(
         extendBody: true,
         resizeToAvoidBottomInset: false,
-        body: body,
+        body: paddedBody,
         bottomNavigationBar: SafeArea(
           top: false,
           child: Padding(
@@ -134,7 +135,7 @@ final class RootTabScaffold extends HookWidget {
         context: context,
         removeLeft: placement.isLeft,
         removeRight: !placement.isLeft,
-        child: VerticalBarScope(actions: verticalBarActions, child: body),
+        child: VerticalBarScope(actions: verticalBarActions, child: paddedBody),
       ),
     );
     return Scaffold(
@@ -197,5 +198,27 @@ final class RootTabScaffold extends HookWidget {
     );
     if (span == null) return null;
     return (isLeft: isLeftToRight, width: _outsideBarWidth, span: span);
+  }
+}
+
+/// 上側のインセットがないときに、本文の上へ余白を空ける。
+///
+/// AppBar などは [MediaQueryData.padding] の上端を避けて描画されるため、
+/// インセットがなければ代わりに [_barMargin] を与えて画面の上端に張り付かせない。
+final class _TopInsetFallback extends StatelessWidget {
+  const new({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    if (mediaQuery.padding.top > 0) return child;
+    return MediaQuery(
+      data: mediaQuery.copyWith(
+        padding: mediaQuery.padding.copyWith(top: _barMargin),
+      ),
+      child: child,
+    );
   }
 }
