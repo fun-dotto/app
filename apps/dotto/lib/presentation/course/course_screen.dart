@@ -421,8 +421,7 @@ final class _LoadingSkeleton extends StatelessWidget {
                       child: DottoButton(
                         onPressed: null,
                         child: Text(
-                          (AppLocalizations.of(context) ??
-                                  AppLocalizationsJa())
+                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
                               .courseSignIn,
                         ),
                       ),
@@ -436,8 +435,7 @@ final class _LoadingSkeleton extends StatelessWidget {
                         onPressed: null,
                         type: DottoButtonType.text,
                         child: Text(
-                          (AppLocalizations.of(context) ??
-                                  AppLocalizationsJa())
+                          (AppLocalizations.of(context) ?? AppLocalizationsJa())
                               .courseWeeklyTimetable,
                         ),
                       ),

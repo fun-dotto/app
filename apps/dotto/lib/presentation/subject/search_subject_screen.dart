@@ -121,9 +121,7 @@ final class SearchSubjectScreen extends HookConsumerWidget {
               filter: filter,
               onChanged: (value) {
                 selectedFilter.value = value;
-                final notifier = ref.read(
-                  searchSubjectStateProvider.notifier,
-                );
+                final notifier = ref.read(searchSubjectStateProvider.notifier);
                 unawaited(
                   notifier.search(
                     query: textEditingController.text,
