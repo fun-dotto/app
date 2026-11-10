@@ -9,6 +9,7 @@ import 'package:dotto/domain/service/timetable_date_service.dart';
 import 'package:dotto/helper/datetime.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
+import 'package:dotto/presentation/common/dotto_app_bar.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_flag.dart';
 import 'package:dotto/presentation/common/user_state.dart';
@@ -193,13 +194,12 @@ final class CourseScreen extends HookConsumerWidget {
     }, [state]);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: DottoAppBar(
         title: Text(
           (AppLocalizations.of(context) ?? AppLocalizationsJa()).courseTitle,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(color: SemanticColor.light.accentPrimary),
         ),
-        centerTitle: false,
         actions: [
           IconButton(
             onPressed: () =>

@@ -109,7 +109,7 @@ void main() {
     expect(tester.getRect(find.byKey(const Key('body'))).right, 720);
   });
 
-  testWidgets('帯が確保されていなければ縦型バーでも下部に表示する', (tester) async {
+  testWidgets('このウィンドウの端に縦バーがなければ、左側にタブバーの帯を設ける', (tester) async {
     _useLargeScreen(tester);
     await tester.pumpWidget(
       _app(
@@ -120,6 +120,32 @@ void main() {
       ),
     );
 
-    expect(_barAxis(tester), Axis.horizontal);
+    final bar = tester.getRect(find.byType(GlassTabBar));
+    expect(_barAxis(tester), Axis.vertical);
+    expect(bar.left, greaterThanOrEqualTo(0));
+    expect(
+      tester.getRect(find.byKey(const Key('body'))).left,
+      greaterThanOrEqualTo(bar.right),
+    );
+  });
+
+  testWidgets('縦バーがなくても、分割表示のウィンドウなら左側にタブバーの帯を設ける', (tester) async {
+    _useLargeScreen(tester);
+    await tester.pumpWidget(
+      _app(
+        const ScreenLayout(
+          verticalBarEdge: null,
+          occlusions: [],
+          isPartialWindow: true,
+        ),
+      ),
+    );
+
+    final bar = tester.getRect(find.byType(GlassTabBar));
+    expect(_barAxis(tester), Axis.vertical);
+    expect(
+      tester.getRect(find.byKey(const Key('body'))).left,
+      greaterThanOrEqualTo(bar.right),
+    );
   });
 }

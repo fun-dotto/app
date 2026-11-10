@@ -2,15 +2,27 @@ import 'package:dotto/domain/entity/screen_layout.dart';
 import 'package:dotto/domain/entity/vertical_bar_edge.dart';
 import 'package:dotto/domain/service/vertical_tab_bar_service.dart';
 import 'package:dotto/presentation/common/tab_item.dart';
+import 'package:dotto/presentation/common/vertical_bar_scope.dart';
 import 'package:dotto/presentation/root/flavor_accent_color.dart';
+import 'package:dotto/presentation/root/glass_surface.dart';
 import 'package:dotto/presentation/root/glass_tab_bar.dart';
+import 'package:dotto/presentation/root/vertical_bar_actions.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_ui/material_ui.dart';
 
 // タブが収まらないほど低い範囲しか取れないときは、下部タブに戻す。
 const _minimumVerticalBarHeight = 360.0;
 
 const _barMargin = 16.0;
+
+// システムの縦バーがないときに、タブバーのために確保する帯の幅。
+const double _outsideBarWidth = glassIconOnlyItemExtent + 8 + _barMargin;
+
+// システムの縦バーに表示される時計などは帯の内側へ寄って見えるため、
+// タブバーも画面端側の余白を広くして中心を揃える。
+const _barOuterMargin = 14.0;
+const _barInnerMargin = 2.0;
 const _maxBarWidth = 420.0;
 
 // カメラなどの隠れる領域とタブバーが近づきすぎないようにする余白。
@@ -23,7 +35,7 @@ const _verticalTabBarService = VerticalTabBarService();
 /// [screenLayout] が縦型バーを推奨し、かつ隠れる領域を避けて置けるときは
 /// システムが縦バー用に確保した端の帯に縦並びで(本文は帯の外)、それ以外は
 /// 下部に横並びで表示する。
-final class RootTabScaffold extends StatelessWidget {
+final class RootTabScaffold extends HookWidget {
   const new({
     required this.body,
     required this.tabs,
@@ -42,6 +54,9 @@ final class RootTabScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accentColor = flavorAccentColor(appFlavor);
+    final verticalBarActions = useMemoized(
+      () => ValueNotifier<List<Widget>>(const []),
+    );
     final placement = _verticalPlacement(context);
     if (placement == null) {
       return Scaffold(
@@ -76,21 +91,25 @@ final class RootTabScaffold extends StatelessWidget {
       width: placement.width,
       child: Padding(
         padding: EdgeInsets.only(
-          left: _barMargin / 2,
-          right: _barMargin / 2,
+          left: placement.isLeft ? _barOuterMargin : _barInnerMargin,
+          right: placement.isLeft ? _barInnerMargin : _barOuterMargin,
           top: placement.span.top,
           bottom: MediaQuery.sizeOf(context).height - placement.span.bottom,
         ),
-        // カメラホールなどを避けた範囲の中で、下寄せにする。
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: GlassTabBar(
-            tabs: tabs,
-            selectedIndex: selectedIndex,
-            onSelected: onDestinationSelected,
-            accentColor: accentColor,
-            axis: Axis.vertical,
-          ),
+        // カメラホールなどを避けた範囲の中で、ツールバーを上寄せ、タブバーを
+        // 下寄せにする。
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            VerticalBarActions(actions: verticalBarActions),
+            GlassTabBar(
+              tabs: tabs,
+              selectedIndex: selectedIndex,
+              onSelected: onDestinationSelected,
+              accentColor: accentColor,
+              axis: Axis.vertical,
+            ),
+          ],
         ),
       ),
     );
@@ -100,7 +119,7 @@ final class RootTabScaffold extends StatelessWidget {
         context: context,
         removeLeft: placement.isLeft,
         removeRight: !placement.isLeft,
-        child: body,
+        child: VerticalBarScope(actions: verticalBarActions, child: body),
       ),
     );
     return Scaffold(
@@ -118,14 +137,20 @@ final class RootTabScaffold extends StatelessWidget {
     BuildContext context,
   ) {
     final edge = screenLayout.verticalBarEdge;
-    if (edge == null) return null;
     final isLeftToRight = Directionality.of(context) == TextDirection.ltr;
+    if (edge == null) {
+      return screenLayout.isPartialWindow
+          ? _placementOutsideSystemBar(MediaQuery.of(context), isLeftToRight)
+          : null;
+    }
     final isLeft = (edge == VerticalBarEdge.leading) == isLeftToRight;
     final mediaQuery = MediaQuery.of(context);
     final size = mediaQuery.size;
     // システムが縦バー用に確保した帯の幅。
     final width = isLeft ? mediaQuery.padding.left : mediaQuery.padding.right;
-    if (width <= 0) return null;
+    if (width <= 0) {
+      return _placementOutsideSystemBar(mediaQuery, isLeftToRight);
+    }
     final span = _verticalTabBarService.place(
       barLeft: isLeft ? 0 : size.width - width,
       barWidth: width,
@@ -137,5 +162,18 @@ final class RootTabScaffold extends StatelessWidget {
     );
     if (span == null) return null;
     return (isLeft: isLeft, width: width, span: span);
+  }
+
+  // 分割表示などで、このウィンドウの端にシステムの縦バーがないときは、
+  // 画面の端に置く代わりに、ウィンドウの左側へタブバーだけの帯を設ける。
+  // 縦バー用の帯がないので、隠れる領域は考慮しない。
+  ({bool isLeft, double width, VerticalTabBarSpan span})?
+  _placementOutsideSystemBar(MediaQueryData mediaQuery, bool isLeftToRight) {
+    final span = (
+      top: mediaQuery.padding.top,
+      bottom: mediaQuery.size.height - mediaQuery.padding.bottom,
+    );
+    if (span.bottom - span.top < _minimumVerticalBarHeight) return null;
+    return (isLeft: isLeftToRight, width: _outsideBarWidth, span: span);
   }
 }
