@@ -19,7 +19,7 @@ defaults:
 jobs:
   ios-build:
     name: Build iOS
-    runs-on: macos-26
+    runs-on: macos-27
     timeout-minutes: 60
     env:
       APP_STORE_CONNECT_API_KEY_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ID }}
@@ -105,7 +105,7 @@ jobs:
     name: Upload to TestFlight
     needs: ready-to-upload
     # TestFlight へのアップロードには Xcode 同梱の iTMSTransporter が必要なため macOS で実行する
-    runs-on: macos-26
+    runs-on: macos-27
     timeout-minutes: 60
     env:
       APP_STORE_CONNECT_API_KEY_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ID }}
