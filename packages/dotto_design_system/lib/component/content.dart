@@ -165,11 +165,17 @@ class DottoContentInsets extends StatelessWidget {
   const new({
     required this.builder,
     this.layout = DottoContentLayout.singleNarrow,
+    this.margin = true,
     super.key,
   });
 
   /// 本文の組み方。
   final DottoContentLayout layout;
+
+  /// 左右の余白 [DottoLayout.horizontalMargin] を含めるか。
+  ///
+  /// 中身が自前で左右の余白を持つ (`ListTile` など) ときは false にする。
+  final bool margin;
 
   /// 左右の余白を受け取って中身を組み立てる。
   final Widget Function(BuildContext context, EdgeInsets insets) builder;
@@ -178,7 +184,43 @@ class DottoContentInsets extends StatelessWidget {
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) => builder(
       context,
-      DottoLayout.horizontalInsets(constraints.maxWidth, layout: layout),
+      DottoLayout.horizontalInsets(
+        constraints.maxWidth,
+        layout: layout,
+        margin: margin,
+      ),
+    ),
+  );
+}
+
+/// 子を本文の最大幅に収める左右の余白をとる。
+///
+/// 中身の幅を広げたまま余白だけを足したいとき (表など) に使う。
+class DottoContentPadding extends StatelessWidget {
+  /// [layout] は [DottoContentLayout.singleNarrow] か
+  /// [DottoContentLayout.singleWide] を指定する。
+  const new({
+    required this.child,
+    this.layout = DottoContentLayout.singleNarrow,
+    this.vertical = 0,
+    super.key,
+  });
+
+  /// 本文の組み方。
+  final DottoContentLayout layout;
+
+  /// 上下の余白。
+  final double vertical;
+
+  /// 中身。
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => DottoContentInsets(
+    layout: layout,
+    builder: (context, insets) => Padding(
+      padding: insets.copyWith(top: vertical, bottom: vertical),
+      child: child,
     ),
   );
 }
