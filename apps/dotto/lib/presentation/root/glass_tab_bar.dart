@@ -154,8 +154,9 @@ final class _GlassTabItem extends HookWidget {
                 tab.label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.labelSmall
-                    ?.copyWith(color: colors.labelPrimary),
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: isSelected ? accentColor : colors.labelPrimary,
+                ),
               ),
           ],
         ),

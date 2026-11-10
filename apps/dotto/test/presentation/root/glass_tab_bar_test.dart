@@ -30,6 +30,9 @@ Widget _app({
 Color? _iconColor(WidgetTester tester, IconData icon) =>
     tester.widget<Icon>(find.byIcon(icon)).color;
 
+Color? _labelColor(WidgetTester tester, String label) =>
+    tester.widget<Text>(find.text(label)).style?.color;
+
 void main() {
   testWidgets('選択中のアイコンだけをアクセントカラーで塗る', (tester) async {
     await tester.pumpWidget(_app(selectedIndex: 0));
@@ -37,6 +40,13 @@ void main() {
     expect(_iconColor(tester, TabItem.course.selectedIcon), _accent);
     expect(_iconColor(tester, TabItem.map.icon), isNot(_accent));
     expect(_iconColor(tester, TabItem.bus.icon), isNot(_accent));
+  });
+
+  testWidgets('選択中のラベルだけをアクセントカラーで塗る', (tester) async {
+    await tester.pumpWidget(_app(selectedIndex: 0));
+
+    expect(_labelColor(tester, TabItem.course.label), _accent);
+    expect(_labelColor(tester, TabItem.map.label), isNot(_accent));
   });
 
   testWidgets('タブをタップすると選択された位置を通知する', (tester) async {
