@@ -98,7 +98,10 @@ final class MapScreen extends HookConsumerWidget {
           return;
         }
 
-        final sheetHeight = props is FacultyRoomMapTileProps ? 120.0 : 240.0;
+        // シートは下部のタブバーの背面まで広がるため、その分を高さに加える。
+        final sheetHeight =
+            (props is FacultyRoomMapTileProps ? 120.0 : 240.0) +
+            MediaQuery.paddingOf(context).bottom;
         final newController = scaffoldKey.currentState?.showBottomSheet(
           (_) => SizedBox(
             height: sheetHeight,
