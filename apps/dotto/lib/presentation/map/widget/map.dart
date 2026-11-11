@@ -8,6 +8,7 @@ final class Map extends StatelessWidget {
   const new({
     required this.mapViewTransformationController,
     required this.selectedFloor,
+    required this.tileProps,
     required this.rooms,
     required this.focusedMapTileProps,
     required this.dateTime,
@@ -17,6 +18,7 @@ final class Map extends StatelessWidget {
 
   final TransformationController mapViewTransformationController;
   final Floor selectedFloor;
+  final List<MapTileProps> tileProps;
   final List<Room> rooms;
   final MapTileProps? focusedMapTileProps;
   final DateTime dateTime;
@@ -29,7 +31,7 @@ final class Map extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: MapGridScreen(
-          selectedFloor: selectedFloor,
+          tileProps: tileProps.where((e) => e.floor == selectedFloor).toList(),
           rooms: rooms,
           focusedMapTileProps: focusedMapTileProps,
           dateTime: dateTime,

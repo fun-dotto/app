@@ -37,6 +37,7 @@ final class MapScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(mapStateProvider);
+    final funMap = ref.watch(funMapProvider).value;
     final searchDate = useState(DateTime.now());
     final selectedFloor = useState(Floor.third);
     final focusedTile = useState<MapTileProps?>(null);
@@ -47,7 +48,7 @@ final class MapScreen extends HookConsumerWidget {
 
     void focusRoom(Room room) {
       selectedFloor.value = room.floor;
-      focusedTile.value = FUNMap.tileProps.firstWhereOrNull(
+      focusedTile.value = funMap?.tileProps.firstWhereOrNull(
         (e) => e.id == room.id,
       );
     }
@@ -81,7 +82,7 @@ final class MapScreen extends HookConsumerWidget {
         });
       }
       return null;
-    }, [focusedRoomId, rooms]);
+    }, [focusedRoomId, rooms, funMap]);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -238,86 +239,88 @@ final class MapScreen extends HookConsumerWidget {
       body: Padding(
         // 地図は固定レイアウトのため、下部のタブバーの上に収める。
         padding: const EdgeInsets.only(top: 8).withBottomBarInset(context),
-        child: switch (asyncState) {
-          AsyncData(value: final state) => Column(
-            spacing: 8,
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    Column(
-                      spacing: 8,
-                      children: [
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth:
-                                DottoLayout.narrowMaxWidth +
-                                DottoLayout.horizontalMargin * 2,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: DottoLayout.horizontalMargin,
+        child: switch ((asyncState, ref.watch(funMapProvider))) {
+          (AsyncData(value: final state), AsyncData(value: final map)) =>
+            Column(
+              spacing: 8,
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Column(
+                        spacing: 8,
+                        children: [
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth:
+                                  DottoLayout.narrowMaxWidth +
+                                  DottoLayout.horizontalMargin * 2,
                             ),
-                            child: MapFloorButton(
-                              selectedFloor: selectedFloor.value,
-                              onPressed: (floor) {
-                                selectedFloor.value = floor;
-                                focusedTile.value = null;
-                                transformationController.value =
-                                    Matrix4.identity();
-                              },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: DottoLayout.horizontalMargin,
+                              ),
+                              child: MapFloorButton(
+                                selectedFloor: selectedFloor.value,
+                                onPressed: (floor) {
+                                  selectedFloor.value = floor;
+                                  focusedTile.value = null;
+                                  transformationController.value =
+                                      Matrix4.identity();
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: [
-                              SizedBox.expand(
-                                child: Map(
-                                  mapViewTransformationController:
-                                      transformationController,
-                                  selectedFloor: selectedFloor.value,
-                                  rooms: state,
-                                  focusedMapTileProps: focusedTile.value,
-                                  dateTime: searchDatetime,
-                                  onTapped: (props, _) {
-                                    focusedTile.value =
-                                        focusedTile.value == props
-                                        ? null
-                                        : props;
-                                  },
+                          Expanded(
+                            child: Stack(
+                              alignment: Alignment.bottomLeft,
+                              children: [
+                                SizedBox.expand(
+                                  child: Map(
+                                    mapViewTransformationController:
+                                        transformationController,
+                                    selectedFloor: selectedFloor.value,
+                                    tileProps: map.tileProps,
+                                    rooms: state,
+                                    focusedMapTileProps: focusedTile.value,
+                                    dateTime: searchDatetime,
+                                    onTapped: (props, _) {
+                                      focusedTile.value =
+                                          focusedTile.value == props
+                                          ? null
+                                          : props;
+                                    },
+                                  ),
                                 ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 16),
-                                child: MapLegend(),
-                              ),
-                            ],
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 16),
+                                  child: MapLegend(),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        _MapDatePickerSection(
-                          isAuthenticated: isAuthenticated,
-                          searchDatetime: searchDatetime,
-                          onPeriodButtonTapped: (dateTime) async {
-                            var setDate = dateTime;
-                            if (setDate.hour == 0) {
-                              setDate = DateTime.now();
-                            }
-                            searchDate.value = setDate;
-                          },
-                          onDatePickerConfirmed: (dateTime) async {
-                            searchDate.value = dateTime;
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
+                          _MapDatePickerSection(
+                            isAuthenticated: isAuthenticated,
+                            searchDatetime: searchDatetime,
+                            onPeriodButtonTapped: (dateTime) async {
+                              var setDate = dateTime;
+                              if (setDate.hour == 0) {
+                                setDate = DateTime.now();
+                              }
+                              searchDate.value = setDate;
+                            },
+                            onDatePickerConfirmed: (dateTime) async {
+                              searchDate.value = dateTime;
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          AsyncError() => Center(
+              ],
+            ),
+          (AsyncError(), _) || (_, AsyncError()) => Center(
             child: Text(
               (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapError,
             ),

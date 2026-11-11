@@ -8,6 +8,8 @@ import 'package:material_ui/material_ui.dart';
 abstract class MapTileProps {
   new({
     required this.floor,
+    required this.x,
+    required this.y,
     required this.width,
     required this.height,
     required this.top,
@@ -20,6 +22,9 @@ abstract class MapTileProps {
 
   final Floor floor;
 
+  /// マップ座標系での左上の位置 (グリッド単位)。
+  final int x;
+  final int y;
   final int width;
   final int height;
   final int top;
@@ -37,6 +42,8 @@ abstract class MapTileProps {
 final class ClassroomMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -59,6 +66,8 @@ final class ClassroomMapTileProps extends MapTileProps {
 final class FacultyRoomMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -78,6 +87,8 @@ final class FacultyRoomMapTileProps extends MapTileProps {
 final class SubRoomMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -100,6 +111,8 @@ final class SubRoomMapTileProps extends MapTileProps {
 final class OtherRoomMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -119,6 +132,8 @@ final class OtherRoomMapTileProps extends MapTileProps {
 final class RestroomMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -139,6 +154,8 @@ final class RestroomMapTileProps extends MapTileProps {
 final class StairMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -159,6 +176,8 @@ final class StairMapTileProps extends MapTileProps {
 final class ElevatorMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -176,6 +195,8 @@ final class ElevatorMapTileProps extends MapTileProps {
 final class AisleMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
@@ -194,6 +215,8 @@ final class AisleMapTileProps extends MapTileProps {
 final class AtriumMapTileProps extends MapTileProps {
   new({
     required super.floor,
+    required super.x,
+    required super.y,
     required super.width,
     required super.height,
     required super.top,
