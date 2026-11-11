@@ -57,6 +57,22 @@ void main() {
     expect((stair.type.up, stair.type.down), (true, false));
   });
 
+  test('1F〜3F のエレベーターは同じ座標にある', () {
+    final map = loadFunMapForTest();
+
+    final positions = {
+      for (final floor in [Floor.first, Floor.second, Floor.third])
+        floor: map
+            .tilePropsOf(floor)
+            .whereType<ElevatorMapTileProps>()
+            .map((e) => (e.x, e.y))
+            .toSet(),
+    };
+    expect(positions[Floor.first], {(38, 52)});
+    expect(positions[Floor.second], {(38, 52)});
+    expect(positions[Floor.third], contains((38, 52)));
+  });
+
   test('矩形の Polygon は shape を持たない', () {
     final map = loadFunMapForTest();
 
