@@ -84,8 +84,9 @@ flutter:
   # flavor 未指定の flutter run/build でもストア配信用の store flavor を使う
   default-flavor: store
   assets:
-    - assets/
-    - assets/map/
+    - assets/icon.png
+    - assets/no_image.png
+    - assets/syllabus.db
     - assets/map/imdf/
     - assets/tutorial/
   generate: true
