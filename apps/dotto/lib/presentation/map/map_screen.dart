@@ -38,6 +38,7 @@ final class MapScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(mapStateProvider);
+    final funMap = ref.watch(funMapProvider).value;
     final searchDate = useState(DateTime.now());
     final selectedFloor = useState(Floor.third);
     final focusedTile = useState<MapTileProps?>(null);
@@ -48,7 +49,7 @@ final class MapScreen extends HookConsumerWidget {
 
     void focusRoom(Room room) {
       selectedFloor.value = room.floor;
-      focusedTile.value = FUNMap.tileProps.firstWhereOrNull(
+      focusedTile.value = funMap?.tileProps.firstWhereOrNull(
         (e) => e.id == room.id,
       );
     }
@@ -82,7 +83,7 @@ final class MapScreen extends HookConsumerWidget {
         });
       }
       return null;
-    }, [focusedRoomId, rooms]);
+    }, [focusedRoomId, rooms, funMap]);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -243,9 +244,10 @@ final class MapScreen extends HookConsumerWidget {
       body: Padding(
         // 地図は固定レイアウトのため、下部のタブバーの上に収める。
         padding: const EdgeInsets.only(top: 8).withBottomBarInset(context),
-        child: switch (asyncState) {
+        child: switch ((asyncState, ref.watch(funMapProvider))) {
           // 地図も含めて本文の最大幅に収め、広い画面では中央に置く。
-          AsyncData(value: final state) => Center(
+          (AsyncData(value: final state), AsyncData(value: final map)) =>
+            Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: _maxWidth),
               child: Column(
@@ -280,6 +282,7 @@ final class MapScreen extends HookConsumerWidget {
                                       mapViewTransformationController:
                                           transformationController,
                                       selectedFloor: selectedFloor.value,
+                                      tileProps: map.tileProps,
                                       rooms: state,
                                       focusedMapTileProps: focusedTile.value,
                                       dateTime: searchDatetime,
@@ -321,7 +324,7 @@ final class MapScreen extends HookConsumerWidget {
               ),
             ),
           ),
-          AsyncError() => Center(
+          (AsyncError(), _) || (_, AsyncError()) => Center(
             child: Text(
               (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapError,
             ),

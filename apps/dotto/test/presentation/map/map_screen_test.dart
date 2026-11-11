@@ -1,6 +1,7 @@
 import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/room_data_source.dart';
 import 'package:dotto/domain/entity/floor.dart';
+import 'package:dotto/presentation/map/fun_map.dart';
 import 'package:dotto/presentation/map/map_screen.dart';
 import 'package:dotto/presentation/map/widget/map.dart';
 import 'package:dotto/presentation/map/widget/map_floor_button.dart';
@@ -10,6 +11,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../helpers/fake_auth_data_source.dart';
 import '../../helpers/fake_room_data_source.dart';
+import '../../helpers/fun_map_for_test.dart';
 
 const _rooms = {
   '3': {
@@ -28,6 +30,7 @@ Future<void> _pumpMap(WidgetTester tester, {String? focusedRoomId}) async {
           const FakeRoomDataSource(rooms: _rooms),
         ),
         authDataSourceProvider.overrideWithValue(FakeAuthDataSource()),
+        funMapProvider.overrideWith((ref) async => loadFunMapForTest()),
       ],
       child: MaterialApp(
         home: MapScreen(
