@@ -5,8 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helpers/fun_map_for_test.dart';
 
 void main() {
-  final funMap = loadFunMapForTest();
   final imdf = loadImdfForTest();
+  final funMap = imdf.funMap;
 
   test('すべてのタイルに対応する unit がある', () {
     for (final tile in funMap.tileProps) {
@@ -14,7 +14,7 @@ void main() {
       expect(unit, isNotNull, reason: '${tile.floor} ${tile.x},${tile.y}');
       expect(
         (unit!['properties']! as Map)['level_id'],
-        imdfLevelId(tile.floor),
+        imdf.levelIdOf(tile.floor),
       );
     }
     expect(imdf.units, hasLength(funMap.tileProps.length));

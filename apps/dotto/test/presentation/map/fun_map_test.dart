@@ -1,5 +1,6 @@
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/geo_json.dart';
 import 'package:dotto/presentation/map/map_tile_props.dart';
 import 'package:dotto/presentation/map/restroom_type.dart';
 import 'package:dotto/presentation/map/room_equipment.dart';
@@ -9,7 +10,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../helpers/fun_map_for_test.dart';
 
 void main() {
-  test('GeoJSON から全階のタイルを読み込む', () {
+  test('IMDF から全階のタイルを読み込む', () {
     final map = loadFunMapForTest();
 
     expect(map.tileProps, hasLength(614));
@@ -80,7 +81,7 @@ void main() {
   });
 
   test('L 字の Polygon は外接矩形と輪郭を持つ', () {
-    final props = FUNMap.fromGeoJson(_lShapedRoom).tileProps.single;
+    final props = _tileOf(_lShapedRoom);
 
     expect((props.x, props.y, props.width, props.height), (2, 3, 4, 4));
     expect(props.outline, 1);
@@ -103,7 +104,7 @@ void main() {
 
   test('未知の kind はエラーにする', () {
     expect(
-      () => FUNMap.fromGeoJson({
+      () => _tileOf({
         'type': 'FeatureCollection',
         'features': [
           {
@@ -159,3 +160,9 @@ const Map<String, Object?> _lShapedRoom = {
     },
   ],
 };
+
+/// FeatureCollection の唯一の Feature をタイルに変換する。
+MapTileProps _tileOf(Map<String, Object?> collection) =>
+    mapTilePropsFromGeoJsonFeature(
+      GeoJsonFeatureCollection.fromJson(collection).features.single,
+    );

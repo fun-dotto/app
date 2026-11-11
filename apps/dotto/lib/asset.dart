@@ -22,9 +22,6 @@ final class Asset {
   /// キャンパスマップR7の画像
   static const String mapR7 = 'assets/map/mapr7.png';
 
-  /// 学内マップのフロア図 (GeoJSON)
-  static const String funMapGeoJson = 'assets/map/fun_map.geojson';
-
   // Tutorial
 
   /// チュートリアル用時間割モック画像
