@@ -32,6 +32,8 @@ final class Map extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: MapGridScreen(
           tileProps: tileProps.where((e) => e.floor == selectedFloor).toList(),
+          // 全階で共通の範囲にして、階を切り替えても位置がずれないようにする。
+          bounds: tileProps.isEmpty ? null : tilePropsBounds(tileProps),
           rooms: rooms,
           focusedMapTileProps: focusedMapTileProps,
           dateTime: dateTime,
