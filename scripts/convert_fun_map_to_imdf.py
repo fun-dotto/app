@@ -105,10 +105,23 @@ def main_grid_to_uv():
     return lambda x, y: (umax - (umax - umin) * y / 63, vmin + (vmax - vmin) * x / 48)
 
 
-def lab_grid_to_uv():
-    # 研究棟は 90 度回転して描かれている。x: 南南西 → 北北東、y: 西 → 東 (通路側)
+LAB_ROTATION = int(os.environ.get("LAB_ROTATION", "0"))
+
+
+def lab_grid_to_uv(rotation=None):
+    """研究棟のグリッドを外接矩形に対応付ける。rotation は 90 度単位の回転。"""
+    r = LAB_ROTATION if rotation is None else rotation
     umin, umax, vmin, vmax = extent(LAB_OUTLINE)
-    return lambda x, y: (umin + (umax - umin) * x / 48, vmin + (vmax - vmin) * y / 30)
+    lu = lambda t: umin + (umax - umin) * t  # noqa: E731
+    lv = lambda t: vmin + (vmax - vmin) * t  # noqa: E731
+    return {
+        # x: 南南西 → 北北東、y: 西 → 東 (通路側)
+        0: lambda x, y: (lu(x / 48), lv(y / 30)),
+        # x: 西 → 東、y: 北北東 → 南南西 (本部棟と同じ向き)
+        1: lambda x, y: (lu(1 - y / 30), lv(x / 48)),
+        2: lambda x, y: (lu(1 - x / 48), lv(1 - y / 30)),
+        3: lambda x, y: (lu(y / 30), lv(1 - x / 48)),
+    }[r]
 
 
 NS = uuid.UUID("6f1d3c3e-5a2b-4c1e-9a3d-2f6b8e0d1a77")
