@@ -1,0 +1,390 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "4c61958c-2cc8-500b-b8d5-3ece77f0b150",
+      "type": "Feature",
+      "feature_type": "level",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140.76642518,
+              41.84202385
+            ],
+            [
+              140.76754954,
+              41.84162859
+            ],
+            [
+              140.76726513,
+              41.84117957
+            ],
+            [
+              140.76614076,
+              41.84157484
+            ],
+            [
+              140.76642518,
+              41.84202385
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "unspecified",
+        "restriction": null,
+        "outdoor": false,
+        "ordinal": 0,
+        "name": {
+          "ja": "本部棟 1F"
+        },
+        "short_name": {
+          "ja": "1F"
+        },
+        "display_point": {
+          "type": "Point",
+          "coordinates": [
+            140.76684515,
+            41.84160171
+          ]
+        },
+        "address_id": null,
+        "building_ids": [
+          "9bb0690f-48f6-5548-adcd-8afd0bc9c62d"
+        ]
+      }
+    },
+    {
+      "id": "d10b6427-263e-5bac-b142-545cc2c6311c",
+      "type": "Feature",
+      "feature_type": "level",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140.76641464,
+              41.84200722
+            ],
+            [
+              140.76753901,
+              41.84161196
+            ],
+            [
+              140.76733886,
+              41.84129598
+            ],
+            [
+              140.7662145,
+              41.84169125
+            ],
+            [
+              140.76641464,
+              41.84200722
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "unspecified",
+        "restriction": null,
+        "outdoor": false,
+        "ordinal": 1,
+        "name": {
+          "ja": "本部棟 2F"
+        },
+        "short_name": {
+          "ja": "2F"
+        },
+        "display_point": {
+          "type": "Point",
+          "coordinates": [
+            140.76687675,
+            41.8416516
+          ]
+        },
+        "address_id": null,
+        "building_ids": [
+          "9bb0690f-48f6-5548-adcd-8afd0bc9c62d"
+        ]
+      }
+    },
+    {
+      "id": "6b295b79-3914-5d6d-8cca-7023838f657c",
+      "type": "Feature",
+      "feature_type": "level",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140.7668044,
+              41.84262255
+            ],
+            [
+              140.76792877,
+              41.84222728
+            ],
+            [
+              140.76728619,
+              41.84121283
+            ],
+            [
+              140.76616183,
+              41.8416081
+            ],
+            [
+              140.7668044,
+              41.84262255
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "unspecified",
+        "restriction": null,
+        "outdoor": false,
+        "ordinal": 2,
+        "name": {
+          "ja": "本部棟 3F"
+        },
+        "short_name": {
+          "ja": "3F"
+        },
+        "display_point": {
+          "type": "Point",
+          "coordinates": [
+            140.7670453,
+            41.84191769
+          ]
+        },
+        "address_id": null,
+        "building_ids": [
+          "9bb0690f-48f6-5548-adcd-8afd0bc9c62d"
+        ]
+      }
+    },
+    {
+      "id": "05aceb6f-4048-5ae0-8c0d-0bfee3282b28",
+      "type": "Feature",
+      "feature_type": "level",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140.7668044,
+              41.84262255
+            ],
+            [
+              140.76792877,
+              41.84222728
+            ],
+            [
+              140.76733886,
+              41.84129598
+            ],
+            [
+              140.7662145,
+              41.84169125
+            ],
+            [
+              140.7668044,
+              41.84262255
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "unspecified",
+        "restriction": null,
+        "outdoor": false,
+        "ordinal": 3,
+        "name": {
+          "ja": "本部棟 4F"
+        },
+        "short_name": {
+          "ja": "4F"
+        },
+        "display_point": {
+          "type": "Point",
+          "coordinates": [
+            140.76707163,
+            41.84195926
+          ]
+        },
+        "address_id": null,
+        "building_ids": [
+          "9bb0690f-48f6-5548-adcd-8afd0bc9c62d"
+        ]
+      }
+    },
+    {
+      "id": "2c73db5c-5432-527d-ba99-0d2fcafacb7b",
+      "type": "Feature",
+      "feature_type": "level",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140.7668044,
+              41.84262255
+            ],
+            [
+              140.76792877,
+              41.84222728
+            ],
+            [
+              140.76726513,
+              41.84117957
+            ],
+            [
+              140.76614076,
+              41.84157484
+            ],
+            [
+              140.7668044,
+              41.84262255
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "unspecified",
+        "restriction": null,
+        "outdoor": false,
+        "ordinal": 4,
+        "name": {
+          "ja": "本部棟 5F"
+        },
+        "short_name": {
+          "ja": "5F"
+        },
+        "display_point": {
+          "type": "Point",
+          "coordinates": [
+            140.76703476,
+            41.84190106
+          ]
+        },
+        "address_id": null,
+        "building_ids": [
+          "9bb0690f-48f6-5548-adcd-8afd0bc9c62d"
+        ]
+      }
+    },
+    {
+      "id": "f6cd5340-73f8-5a2c-821b-b0bdc10327e7",
+      "type": "Feature",
+      "feature_type": "level",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140.76544888,
+              41.84189717
+            ],
+            [
+              140.76592139,
+              41.84264314
+            ],
+            [
+              140.76659049,
+              41.84240792
+            ],
+            [
+              140.76611797,
+              41.84166195
+            ],
+            [
+              140.76544888,
+              41.84189717
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "unspecified",
+        "restriction": null,
+        "outdoor": false,
+        "ordinal": 5,
+        "name": {
+          "ja": "研究棟 6F"
+        },
+        "short_name": {
+          "ja": "6F"
+        },
+        "display_point": {
+          "type": "Point",
+          "coordinates": [
+            140.76601968,
+            41.84215254
+          ]
+        },
+        "address_id": null,
+        "building_ids": [
+          "6055d284-1aab-56e6-8311-acd0dd7f5d9b"
+        ]
+      }
+    },
+    {
+      "id": "769d1541-e087-57e9-8f79-566f9fd6767a",
+      "type": "Feature",
+      "feature_type": "level",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140.76544888,
+              41.84189717
+            ],
+            [
+              140.76592139,
+              41.84264314
+            ],
+            [
+              140.76659049,
+              41.84240792
+            ],
+            [
+              140.76611797,
+              41.84166195
+            ],
+            [
+              140.76544888,
+              41.84189717
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "unspecified",
+        "restriction": null,
+        "outdoor": false,
+        "ordinal": 6,
+        "name": {
+          "ja": "研究棟 7F"
+        },
+        "short_name": {
+          "ja": "7F"
+        },
+        "display_point": {
+          "type": "Point",
+          "coordinates": [
+            140.76601968,
+            41.84215254
+          ]
+        },
+        "address_id": null,
+        "building_ids": [
+          "6055d284-1aab-56e6-8311-acd0dd7f5d9b"
+        ]
+      }
+    }
+  ]
+}
