@@ -1,41 +1,29 @@
-import 'dart:convert';
-
-import 'package:dotto/asset.dart';
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/presentation/map/geo_json.dart';
+import 'package:dotto/presentation/map/imdf.dart';
 import 'package:dotto/presentation/map/map_stair_type.dart';
 import 'package:dotto/presentation/map/map_tile_props.dart';
 import 'package:dotto/presentation/map/restroom_type.dart';
 import 'package:dotto/presentation/map/room_equipment.dart';
-import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fun_map.g.dart';
 
-/// GeoJSON から読み込んだキャンパスマップ。
+/// IMDF の unit から復元したキャンパスマップのタイル。
+///
+/// unit の `dotto` プロパティは以下を持つ。
+/// - `grid`: グリッド上の形 (GeoJSON の Polygon / MultiPolygon、原点左上・y 軸下向き)
+/// - `floor`: 階 ([Floor.label])
+/// - `kind`: タイルの種類 ([MapTileKind] の名前)
+/// - `roomId`, `label`: 部屋 ID と表示名 (任意)
+/// - `border`: `top` / `right` / `bottom` / `left` の枠線の太さ (任意)。
+///   矩形以外の Polygon / MultiPolygon は `outline` で輪郭線の太さを指定する
+/// - `equipment`: `food` / `drink` / `outlet` の設備状況 (任意)
+/// - `restroomTypes`: トイレの種類の配列 (`kind` が `restroom` の場合)
+/// - `stair`: `direction` / `up` / `down` (`kind` が `stair` の場合)
 final class FUNMap {
   const new({required this.tileProps});
-
-  /// GeoJSON の FeatureCollection を解釈する。
-  ///
-  /// 各 Feature の `properties` は以下を持つ。
-  /// - `floor`: 階 ([Floor.label])
-  /// - `kind`: タイルの種類 ([MapTileKind] の名前)
-  /// - `roomId`, `label`: 部屋 ID と表示名 (任意)
-  /// - `border`: `top` / `right` / `bottom` / `left` の枠線の太さ (任意)。
-  ///   矩形以外の Polygon / MultiPolygon は `outline` で輪郭線の太さを指定する
-  /// - `equipment`: `food` / `drink` / `outlet` の設備状況 (任意)
-  /// - `restroomTypes`: トイレの種類の配列 (`kind` が `restroom` の場合)
-  /// - `stair`: `direction` / `up` / `down` (`kind` が `stair` の場合)
-  factory fromGeoJson(Map<String, Object?> json) {
-    final collection = GeoJsonFeatureCollection.fromJson(json);
-    return FUNMap(
-      tileProps: List.unmodifiable(
-        collection.features.map(mapTilePropsFromGeoJsonFeature),
-      ),
-    );
-  }
 
   final List<MapTileProps> tileProps;
 
@@ -45,10 +33,8 @@ final class FUNMap {
 }
 
 @Riverpod(keepAlive: true)
-Future<FUNMap> funMap(Ref ref) async {
-  final source = await rootBundle.loadString(Asset.funMapGeoJson);
-  return FUNMap.fromGeoJson(jsonDecode(source) as Map<String, Object?>);
-}
+Future<FUNMap> funMap(Ref ref) async =>
+    (await ref.watch(imdfProvider.future)).funMap;
 
 enum MapTileKind {
   classroom,
@@ -59,20 +45,7 @@ enum MapTileKind {
   stair,
   elevator,
   aisle,
-  atrium;
-
-  /// [tile] の種類。
-  static MapTileKind of(MapTileProps tile) => switch (tile) {
-    ClassroomMapTileProps() => classroom,
-    FacultyRoomMapTileProps() => facultyRoom,
-    SubRoomMapTileProps() => subRoom,
-    OtherRoomMapTileProps() => otherRoom,
-    RestroomMapTileProps() => restroom,
-    StairMapTileProps() => stair,
-    ElevatorMapTileProps() => elevator,
-    AisleMapTileProps() => aisle,
-    AtriumMapTileProps() => atrium,
-  };
+  atrium,
 }
 
 MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {

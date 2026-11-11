@@ -3,21 +3,25 @@ import 'dart:math' as math;
 
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/geo_json.dart';
 import 'package:dotto/presentation/map/map_tile_props.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uuid/uuid.dart';
 
 part 'imdf.g.dart';
 
-/// `scripts/convert_fun_map_to_imdf.py` が出力した IMDF (経度・緯度)。
+/// キャンパスマップの IMDF (経度・緯度)。
 ///
-/// 描画に使う footprint / level / unit だけを読み込む。
+/// 描画に使う footprint / level / unit だけを読み込む。unit の `dotto`
+/// プロパティにはアプリ固有の情報 (部屋 ID・設備・グリッド上の形など) を持つ。
 final class Imdf {
   const new({
     required this.footprints,
     required this.levels,
     required this.units,
+    required this.funMap,
+    required this._unitIds,
+    required this._levelIds,
   });
 
   factory fromJson({
@@ -30,7 +34,32 @@ final class Imdf {
           in (collection['features']! as List).cast<Map<String, Object?>>())
         f['id']! as String: f,
     };
-    return Imdf(footprints: footprint, levels: byId(level), units: byId(unit));
+    final units = byId(unit);
+    final unitIds = Map<MapTileProps, String>.identity();
+    final levelIds = <Floor, String>{};
+    for (final MapEntry(key: id, value: feature) in units.entries) {
+      final properties = feature['properties']! as Map<String, Object?>;
+      final dotto = Map<String, Object?>.of(
+        properties['dotto']! as Map<String, Object?>,
+      );
+      final grid = dotto.remove('grid')! as Map<String, Object?>;
+      final tile = mapTilePropsFromGeoJsonFeature(
+        GeoJsonFeature(
+          geometry: GeoJsonGeometry.fromJson(grid),
+          properties: dotto,
+        ),
+      );
+      unitIds[tile] = id;
+      levelIds[tile.floor] = properties['level_id']! as String;
+    }
+    return Imdf(
+      footprints: footprint,
+      levels: byId(level),
+      units: units,
+      funMap: FUNMap(tileProps: List.unmodifiable(unitIds.keys)),
+      unitIds: unitIds,
+      levelIds: levelIds,
+    );
   }
 
   /// 建物の外形の FeatureCollection。
@@ -42,13 +71,22 @@ final class Imdf {
   /// unit の Feature (ID ごと)。
   final Map<String, Map<String, Object?>> units;
 
+  /// unit から復元したタイル。
+  final FUNMap funMap;
+
+  final Map<MapTileProps, String> _unitIds;
+  final Map<Floor, String> _levelIds;
+
   /// [tile] に対応する unit の Feature。
-  Map<String, Object?>? unitOf(MapTileProps tile) => units[imdfUnitId(tile)];
+  Map<String, Object?>? unitOf(MapTileProps tile) => units[_unitIds[tile]];
+
+  /// [floor] の level の ID。
+  String? levelIdOf(Floor floor) => _levelIds[floor];
 
   /// [floor] の level の外形。
   List<ImdfPosition> levelOutline(Floor floor) {
     final geometry =
-        levels[imdfLevelId(floor)]?['geometry'] as Map<String, Object?>?;
+        levels[_levelIds[floor]]?['geometry'] as Map<String, Object?>?;
     if (geometry == null) return const [];
     return imdfRing(geometry);
   }
@@ -67,22 +105,6 @@ List<ImdfPosition> imdfRing(Map<String, Object?> polygon) {
       (lng: (p[0]! as num).toDouble(), lat: (p[1]! as num).toDouble()),
   ];
 }
-
-// 変換スクリプトの NS と同じ値。
-const _namespace = '6f1d3c3e-5a2b-4c1e-9a3d-2f6b8e0d1a77';
-
-String _uid(List<Object> parts) => const Uuid().v5(_namespace, parts.join('/'));
-
-/// 変換スクリプトと同じ規則で求めた unit の ID。
-String imdfUnitId(MapTileProps tile) => _uid([
-  'unit',
-  tile.floor.label,
-  MapTileKind.of(tile).name,
-  tile.id ?? '${tile.x},${tile.y}',
-]);
-
-/// 変換スクリプトと同じ規則で求めた level の ID。
-String imdfLevelId(Floor floor) => _uid(['level', floor.label]);
 
 /// 建物の軸の向き (北から時計回りの角度)。
 ///
