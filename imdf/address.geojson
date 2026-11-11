@@ -1,0 +1,21 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "abc8830b-6f20-5dfa-a59f-2f604589af6d",
+      "type": "Feature",
+      "feature_type": "address",
+      "geometry": null,
+      "properties": {
+        "address": "亀田中野町116番地2",
+        "unit": null,
+        "locality": "函館市",
+        "province": "JP-01",
+        "country": "JP",
+        "postal_code": "041-8655",
+        "postal_code_ext": null,
+        "postal_code_vanity": null
+      }
+    }
+  ]
+}
