@@ -89,36 +89,153 @@ final class MapTile extends StatelessWidget {
     );
   }
 
+  /// 部屋名やアイコンなど、タイルの中心に置く要素。
+  List<Widget> get _labels => [
+    Padding(
+      padding: const EdgeInsets.all(2),
+      child: _MapTileLabel(
+        text: labelText,
+        fontSize: fontSize,
+        color: labelColor,
+      ),
+    ),
+    if (props case RestroomMapTileProps(:final types))
+      _RestroomIcons(types: types, iconSize: iconSize),
+    if (props is ElevatorMapTileProps) const _MapElevator(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final shape = props.shape;
+    final tile = GestureDetector(
       onTap: () => onTapped?.call(props, room),
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          _MapTileSurface(
-            props: props,
-            tileColor: tileColor,
-            padding: padding,
-            border: border,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: _MapTileLabel(
-              text: labelText,
-              fontSize: fontSize,
-              color: labelColor,
+          if (shape == null)
+            _MapTileSurface(
+              props: props,
+              tileColor: tileColor,
+              padding: padding,
+              border: border,
+            )
+          else
+            SizedBox.expand(
+              child: CustomPaint(
+                painter: _MapShapePainter(
+                  props: props,
+                  shape: shape,
+                  tileColor: tileColor,
+                  isFocused: isFocused,
+                ),
+              ),
             ),
-          ),
-          if (props case RestroomMapTileProps(:final types))
-            _RestroomIcons(types: types, iconSize: iconSize),
+          if (shape == null)
+            ..._labels
+          else
+            _AnchoredToShape(props: props, children: _labels),
           if (props case StairMapTileProps(:final type))
             _MapStair(props: props, type: type),
-          if (props is ElevatorMapTileProps) const _MapElevator(),
         ],
       ),
     );
+    if (shape == null) return tile;
+    // 形の外側 (外接矩形の余白) は描画もタップもさせない。
+    return ClipPath(
+      clipper: _MapShapeClipper(props: props, shape: shape),
+      child: tile,
+    );
   }
+}
+
+/// 矩形でないタイルで、ラベル類を [MapTileProps.labelAnchor] を中心に置く。
+final class _AnchoredToShape extends StatelessWidget {
+  const new({required this.props, required this.children});
+  final MapTileProps props;
+  final List<Widget> children;
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final anchor = props.labelAnchor;
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: anchor.dx * constraints.maxWidth / props.width,
+              top: anchor.dy * constraints.maxHeight / props.height,
+              child: FractionalTranslation(
+                translation: const Offset(-0.5, -0.5),
+                child: Stack(alignment: Alignment.center, children: children),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+/// [MapTileProps.shape] をウィジェットのサイズに合わせたパスにする。
+Path _shapePath(MapTileProps props, List<List<Offset>> shape, Size size) {
+  final sx = size.width / props.width;
+  final sy = size.height / props.height;
+  final path = Path()..fillType = PathFillType.evenOdd;
+  for (final ring in shape) {
+    path.addPolygon([for (final p in ring) Offset(p.dx * sx, p.dy * sy)], true);
+  }
+  return path;
+}
+
+final class _MapShapeClipper extends CustomClipper<Path> {
+  const new({required this.props, required this.shape});
+  final MapTileProps props;
+  final List<List<Offset>> shape;
+  @override
+  Path getClip(Size size) => _shapePath(props, shape, size);
+  @override
+  bool shouldReclip(_MapShapeClipper oldClipper) =>
+      oldClipper.props != props || oldClipper.shape != shape;
+}
+
+final class _MapShapePainter extends CustomPainter {
+  const new({
+    required this.props,
+    required this.shape,
+    required this.tileColor,
+    required this.isFocused,
+  });
+  final MapTileProps props;
+  final List<List<Offset>> shape;
+  final Color tileColor;
+  final bool isFocused;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final path = _shapePath(props, shape, size);
+    canvas.drawPath(path, Paint()..color = tileColor);
+    // クリップされるため線の内側半分だけが見える。矩形タイルと見た目を
+    // 揃えるため、枠線なしの場合も通路色で 1 の隙間を空ける。
+    final (color, width) = isFocused
+        ? (MapColors.focusedTile, 2.0)
+        : props.outline > 0
+        ? (MapColors.foreground, props.outline * 2.0)
+        : (MapColors.aisleTile, 2.0);
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..color = color
+        ..strokeWidth = width,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_MapShapePainter oldDelegate) =>
+      oldDelegate.props != props ||
+      oldDelegate.shape != shape ||
+      oldDelegate.tileColor != tileColor ||
+      oldDelegate.isFocused != isFocused;
 }
 
 final class _MapTileSurface extends StatelessWidget {

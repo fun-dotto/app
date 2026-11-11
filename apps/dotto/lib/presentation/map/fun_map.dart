@@ -23,7 +23,8 @@ final class FUNMap {
   /// - `floor`: 階 ([Floor.label])
   /// - `kind`: タイルの種類 ([MapTileKind] の名前)
   /// - `roomId`, `label`: 部屋 ID と表示名 (任意)
-  /// - `border`: `top` / `right` / `bottom` / `left` の枠線の太さ (任意)
+  /// - `border`: `top` / `right` / `bottom` / `left` の枠線の太さ (任意)。
+  ///   矩形以外の Polygon / MultiPolygon は `outline` で輪郭線の太さを指定する
   /// - `equipment`: `food` / `drink` / `outlet` の設備状況 (任意)
   /// - `restroomTypes`: トイレの種類の配列 (`kind` が `restroom` の場合)
   /// - `stair`: `direction` / `up` / `down` (`kind` が `stair` の場合)
@@ -78,6 +79,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
   final right = (border['right'] as int?) ?? 0;
   final bottom = (border['bottom'] as int?) ?? 0;
   final left = (border['left'] as int?) ?? 0;
+  final outline = (border['outline'] as int?) ?? 0;
+  final shape = _shape(feature.geometry, bounds);
   final id = p['roomId'] as String?;
   final label = p['label'] as String?;
   final equipment = _equipment(p['equipment']);
@@ -98,6 +101,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
       id: id,
       label: label,
       equipment:
@@ -114,6 +119,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
       id: id,
       label: label,
     ),
@@ -127,6 +134,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
       id: id,
       label: label,
       equipment: equipment,
@@ -141,6 +150,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
       id: id,
       label: label,
     ),
@@ -154,6 +165,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
       types: [
         for (final name
             in (p['restroomTypes'] as List<Object?>?) ?? const <Object?>[])
@@ -170,6 +183,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
       type: _stair(p['stair']),
     ),
     MapTileKind.elevator => ElevatorMapTileProps(
@@ -182,6 +197,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
     ),
     MapTileKind.aisle => AisleMapTileProps(
       floor: floor,
@@ -193,6 +210,8 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
       label: label,
     ),
     MapTileKind.atrium => AtriumMapTileProps(
@@ -205,8 +224,31 @@ MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {
       right: right,
       bottom: bottom,
       left: left,
+      shape: shape,
+      outline: outline,
     ),
   };
+}
+
+/// 外接矩形と一致しない形なら、外接矩形の左上を原点とした輪郭を返す。
+List<List<Offset>>? _shape(GeoJsonGeometry geometry, GeoJsonBoundingBox b) {
+  final rings = switch (geometry) {
+    GeoJsonPolygon(:final rings) => rings,
+    GeoJsonMultiPolygon(:final polygons) => [...polygons.expand((e) => e)],
+    GeoJsonPoint() => const <List<GeoJsonPosition>>[],
+  };
+  if (rings.isEmpty) return null;
+  bool isCorner(GeoJsonPosition p) =>
+      (p.x == b.minX || p.x == b.maxX) && (p.y == b.minY || p.y == b.maxY);
+  final isRectangle =
+      rings.length == 1 &&
+      rings.first.toSet().length == 4 &&
+      rings.first.every(isCorner);
+  if (isRectangle) return null;
+  return [
+    for (final ring in rings)
+      [for (final p in ring) Offset(p.x - b.minX, p.y - b.minY)],
+  ];
 }
 
 RoomEquipmentStatus? _equipment(Object? json) {
