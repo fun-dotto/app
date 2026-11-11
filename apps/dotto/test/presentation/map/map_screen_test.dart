@@ -2,6 +2,7 @@ import 'package:dotto/data/auth_data_source.dart';
 import 'package:dotto/data/room_data_source.dart';
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/imdf.dart';
 import 'package:dotto/presentation/map/map_screen.dart';
 import 'package:dotto/presentation/map/widget/map.dart';
 import 'package:dotto/presentation/map/widget/map_floor_button.dart';
@@ -31,6 +32,7 @@ Future<void> _pumpMap(WidgetTester tester, {String? focusedRoomId}) async {
         ),
         authDataSourceProvider.overrideWithValue(FakeAuthDataSource()),
         funMapProvider.overrideWith((ref) async => loadFunMapForTest()),
+        imdfProvider.overrideWith((ref) async => loadImdfForTest()),
       ],
       child: MaterialApp(
         home: MapScreen(
@@ -56,14 +58,8 @@ void main() {
     expect(find.text('設定に移動する'), findsOneWidget);
   });
 
-  testWidgets('階を変更すると選択と拡大率をリセットする', (tester) async {
+  testWidgets('階を変更すると選択をリセットする', (tester) async {
     await _pumpMap(tester, focusedRoomId: '406');
-    final map = tester.widget<Map>(find.byType(Map));
-    map.mapViewTransformationController.value = Matrix4.diagonal3Values(
-      2,
-      2,
-      1,
-    );
 
     tester
         .widget<MapFloorButton>(find.byType(MapFloorButton))
@@ -73,7 +69,6 @@ void main() {
     final changed = tester.widget<Map>(find.byType(Map));
     expect(changed.selectedFloor, Floor.third);
     expect(changed.focusedMapTileProps, isNull);
-    expect(changed.mapViewTransformationController.value, Matrix4.identity());
     expect(find.text('設定に移動する'), findsNothing);
   });
 

@@ -5,7 +5,7 @@ import 'package:dotto/presentation/map/room_equipment.dart';
 import 'package:dotto_design_system/style/map_colors.dart';
 import 'package:material_ui/material_ui.dart';
 
-abstract class MapTileProps {
+sealed class MapTileProps {
   new({
     required this.floor,
     required this.x,

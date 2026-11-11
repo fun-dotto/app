@@ -59,7 +59,20 @@ enum MapTileKind {
   stair,
   elevator,
   aisle,
-  atrium,
+  atrium;
+
+  /// [tile] の種類。
+  static MapTileKind of(MapTileProps tile) => switch (tile) {
+    ClassroomMapTileProps() => classroom,
+    FacultyRoomMapTileProps() => facultyRoom,
+    SubRoomMapTileProps() => subRoom,
+    OtherRoomMapTileProps() => otherRoom,
+    RestroomMapTileProps() => restroom,
+    StairMapTileProps() => stair,
+    ElevatorMapTileProps() => elevator,
+    AisleMapTileProps() => aisle,
+    AtriumMapTileProps() => atrium,
+  };
 }
 
 MapTileProps mapTilePropsFromGeoJsonFeature(GeoJsonFeature feature) {

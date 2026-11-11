@@ -4,7 +4,9 @@
 各建物のグリッドの外接矩形を、実測ポリゴン (WGS84) から求めた建物の外接矩形に
 アフィン変換で対応付ける。細かい凹凸は既存のグリッドに従う。
 
-usage: python3 scripts/convert_fun_map_to_imdf.py <fun_map.geojson> <out_dir>
+usage: python3 scripts/convert_fun_map_to_imdf.py <fun_map.geojson> <out_dir> [imdf.zip]
+
+アプリは apps/dotto/assets/map/imdf/ を読み込んで描画する。
 """
 
 import datetime
@@ -273,7 +275,8 @@ def convert(src):
         for t in tiles:
             p = t["properties"]
             r = t["geometry"]["coordinates"][0]
-            key = p.get("roomId") or f"{r[0][0]},{r[0][1]}"
+            # アプリ側 (imdf.dart の imdfUnitId) と同じ規則で ID を作る
+            key = p.get("roomId") or "{},{}".format(*rect(t)[:2])
             units[id(t)] = uid("unit", floor, p["kind"], key)
             out["unit"].append(feature(units[id(t)], "unit", polygon(
                 [b.lonlat(x, y) for x, y in r]
@@ -282,6 +285,8 @@ def convert(src):
                 "name": label(p.get("label")), "alt_name": None, "level_id": level_id,
                 "display_point": point(b.lonlat(*label_anchor(r))) if p.get("label") else None,
             }))
+    unit_ids = [u["id"] for u in out["unit"]]
+    assert len(unit_ids) == len(set(unit_ids)), "duplicate unit id"
     out["relationship"] = relationships(buildings, features, units)
     return out
 
@@ -337,6 +342,7 @@ def relationships(buildings, features, units):
 
 def main():
     src, out_dir = sys.argv[1], sys.argv[2]
+    zip_path = sys.argv[3] if len(sys.argv) > 3 else None
     data = convert(src)
     os.makedirs(out_dir, exist_ok=True)
     manifest = {
@@ -348,12 +354,14 @@ def main():
     }
     files = {"manifest.json": manifest}
     files.update({f"{k}.geojson": collection(v) for k, v in data.items()})
-    with zipfile.ZipFile(os.path.join(out_dir, "imdf.zip"), "w", zipfile.ZIP_DEFLATED) as z:
-        for name, obj in files.items():
-            text = json.dumps(obj, ensure_ascii=False, indent=2) + "\n"
-            with open(os.path.join(out_dir, name), "w", encoding="utf-8") as f:
-                f.write(text)
-            z.writestr(name, text)
+    texts = {name: json.dumps(obj, ensure_ascii=False, indent=2) + "\n" for name, obj in files.items()}
+    for name, text in texts.items():
+        with open(os.path.join(out_dir, name), "w", encoding="utf-8") as f:
+            f.write(text)
+    if zip_path:
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+            for name, text in texts.items():
+                z.writestr(name, text)
     for k, v in data.items():
         print(f"{k}: {len(v)}")
 

@@ -8,6 +8,7 @@ import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/imdf.dart';
 import 'package:dotto/presentation/map/map_state.dart';
 import 'package:dotto/presentation/map/map_tile_props.dart';
 import 'package:dotto/presentation/map/widget/map.dart';
@@ -41,10 +42,6 @@ final class MapScreen extends HookConsumerWidget {
     final searchDate = useState(DateTime.now());
     final selectedFloor = useState(Floor.third);
     final focusedTile = useState<MapTileProps?>(null);
-    final transformationController = useMemoized(TransformationController.new);
-    useEffect(() => transformationController.dispose, [
-      transformationController,
-    ]);
 
     void focusRoom(Room room) {
       selectedFloor.value = room.floor;
@@ -239,8 +236,16 @@ final class MapScreen extends HookConsumerWidget {
       body: Padding(
         // 地図は固定レイアウトのため、下部のタブバーの上に収める。
         padding: const EdgeInsets.only(top: 8).withBottomBarInset(context),
-        child: switch ((asyncState, ref.watch(funMapProvider))) {
-          (AsyncData(value: final state), AsyncData(value: final map)) =>
+        child: switch ((
+          asyncState,
+          ref.watch(funMapProvider),
+          ref.watch(imdfProvider),
+        )) {
+          (
+            AsyncData(value: final state),
+            AsyncData(value: final map),
+            AsyncData(value: final imdf),
+          ) =>
             Column(
               spacing: 8,
               children: [
@@ -265,8 +270,6 @@ final class MapScreen extends HookConsumerWidget {
                                 onPressed: (floor) {
                                   selectedFloor.value = floor;
                                   focusedTile.value = null;
-                                  transformationController.value =
-                                      Matrix4.identity();
                                 },
                               ),
                             ),
@@ -277,8 +280,7 @@ final class MapScreen extends HookConsumerWidget {
                               children: [
                                 SizedBox.expand(
                                   child: Map(
-                                    mapViewTransformationController:
-                                        transformationController,
+                                    imdf: imdf,
                                     selectedFloor: selectedFloor.value,
                                     tileProps: map.tileProps,
                                     rooms: state,
@@ -320,7 +322,9 @@ final class MapScreen extends HookConsumerWidget {
                 ),
               ],
             ),
-          (AsyncError(), _) || (_, AsyncError()) => Center(
+          (AsyncError(), _, _) ||
+          (_, AsyncError(), _) ||
+          (_, _, AsyncError()) => Center(
             child: Text(
               (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapError,
             ),
