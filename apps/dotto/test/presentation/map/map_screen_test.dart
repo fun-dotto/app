@@ -1,18 +1,17 @@
 import 'package:dotto/data/auth_data_source.dart';
+import 'package:dotto/data/campus_map_data_source.dart';
 import 'package:dotto/data/room_data_source.dart';
 import 'package:dotto/domain/entity/floor.dart';
-import 'package:dotto/presentation/map/fun_map.dart';
-import 'package:dotto/presentation/map/imdf.dart';
 import 'package:dotto/presentation/map/map_screen.dart';
-import 'package:dotto/presentation/map/widget/map.dart';
+import 'package:dotto/presentation/map/widget/campus_map_view.dart';
 import 'package:dotto/presentation/map/widget/map_floor_button.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../helpers/fake_auth_data_source.dart';
+import '../../helpers/fake_campus_map_data_source.dart';
 import '../../helpers/fake_room_data_source.dart';
-import '../../helpers/fun_map_for_test.dart';
 
 const _rooms = {
   '3': {
@@ -31,8 +30,9 @@ Future<void> _pumpMap(WidgetTester tester, {String? focusedRoomId}) async {
           const FakeRoomDataSource(rooms: _rooms),
         ),
         authDataSourceProvider.overrideWithValue(FakeAuthDataSource()),
-        funMapProvider.overrideWith((ref) async => loadFunMapForTest()),
-        imdfProvider.overrideWith((ref) async => loadImdfForTest()),
+        campusMapDataSourceProvider.overrideWithValue(
+          const FakeCampusMapDataSource(),
+        ),
       ],
       child: MaterialApp(
         home: MapScreen(
@@ -66,9 +66,9 @@ void main() {
         .onPressed(Floor.third);
     await tester.pumpAndSettle();
 
-    final changed = tester.widget<Map>(find.byType(Map));
+    final changed = tester.widget<CampusMapView>(find.byType(CampusMapView));
     expect(changed.selectedFloor, Floor.third);
-    expect(changed.focusedMapTileProps, isNull);
+    expect(changed.focusedUnit, isNull);
     expect(find.text('設定に移動する'), findsNothing);
   });
 

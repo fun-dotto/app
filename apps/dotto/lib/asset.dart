@@ -23,6 +23,9 @@ final class Asset {
   /// アプリアイコン
   static const String icon = 'assets/icon.png';
 
+  /// キャンパスマップの IMDF のディレクトリ
+  static const String imdf = 'assets/map/imdf';
+
   /// シラバスデータベースファイル
   static const String syllabus = 'assets/syllabus.db';
 }
