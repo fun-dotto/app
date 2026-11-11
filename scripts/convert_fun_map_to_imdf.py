@@ -203,7 +203,8 @@ def convert(src):
         Building("lab", "研究棟", ["R6", "R7"], LAB_OUTLINE, lab_grid_to_uv()),
     ]
     by_floor = {f: b for b in buildings for f in b.floors}
-    ordinals = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "R6": 5, "R7": 6}
+    # 研究棟の R6, R7 は本部棟の 1F, 2F と同じ高さ
+    ordinals = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "R6": 0, "R7": 1}
 
     address_id = uid("address", "fun")
     venue_id = uid("venue", "fun")
@@ -223,7 +224,7 @@ def convert(src):
             "website": "https://www.fun.ac.jp/", "display_point": point(c),
             "address_id": address_id,
         })],
-        "building": [], "footprint": [], "level": [], "unit": [],
+        "building": [], "footprint": [], "level": [], "unit": [], "relationship": [],
     }
 
     for b in buildings:
@@ -239,6 +240,7 @@ def convert(src):
     with open(src, encoding="utf-8") as f:
         features = json.load(f)["features"]
 
+    units = {}  # id(tile) -> unit id
     for floor, b in by_floor.items():
         tiles = [f for f in features if f["properties"]["floor"] == floor]
         xs = [x for t in tiles for x, _ in t["geometry"]["coordinates"][0]]
@@ -259,13 +261,64 @@ def convert(src):
             p = t["properties"]
             r = t["geometry"]["coordinates"][0]
             key = p.get("roomId") or f"{r[0][0]},{r[0][1]}"
-            out["unit"].append(feature(uid("unit", floor, p["kind"], key), "unit", polygon(
+            units[id(t)] = uid("unit", floor, p["kind"], key)
+            out["unit"].append(feature(units[id(t)], "unit", polygon(
                 [b.lonlat(x, y) for x, y in r]
             ), {
                 "category": unit_category(p), "restriction": None, "accessibility": None,
                 "name": label(p.get("label")), "alt_name": None, "level_id": level_id,
                 "display_point": point(b.lonlat(*label_anchor(r))) if p.get("label") else None,
             }))
+    out["relationship"] = relationships(buildings, features, units)
+    return out
+
+
+def rect(tile):
+    r = tile["geometry"]["coordinates"][0]
+    xs = [x for x, _ in r]
+    ys = [y for _, y in r]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def overlaps(a, b):
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+
+
+def relationships(buildings, features, units):
+    """階段は上下の階で重なる段同士 (下の階が up、上の階が down か同じ位置) を、
+    エレベーターは同じ位置で連続する階をまとめて 1 つのシャフトとして結ぶ。"""
+    def ref(t):
+        return {"id": units[id(t)], "feature_type": "unit"}
+
+    def rel(category, tiles):
+        return feature(uid("relationship", category, *(units[id(t)] for t in tiles)), "relationship", None, {
+            "category": category, "direction": "undirected", "origin": None,
+            "intermediary": [ref(t) for t in tiles], "destination": None, "hours": None,
+        })
+
+    out = []
+    for b in buildings:
+        of = {f: [t for t in features if t["properties"]["floor"] == f] for f in b.floors}
+        for lower, upper in zip(b.floors, b.floors[1:]):
+            for s in of[lower]:
+                if s["properties"]["kind"] != "stair" or not s["properties"]["stair"]["up"]:
+                    continue
+                for t in of[upper]:
+                    # 途中階の段は up しか付いていないことがあるので、同じ位置なら繋がっているとみなす
+                    if t["properties"]["kind"] == "stair" and (
+                        rect(s) == rect(t) or t["properties"]["stair"]["down"] and overlaps(rect(s), rect(t))
+                    ):
+                        out.append(rel("stairs", [s, t]))
+        shafts = []
+        for f in b.floors:
+            for e in (t for t in of[f] if t["properties"]["kind"] == "elevator"):
+                shaft = next((sh for sh in shafts if rect(sh[-1]) == rect(e)
+                              and b.floors.index(sh[-1]["properties"]["floor"]) == b.floors.index(f) - 1), None)
+                if shaft:
+                    shaft.append(e)
+                else:
+                    shafts.append([e])
+        out += [rel("elevator", sh) for sh in shafts if len(sh) > 1]
     return out
 
 
