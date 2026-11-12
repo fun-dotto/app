@@ -30,8 +30,8 @@ if (keystorePropertiesFile.exists()) {
 
 configure<ApplicationExtension> {
     namespace = "jp.ac.fun.dotto"
-    compileSdk = 36
-    ndkVersion = "28.2.13676358"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -44,7 +44,7 @@ configure<ApplicationExtension> {
         manifestPlaceholders["appName"] = "Dotto"
         manifestPlaceholders["serviceHost"] = "dotto.furari.co"
         minSdk = 30
-        targetSdk = 36
+        targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
         multiDexEnabled = true // multidexサポートライブラリを使用する
