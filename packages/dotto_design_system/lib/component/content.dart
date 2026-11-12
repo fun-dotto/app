@@ -95,9 +95,7 @@ class DottoContent extends StatelessWidget {
 
       switch (_kind) {
         case _Kind.single:
-          final maxWidth = isExpanded && layout == DottoContentLayout.singleWide
-              ? DottoLayout.wideMaxWidth
-              : DottoLayout.narrowMaxWidth;
+          final maxWidth = DottoLayout.singleMaxWidth(width, layout);
           return _Centered(width: math.min(maxWidth, available), child: child!);
 
         case _Kind.twoColumn:
@@ -154,6 +152,77 @@ class DottoContent extends StatelessWidget {
         ),
       )
       .toDouble();
+}
+
+/// スクロールビューの中身を本文の最大幅に収めるための左右の余白を渡す。
+///
+/// `ListView` などを [DottoContent] で包むと、スクロールできる範囲まで
+/// 中央の帯に狭まってしまう。代わりにこのウィジェットで得た余白を
+/// スクロールビューの `padding` に指定する。
+class DottoContentInsets extends StatelessWidget {
+  /// [layout] は [DottoContentLayout.singleNarrow] か
+  /// [DottoContentLayout.singleWide] を指定する。
+  const new({
+    required this.builder,
+    this.layout = DottoContentLayout.singleNarrow,
+    this.margin = true,
+    super.key,
+  });
+
+  /// 本文の組み方。
+  final DottoContentLayout layout;
+
+  /// 左右の余白 [DottoLayout.horizontalMargin] を含めるか。
+  ///
+  /// 中身が自前で左右の余白を持つ (`ListTile` など) ときは false にする。
+  final bool margin;
+
+  /// 左右の余白を受け取って中身を組み立てる。
+  final Widget Function(BuildContext context, EdgeInsets insets) builder;
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) => builder(
+      context,
+      DottoLayout.horizontalInsets(
+        constraints.maxWidth,
+        layout: layout,
+        margin: margin,
+      ),
+    ),
+  );
+}
+
+/// 子を本文の最大幅に収める左右の余白をとる。
+///
+/// 中身の幅を広げたまま余白だけを足したいとき (表など) に使う。
+class DottoContentPadding extends StatelessWidget {
+  /// [layout] は [DottoContentLayout.singleNarrow] か
+  /// [DottoContentLayout.singleWide] を指定する。
+  const new({
+    required this.child,
+    this.layout = DottoContentLayout.singleNarrow,
+    this.vertical = 0,
+    super.key,
+  });
+
+  /// 本文の組み方。
+  final DottoContentLayout layout;
+
+  /// 上下の余白。
+  final double vertical;
+
+  /// 中身。
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => DottoContentInsets(
+    layout: layout,
+    builder: (context, insets) => Padding(
+      padding: insets.copyWith(top: vertical, bottom: vertical),
+      child: child,
+    ),
+  );
 }
 
 /// 左右に余白をとり、幅 [width] の本文を上端中央に置く。

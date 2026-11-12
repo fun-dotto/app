@@ -6,6 +6,7 @@ import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course_notice/course_notices_state.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -117,19 +118,27 @@ final class _CourseNoticeList extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: items.isEmpty
-          ? ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                const SizedBox(height: 160),
-                Center(child: Text(emptyMessage)),
-              ],
+          ? DottoContentInsets(
+              margin: false,
+              builder: (_, insets) => ListView(
+                padding: insets + MediaQuery.paddingOf(context),
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  const SizedBox(height: 160),
+                  Center(child: Text(emptyMessage)),
+                ],
+              ),
             )
-          : ListView.separated(
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const Divider(height: 0),
-              itemBuilder: (context, index) =>
-                  _CourseNoticeTile(notice: items[index]),
+          : DottoContentInsets(
+              margin: false,
+              builder: (_, insets) => ListView.separated(
+                padding: insets + MediaQuery.paddingOf(context),
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: items.length,
+                separatorBuilder: (_, _) => const Divider(height: 0),
+                itemBuilder: (context, index) =>
+                    _CourseNoticeTile(notice: items[index]),
+              ),
             ),
     );
   }
@@ -177,11 +186,15 @@ final class _LoadingSkeleton extends StatelessWidget {
   const new();
   static const _itemCount = 8;
   @override
-  Widget build(BuildContext context) => ListView.separated(
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: _itemCount,
-    separatorBuilder: (_, _) => const Divider(height: 0),
-    itemBuilder: (_, _) => const _ListTileSkeleton(),
+  Widget build(BuildContext context) => DottoContentInsets(
+    margin: false,
+    builder: (_, insets) => ListView.separated(
+      padding: insets + MediaQuery.paddingOf(context),
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _itemCount,
+      separatorBuilder: (_, _) => const Divider(height: 0),
+      itemBuilder: (_, _) => const _ListTileSkeleton(),
+    ),
   );
 }
 

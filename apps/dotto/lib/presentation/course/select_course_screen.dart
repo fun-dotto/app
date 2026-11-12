@@ -8,6 +8,7 @@ import 'package:dotto/domain/entity/timetable_semester.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -70,32 +71,36 @@ final class SelectCourseScreen extends HookConsumerWidget {
                     .courseNoSubjects,
               ),
             )
-          : ListView.builder(
-              itemCount: timetableItems.length,
-              itemBuilder: (context, index) {
-                final item = timetableItems[index];
-                final isAdded = item.isAddedToTimetable ?? false;
-                return ListTile(
-                  title: Text(item.subject.name),
-                  trailing: DottoButton(
-                    type: isAdded
-                        ? DottoButtonType.outlined
-                        : DottoButtonType.contained,
-                    onPressed: isSaving.value
-                        ? null
-                        : () => changeRegistration(item),
-                    child: Text(
-                      isAdded
-                          ? (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseRemove
-                          : (AppLocalizations.of(context) ??
-                                    AppLocalizationsJa())
-                                .courseAdd,
+          : DottoContentInsets(
+              margin: false,
+              builder: (_, insets) => ListView.builder(
+                padding: insets + MediaQuery.paddingOf(context),
+                itemCount: timetableItems.length,
+                itemBuilder: (context, index) {
+                  final item = timetableItems[index];
+                  final isAdded = item.isAddedToTimetable ?? false;
+                  return ListTile(
+                    title: Text(item.subject.name),
+                    trailing: DottoButton(
+                      type: isAdded
+                          ? DottoButtonType.outlined
+                          : DottoButtonType.contained,
+                      onPressed: isSaving.value
+                          ? null
+                          : () => changeRegistration(item),
+                      child: Text(
+                        isAdded
+                            ? (AppLocalizations.of(context) ??
+                                      AppLocalizationsJa())
+                                  .courseRemove
+                            : (AppLocalizations.of(context) ??
+                                      AppLocalizationsJa())
+                                  .courseAdd,
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:dotto/domain/entity/funch_menu.dart';
 import 'package:dotto/domain/entity/funch_menu_category.dart';
+import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
@@ -7,6 +8,7 @@ import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/funch/funch_menu_card.dart';
 import 'package:dotto/presentation/common/funch/funch_menus_state.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -124,5 +126,8 @@ final class _MenuList extends StatelessWidget {
                       .funchEmpty,
           ),
         )
-      : ListView(children: items);
+      : SingleChildScrollView(
+          padding: EdgeInsets.zero.withBottomBarInset(context),
+          child: DottoContent.flow(spacing: 0, sections: items),
+        );
 }

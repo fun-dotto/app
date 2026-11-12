@@ -8,6 +8,7 @@ import 'package:dotto/presentation/common/feature_flag.dart';
 import 'package:dotto/presentation/common/flag_override_state.dart';
 import 'package:dotto/presentation/debug/debug_tokens_state.dart';
 import 'package:dotto/presentation/debug/flag_override_dialog.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/list_section.dart';
 import 'package:dotto_design_system/component/list_tile.dart';
@@ -44,10 +45,10 @@ final class _DebugContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16).withBottomBarInset(context),
-      child: Column(
-        spacing: 16,
-        children: [
+      padding: const EdgeInsets.symmetric(vertical: 16)
+          .withBottomBarInset(context),
+      child: DottoContent.flow(
+        sections: [
           DottoListSection(
             header: const Text('Token'),
             footer: const Text('タップするとクリップボードにコピーします。'),

@@ -9,6 +9,7 @@ import 'package:dotto/presentation/subject/subject_detail_state.dart';
 import 'package:dotto/presentation/subject/subject_detail_syllabus_screen.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
@@ -179,34 +180,34 @@ final class _SubjectDetailSyllabusSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ).withBottomBarInset(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (var index = 0; index < 6; index++) ...[
-            _SkeletonBox(
-              height: 18,
-              width: 96 + (index.isEven ? 24 : 48),
-              radius: 4,
-            ),
-            const SizedBox(height: 12),
-            const _SkeletonBox(height: 14, width: double.infinity, radius: 4),
-            const SizedBox(height: 8),
-            _SkeletonBox(
-              height: 14,
-              width: index.isEven ? 240 : 280,
-              radius: 4,
-            ),
-            if (index < 5) ...[
-              const SizedBox(height: 16),
-              const Divider(height: 0),
-              const SizedBox(height: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8)
+          .withBottomBarInset(context),
+      child: DottoContent.single(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var index = 0; index < 6; index++) ...[
+              _SkeletonBox(
+                height: 18,
+                width: 96 + (index.isEven ? 24 : 48),
+                radius: 4,
+              ),
+              const SizedBox(height: 12),
+              const _SkeletonBox(height: 14, width: double.infinity, radius: 4),
+              const SizedBox(height: 8),
+              _SkeletonBox(
+                height: 14,
+                width: index.isEven ? 240 : 280,
+                radius: 4,
+              ),
+              if (index < 5) ...[
+                const SizedBox(height: 16),
+                const Divider(height: 0),
+                const SizedBox(height: 16),
+              ],
             ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -217,8 +218,8 @@ final class _SubjectDetailFeedbackSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return DottoContentPadding(
+      vertical: 16,
       child: Column(
         children: [
           Padding(
@@ -259,28 +260,32 @@ final class _SubjectDetailFeedbackSkeleton extends StatelessWidget {
           ),
           const Divider(height: 0),
           Expanded(
-            child: ListView.separated(
-              itemCount: 4,
-              separatorBuilder: (_, _) => const Divider(height: 0),
-              itemBuilder: (_, _) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _SkeletonBox(height: 12, width: 72, radius: 4),
-                      SizedBox(height: 8),
-                      _SkeletonBox(
-                        height: 14,
-                        width: double.infinity,
-                        radius: 4,
-                      ),
-                      SizedBox(height: 6),
-                      _SkeletonBox(height: 14, width: 220, radius: 4),
-                    ],
-                  ),
-                );
-              },
+            child: DottoContentInsets(
+              margin: false,
+              builder: (_, insets) => ListView.separated(
+                padding: insets + MediaQuery.paddingOf(context),
+                itemCount: 4,
+                separatorBuilder: (_, _) => const Divider(height: 0),
+                itemBuilder: (_, _) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _SkeletonBox(height: 12, width: 72, radius: 4),
+                        SizedBox(height: 8),
+                        _SkeletonBox(
+                          height: 14,
+                          width: double.infinity,
+                          radius: 4,
+                        ),
+                        SizedBox(height: 6),
+                        _SkeletonBox(height: 14, width: 220, radius: 4),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -294,27 +299,31 @@ final class _SubjectDetailPastExamSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: 6,
-      separatorBuilder: (_, _) => const Divider(height: 0),
-      itemBuilder: (_, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: Row(
-            children: [
-              Expanded(
-                child: _SkeletonBox(
-                  height: 16,
-                  width: index.isEven ? 240 : 200,
-                  radius: 4,
+    return DottoContentInsets(
+      margin: false,
+      builder: (_, insets) => ListView.separated(
+        padding: insets + MediaQuery.paddingOf(context),
+        itemCount: 6,
+        separatorBuilder: (_, _) => const Divider(height: 0),
+        itemBuilder: (_, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _SkeletonBox(
+                    height: 16,
+                    width: index.isEven ? 240 : 200,
+                    radius: 4,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Icon(Icons.chevron_right, color: Colors.grey.shade400),
-            ],
-          ),
-        );
-      },
+                const SizedBox(width: 12),
+                Icon(Icons.chevron_right, color: Colors.grey.shade400),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

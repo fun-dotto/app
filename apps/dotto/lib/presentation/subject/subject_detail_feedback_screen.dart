@@ -3,6 +3,7 @@ import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -14,8 +15,8 @@ final class SubjectDetailFeedbackScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final feedbacks = ref.watch(subjectFeedbacksStateProvider(lessonId));
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      body: DottoContentPadding(
+        vertical: 16,
         child: switch (feedbacks) {
           AsyncData(:final value) when value.isEmpty => Center(
             child: Text(context.subjectL10n.subjectNoFeedbackYet),
@@ -88,18 +89,22 @@ final class _FeedbackList extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = feedbacks.where((item) => item.comment.isNotEmpty).toList()
       ..sort((a, b) => b.score.compareTo(a.score));
-    return ListView.separated(
-      itemCount: items.length,
-      separatorBuilder: (_, _) => const Divider(height: 0),
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 4,
-          children: [
-            _Stars(rating: items[index].score),
-            Text(items[index].comment),
-          ],
+    return DottoContentInsets(
+      margin: false,
+      builder: (_, insets) => ListView.separated(
+        padding: insets + MediaQuery.paddingOf(context),
+        itemCount: items.length,
+        separatorBuilder: (_, _) => const Divider(height: 0),
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 4,
+            children: [
+              _Stars(rating: items[index].score),
+              Text(items[index].comment),
+            ],
+          ),
         ),
       ),
     );
