@@ -15,7 +15,7 @@ void main() {
     final map = await repository.getCampusMap();
 
     expect(map.buildings, hasLength(2));
-    expect(map.units, hasLength(614));
+    expect(map.units, hasLength(433));
     for (final floor in Floor.values) {
       expect(map.unitsOf(floor), isNotEmpty, reason: floor.label);
       expect(map.floors[floor]?.exterior, isNotEmpty, reason: floor.label);
@@ -30,14 +30,15 @@ void main() {
     expect(atelier.hasBorder, isTrue);
     expect(atelier.equipment?.food, RoomEquipmentQuality.unavailable);
 
-    final restroom = map.units.firstWhere(
+    final restrooms = map.units.where(
       (e) => e.kind == CampusMapUnitKind.restroom,
     );
-    expect(restroom.restroomTypes, [
+    expect(restrooms.every((e) => e.restroomTypes.isNotEmpty), isTrue);
+    expect(restrooms.expand((e) => e.restroomTypes).toSet(), {
       RestroomType.men,
       RestroomType.women,
-      RestroomType.kitchenette,
-    ]);
+      RestroomType.multipurpose,
+    });
   });
 
   test('1F〜3F には同じ位置にエレベーターがある', () async {

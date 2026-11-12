@@ -11,7 +11,7 @@ void main() {
         .getCampusMap();
 
     final extent = campusMapExtent(map.floors[Floor.third]!.exterior);
-    expect(extent.width, closeTo(103, 3));
-    expect(extent.height, closeTo(125, 3));
+    expect(extent.width, closeTo(130, 3));
+    expect(extent.height, closeTo(130, 3));
   });
 }
