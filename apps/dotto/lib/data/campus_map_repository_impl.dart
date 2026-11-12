@@ -27,7 +27,9 @@ typedef _Json = Map<String, Object?>;
 /// - `border`: `top` / `right` / `bottom` / `left` / `outline` の枠線の太さ (任意)
 /// - `equipment`: `food` / `drink` / `outlet` の設備状況 (任意)
 /// - `restroomTypes`: トイレの種類の配列 (任意)
-/// - `grid`: 元のグリッド上の形 (アプリでは使わない)
+/// - `sourceId`: 元データ (campus-guide) の区画 ID (アプリでは使わない)
+///
+/// IMDF は `scripts/convert_campus_guide_to_imdf.py` で生成する。
 final class CampusMapRepositoryImpl implements CampusMapRepository {
   const new(this._dataSource);
   final CampusMapDataSource _dataSource;

@@ -18,7 +18,7 @@ const _rooms = {
     '301': {'header': '情報工房', 'classroom_no': '301'},
   },
   '4': {
-    '406': {'header': '講義室', 'classroom_no': '406'},
+    '484': {'header': '講義室', 'classroom_no': '484'},
   },
 };
 
@@ -48,7 +48,7 @@ Future<void> _pumpMap(WidgetTester tester, {String? focusedRoomId}) async {
 
 void main() {
   testWidgets('部屋を指定して開くと該当階と詳細を表示する', (tester) async {
-    await _pumpMap(tester, focusedRoomId: '406');
+    await _pumpMap(tester, focusedRoomId: '484');
 
     expect(
       tester.widget<MapFloorButton>(find.byType(MapFloorButton)).selectedFloor,
@@ -59,7 +59,7 @@ void main() {
   });
 
   testWidgets('階を変更すると選択をリセットする', (tester) async {
-    await _pumpMap(tester, focusedRoomId: '406');
+    await _pumpMap(tester, focusedRoomId: '484');
 
     tester
         .widget<MapFloorButton>(find.byType(MapFloorButton))
