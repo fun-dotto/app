@@ -71,9 +71,15 @@ final class RootTabScaffold extends HookWidget {
         bottomNavigationBar: SafeArea(
           top: false,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: _barMargin,
-              vertical: _barMargin / 2,
+            // 下部にインセットがあるときはそれ自体が余白になるため、なければ
+            // 画面の下端に張り付かないよう余白を空ける。
+            padding: EdgeInsets.only(
+              left: _barMargin,
+              right: _barMargin,
+              top: _barMargin / 2,
+              bottom: MediaQuery.paddingOf(context).bottom > 0
+                  ? 0
+                  : _barMargin / 2,
             ),
             // bottomNavigationBar は高さが緩い制約で渡されるため、高さは中身に
             // 合わせないと全体に広がり、本文が潰れてしまう。
