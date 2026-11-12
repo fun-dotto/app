@@ -1,5 +1,8 @@
 import java.util.Properties
 import java.io.FileInputStream
+import com.android.build.api.dsl.ApplicationExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.android.application")
@@ -25,10 +28,10 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
-android {
+configure<ApplicationExtension> {
     namespace = "jp.ac.fun.dotto"
-    compileSdk = 36
-    ndkVersion = "28.2.13676358"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -36,20 +39,12 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
-    kotlinOptions {
-        jvmTarget = "21"
-    }
-
-    sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
-    }
-
     defaultConfig {
         applicationId = "jp.ac.fun.dotto"
         manifestPlaceholders["appName"] = "Dotto"
         manifestPlaceholders["serviceHost"] = "dotto.furari.co"
         minSdk = 30
-        targetSdk = 36
+        targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
         multiDexEnabled = true // multidexサポートライブラリを使用する
@@ -106,6 +101,12 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 
