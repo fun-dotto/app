@@ -4,7 +4,7 @@ publish_to: none
 description: buf generate で生成した app API の Protobuf コード
 
 environment:
-  sdk: 3.13.7
+  sdk: 3.14.0
 
 dependencies:
   connectrpc: 2.0.1

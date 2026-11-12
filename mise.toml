@@ -9,7 +9,7 @@ _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
 buf = "1.75.0"
-flutter = "3.47.8"
+flutter = "3.50.0"
 gcloud = "591.0.0"
 java = "21.0.2"
 node = "26.13.0"
