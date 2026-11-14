@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:dotto/domain/entity/campus_map_unit.dart';
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/domain/entity/room.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/is_authenticated.dart';
-import 'package:dotto/presentation/map/fun_map.dart';
+import 'package:dotto/presentation/map/campus_map_state.dart';
 import 'package:dotto/presentation/map/map_state.dart';
-import 'package:dotto/presentation/map/map_tile_props.dart';
-import 'package:dotto/presentation/map/widget/map.dart';
+import 'package:dotto/presentation/map/widget/campus_map_view.dart';
 import 'package:dotto/presentation/map/widget/map_date_picker.dart';
 import 'package:dotto/presentation/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/presentation/map/widget/map_floor_button.dart';
@@ -37,19 +37,15 @@ final class MapScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(mapStateProvider);
+    final asyncCampusMap = ref.watch(campusMapStateProvider);
+    final campusMap = asyncCampusMap.value;
     final searchDate = useState(DateTime.now());
     final selectedFloor = useState(Floor.third);
-    final focusedTile = useState<MapTileProps?>(null);
-    final transformationController = useMemoized(TransformationController.new);
-    useEffect(() => transformationController.dispose, [
-      transformationController,
-    ]);
+    final focusedUnit = useState<CampusMapUnit?>(null);
 
     void focusRoom(Room room) {
       selectedFloor.value = room.floor;
-      focusedTile.value = FUNMap.tileProps.firstWhereOrNull(
-        (e) => e.id == room.id,
-      );
+      focusedUnit.value = campusMap?.unitOfRoom(room.id);
     }
 
     final isAuthenticated = ref.watch(isAuthenticatedProvider);
@@ -66,7 +62,6 @@ final class MapScreen extends HookConsumerWidget {
 
     final searchDatetime = searchDate.value;
     final rooms = asyncState.asData?.value;
-    final focusedMapTileProps = focusedTile.value;
 
     // 部屋を指定して開かれた場合は、部屋の読み込み完了後に選択状態にする。
     useEffect(() {
@@ -81,7 +76,7 @@ final class MapScreen extends HookConsumerWidget {
         });
       }
       return null;
-    }, [focusedRoomId, rooms]);
+    }, [focusedRoomId, rooms, campusMap]);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -90,24 +85,24 @@ final class MapScreen extends HookConsumerWidget {
         sheetController.value = null;
         searchFocusNode.unfocus();
 
-        final props = focusedMapTileProps;
-        if (props == null || rooms == null) {
+        final unit = focusedUnit.value;
+        if (unit == null || rooms == null) {
           return;
         }
-        final room = rooms.firstWhereOrNull((e) => e.id == props.id);
+        final room = rooms.firstWhereOrNull((e) => e.id == unit.roomId);
         if (room == null) {
           return;
         }
 
         // シートは下部のタブバーの背面まで広がるため、その分を高さに加える。
         final sheetHeight =
-            (props is FacultyRoomMapTileProps ? 120.0 : 240.0) +
+            (unit.kind == CampusMapUnitKind.facultyRoom ? 120.0 : 240.0) +
             MediaQuery.paddingOf(context).bottom;
         final newController = scaffoldKey.currentState?.showBottomSheet(
           (_) => SizedBox(
             height: sheetHeight,
             child: MapDetailBottomSheet(
-              props: props,
+              equipment: unit.equipment,
               room: room,
               dateTime: searchDatetime,
               isAuthenticated: isAuthenticated,
@@ -118,7 +113,7 @@ final class MapScreen extends HookConsumerWidget {
         );
         sheetController.value = newController;
         searchFocusNode.unfocus();
-        final shownPropsId = props.id;
+        final shownUnitId = unit.id;
         unawaited(
           newController?.closed.then((_) {
                 if (!context.mounted) return;
@@ -126,15 +121,15 @@ final class MapScreen extends HookConsumerWidget {
                 // 現在表示中のシートではないのでユーザー操作由来とは扱わない。
                 if (sheetController.value != newController) return;
                 sheetController.value = null;
-                if (focusedTile.value?.id == shownPropsId) {
-                  focusedTile.value = null;
+                if (focusedUnit.value?.id == shownUnitId) {
+                  focusedUnit.value = null;
                 }
               }) ??
               Future<void>.value(),
         );
       });
       return null;
-    }, [focusedMapTileProps?.id, searchDatetime, isAuthenticated, rooms]);
+    }, [focusedUnit.value?.id, searchDatetime, isAuthenticated, rooms]);
 
     return Scaffold(
       key: scaffoldKey,
@@ -238,86 +233,84 @@ final class MapScreen extends HookConsumerWidget {
       body: Padding(
         // 地図は固定レイアウトのため、下部のタブバーの上に収める。
         padding: const EdgeInsets.only(top: 8).withBottomBarInset(context),
-        child: switch (asyncState) {
-          AsyncData(value: final state) => Column(
-            spacing: 8,
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    Column(
-                      spacing: 8,
-                      children: [
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth:
-                                DottoLayout.narrowMaxWidth +
-                                DottoLayout.horizontalMargin * 2,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: DottoLayout.horizontalMargin,
+        child: switch ((asyncState, asyncCampusMap)) {
+          (AsyncData(value: final state), AsyncData(value: final map)) =>
+            Column(
+              spacing: 8,
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Column(
+                        spacing: 8,
+                        children: [
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth:
+                                  DottoLayout.narrowMaxWidth +
+                                  DottoLayout.horizontalMargin * 2,
                             ),
-                            child: MapFloorButton(
-                              selectedFloor: selectedFloor.value,
-                              onPressed: (floor) {
-                                selectedFloor.value = floor;
-                                focusedTile.value = null;
-                                transformationController.value =
-                                    Matrix4.identity();
-                              },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: DottoLayout.horizontalMargin,
+                              ),
+                              child: MapFloorButton(
+                                selectedFloor: selectedFloor.value,
+                                onPressed: (floor) {
+                                  selectedFloor.value = floor;
+                                  focusedUnit.value = null;
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: [
-                              SizedBox.expand(
-                                child: Map(
-                                  mapViewTransformationController:
-                                      transformationController,
-                                  selectedFloor: selectedFloor.value,
-                                  rooms: state,
-                                  focusedMapTileProps: focusedTile.value,
-                                  dateTime: searchDatetime,
-                                  onTapped: (props, _) {
-                                    focusedTile.value =
-                                        focusedTile.value == props
-                                        ? null
-                                        : props;
-                                  },
+                          Expanded(
+                            child: Stack(
+                              alignment: Alignment.bottomLeft,
+                              children: [
+                                SizedBox.expand(
+                                  child: CampusMapView(
+                                    campusMap: map,
+                                    selectedFloor: selectedFloor.value,
+                                    rooms: state,
+                                    focusedUnit: focusedUnit.value,
+                                    dateTime: searchDatetime,
+                                    onTapped: (unit, _) {
+                                      focusedUnit.value =
+                                          focusedUnit.value?.id == unit.id
+                                          ? null
+                                          : unit;
+                                    },
+                                  ),
                                 ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 16),
-                                child: MapLegend(),
-                              ),
-                            ],
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 16),
+                                  child: MapLegend(),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        _MapDatePickerSection(
-                          isAuthenticated: isAuthenticated,
-                          searchDatetime: searchDatetime,
-                          onPeriodButtonTapped: (dateTime) async {
-                            var setDate = dateTime;
-                            if (setDate.hour == 0) {
-                              setDate = DateTime.now();
-                            }
-                            searchDate.value = setDate;
-                          },
-                          onDatePickerConfirmed: (dateTime) async {
-                            searchDate.value = dateTime;
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
+                          _MapDatePickerSection(
+                            isAuthenticated: isAuthenticated,
+                            searchDatetime: searchDatetime,
+                            onPeriodButtonTapped: (dateTime) async {
+                              var setDate = dateTime;
+                              if (setDate.hour == 0) {
+                                setDate = DateTime.now();
+                              }
+                              searchDate.value = setDate;
+                            },
+                            onDatePickerConfirmed: (dateTime) async {
+                              searchDate.value = dateTime;
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          AsyncError() => Center(
+              ],
+            ),
+          (AsyncError(), _) || (_, AsyncError()) => Center(
             child: Text(
               (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapError,
             ),

@@ -1,27 +1,5 @@
 /// アプリで使用するアセットファイルのパスを定義するクラス
 final class Asset {
-  // Map
-  /// キャンパスマップ01の画像
-  static const String map01 = 'assets/map/map01.png';
-
-  /// キャンパスマップ02の画像
-  static const String map02 = 'assets/map/map02.png';
-
-  /// キャンパスマップ03の画像
-  static const String map03 = 'assets/map/map03.png';
-
-  /// キャンパスマップ04の画像
-  static const String map04 = 'assets/map/map04.png';
-
-  /// キャンパスマップ05の画像
-  static const String map05 = 'assets/map/map05.png';
-
-  /// キャンパスマップR6の画像
-  static const String mapR6 = 'assets/map/mapr6.png';
-
-  /// キャンパスマップR7の画像
-  static const String mapR7 = 'assets/map/mapr7.png';
-
   // Tutorial
 
   /// チュートリアル用時間割モック画像
@@ -39,14 +17,14 @@ final class Asset {
   /// チュートリアル用学食メニューモック画像
   static const String tutorialCafeteriaMock = 'assets/tutorial/onboarding5.png';
 
-  /// バスアイコンの画像
-  static const String bus = 'assets/bus.png';
-
   /// 画像なし用のプレースホルダー画像
   static const String noImage = 'assets/no_image.png';
 
   /// アプリアイコン
   static const String icon = 'assets/icon.png';
+
+  /// キャンパスマップの IMDF のディレクトリ
+  static const String imdf = 'assets/map/imdf';
 
   /// シラバスデータベースファイル
   static const String syllabus = 'assets/syllabus.db';

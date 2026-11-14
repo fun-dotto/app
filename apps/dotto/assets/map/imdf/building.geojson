@@ -1,0 +1,37 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "9bb0690f-48f6-5548-adcd-8afd0bc9c62d",
+      "type": "Feature",
+      "feature_type": "building",
+      "geometry": null,
+      "properties": {
+        "name": {
+          "ja": "本部棟"
+        },
+        "alt_name": null,
+        "category": "unspecified",
+        "restriction": null,
+        "display_point": null,
+        "address_id": "abc8830b-6f20-5dfa-a59f-2f604589af6d"
+      }
+    },
+    {
+      "id": "6055d284-1aab-56e6-8311-acd0dd7f5d9b",
+      "type": "Feature",
+      "feature_type": "building",
+      "geometry": null,
+      "properties": {
+        "name": {
+          "ja": "研究棟"
+        },
+        "alt_name": null,
+        "category": "unspecified",
+        "restriction": null,
+        "display_point": null,
+        "address_id": "abc8830b-6f20-5dfa-a59f-2f604589af6d"
+      }
+    }
+  ]
+}
