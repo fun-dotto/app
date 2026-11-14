@@ -272,7 +272,7 @@ final class CourseScreen extends HookConsumerWidget {
                                   child: Text(
                                     (AppLocalizations.of(context) ??
                                             AppLocalizationsJa())
-                                        .courseWeeklyTimetable,
+                                        .courseRegistration,
                                   ),
                                 ),
                               ],
@@ -436,7 +436,7 @@ final class _LoadingSkeleton extends StatelessWidget {
                         type: DottoButtonType.text,
                         child: Text(
                           (AppLocalizations.of(context) ?? AppLocalizationsJa())
-                              .courseWeeklyTimetable,
+                              .courseRegistration,
                         ),
                       ),
                     ],

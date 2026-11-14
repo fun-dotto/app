@@ -405,9 +405,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get courseOpinionBox => '大学ポスト';
 
   @override
-  String get courseWeeklyTimetable => '1週間の時間割';
-
-  @override
   String get courseSignIn => 'ログインして時間割機能を使う';
 
   @override

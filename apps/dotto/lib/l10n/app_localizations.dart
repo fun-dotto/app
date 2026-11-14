@@ -842,12 +842,6 @@ abstract class AppLocalizations {
   /// **'大学ポスト'**
   String get courseOpinionBox;
 
-  /// No description provided for @courseWeeklyTimetable.
-  ///
-  /// In ja, this message translates to:
-  /// **'1週間の時間割'**
-  String get courseWeeklyTimetable;
-
   /// No description provided for @courseSignIn.
   ///
   /// In ja, this message translates to:
