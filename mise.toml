@@ -1,5 +1,6 @@
 [settings]
 minimum_release_age = "24h"
+npm.package_manager = "bun"
 
 [settings.ruby]
 compile = false
@@ -9,12 +10,13 @@ _.path = ["{{env.HOME}}/.pub-cache/bin"]
 
 [tools]
 buf = "1.75.0"
+bun = "1.4.4"
 flutter = "3.50.0"
-gcloud = "591.0.0"
-java = "21.0.2"
-node = "26.13.0"
+gcloud = "593.0.0"
+java = "21.0.13+9.0.LTS"
+node = "26.13.1"
 "npm:firebase-tools" = "15.34.1"
-"npm:rulesync" = "43.4.2"
+"npm:rulesync" = "43.8.2"
 ruby = "4.0.9"
 
 [tasks.bootstrap]
