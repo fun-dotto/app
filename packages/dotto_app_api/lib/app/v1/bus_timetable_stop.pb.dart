@@ -135,7 +135,7 @@ class ListBusTimetableStopsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListBusTimetableStopsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: ListBusTimetableStopsRequest.$_createMessage)
-    ..aOS(3, _omitFieldNames ? '' : 'tripId')
+    ..aOS(1, _omitFieldNames ? '' : 'tripId')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -167,14 +167,14 @@ class ListBusTimetableStopsRequest extends $pb.GeneratedMessage {
   static ListBusTimetableStopsRequest? _defaultInstance;
 
   /// 運行ID。
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $core.String get tripId => $_getSZ(0);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   set tripId($core.String value) => $_setString(0, value);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $core.bool hasTripId() => $_has(0);
-  @$pb.TagNumber(3)
-  void clearTripId() => $_clearField(3);
+  @$pb.TagNumber(1)
+  void clearTripId() => $_clearField(1);
 }
 
 /// ListBusTimetableStops の Response。

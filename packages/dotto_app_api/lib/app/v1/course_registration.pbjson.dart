@@ -46,7 +46,7 @@ const ListCourseRegistrationsRequest$json = {
   '2': [
     {
       '1': 'year',
-      '3': 3,
+      '3': 1,
       '4': 1,
       '5': 5,
       '8': {},
@@ -56,7 +56,7 @@ const ListCourseRegistrationsRequest$json = {
     },
     {
       '1': 'semesters',
-      '3': 4,
+      '3': 2,
       '4': 3,
       '5': 14,
       '6': '.app.v1.SubjectSemester',
@@ -67,20 +67,14 @@ const ListCourseRegistrationsRequest$json = {
   '8': [
     {'1': '_year'},
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListCourseRegistrationsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listCourseRegistrationsRequestDescriptor =
     $convert.base64Decode(
-        'Ch5MaXN0Q291cnNlUmVnaXN0cmF0aW9uc1JlcXVlc3QSHAoEeWVhchgDIAEoBUID4EEBSABSBH'
-        'llYXKIAQESOgoJc2VtZXN0ZXJzGAQgAygOMhcuYXBwLnYxLlN1YmplY3RTZW1lc3RlckID4EEC'
-        'UglzZW1lc3RlcnNCBwoFX3llYXJKBAgBEAJKBAgCEANSCXBhZ2Vfc2l6ZVIKcGFnZV90b2tlbg'
-        '==');
+        'Ch5MaXN0Q291cnNlUmVnaXN0cmF0aW9uc1JlcXVlc3QSHAoEeWVhchgBIAEoBUID4EEBSABSBH'
+        'llYXKIAQESOgoJc2VtZXN0ZXJzGAIgAygOMhcuYXBwLnYxLlN1YmplY3RTZW1lc3RlckID4EEC'
+        'UglzZW1lc3RlcnNCBwoFX3llYXI=');
 
 @$core.Deprecated('Use listCourseRegistrationsResponseDescriptor instead')
 const ListCourseRegistrationsResponse$json = {
@@ -95,10 +89,6 @@ const ListCourseRegistrationsResponse$json = {
       '10': 'courseRegistrations'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListCourseRegistrationsResponse`. Decode as a `google.protobuf.DescriptorProto`.
@@ -106,7 +96,7 @@ final $typed_data.Uint8List listCourseRegistrationsResponseDescriptor =
     $convert.base64Decode(
         'Ch9MaXN0Q291cnNlUmVnaXN0cmF0aW9uc1Jlc3BvbnNlEk0KFGNvdXJzZV9yZWdpc3RyYXRpb2'
         '5zGAEgAygLMhouYXBwLnYxLkNvdXJzZVJlZ2lzdHJhdGlvblITY291cnNlUmVnaXN0cmF0aW9u'
-        'c0oECAIQA1IPbmV4dF9wYWdlX3Rva2Vu');
+        'cw==');
 
 @$core.Deprecated('Use createCourseRegistrationRequestDescriptor instead')
 const CreateCourseRegistrationRequest$json = {

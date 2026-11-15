@@ -68,10 +68,10 @@ final $typed_data.Uint8List reservationDescriptor = $convert.base64Decode(
 const ListReservationsRequest$json = {
   '1': 'ListReservationsRequest',
   '2': [
-    {'1': 'room_ids', '3': 3, '4': 3, '5': 9, '8': {}, '10': 'roomIds'},
+    {'1': 'room_ids', '3': 1, '4': 3, '5': 9, '8': {}, '10': 'roomIds'},
     {
       '1': 'from_time',
-      '3': 4,
+      '3': 2,
       '4': 1,
       '5': 11,
       '6': '.google.protobuf.Timestamp',
@@ -82,7 +82,7 @@ const ListReservationsRequest$json = {
     },
     {
       '1': 'until_time',
-      '3': 5,
+      '3': 3,
       '4': 1,
       '5': 11,
       '6': '.google.protobuf.Timestamp',
@@ -96,20 +96,14 @@ const ListReservationsRequest$json = {
     {'1': '_from_time'},
     {'1': '_until_time'},
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListReservationsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listReservationsRequestDescriptor = $convert.base64Decode(
-    'ChdMaXN0UmVzZXJ2YXRpb25zUmVxdWVzdBIeCghyb29tX2lkcxgDIAMoCUID4EEBUgdyb29tSW'
-    'RzEkEKCWZyb21fdGltZRgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCA+BBAUgA'
-    'Ughmcm9tVGltZYgBARJDCgp1bnRpbF90aW1lGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbW'
-    'VzdGFtcEID4EEBSAFSCXVudGlsVGltZYgBAUIMCgpfZnJvbV90aW1lQg0KC191bnRpbF90aW1l'
-    'SgQIARACSgQIAhADUglwYWdlX3NpemVSCnBhZ2VfdG9rZW4=');
+    'ChdMaXN0UmVzZXJ2YXRpb25zUmVxdWVzdBIeCghyb29tX2lkcxgBIAMoCUID4EEBUgdyb29tSW'
+    'RzEkEKCWZyb21fdGltZRgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCA+BBAUgA'
+    'Ughmcm9tVGltZYgBARJDCgp1bnRpbF90aW1lGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbW'
+    'VzdGFtcEID4EEBSAFSCXVudGlsVGltZYgBAUIMCgpfZnJvbV90aW1lQg0KC191bnRpbF90aW1l');
 
 @$core.Deprecated('Use listReservationsResponseDescriptor instead')
 const ListReservationsResponse$json = {
@@ -124,17 +118,13 @@ const ListReservationsResponse$json = {
       '10': 'reservations'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListReservationsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listReservationsResponseDescriptor =
     $convert.base64Decode(
         'ChhMaXN0UmVzZXJ2YXRpb25zUmVzcG9uc2USNwoMcmVzZXJ2YXRpb25zGAEgAygLMhMuYXBwLn'
-        'YxLlJlc2VydmF0aW9uUgxyZXNlcnZhdGlvbnNKBAgCEANSD25leHRfcGFnZV90b2tlbg==');
+        'YxLlJlc2VydmF0aW9uUgxyZXNlcnZhdGlvbnM=');
 
 const $core.Map<$core.String, $core.dynamic> ReservationServiceBase$json = {
   '1': 'ReservationService',

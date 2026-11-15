@@ -194,7 +194,7 @@ class ListBusTripsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListBusTripsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: ListBusTripsRequest.$_createMessage)
-    ..aOM<$4.Date>(3, _omitFieldNames ? '' : 'date',
+    ..aOM<$4.Date>(1, _omitFieldNames ? '' : 'date',
         subBuilder: $4.Date.$_createMessage)
     ..hasRequiredFields = false;
 
@@ -222,15 +222,15 @@ class ListBusTripsRequest extends $pb.GeneratedMessage {
   static ListBusTripsRequest? _defaultInstance;
 
   /// 運行情報を取得する日付。
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $4.Date get date => $_getN(0);
-  @$pb.TagNumber(3)
-  set date($4.Date value) => $_setField(3, value);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
+  set date($4.Date value) => $_setField(1, value);
+  @$pb.TagNumber(1)
   $core.bool hasDate() => $_has(0);
-  @$pb.TagNumber(3)
-  void clearDate() => $_clearField(3);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
+  void clearDate() => $_clearField(1);
+  @$pb.TagNumber(1)
   $4.Date ensureDate() => $_ensure(0);
 }
 

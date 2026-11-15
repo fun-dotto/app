@@ -117,7 +117,7 @@ const ListBusTripsRequest$json = {
   '2': [
     {
       '1': 'date',
-      '3': 3,
+      '3': 1,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -125,17 +125,12 @@ const ListBusTripsRequest$json = {
       '10': 'date'
     },
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListBusTripsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listBusTripsRequestDescriptor = $convert.base64Decode(
-    'ChNMaXN0QnVzVHJpcHNSZXF1ZXN0EioKBGRhdGUYAyABKAsyES5nb29nbGUudHlwZS5EYXRlQg'
-    'PgQQJSBGRhdGVKBAgBEAJKBAgCEANSCXBhZ2Vfc2l6ZVIKcGFnZV90b2tlbg==');
+    'ChNMaXN0QnVzVHJpcHNSZXF1ZXN0EioKBGRhdGUYASABKAsyES5nb29nbGUudHlwZS5EYXRlQg'
+    'PgQQJSBGRhdGU=');
 
 @$core.Deprecated('Use listBusTripsResponseDescriptor instead')
 const ListBusTripsResponse$json = {
@@ -150,16 +145,12 @@ const ListBusTripsResponse$json = {
       '10': 'busTrips'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListBusTripsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listBusTripsResponseDescriptor = $convert.base64Decode(
     'ChRMaXN0QnVzVHJpcHNSZXNwb25zZRIsCglidXNfdHJpcHMYASADKAsyDy5hcHAudjEuQnVzVH'
-    'JpcFIIYnVzVHJpcHNKBAgCEANSD25leHRfcGFnZV90b2tlbg==');
+    'JpcFIIYnVzVHJpcHM=');
 
 const $core.Map<$core.String, $core.dynamic> BusTripServiceBase$json = {
   '1': 'BusTripService',

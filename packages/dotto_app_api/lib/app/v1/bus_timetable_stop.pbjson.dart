@@ -56,20 +56,15 @@ final $typed_data.Uint8List busTimetableStopDescriptor = $convert.base64Decode(
 const ListBusTimetableStopsRequest$json = {
   '1': 'ListBusTimetableStopsRequest',
   '2': [
-    {'1': 'trip_id', '3': 3, '4': 1, '5': 9, '8': {}, '10': 'tripId'},
+    {'1': 'trip_id', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'tripId'},
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListBusTimetableStopsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listBusTimetableStopsRequestDescriptor =
     $convert.base64Decode(
-        'ChxMaXN0QnVzVGltZXRhYmxlU3RvcHNSZXF1ZXN0EhwKB3RyaXBfaWQYAyABKAlCA+BBAlIGdH'
-        'JpcElkSgQIARACSgQIAhADUglwYWdlX3NpemVSCnBhZ2VfdG9rZW4=');
+        'ChxMaXN0QnVzVGltZXRhYmxlU3RvcHNSZXF1ZXN0EhwKB3RyaXBfaWQYASABKAlCA+BBAlIGdH'
+        'JpcElk');
 
 @$core.Deprecated('Use listBusTimetableStopsResponseDescriptor instead')
 const ListBusTimetableStopsResponse$json = {
@@ -84,18 +79,13 @@ const ListBusTimetableStopsResponse$json = {
       '10': 'busTimetableStops'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListBusTimetableStopsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listBusTimetableStopsResponseDescriptor =
     $convert.base64Decode(
         'Ch1MaXN0QnVzVGltZXRhYmxlU3RvcHNSZXNwb25zZRJIChNidXNfdGltZXRhYmxlX3N0b3BzGA'
-        'EgAygLMhguYXBwLnYxLkJ1c1RpbWV0YWJsZVN0b3BSEWJ1c1RpbWV0YWJsZVN0b3BzSgQIAhAD'
-        'Ug9uZXh0X3BhZ2VfdG9rZW4=');
+        'EgAygLMhguYXBwLnYxLkJ1c1RpbWV0YWJsZVN0b3BSEWJ1c1RpbWV0YWJsZVN0b3Bz');
 
 const $core.Map<$core.String, $core.dynamic> BusTimetableStopServiceBase$json =
     {

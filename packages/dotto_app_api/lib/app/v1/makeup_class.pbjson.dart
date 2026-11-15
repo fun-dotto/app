@@ -66,10 +66,10 @@ final $typed_data.Uint8List makeupClassDescriptor = $convert.base64Decode(
 const ListMakeupClassesRequest$json = {
   '1': 'ListMakeupClassesRequest',
   '2': [
-    {'1': 'subject_ids', '3': 3, '4': 3, '5': 9, '8': {}, '10': 'subjectIds'},
+    {'1': 'subject_ids', '3': 1, '4': 3, '5': 9, '8': {}, '10': 'subjectIds'},
     {
       '1': 'from_date',
-      '3': 4,
+      '3': 2,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -80,7 +80,7 @@ const ListMakeupClassesRequest$json = {
     },
     {
       '1': 'until_date',
-      '3': 5,
+      '3': 3,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -94,20 +94,14 @@ const ListMakeupClassesRequest$json = {
     {'1': '_from_date'},
     {'1': '_until_date'},
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListMakeupClassesRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listMakeupClassesRequestDescriptor = $convert.base64Decode(
-    'ChhMaXN0TWFrZXVwQ2xhc3Nlc1JlcXVlc3QSJAoLc3ViamVjdF9pZHMYAyADKAlCA+BBAVIKc3'
-    'ViamVjdElkcxI4Cglmcm9tX2RhdGUYBCABKAsyES5nb29nbGUudHlwZS5EYXRlQgPgQQFIAFII'
-    'ZnJvbURhdGWIAQESOgoKdW50aWxfZGF0ZRgFIAEoCzIRLmdvb2dsZS50eXBlLkRhdGVCA+BBAU'
-    'gBUgl1bnRpbERhdGWIAQFCDAoKX2Zyb21fZGF0ZUINCgtfdW50aWxfZGF0ZUoECAEQAkoECAIQ'
-    'A1IJcGFnZV9zaXplUgpwYWdlX3Rva2Vu');
+    'ChhMaXN0TWFrZXVwQ2xhc3Nlc1JlcXVlc3QSJAoLc3ViamVjdF9pZHMYASADKAlCA+BBAVIKc3'
+    'ViamVjdElkcxI4Cglmcm9tX2RhdGUYAiABKAsyES5nb29nbGUudHlwZS5EYXRlQgPgQQFIAFII'
+    'ZnJvbURhdGWIAQESOgoKdW50aWxfZGF0ZRgDIAEoCzIRLmdvb2dsZS50eXBlLkRhdGVCA+BBAU'
+    'gBUgl1bnRpbERhdGWIAQFCDAoKX2Zyb21fZGF0ZUINCgtfdW50aWxfZGF0ZQ==');
 
 @$core.Deprecated('Use listMakeupClassesResponseDescriptor instead')
 const ListMakeupClassesResponse$json = {
@@ -122,16 +116,13 @@ const ListMakeupClassesResponse$json = {
       '10': 'makeupClasses'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListMakeupClassesResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listMakeupClassesResponseDescriptor = $convert.base64Decode(
-    'ChlMaXN0TWFrZXVwQ2xhc3Nlc1Jlc3BvbnNlEjoKDm1ha2V1cF9jbGFzc2VzGAEgAygLMhMuYX'
-    'BwLnYxLk1ha2V1cENsYXNzUg1tYWtldXBDbGFzc2VzSgQIAhADUg9uZXh0X3BhZ2VfdG9rZW4=');
+final $typed_data.Uint8List listMakeupClassesResponseDescriptor =
+    $convert.base64Decode(
+        'ChlMaXN0TWFrZXVwQ2xhc3Nlc1Jlc3BvbnNlEjoKDm1ha2V1cF9jbGFzc2VzGAEgAygLMhMuYX'
+        'BwLnYxLk1ha2V1cENsYXNzUg1tYWtldXBDbGFzc2Vz');
 
 const $core.Map<$core.String, $core.dynamic> MakeupClassServiceBase$json = {
   '1': 'MakeupClassService',

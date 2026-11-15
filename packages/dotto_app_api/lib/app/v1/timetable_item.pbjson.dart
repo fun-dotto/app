@@ -103,7 +103,7 @@ const ListTimetableItemsRequest$json = {
   '2': [
     {
       '1': 'year',
-      '3': 3,
+      '3': 1,
       '4': 1,
       '5': 5,
       '8': {},
@@ -113,7 +113,7 @@ const ListTimetableItemsRequest$json = {
     },
     {
       '1': 'semesters',
-      '3': 4,
+      '3': 2,
       '4': 3,
       '5': 14,
       '6': '.app.v1.SubjectSemester',
@@ -124,18 +124,13 @@ const ListTimetableItemsRequest$json = {
   '8': [
     {'1': '_year'},
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListTimetableItemsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listTimetableItemsRequestDescriptor = $convert.base64Decode(
-    'ChlMaXN0VGltZXRhYmxlSXRlbXNSZXF1ZXN0EhwKBHllYXIYAyABKAVCA+BBAUgAUgR5ZWFyiA'
-    'EBEjoKCXNlbWVzdGVycxgEIAMoDjIXLmFwcC52MS5TdWJqZWN0U2VtZXN0ZXJCA+BBAlIJc2Vt'
-    'ZXN0ZXJzQgcKBV95ZWFySgQIARACSgQIAhADUglwYWdlX3NpemVSCnBhZ2VfdG9rZW4=');
+    'ChlMaXN0VGltZXRhYmxlSXRlbXNSZXF1ZXN0EhwKBHllYXIYASABKAVCA+BBAUgAUgR5ZWFyiA'
+    'EBEjoKCXNlbWVzdGVycxgCIAMoDjIXLmFwcC52MS5TdWJqZWN0U2VtZXN0ZXJCA+BBAlIJc2Vt'
+    'ZXN0ZXJzQgcKBV95ZWFy');
 
 @$core.Deprecated('Use listTimetableItemsResponseDescriptor instead')
 const ListTimetableItemsResponse$json = {
@@ -150,18 +145,13 @@ const ListTimetableItemsResponse$json = {
       '10': 'timetableItems'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListTimetableItemsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listTimetableItemsResponseDescriptor =
     $convert.base64Decode(
         'ChpMaXN0VGltZXRhYmxlSXRlbXNSZXNwb25zZRI+Cg90aW1ldGFibGVfaXRlbXMYASADKAsyFS'
-        '5hcHAudjEuVGltZXRhYmxlSXRlbVIOdGltZXRhYmxlSXRlbXNKBAgCEANSD25leHRfcGFnZV90'
-        'b2tlbg==');
+        '5hcHAudjEuVGltZXRhYmxlSXRlbVIOdGltZXRhYmxlSXRlbXM=');
 
 const $core.Map<$core.String, $core.dynamic> TimetableItemServiceBase$json = {
   '1': 'TimetableItemService',

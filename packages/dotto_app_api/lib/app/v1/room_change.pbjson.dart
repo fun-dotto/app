@@ -85,10 +85,10 @@ final $typed_data.Uint8List roomChangeDescriptor = $convert.base64Decode(
 const ListRoomChangesRequest$json = {
   '1': 'ListRoomChangesRequest',
   '2': [
-    {'1': 'subject_ids', '3': 3, '4': 3, '5': 9, '8': {}, '10': 'subjectIds'},
+    {'1': 'subject_ids', '3': 1, '4': 3, '5': 9, '8': {}, '10': 'subjectIds'},
     {
       '1': 'from_date',
-      '3': 4,
+      '3': 2,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -99,7 +99,7 @@ const ListRoomChangesRequest$json = {
     },
     {
       '1': 'until_date',
-      '3': 5,
+      '3': 3,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -113,20 +113,14 @@ const ListRoomChangesRequest$json = {
     {'1': '_from_date'},
     {'1': '_until_date'},
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListRoomChangesRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listRoomChangesRequestDescriptor = $convert.base64Decode(
-    'ChZMaXN0Um9vbUNoYW5nZXNSZXF1ZXN0EiQKC3N1YmplY3RfaWRzGAMgAygJQgPgQQFSCnN1Ym'
-    'plY3RJZHMSOAoJZnJvbV9kYXRlGAQgASgLMhEuZ29vZ2xlLnR5cGUuRGF0ZUID4EEBSABSCGZy'
-    'b21EYXRliAEBEjoKCnVudGlsX2RhdGUYBSABKAsyES5nb29nbGUudHlwZS5EYXRlQgPgQQFIAV'
-    'IJdW50aWxEYXRliAEBQgwKCl9mcm9tX2RhdGVCDQoLX3VudGlsX2RhdGVKBAgBEAJKBAgCEANS'
-    'CXBhZ2Vfc2l6ZVIKcGFnZV90b2tlbg==');
+    'ChZMaXN0Um9vbUNoYW5nZXNSZXF1ZXN0EiQKC3N1YmplY3RfaWRzGAEgAygJQgPgQQFSCnN1Ym'
+    'plY3RJZHMSOAoJZnJvbV9kYXRlGAIgASgLMhEuZ29vZ2xlLnR5cGUuRGF0ZUID4EEBSABSCGZy'
+    'b21EYXRliAEBEjoKCnVudGlsX2RhdGUYAyABKAsyES5nb29nbGUudHlwZS5EYXRlQgPgQQFIAV'
+    'IJdW50aWxEYXRliAEBQgwKCl9mcm9tX2RhdGVCDQoLX3VudGlsX2RhdGU=');
 
 @$core.Deprecated('Use listRoomChangesResponseDescriptor instead')
 const ListRoomChangesResponse$json = {
@@ -141,17 +135,13 @@ const ListRoomChangesResponse$json = {
       '10': 'roomChanges'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListRoomChangesResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listRoomChangesResponseDescriptor =
     $convert.base64Decode(
         'ChdMaXN0Um9vbUNoYW5nZXNSZXNwb25zZRI1Cgxyb29tX2NoYW5nZXMYASADKAsyEi5hcHAudj'
-        'EuUm9vbUNoYW5nZVILcm9vbUNoYW5nZXNKBAgCEANSD25leHRfcGFnZV90b2tlbg==');
+        'EuUm9vbUNoYW5nZVILcm9vbUNoYW5nZXM=');
 
 const $core.Map<$core.String, $core.dynamic> RoomChangeServiceBase$json = {
   '1': 'RoomChangeService',

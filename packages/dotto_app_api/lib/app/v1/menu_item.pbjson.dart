@@ -128,7 +128,7 @@ const ListMenuItemsRequest$json = {
   '2': [
     {
       '1': 'date',
-      '3': 3,
+      '3': 1,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -136,17 +136,12 @@ const ListMenuItemsRequest$json = {
       '10': 'date'
     },
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListMenuItemsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listMenuItemsRequestDescriptor = $convert.base64Decode(
-    'ChRMaXN0TWVudUl0ZW1zUmVxdWVzdBIqCgRkYXRlGAMgASgLMhEuZ29vZ2xlLnR5cGUuRGF0ZU'
-    'ID4EECUgRkYXRlSgQIARACSgQIAhADUglwYWdlX3NpemVSCnBhZ2VfdG9rZW4=');
+    'ChRMaXN0TWVudUl0ZW1zUmVxdWVzdBIqCgRkYXRlGAEgASgLMhEuZ29vZ2xlLnR5cGUuRGF0ZU'
+    'ID4EECUgRkYXRl');
 
 @$core.Deprecated('Use listMenuItemsResponseDescriptor instead')
 const ListMenuItemsResponse$json = {
@@ -161,16 +156,12 @@ const ListMenuItemsResponse$json = {
       '10': 'menuItems'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListMenuItemsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listMenuItemsResponseDescriptor = $convert.base64Decode(
     'ChVMaXN0TWVudUl0ZW1zUmVzcG9uc2USLwoKbWVudV9pdGVtcxgBIAMoCzIQLmFwcC52MS5NZW'
-    '51SXRlbVIJbWVudUl0ZW1zSgQIAhADUg9uZXh0X3BhZ2VfdG9rZW4=');
+    '51SXRlbVIJbWVudUl0ZW1z');
 
 const $core.Map<$core.String, $core.dynamic> MenuItemServiceBase$json = {
   '1': 'MenuItemService',
