@@ -46,18 +46,11 @@ final $typed_data.Uint8List announcementDescriptor = $convert.base64Decode(
 @$core.Deprecated('Use listAnnouncementsRequestDescriptor instead')
 const ListAnnouncementsRequest$json = {
   '1': 'ListAnnouncementsRequest',
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListAnnouncementsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listAnnouncementsRequestDescriptor =
-    $convert.base64Decode(
-        'ChhMaXN0QW5ub3VuY2VtZW50c1JlcXVlc3RKBAgBEAJKBAgCEANSCXBhZ2Vfc2l6ZVIKcGFnZV'
-        '90b2tlbg==');
+    $convert.base64Decode('ChhMaXN0QW5ub3VuY2VtZW50c1JlcXVlc3Q=');
 
 @$core.Deprecated('Use listAnnouncementsResponseDescriptor instead')
 const ListAnnouncementsResponse$json = {
@@ -72,16 +65,13 @@ const ListAnnouncementsResponse$json = {
       '10': 'announcements'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListAnnouncementsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listAnnouncementsResponseDescriptor = $convert.base64Decode(
-    'ChlMaXN0QW5ub3VuY2VtZW50c1Jlc3BvbnNlEjoKDWFubm91bmNlbWVudHMYASADKAsyFC5hcH'
-    'AudjEuQW5ub3VuY2VtZW50Ug1hbm5vdW5jZW1lbnRzSgQIAhADUg9uZXh0X3BhZ2VfdG9rZW4=');
+final $typed_data.Uint8List listAnnouncementsResponseDescriptor =
+    $convert.base64Decode(
+        'ChlMaXN0QW5ub3VuY2VtZW50c1Jlc3BvbnNlEjoKDWFubm91bmNlbWVudHMYASADKAsyFC5hcH'
+        'AudjEuQW5ub3VuY2VtZW50Ug1hbm5vdW5jZW1lbnRz');
 
 const $core.Map<$core.String, $core.dynamic> AnnouncementServiceBase$json = {
   '1': 'AnnouncementService',

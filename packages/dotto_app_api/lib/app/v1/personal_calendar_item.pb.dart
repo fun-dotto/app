@@ -164,7 +164,7 @@ class ListPersonalCalendarItemsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListPersonalCalendarItemsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: ListPersonalCalendarItemsRequest.$_createMessage)
-    ..pPM<$0.Date>(3, _omitFieldNames ? '' : 'dates',
+    ..pPM<$0.Date>(1, _omitFieldNames ? '' : 'dates',
         subBuilder: $0.Date.$_createMessage)
     ..hasRequiredFields = false;
 
@@ -197,7 +197,7 @@ class ListPersonalCalendarItemsRequest extends $pb.GeneratedMessage {
   static ListPersonalCalendarItemsRequest? _defaultInstance;
 
   /// 日付のリスト。指定した日付の個人カレンダーアイテムのみを取得する。
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $pb.PbList<$0.Date> get dates => $_getList(0);
 }
 

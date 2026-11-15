@@ -168,10 +168,10 @@ class ListReservationsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListReservationsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: ListReservationsRequest.$_createMessage)
-    ..pPS(3, _omitFieldNames ? '' : 'roomIds')
-    ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'fromTime',
+    ..pPS(1, _omitFieldNames ? '' : 'roomIds')
+    ..aOM<$1.Timestamp>(2, _omitFieldNames ? '' : 'fromTime',
         subBuilder: $1.Timestamp.$_createMessage)
-    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'untilTime',
+    ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'untilTime',
         subBuilder: $1.Timestamp.$_createMessage)
     ..hasRequiredFields = false;
 
@@ -200,31 +200,31 @@ class ListReservationsRequest extends $pb.GeneratedMessage {
   static ListReservationsRequest? _defaultInstance;
 
   /// 教室IDのリスト。空の場合は全教室を対象とする。
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $pb.PbList<$core.String> get roomIds => $_getList(0);
 
   /// 検索対象の開始日時。未設定の場合は開始日時で絞り込まない。
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
   $1.Timestamp get fromTime => $_getN(1);
-  @$pb.TagNumber(4)
-  set fromTime($1.Timestamp value) => $_setField(4, value);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
+  set fromTime($1.Timestamp value) => $_setField(2, value);
+  @$pb.TagNumber(2)
   $core.bool hasFromTime() => $_has(1);
-  @$pb.TagNumber(4)
-  void clearFromTime() => $_clearField(4);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
+  void clearFromTime() => $_clearField(2);
+  @$pb.TagNumber(2)
   $1.Timestamp ensureFromTime() => $_ensure(1);
 
   /// 検索対象の終了日時。未設定の場合は終了日時で絞り込まない。
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(3)
   $1.Timestamp get untilTime => $_getN(2);
-  @$pb.TagNumber(5)
-  set untilTime($1.Timestamp value) => $_setField(5, value);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(3)
+  set untilTime($1.Timestamp value) => $_setField(3, value);
+  @$pb.TagNumber(3)
   $core.bool hasUntilTime() => $_has(2);
-  @$pb.TagNumber(5)
-  void clearUntilTime() => $_clearField(5);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(3)
+  void clearUntilTime() => $_clearField(3);
+  @$pb.TagNumber(3)
   $1.Timestamp ensureUntilTime() => $_ensure(2);
 }
 

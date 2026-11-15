@@ -101,7 +101,7 @@ const ListPersonalCalendarItemsRequest$json = {
   '2': [
     {
       '1': 'dates',
-      '3': 3,
+      '3': 1,
       '4': 3,
       '5': 11,
       '6': '.google.type.Date',
@@ -109,19 +109,13 @@ const ListPersonalCalendarItemsRequest$json = {
       '10': 'dates'
     },
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListPersonalCalendarItemsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listPersonalCalendarItemsRequestDescriptor =
     $convert.base64Decode(
-        'CiBMaXN0UGVyc29uYWxDYWxlbmRhckl0ZW1zUmVxdWVzdBIsCgVkYXRlcxgDIAMoCzIRLmdvb2'
-        'dsZS50eXBlLkRhdGVCA+BBAlIFZGF0ZXNKBAgBEAJKBAgCEANSCXBhZ2Vfc2l6ZVIKcGFnZV90'
-        'b2tlbg==');
+        'CiBMaXN0UGVyc29uYWxDYWxlbmRhckl0ZW1zUmVxdWVzdBIsCgVkYXRlcxgBIAMoCzIRLmdvb2'
+        'dsZS50eXBlLkRhdGVCA+BBAlIFZGF0ZXM=');
 
 @$core.Deprecated('Use listPersonalCalendarItemsResponseDescriptor instead')
 const ListPersonalCalendarItemsResponse$json = {
@@ -136,10 +130,6 @@ const ListPersonalCalendarItemsResponse$json = {
       '10': 'personalCalendarItems'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListPersonalCalendarItemsResponse`. Decode as a `google.protobuf.DescriptorProto`.
@@ -147,7 +137,7 @@ final $typed_data.Uint8List listPersonalCalendarItemsResponseDescriptor =
     $convert.base64Decode(
         'CiFMaXN0UGVyc29uYWxDYWxlbmRhckl0ZW1zUmVzcG9uc2USVAoXcGVyc29uYWxfY2FsZW5kYX'
         'JfaXRlbXMYASADKAsyHC5hcHAudjEuUGVyc29uYWxDYWxlbmRhckl0ZW1SFXBlcnNvbmFsQ2Fs'
-        'ZW5kYXJJdGVtc0oECAIQA1IPbmV4dF9wYWdlX3Rva2Vu');
+        'ZW5kYXJJdGVtcw==');
 
 const $core.Map<$core.String, $core.dynamic>
     PersonalCalendarItemServiceBase$json = {

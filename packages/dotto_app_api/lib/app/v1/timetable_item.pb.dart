@@ -220,9 +220,9 @@ class ListTimetableItemsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListTimetableItemsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: ListTimetableItemsRequest.$_createMessage)
-    ..aI(3, _omitFieldNames ? '' : 'year')
+    ..aI(1, _omitFieldNames ? '' : 'year')
     ..pc<$0.SubjectSemester>(
-        4, _omitFieldNames ? '' : 'semesters', $pb.PbFieldType.KE,
+        2, _omitFieldNames ? '' : 'semesters', $pb.PbFieldType.KE,
         valueOf: $0.SubjectSemester.valueOf,
         enumValues: $0.SubjectSemester.values,
         defaultEnumValue: $0.SubjectSemester.SUBJECT_SEMESTER_UNSPECIFIED)
@@ -255,17 +255,17 @@ class ListTimetableItemsRequest extends $pb.GeneratedMessage {
   static ListTimetableItemsRequest? _defaultInstance;
 
   /// 開講年度。未設定の場合は今年度。
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $core.int get year => $_getIZ(0);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   set year($core.int value) => $_setSignedInt32(0, value);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $core.bool hasYear() => $_has(0);
-  @$pb.TagNumber(3)
-  void clearYear() => $_clearField(3);
+  @$pb.TagNumber(1)
+  void clearYear() => $_clearField(1);
 
   /// 開講時期。
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
   $pb.PbList<$0.SubjectSemester> get semesters => $_getList(1);
 }
 

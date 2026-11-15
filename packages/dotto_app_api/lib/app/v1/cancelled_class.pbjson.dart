@@ -66,10 +66,10 @@ final $typed_data.Uint8List cancelledClassDescriptor = $convert.base64Decode(
 const ListCancelledClassesRequest$json = {
   '1': 'ListCancelledClassesRequest',
   '2': [
-    {'1': 'subject_ids', '3': 3, '4': 3, '5': 9, '8': {}, '10': 'subjectIds'},
+    {'1': 'subject_ids', '3': 1, '4': 3, '5': 9, '8': {}, '10': 'subjectIds'},
     {
       '1': 'from_date',
-      '3': 4,
+      '3': 2,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -80,7 +80,7 @@ const ListCancelledClassesRequest$json = {
     },
     {
       '1': 'until_date',
-      '3': 5,
+      '3': 3,
       '4': 1,
       '5': 11,
       '6': '.google.type.Date',
@@ -94,20 +94,14 @@ const ListCancelledClassesRequest$json = {
     {'1': '_from_date'},
     {'1': '_until_date'},
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListCancelledClassesRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listCancelledClassesRequestDescriptor = $convert.base64Decode(
-    'ChtMaXN0Q2FuY2VsbGVkQ2xhc3Nlc1JlcXVlc3QSJAoLc3ViamVjdF9pZHMYAyADKAlCA+BBAV'
-    'IKc3ViamVjdElkcxI4Cglmcm9tX2RhdGUYBCABKAsyES5nb29nbGUudHlwZS5EYXRlQgPgQQFI'
-    'AFIIZnJvbURhdGWIAQESOgoKdW50aWxfZGF0ZRgFIAEoCzIRLmdvb2dsZS50eXBlLkRhdGVCA+'
-    'BBAUgBUgl1bnRpbERhdGWIAQFCDAoKX2Zyb21fZGF0ZUINCgtfdW50aWxfZGF0ZUoECAEQAkoE'
-    'CAIQA1IJcGFnZV9zaXplUgpwYWdlX3Rva2Vu');
+    'ChtMaXN0Q2FuY2VsbGVkQ2xhc3Nlc1JlcXVlc3QSJAoLc3ViamVjdF9pZHMYASADKAlCA+BBAV'
+    'IKc3ViamVjdElkcxI4Cglmcm9tX2RhdGUYAiABKAsyES5nb29nbGUudHlwZS5EYXRlQgPgQQFI'
+    'AFIIZnJvbURhdGWIAQESOgoKdW50aWxfZGF0ZRgDIAEoCzIRLmdvb2dsZS50eXBlLkRhdGVCA+'
+    'BBAUgBUgl1bnRpbERhdGWIAQFCDAoKX2Zyb21fZGF0ZUINCgtfdW50aWxfZGF0ZQ==');
 
 @$core.Deprecated('Use listCancelledClassesResponseDescriptor instead')
 const ListCancelledClassesResponse$json = {
@@ -122,18 +116,13 @@ const ListCancelledClassesResponse$json = {
       '10': 'cancelledClasses'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListCancelledClassesResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listCancelledClassesResponseDescriptor =
     $convert.base64Decode(
         'ChxMaXN0Q2FuY2VsbGVkQ2xhc3Nlc1Jlc3BvbnNlEkMKEWNhbmNlbGxlZF9jbGFzc2VzGAEgAy'
-        'gLMhYuYXBwLnYxLkNhbmNlbGxlZENsYXNzUhBjYW5jZWxsZWRDbGFzc2VzSgQIAhADUg9uZXh0'
-        'X3BhZ2VfdG9rZW4=');
+        'gLMhYuYXBwLnYxLkNhbmNlbGxlZENsYXNzUhBjYW5jZWxsZWRDbGFzc2Vz');
 
 const $core.Map<$core.String, $core.dynamic> CancelledClassServiceBase$json = {
   '1': 'CancelledClassService',

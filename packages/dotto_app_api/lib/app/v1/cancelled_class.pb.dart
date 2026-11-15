@@ -166,10 +166,10 @@ class ListCancelledClassesRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListCancelledClassesRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: ListCancelledClassesRequest.$_createMessage)
-    ..pPS(3, _omitFieldNames ? '' : 'subjectIds')
-    ..aOM<$1.Date>(4, _omitFieldNames ? '' : 'fromDate',
+    ..pPS(1, _omitFieldNames ? '' : 'subjectIds')
+    ..aOM<$1.Date>(2, _omitFieldNames ? '' : 'fromDate',
         subBuilder: $1.Date.$_createMessage)
-    ..aOM<$1.Date>(5, _omitFieldNames ? '' : 'untilDate',
+    ..aOM<$1.Date>(3, _omitFieldNames ? '' : 'untilDate',
         subBuilder: $1.Date.$_createMessage)
     ..hasRequiredFields = false;
 
@@ -202,31 +202,31 @@ class ListCancelledClassesRequest extends $pb.GeneratedMessage {
   static ListCancelledClassesRequest? _defaultInstance;
 
   /// 科目IDのリスト。指定した科目の休講のみを取得する。空の場合は全科目を対象とする。
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $pb.PbList<$core.String> get subjectIds => $_getList(0);
 
   /// 検索対象の開始日付。未設定の場合は開始日付で絞り込まない。
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
   $1.Date get fromDate => $_getN(1);
-  @$pb.TagNumber(4)
-  set fromDate($1.Date value) => $_setField(4, value);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
+  set fromDate($1.Date value) => $_setField(2, value);
+  @$pb.TagNumber(2)
   $core.bool hasFromDate() => $_has(1);
-  @$pb.TagNumber(4)
-  void clearFromDate() => $_clearField(4);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
+  void clearFromDate() => $_clearField(2);
+  @$pb.TagNumber(2)
   $1.Date ensureFromDate() => $_ensure(1);
 
   /// 検索対象の終了日付。未設定の場合は終了日付で絞り込まない。
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(3)
   $1.Date get untilDate => $_getN(2);
-  @$pb.TagNumber(5)
-  set untilDate($1.Date value) => $_setField(5, value);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(3)
+  set untilDate($1.Date value) => $_setField(3, value);
+  @$pb.TagNumber(3)
   $core.bool hasUntilDate() => $_has(2);
-  @$pb.TagNumber(5)
-  void clearUntilDate() => $_clearField(5);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(3)
+  void clearUntilDate() => $_clearField(3);
+  @$pb.TagNumber(3)
   $1.Date ensureUntilDate() => $_ensure(2);
 }
 
