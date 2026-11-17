@@ -352,10 +352,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectFacultyNames => 'Faculty';
 
   @override
-  String get subjectPracticalHomeFacultyCategory => 'Practitioner faculty category';
+  String get subjectPracticalHomeFacultyCategory =>
+      'Practitioner faculty category';
 
   @override
-  String get subjectMultiplePersonTeachingForm => 'Multiple-instructor teaching form';
+  String get subjectMultiplePersonTeachingForm =>
+      'Multiple-instructor teaching form';
 
   @override
   String get subjectTeachingForm => 'Teaching form';
@@ -370,7 +372,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectEnContentsAndSchedule => 'Contents and schedule (English)';
 
   @override
-  String get subjectEnEvaluationMethod => 'Evaluation methods and criteria (English)';
+  String get subjectEnEvaluationMethod =>
+      'Evaluation methods and criteria (English)';
 
   @override
   String get subjectEnTeachingLanguage => 'Teaching language (English)';
@@ -388,13 +391,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectEnNotes => 'Notes (English)';
 
   @override
-  String get subjectEnTeachingAndExamForm => 'Teaching and exam format (English)';
+  String get subjectEnTeachingAndExamForm =>
+      'Teaching and exam format (English)';
 
   @override
   String get subjectDiplomaPolicies => 'Diploma policies';
 
   @override
-  String get subjectDiplomaPolicyCorrespondence => 'Diploma policy correspondence';
+  String get subjectDiplomaPolicyCorrespondence =>
+      'Diploma policy correspondence';
 
   @override
   String get subjectDSOPSubject => 'DSOP subject';
