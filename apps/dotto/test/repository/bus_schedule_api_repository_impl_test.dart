@@ -37,6 +37,10 @@ void main() {
             id: '$prefix-to',
             route: api.BusRoute(name: '55'),
           ),
+          api.BusTrip(
+            id: '$prefix-other',
+            route: api.BusRoute(name: '99'),
+          ),
         ],
       );
     })
@@ -45,6 +49,23 @@ void main() {
       final kameda = stop(14013, '亀田支所前');
       final fun = stop(14023, 'はこだて未来大学');
       final isTo = req.tripId.endsWith('to');
+      if (req.tripId.endsWith('other')) {
+        // 未来大を経由しない便。
+        return api.ListBusTimetableStopsResponse(
+          busTimetableStops: [
+            api.BusTimetableStop(
+              tripId: req.tripId,
+              stop: stop(1, '経由しないバス停'),
+              departureTime: at(date, 12, 0),
+            ),
+            api.BusTimetableStop(
+              tripId: req.tripId,
+              stop: kameda,
+              departureTime: at(date, 12, 10),
+            ),
+          ],
+        );
+      }
       return api.ListBusTimetableStopsResponse(
         busTimetableStops: [
           api.BusTimetableStop(
@@ -86,6 +107,14 @@ void main() {
 
     expect(schedule.allStops.map((s) => s.id), containsAll([14013, 14023]));
     expect(schedule.allStops.first.routeList, ['55']);
+  });
+
+  test('未来大を経由しない便のバス停・路線は登録しない', () async {
+    final schedule = await repository(transport()).fetchSchedule();
+
+    expect(schedule.allStops.map((s) => s.id), isNot(contains(1)));
+    final kameda = schedule.allStops.singleWhere((s) => s.id == 14013);
+    expect(kameda.routeList, ['55']);
   });
 
   test('平日と休日の日付でそれぞれ運行情報を取得する', () async {

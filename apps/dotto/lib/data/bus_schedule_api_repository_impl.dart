@@ -116,11 +116,11 @@ final class BusScheduleApiRepositoryImpl implements BusScheduleRepository {
               message: 'Invalid bus stop id: ${raw.stop.id}',
             );
           }
-          final stop = stopsById.putIfAbsent(
-            id,
-            () => BusScheduleStop(id: id, name: raw.stop.name, routeList: []),
+          final stop = BusScheduleStop(
+            id: id,
+            name: raw.stop.name,
+            routeList: const [],
           );
-          (routesByStop[id] ??= {}).add(route);
           final time = raw.departureTime.toDateTime().toLocal();
           tripStops.add(
             BusScheduleTripStop(time: time.difference(date), stop: stop),
@@ -133,6 +133,11 @@ final class BusScheduleApiRepositoryImpl implements BusScheduleRepository {
           direction = 'from_fun';
         } else {
           continue;
+        }
+        // 時刻表に載る便のバス停・路線だけを登録する。
+        for (final s in tripStops) {
+          stopsById.putIfAbsent(s.stop.id, () => s.stop);
+          (routesByStop[s.stop.id] ??= {}).add(route);
         }
         (trips[direction]![dayKey] ??= []).add(
           BusScheduleTrip(route: route, stops: tripStops),
