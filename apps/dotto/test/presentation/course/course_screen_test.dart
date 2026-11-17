@@ -131,7 +131,7 @@ void main() {
 
       await _tapAndSettle(tester, find.text('ログインして時間割機能を使う'));
 
-      expect(find.text('1週間の時間割'), findsOneWidget);
+      expect(find.text('科目登録'), findsOneWidget);
       expect(find.text('Macサポート'), findsOneWidget);
     });
   });
@@ -223,10 +223,10 @@ void main() {
       expect(find.text('データの取得に失敗しました'), findsOneWidget);
     });
 
-    testWidgets('1週間の時間割へ遷移する', (tester) async {
+    testWidgets('科目登録へ遷移する', (tester) async {
       await _pump(tester, currentAccount: _account);
 
-      await _tapAndSettle(tester, find.text('1週間の時間割'));
+      await _tapAndSettle(tester, find.text('科目登録'));
 
       expect(find.text('/course/personal-weekly-timetable'), findsOneWidget);
     });

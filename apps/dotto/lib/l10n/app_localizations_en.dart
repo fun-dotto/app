@@ -410,9 +410,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get courseOpinionBox => 'Feedback';
 
   @override
-  String get courseWeeklyTimetable => 'Weekly timetable';
-
-  @override
   String get courseSignIn => 'Sign in to use your timetable';
 
   @override
