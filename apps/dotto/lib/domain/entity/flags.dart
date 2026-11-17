@@ -26,10 +26,5 @@ abstract final class Flags {
   );
 
   /// Debug画面の一覧表示用。新しいフラグを追加したらここにも追記する。
-  static const List<Flag<Object>> all = [
-    funch,
-    web,
-    opinionBox,
-    busApi,
-  ];
+  static const List<Flag<Object>> all = [funch, web, opinionBox, busApi];
 }

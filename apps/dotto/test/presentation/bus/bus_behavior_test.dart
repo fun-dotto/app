@@ -60,11 +60,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-        busDataSourceProvider.overrideWithValue(source),
-        remoteConfigDataSourceProvider.overrideWithValue(
-          FakeRemoteConfigDataSource(),
-        ),
-      ],
+          busDataSourceProvider.overrideWithValue(source),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
+        ],
         child: const MaterialApp(home: BusScreen()),
       ),
     );
@@ -86,11 +86,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-        busDataSourceProvider.overrideWithValue(source),
-        remoteConfigDataSourceProvider.overrideWithValue(
-          FakeRemoteConfigDataSource(),
-        ),
-      ],
+          busDataSourceProvider.overrideWithValue(source),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
+        ],
         child: const MaterialApp(home: BusScreen()),
       ),
     );
@@ -112,11 +112,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-        busDataSourceProvider.overrideWithValue(source),
-        remoteConfigDataSourceProvider.overrideWithValue(
-          FakeRemoteConfigDataSource(),
-        ),
-      ],
+          busDataSourceProvider.overrideWithValue(source),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
+        ],
         child: const MaterialApp(home: BusScreen()),
       ),
     );

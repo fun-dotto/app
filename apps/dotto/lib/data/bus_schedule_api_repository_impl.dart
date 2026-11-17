@@ -155,9 +155,10 @@ final class BusScheduleApiRepositoryImpl implements BusScheduleRepository {
         for (final direction in trips.entries)
           direction.key: {
             for (final day in direction.value.entries)
-              day.key: (day.value.map(withRoutes).toList()..sort(
-                (a, b) => a.stops.first.time.compareTo(b.stops.first.time),
-              )),
+              day.key: (day.value.map(withRoutes).toList()
+                ..sort(
+                  (a, b) => a.stops.first.time.compareTo(b.stops.first.time),
+                )),
           },
       },
       allStops: allStops,

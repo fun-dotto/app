@@ -11,10 +11,9 @@ part 'selected_bus_stop_state.g.dart';
 @riverpod
 final class SelectedBusStopState extends _$SelectedBusStopState {
   @override
-  Future<BusScheduleStop> build() =>
-      ref.watch(fetchSelectedBusStopUseCaseProvider)(
-        useApi: ref.watch(featureFlagProvider(Flags.busApi)),
-      );
+  Future<BusScheduleStop> build() => ref.watch(
+    fetchSelectedBusStopUseCaseProvider,
+  )(useApi: ref.watch(featureFlagProvider(Flags.busApi)));
   Future<bool> selectBusStop(BusScheduleStop stop) async {
     try {
       await ref.read(saveSelectedBusStopUseCaseProvider)(stop);

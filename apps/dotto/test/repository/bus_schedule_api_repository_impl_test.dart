@@ -19,8 +19,7 @@ void main() {
   final weekday = DateTime(2026, 10, 8);
   final holiday = DateTime(2026, 10, 10);
 
-  api.BusStop stop(int id, String name) =>
-      api.BusStop(id: '$id', name: name);
+  api.BusStop stop(int id, String name) => api.BusStop(id: '$id', name: name);
   Timestamp at(DateTime date, int h, int m) =>
       Timestamp.fromDateTime(date.add(Duration(hours: h, minutes: m)));
 
@@ -30,8 +29,14 @@ void main() {
       final prefix = date == weekday ? 'w' : 'h';
       return api.ListBusTripsResponse(
         busTrips: [
-          api.BusTrip(id: '$prefix-from', route: api.BusRoute(name: '55')),
-          api.BusTrip(id: '$prefix-to', route: api.BusRoute(name: '55')),
+          api.BusTrip(
+            id: '$prefix-from',
+            route: api.BusRoute(name: '55'),
+          ),
+          api.BusTrip(
+            id: '$prefix-to',
+            route: api.BusRoute(name: '55'),
+          ),
         ],
       );
     })
@@ -77,10 +82,7 @@ void main() {
 
     final fromHoliday = schedule.tripsOf(isTo: false, isWeekday: false);
     expect(fromHoliday.single.stops.map((s) => s.stop.id), [14023, 14013]);
-    expect(
-      fromHoliday.single.stops.first.time,
-      const Duration(hours: 18),
-    );
+    expect(fromHoliday.single.stops.first.time, const Duration(hours: 18));
 
     expect(schedule.allStops.map((s) => s.id), containsAll([14013, 14023]));
     expect(schedule.allStops.first.routeList, ['55']);
