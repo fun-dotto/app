@@ -32,7 +32,11 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scope = VerticalBarScope.maybeOf(context);
+    // ボトムシートやダイアログの中では、縦バーがモーダルバリアの裏に
+    // 隠れて押せないため、アクションは AppBar に表示する。
+    final scope = ModalRoute.of(context) is PopupRoute
+        ? null
+        : VerticalBarScope.maybeOf(context);
     // 2カラムの右ペインで一覧から開いた詳細は、一覧が左に見えているため
     // 戻るボタンを出さない。
     final isFirstDetail = DottoListDetail.isFirstDetail(context);
