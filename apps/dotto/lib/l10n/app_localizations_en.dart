@@ -325,6 +325,78 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectTeachingAndExamFormat => 'Teaching and exam format';
 
   @override
+  String get subjectSyllabusId => 'Syllabus ID';
+
+  @override
+  String get subjectLessonId => 'Lesson ID';
+
+  @override
+  String get subjectYear => 'Year';
+
+  @override
+  String get subjectName => 'Subject name';
+
+  @override
+  String get subjectEnName => 'Subject name (English)';
+
+  @override
+  String get subjectGrades => 'Grades';
+
+  @override
+  String get subjectTerm => 'Term';
+
+  @override
+  String get subjectCredit => 'Credits';
+
+  @override
+  String get subjectFacultyNames => 'Faculty';
+
+  @override
+  String get subjectPracticalHomeFacultyCategory => 'Practitioner faculty category';
+
+  @override
+  String get subjectMultiplePersonTeachingForm => 'Multiple-instructor teaching form';
+
+  @override
+  String get subjectTeachingForm => 'Teaching form';
+
+  @override
+  String get subjectEnSummary => 'Summary (English)';
+
+  @override
+  String get subjectEnLearningOutcomes => 'Learning outcomes (English)';
+
+  @override
+  String get subjectEnContentsAndSchedule => 'Contents and schedule (English)';
+
+  @override
+  String get subjectEnEvaluationMethod => 'Evaluation methods and criteria (English)';
+
+  @override
+  String get subjectEnTeachingLanguage => 'Teaching language (English)';
+
+  @override
+  String get subjectEnPrerequisites => 'Prerequisites (English)';
+
+  @override
+  String get subjectEnPrePostLearning => 'Pre- and post-learning (English)';
+
+  @override
+  String get subjectEnTextbooks => 'Textbooks (English)';
+
+  @override
+  String get subjectEnNotes => 'Notes (English)';
+
+  @override
+  String get subjectEnTeachingAndExamForm => 'Teaching and exam format (English)';
+
+  @override
+  String get subjectDiplomaPolicies => 'Diploma policies';
+
+  @override
+  String get subjectDiplomaPolicyCorrespondence => 'Diploma policy correspondence';
+
+  @override
   String get subjectDSOPSubject => 'DSOP subject';
 
   @override

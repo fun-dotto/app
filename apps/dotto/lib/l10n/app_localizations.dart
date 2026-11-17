@@ -686,6 +686,150 @@ abstract class AppLocalizations {
   /// **'授業・試験の形式'**
   String get subjectTeachingAndExamFormat;
 
+  /// No description provided for @subjectSyllabusId.
+  ///
+  /// In ja, this message translates to:
+  /// **'シラバスID'**
+  String get subjectSyllabusId;
+
+  /// No description provided for @subjectLessonId.
+  ///
+  /// In ja, this message translates to:
+  /// **'授業ID'**
+  String get subjectLessonId;
+
+  /// No description provided for @subjectYear.
+  ///
+  /// In ja, this message translates to:
+  /// **'年度'**
+  String get subjectYear;
+
+  /// No description provided for @subjectName.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目名'**
+  String get subjectName;
+
+  /// No description provided for @subjectEnName.
+  ///
+  /// In ja, this message translates to:
+  /// **'英語科目名'**
+  String get subjectEnName;
+
+  /// No description provided for @subjectGrades.
+  ///
+  /// In ja, this message translates to:
+  /// **'配当年次'**
+  String get subjectGrades;
+
+  /// No description provided for @subjectTerm.
+  ///
+  /// In ja, this message translates to:
+  /// **'開講時期'**
+  String get subjectTerm;
+
+  /// No description provided for @subjectCredit.
+  ///
+  /// In ja, this message translates to:
+  /// **'単位数'**
+  String get subjectCredit;
+
+  /// No description provided for @subjectFacultyNames.
+  ///
+  /// In ja, this message translates to:
+  /// **'担当教員'**
+  String get subjectFacultyNames;
+
+  /// No description provided for @subjectPracticalHomeFacultyCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'実務家教員区分'**
+  String get subjectPracticalHomeFacultyCategory;
+
+  /// No description provided for @subjectMultiplePersonTeachingForm.
+  ///
+  /// In ja, this message translates to:
+  /// **'複数人担当形態'**
+  String get subjectMultiplePersonTeachingForm;
+
+  /// No description provided for @subjectTeachingForm.
+  ///
+  /// In ja, this message translates to:
+  /// **'授業形態'**
+  String get subjectTeachingForm;
+
+  /// No description provided for @subjectEnSummary.
+  ///
+  /// In ja, this message translates to:
+  /// **'概要（英語）'**
+  String get subjectEnSummary;
+
+  /// No description provided for @subjectEnLearningOutcomes.
+  ///
+  /// In ja, this message translates to:
+  /// **'到達目標（英語）'**
+  String get subjectEnLearningOutcomes;
+
+  /// No description provided for @subjectEnContentsAndSchedule.
+  ///
+  /// In ja, this message translates to:
+  /// **'授業内容とスケジュール（英語）'**
+  String get subjectEnContentsAndSchedule;
+
+  /// No description provided for @subjectEnEvaluationMethod.
+  ///
+  /// In ja, this message translates to:
+  /// **'評価方法・基準（英語）'**
+  String get subjectEnEvaluationMethod;
+
+  /// No description provided for @subjectEnTeachingLanguage.
+  ///
+  /// In ja, this message translates to:
+  /// **'教授言語（英語）'**
+  String get subjectEnTeachingLanguage;
+
+  /// No description provided for @subjectEnPrerequisites.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修条件（英語）'**
+  String get subjectEnPrerequisites;
+
+  /// No description provided for @subjectEnPrePostLearning.
+  ///
+  /// In ja, this message translates to:
+  /// **'事前・事後学習（英語）'**
+  String get subjectEnPrePostLearning;
+
+  /// No description provided for @subjectEnTextbooks.
+  ///
+  /// In ja, this message translates to:
+  /// **'テキスト（英語）'**
+  String get subjectEnTextbooks;
+
+  /// No description provided for @subjectEnNotes.
+  ///
+  /// In ja, this message translates to:
+  /// **'履修上の留意点（英語）'**
+  String get subjectEnNotes;
+
+  /// No description provided for @subjectEnTeachingAndExamForm.
+  ///
+  /// In ja, this message translates to:
+  /// **'授業・試験の形式（英語）'**
+  String get subjectEnTeachingAndExamForm;
+
+  /// No description provided for @subjectDiplomaPolicies.
+  ///
+  /// In ja, this message translates to:
+  /// **'ディプロマ・ポリシー'**
+  String get subjectDiplomaPolicies;
+
+  /// No description provided for @subjectDiplomaPolicyCorrespondence.
+  ///
+  /// In ja, this message translates to:
+  /// **'ディプロマ・ポリシーとの対応'**
+  String get subjectDiplomaPolicyCorrespondence;
+
   /// No description provided for @subjectDSOPSubject.
   ///
   /// In ja, this message translates to:
