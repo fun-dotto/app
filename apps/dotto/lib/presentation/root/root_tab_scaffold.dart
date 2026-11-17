@@ -159,15 +159,8 @@ final class RootTabScaffold extends HookWidget {
     BuildContext context,
   ) {
     final edge = screenLayout.verticalBarEdge;
+    if (edge == null) return null;
     final isLeftToRight = Directionality.of(context) == TextDirection.ltr;
-    if (edge == null) {
-      final mediaQuery = MediaQuery.of(context);
-      // 横向きでは、下部だと本文が狭くなるため左側に置く。
-      final isLandscape = mediaQuery.size.width > mediaQuery.size.height;
-      return isLandscape
-          ? _placementOutsideSystemBar(mediaQuery, isLeftToRight)
-          : null;
-    }
     final isLeft = (edge == VerticalBarEdge.leading) == isLeftToRight;
     final mediaQuery = MediaQuery.of(context);
     final size = mediaQuery.size;

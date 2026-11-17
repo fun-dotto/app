@@ -128,7 +128,7 @@ void main() {
     );
   });
 
-  testWidgets('横向きで縦バーの指定がなければ、左側にタブバーの帯を設ける', (tester) async {
+  testWidgets('横向きで縦バーの指定がなければ下部に横並びで表示する', (tester) async {
     tester.view
       ..physicalSize = const Size(900, 400)
       ..devicePixelRatio = 1;
@@ -136,10 +136,9 @@ void main() {
     await tester.pumpWidget(_app(ScreenLayout.standard));
 
     final bar = tester.getRect(find.byType(GlassTabBar));
-    expect(_barAxis(tester), Axis.vertical);
-    expect(
-      tester.getRect(find.byKey(const Key('body'))).left,
-      greaterThanOrEqualTo(bar.right),
-    );
+    expect(_barAxis(tester), Axis.horizontal);
+    expect(bar.bottom, greaterThan(350));
+    expect(tester.getRect(find.byKey(const Key('body'))).left, 0);
+    expect(tester.getRect(find.byKey(const Key('body'))).bottom, 400);
   });
 }
