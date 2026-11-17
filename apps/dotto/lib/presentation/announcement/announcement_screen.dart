@@ -21,7 +21,7 @@ final class AnnouncementScreen extends HookConsumerWidget {
           onRefresh: ref.read(announcementStateProvider.notifier).refresh,
           child: DottoContentInsets(
             margin: false,
-            builder: (_, insets) => ListView.separated(
+            builder: (context, insets) => ListView.separated(
               padding: insets + MediaQuery.paddingOf(context),
               itemCount: value.length,
               separatorBuilder: (_, _) => const Divider(height: 0),
