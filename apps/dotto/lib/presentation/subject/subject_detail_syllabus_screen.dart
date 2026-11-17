@@ -20,8 +20,6 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
         isEnglish && syllabus.enPrePostLearning.isNotEmpty;
     // API (SubjectSyllabus) のフィールド順に並べる。
     final items = <(String, String)>[
-      (l10n.subjectSyllabusId, syllabus.id),
-      (l10n.subjectLessonId, syllabus.lessonId),
       (l10n.subjectYear, syllabus.year.toString()),
       (l10n.subjectName, localized(syllabus.name, syllabus.enName)),
       (l10n.subjectSyllabusGrades, syllabus.grades),

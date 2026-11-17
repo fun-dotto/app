@@ -325,12 +325,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectTeachingAndExamFormat => 'Teaching and exam format';
 
   @override
-  String get subjectSyllabusId => 'Syllabus ID';
-
-  @override
-  String get subjectLessonId => 'Lesson ID';
-
-  @override
   String get subjectYear => 'Year';
 
   @override

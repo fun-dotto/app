@@ -142,8 +142,6 @@
   "subjectTeachingLanguage": "Teaching language",
   "subjectContentsAndSchedule": "Contents and schedule",
   "subjectTeachingAndExamFormat": "Teaching and exam format",
-  "subjectSyllabusId": "Syllabus ID",
-  "subjectLessonId": "Lesson ID",
   "subjectYear": "Year",
   "subjectName": "Subject name",
   "subjectSyllabusGrades": "Grades",

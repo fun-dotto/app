@@ -686,18 +686,6 @@ abstract class AppLocalizations {
   /// **'授業・試験の形式'**
   String get subjectTeachingAndExamFormat;
 
-  /// No description provided for @subjectSyllabusId.
-  ///
-  /// In ja, this message translates to:
-  /// **'シラバスID'**
-  String get subjectSyllabusId;
-
-  /// No description provided for @subjectLessonId.
-  ///
-  /// In ja, this message translates to:
-  /// **'授業ID'**
-  String get subjectLessonId;
-
   /// No description provided for @subjectYear.
   ///
   /// In ja, this message translates to:

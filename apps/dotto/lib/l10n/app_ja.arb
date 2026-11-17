@@ -142,8 +142,6 @@
   "subjectTeachingLanguage": "教授言語",
   "subjectContentsAndSchedule": "授業内容とスケジュール",
   "subjectTeachingAndExamFormat": "授業・試験の形式",
-  "subjectSyllabusId": "シラバスID",
-  "subjectLessonId": "授業ID",
   "subjectYear": "年度",
   "subjectName": "科目名",
   "subjectSyllabusGrades": "配当年次",

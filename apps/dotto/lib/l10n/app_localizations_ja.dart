@@ -321,12 +321,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subjectTeachingAndExamFormat => '授業・試験の形式';
 
   @override
-  String get subjectSyllabusId => 'シラバスID';
-
-  @override
-  String get subjectLessonId => '授業ID';
-
-  @override
   String get subjectYear => '年度';
 
   @override
