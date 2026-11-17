@@ -50,7 +50,14 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
     ];
     // 縦バーでは、戻るボタンをツールバーアイテムの先頭に置く。
     final barActions = <Widget>[
-      ?dismissAction ?? (canPop ? const _VerticalBarBackButton() : null),
+      ?dismissAction ??
+          (canPop
+              // 縦バーは画面の Navigator の外にあるため、画面側の context で
+              // pop しないと画面を積んだ Navigator を戻せない。
+              ? _VerticalBarBackButton(
+                  onPressed: () => Navigator.maybePop(context),
+                )
+              : null),
       ...trailingActions,
     ];
     // 他の画面が重なっている間や、タブ切り替えで裏に回っている間
@@ -83,13 +90,15 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
 }
 
 final class _VerticalBarBackButton extends StatelessWidget {
-  const new();
+  const new({required this.onPressed});
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) => IconButton(
     icon: const BackButtonIcon(),
     tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-    onPressed: () => Navigator.maybePop(context),
+    onPressed: onPressed,
   );
 }
 
