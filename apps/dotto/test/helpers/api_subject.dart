@@ -27,7 +27,7 @@ api.SubjectSyllabus apiSyllabus({
   required String id,
   Map<String, String> fields = const {},
 }) {
-  final syllabus = api.SubjectSyllabus(id: id, credit: 2);
+  final syllabus = api.SubjectSyllabus(id: id, credit: '2');
   final info = syllabus.info_;
   for (final entry in fields.entries) {
     final field = info.byName[entry.key];

@@ -195,13 +195,16 @@ const SubjectSyllabus$json = {
   '1': 'SubjectSyllabus',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'id'},
-    {'1': 'name', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'name'},
-    {'1': 'en_name', '3': 3, '4': 1, '5': 9, '8': {}, '10': 'enName'},
-    {'1': 'grades', '3': 4, '4': 1, '5': 9, '8': {}, '10': 'grades'},
-    {'1': 'credit', '3': 5, '4': 1, '5': 5, '8': {}, '10': 'credit'},
+    {'1': 'lesson_id', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'lessonId'},
+    {'1': 'year', '3': 3, '4': 1, '5': 5, '8': {}, '10': 'year'},
+    {'1': 'name', '3': 4, '4': 1, '5': 9, '8': {}, '10': 'name'},
+    {'1': 'en_name', '3': 5, '4': 1, '5': 9, '8': {}, '10': 'enName'},
+    {'1': 'grades', '3': 6, '4': 1, '5': 9, '8': {}, '10': 'grades'},
+    {'1': 'term', '3': 7, '4': 1, '5': 9, '8': {}, '10': 'term'},
+    {'1': 'credit', '3': 8, '4': 1, '5': 9, '8': {}, '10': 'credit'},
     {
       '1': 'faculty_names',
-      '3': 6,
+      '3': 9,
       '4': 1,
       '5': 9,
       '8': {},
@@ -209,7 +212,7 @@ const SubjectSyllabus$json = {
     },
     {
       '1': 'practical_home_faculty_category',
-      '3': 7,
+      '3': 10,
       '4': 1,
       '5': 9,
       '8': {},
@@ -217,7 +220,7 @@ const SubjectSyllabus$json = {
     },
     {
       '1': 'multiple_person_teaching_form',
-      '3': 8,
+      '3': 11,
       '4': 1,
       '5': 9,
       '8': {},
@@ -225,34 +228,34 @@ const SubjectSyllabus$json = {
     },
     {
       '1': 'teaching_form',
-      '3': 9,
+      '3': 12,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'teachingForm'
     },
-    {'1': 'summary', '3': 10, '4': 1, '5': 9, '8': {}, '10': 'summary'},
+    {'1': 'summary', '3': 13, '4': 1, '5': 9, '8': {}, '10': 'summary'},
     {
       '1': 'learning_outcomes',
-      '3': 11,
+      '3': 14,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'learningOutcomes'
     },
-    {'1': 'assignments', '3': 12, '4': 1, '5': 9, '8': {}, '10': 'assignments'},
+    {'1': 'assignments', '3': 15, '4': 1, '5': 9, '8': {}, '10': 'assignments'},
     {
       '1': 'evaluation_method',
-      '3': 13,
+      '3': 16,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'evaluationMethod'
     },
-    {'1': 'textbooks', '3': 14, '4': 1, '5': 9, '8': {}, '10': 'textbooks'},
+    {'1': 'textbooks', '3': 17, '4': 1, '5': 9, '8': {}, '10': 'textbooks'},
     {
       '1': 'reference_books',
-      '3': 15,
+      '3': 18,
       '4': 1,
       '5': 9,
       '8': {},
@@ -260,7 +263,7 @@ const SubjectSyllabus$json = {
     },
     {
       '1': 'prerequisites',
-      '3': 16,
+      '3': 19,
       '4': 1,
       '5': 9,
       '8': {},
@@ -268,7 +271,7 @@ const SubjectSyllabus$json = {
     },
     {
       '1': 'pre_learning',
-      '3': 17,
+      '3': 20,
       '4': 1,
       '5': 9,
       '8': {},
@@ -276,96 +279,182 @@ const SubjectSyllabus$json = {
     },
     {
       '1': 'post_learning',
-      '3': 18,
+      '3': 21,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'postLearning'
     },
-    {'1': 'notes', '3': 19, '4': 1, '5': 9, '8': {}, '10': 'notes'},
-    {'1': 'keywords', '3': 20, '4': 1, '5': 9, '8': {}, '10': 'keywords'},
+    {'1': 'notes', '3': 22, '4': 1, '5': 9, '8': {}, '10': 'notes'},
+    {'1': 'keywords', '3': 23, '4': 1, '5': 9, '8': {}, '10': 'keywords'},
     {
       '1': 'target_courses',
-      '3': 21,
+      '3': 24,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'targetCourses'
     },
     {
-      '1': 'target_areas',
-      '3': 22,
-      '4': 1,
-      '5': 9,
-      '8': {},
-      '10': 'targetAreas'
-    },
-    {
       '1': 'classifications',
-      '3': 23,
+      '3': 25,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'classifications'
     },
     {
+      '1': 'dsop_subject',
+      '3': 26,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'dsopSubject'
+    },
+    {
       '1': 'teaching_language',
-      '3': 24,
+      '3': 27,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'teachingLanguage'
     },
     {
-      '1': 'contents_and_schedule',
-      '3': 25,
-      '4': 1,
-      '5': 9,
-      '8': {},
-      '10': 'contentsAndSchedule'
-    },
-    {
       '1': 'teaching_and_exam_form',
-      '3': 26,
+      '3': 28,
       '4': 1,
       '5': 9,
       '8': {},
       '10': 'teachingAndExamForm'
     },
     {
-      '1': 'dsop_subject',
-      '3': 27,
+      '1': 'contents_and_schedule',
+      '3': 29,
       '4': 1,
       '5': 9,
       '8': {},
-      '10': 'dsopSubject'
+      '10': 'contentsAndSchedule'
+    },
+    {'1': 'en_summary', '3': 30, '4': 1, '5': 9, '8': {}, '10': 'enSummary'},
+    {
+      '1': 'en_learning_outcomes',
+      '3': 31,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enLearningOutcomes'
+    },
+    {
+      '1': 'en_contents_and_schedule',
+      '3': 32,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enContentsAndSchedule'
+    },
+    {
+      '1': 'en_evaluation_method',
+      '3': 33,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enEvaluationMethod'
+    },
+    {
+      '1': 'en_teaching_language',
+      '3': 34,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enTeachingLanguage'
+    },
+    {
+      '1': 'en_prerequisites',
+      '3': 35,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enPrerequisites'
+    },
+    {
+      '1': 'en_pre_post_learning',
+      '3': 36,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enPrePostLearning'
+    },
+    {
+      '1': 'en_textbooks',
+      '3': 37,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enTextbooks'
+    },
+    {'1': 'en_notes', '3': 38, '4': 1, '5': 9, '8': {}, '10': 'enNotes'},
+    {
+      '1': 'en_teaching_and_exam_form',
+      '3': 39,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'enTeachingAndExamForm'
+    },
+    {
+      '1': 'diploma_policies',
+      '3': 40,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'diplomaPolicies'
+    },
+    {
+      '1': 'diploma_policy_correspondence',
+      '3': 41,
+      '4': 1,
+      '5': 9,
+      '8': {},
+      '10': 'diplomaPolicyCorrespondence'
     },
   ],
 };
 
 /// Descriptor for `SubjectSyllabus`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List subjectSyllabusDescriptor = $convert.base64Decode(
-    'Cg9TdWJqZWN0U3lsbGFidXMSEwoCaWQYASABKAlCA+BBA1ICaWQSFwoEbmFtZRgCIAEoCUID4E'
-    'EDUgRuYW1lEhwKB2VuX25hbWUYAyABKAlCA+BBA1IGZW5OYW1lEhsKBmdyYWRlcxgEIAEoCUID'
-    '4EEDUgZncmFkZXMSGwoGY3JlZGl0GAUgASgFQgPgQQNSBmNyZWRpdBIoCg1mYWN1bHR5X25hbW'
-    'VzGAYgASgJQgPgQQNSDGZhY3VsdHlOYW1lcxJKCh9wcmFjdGljYWxfaG9tZV9mYWN1bHR5X2Nh'
-    'dGVnb3J5GAcgASgJQgPgQQNSHHByYWN0aWNhbEhvbWVGYWN1bHR5Q2F0ZWdvcnkSRgodbXVsdG'
-    'lwbGVfcGVyc29uX3RlYWNoaW5nX2Zvcm0YCCABKAlCA+BBA1IabXVsdGlwbGVQZXJzb25UZWFj'
-    'aGluZ0Zvcm0SKAoNdGVhY2hpbmdfZm9ybRgJIAEoCUID4EEDUgx0ZWFjaGluZ0Zvcm0SHQoHc3'
-    'VtbWFyeRgKIAEoCUID4EEDUgdzdW1tYXJ5EjAKEWxlYXJuaW5nX291dGNvbWVzGAsgASgJQgPg'
-    'QQNSEGxlYXJuaW5nT3V0Y29tZXMSJQoLYXNzaWdubWVudHMYDCABKAlCA+BBA1ILYXNzaWdubW'
-    'VudHMSMAoRZXZhbHVhdGlvbl9tZXRob2QYDSABKAlCA+BBA1IQZXZhbHVhdGlvbk1ldGhvZBIh'
-    'Cgl0ZXh0Ym9va3MYDiABKAlCA+BBA1IJdGV4dGJvb2tzEiwKD3JlZmVyZW5jZV9ib29rcxgPIA'
-    'EoCUID4EEDUg5yZWZlcmVuY2VCb29rcxIpCg1wcmVyZXF1aXNpdGVzGBAgASgJQgPgQQNSDXBy'
-    'ZXJlcXVpc2l0ZXMSJgoMcHJlX2xlYXJuaW5nGBEgASgJQgPgQQNSC3ByZUxlYXJuaW5nEigKDX'
-    'Bvc3RfbGVhcm5pbmcYEiABKAlCA+BBA1IMcG9zdExlYXJuaW5nEhkKBW5vdGVzGBMgASgJQgPg'
-    'QQNSBW5vdGVzEh8KCGtleXdvcmRzGBQgASgJQgPgQQNSCGtleXdvcmRzEioKDnRhcmdldF9jb3'
-    'Vyc2VzGBUgASgJQgPgQQNSDXRhcmdldENvdXJzZXMSJgoMdGFyZ2V0X2FyZWFzGBYgASgJQgPg'
-    'QQNSC3RhcmdldEFyZWFzEi0KD2NsYXNzaWZpY2F0aW9ucxgXIAEoCUID4EEDUg9jbGFzc2lmaW'
-    'NhdGlvbnMSMAoRdGVhY2hpbmdfbGFuZ3VhZ2UYGCABKAlCA+BBA1IQdGVhY2hpbmdMYW5ndWFn'
-    'ZRI3ChVjb250ZW50c19hbmRfc2NoZWR1bGUYGSABKAlCA+BBA1ITY29udGVudHNBbmRTY2hlZH'
-    'VsZRI4ChZ0ZWFjaGluZ19hbmRfZXhhbV9mb3JtGBogASgJQgPgQQNSE3RlYWNoaW5nQW5kRXhh'
-    'bUZvcm0SJgoMZHNvcF9zdWJqZWN0GBsgASgJQgPgQQNSC2Rzb3BTdWJqZWN0');
+    'Cg9TdWJqZWN0U3lsbGFidXMSEwoCaWQYASABKAlCA+BBA1ICaWQSIAoJbGVzc29uX2lkGAIgAS'
+    'gJQgPgQQNSCGxlc3NvbklkEhcKBHllYXIYAyABKAVCA+BBA1IEeWVhchIXCgRuYW1lGAQgASgJ'
+    'QgPgQQNSBG5hbWUSHAoHZW5fbmFtZRgFIAEoCUID4EEDUgZlbk5hbWUSGwoGZ3JhZGVzGAYgAS'
+    'gJQgPgQQNSBmdyYWRlcxIXCgR0ZXJtGAcgASgJQgPgQQNSBHRlcm0SGwoGY3JlZGl0GAggASgJ'
+    'QgPgQQNSBmNyZWRpdBIoCg1mYWN1bHR5X25hbWVzGAkgASgJQgPgQQNSDGZhY3VsdHlOYW1lcx'
+    'JKCh9wcmFjdGljYWxfaG9tZV9mYWN1bHR5X2NhdGVnb3J5GAogASgJQgPgQQNSHHByYWN0aWNh'
+    'bEhvbWVGYWN1bHR5Q2F0ZWdvcnkSRgodbXVsdGlwbGVfcGVyc29uX3RlYWNoaW5nX2Zvcm0YCy'
+    'ABKAlCA+BBA1IabXVsdGlwbGVQZXJzb25UZWFjaGluZ0Zvcm0SKAoNdGVhY2hpbmdfZm9ybRgM'
+    'IAEoCUID4EEDUgx0ZWFjaGluZ0Zvcm0SHQoHc3VtbWFyeRgNIAEoCUID4EEDUgdzdW1tYXJ5Ej'
+    'AKEWxlYXJuaW5nX291dGNvbWVzGA4gASgJQgPgQQNSEGxlYXJuaW5nT3V0Y29tZXMSJQoLYXNz'
+    'aWdubWVudHMYDyABKAlCA+BBA1ILYXNzaWdubWVudHMSMAoRZXZhbHVhdGlvbl9tZXRob2QYEC'
+    'ABKAlCA+BBA1IQZXZhbHVhdGlvbk1ldGhvZBIhCgl0ZXh0Ym9va3MYESABKAlCA+BBA1IJdGV4'
+    'dGJvb2tzEiwKD3JlZmVyZW5jZV9ib29rcxgSIAEoCUID4EEDUg5yZWZlcmVuY2VCb29rcxIpCg'
+    '1wcmVyZXF1aXNpdGVzGBMgASgJQgPgQQNSDXByZXJlcXVpc2l0ZXMSJgoMcHJlX2xlYXJuaW5n'
+    'GBQgASgJQgPgQQNSC3ByZUxlYXJuaW5nEigKDXBvc3RfbGVhcm5pbmcYFSABKAlCA+BBA1IMcG'
+    '9zdExlYXJuaW5nEhkKBW5vdGVzGBYgASgJQgPgQQNSBW5vdGVzEh8KCGtleXdvcmRzGBcgASgJ'
+    'QgPgQQNSCGtleXdvcmRzEioKDnRhcmdldF9jb3Vyc2VzGBggASgJQgPgQQNSDXRhcmdldENvdX'
+    'JzZXMSLQoPY2xhc3NpZmljYXRpb25zGBkgASgJQgPgQQNSD2NsYXNzaWZpY2F0aW9ucxImCgxk'
+    'c29wX3N1YmplY3QYGiABKAlCA+BBA1ILZHNvcFN1YmplY3QSMAoRdGVhY2hpbmdfbGFuZ3VhZ2'
+    'UYGyABKAlCA+BBA1IQdGVhY2hpbmdMYW5ndWFnZRI4ChZ0ZWFjaGluZ19hbmRfZXhhbV9mb3Jt'
+    'GBwgASgJQgPgQQNSE3RlYWNoaW5nQW5kRXhhbUZvcm0SNwoVY29udGVudHNfYW5kX3NjaGVkdW'
+    'xlGB0gASgJQgPgQQNSE2NvbnRlbnRzQW5kU2NoZWR1bGUSIgoKZW5fc3VtbWFyeRgeIAEoCUID'
+    '4EEDUgllblN1bW1hcnkSNQoUZW5fbGVhcm5pbmdfb3V0Y29tZXMYHyABKAlCA+BBA1ISZW5MZW'
+    'FybmluZ091dGNvbWVzEjwKGGVuX2NvbnRlbnRzX2FuZF9zY2hlZHVsZRggIAEoCUID4EEDUhVl'
+    'bkNvbnRlbnRzQW5kU2NoZWR1bGUSNQoUZW5fZXZhbHVhdGlvbl9tZXRob2QYISABKAlCA+BBA1'
+    'ISZW5FdmFsdWF0aW9uTWV0aG9kEjUKFGVuX3RlYWNoaW5nX2xhbmd1YWdlGCIgASgJQgPgQQNS'
+    'EmVuVGVhY2hpbmdMYW5ndWFnZRIuChBlbl9wcmVyZXF1aXNpdGVzGCMgASgJQgPgQQNSD2VuUH'
+    'JlcmVxdWlzaXRlcxI0ChRlbl9wcmVfcG9zdF9sZWFybmluZxgkIAEoCUID4EEDUhFlblByZVBv'
+    'c3RMZWFybmluZxImCgxlbl90ZXh0Ym9va3MYJSABKAlCA+BBA1ILZW5UZXh0Ym9va3MSHgoIZW'
+    '5fbm90ZXMYJiABKAlCA+BBA1IHZW5Ob3RlcxI9Chllbl90ZWFjaGluZ19hbmRfZXhhbV9mb3Jt'
+    'GCcgASgJQgPgQQNSFWVuVGVhY2hpbmdBbmRFeGFtRm9ybRIuChBkaXBsb21hX3BvbGljaWVzGC'
+    'ggASgJQgPgQQNSD2RpcGxvbWFQb2xpY2llcxJHCh1kaXBsb21hX3BvbGljeV9jb3JyZXNwb25k'
+    'ZW5jZRgpIAEoCUID4EEDUhtkaXBsb21hUG9saWN5Q29ycmVzcG9uZGVuY2U=');
 
 @$core.Deprecated('Use subjectDescriptor instead')
 const Subject$json = {
@@ -444,10 +533,10 @@ final $typed_data.Uint8List subjectDescriptor = $convert.base64Decode(
 const ListSubjectsRequest$json = {
   '1': 'ListSubjectsRequest',
   '2': [
-    {'1': 'query', '3': 3, '4': 1, '5': 9, '8': {}, '10': 'query'},
+    {'1': 'query', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'query'},
     {
       '1': 'grades',
-      '3': 4,
+      '3': 2,
       '4': 3,
       '5': 14,
       '6': '.app.v1.Grade',
@@ -456,7 +545,7 @@ const ListSubjectsRequest$json = {
     },
     {
       '1': 'courses',
-      '3': 5,
+      '3': 3,
       '4': 3,
       '5': 14,
       '6': '.app.v1.Course',
@@ -465,7 +554,7 @@ const ListSubjectsRequest$json = {
     },
     {
       '1': 'classes',
-      '3': 6,
+      '3': 4,
       '4': 3,
       '5': 14,
       '6': '.app.v1.Class',
@@ -474,7 +563,7 @@ const ListSubjectsRequest$json = {
     },
     {
       '1': 'classifications',
-      '3': 7,
+      '3': 5,
       '4': 3,
       '5': 14,
       '6': '.app.v1.SubjectClassification',
@@ -483,7 +572,7 @@ const ListSubjectsRequest$json = {
     },
     {
       '1': 'semesters',
-      '3': 8,
+      '3': 6,
       '4': 3,
       '5': 14,
       '6': '.app.v1.SubjectSemester',
@@ -492,7 +581,7 @@ const ListSubjectsRequest$json = {
     },
     {
       '1': 'requirement_types',
-      '3': 9,
+      '3': 7,
       '4': 3,
       '5': 14,
       '6': '.app.v1.SubjectRequirementType',
@@ -501,7 +590,7 @@ const ListSubjectsRequest$json = {
     },
     {
       '1': 'cultural_subject_categories',
-      '3': 10,
+      '3': 8,
       '4': 3,
       '5': 14,
       '6': '.app.v1.SubjectCulturalSubjectCategory',
@@ -509,25 +598,20 @@ const ListSubjectsRequest$json = {
       '10': 'culturalSubjectCategories'
     },
   ],
-  '9': [
-    {'1': 1, '2': 2},
-    {'1': 2, '2': 3},
-  ],
-  '10': ['page_size', 'page_token'],
 };
 
 /// Descriptor for `ListSubjectsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listSubjectsRequestDescriptor = $convert.base64Decode(
-    'ChNMaXN0U3ViamVjdHNSZXF1ZXN0EhkKBXF1ZXJ5GAMgASgJQgPgQQFSBXF1ZXJ5EioKBmdyYW'
-    'RlcxgEIAMoDjINLmFwcC52MS5HcmFkZUID4EEBUgZncmFkZXMSLQoHY291cnNlcxgFIAMoDjIO'
-    'LmFwcC52MS5Db3Vyc2VCA+BBAVIHY291cnNlcxIsCgdjbGFzc2VzGAYgAygOMg0uYXBwLnYxLk'
-    'NsYXNzQgPgQQFSB2NsYXNzZXMSTAoPY2xhc3NpZmljYXRpb25zGAcgAygOMh0uYXBwLnYxLlN1'
+    'ChNMaXN0U3ViamVjdHNSZXF1ZXN0EhkKBXF1ZXJ5GAEgASgJQgPgQQFSBXF1ZXJ5EioKBmdyYW'
+    'RlcxgCIAMoDjINLmFwcC52MS5HcmFkZUID4EEBUgZncmFkZXMSLQoHY291cnNlcxgDIAMoDjIO'
+    'LmFwcC52MS5Db3Vyc2VCA+BBAVIHY291cnNlcxIsCgdjbGFzc2VzGAQgAygOMg0uYXBwLnYxLk'
+    'NsYXNzQgPgQQFSB2NsYXNzZXMSTAoPY2xhc3NpZmljYXRpb25zGAUgAygOMh0uYXBwLnYxLlN1'
     'YmplY3RDbGFzc2lmaWNhdGlvbkID4EEBUg9jbGFzc2lmaWNhdGlvbnMSOgoJc2VtZXN0ZXJzGA'
-    'ggAygOMhcuYXBwLnYxLlN1YmplY3RTZW1lc3RlckID4EEBUglzZW1lc3RlcnMSUAoRcmVxdWly'
-    'ZW1lbnRfdHlwZXMYCSADKA4yHi5hcHAudjEuU3ViamVjdFJlcXVpcmVtZW50VHlwZUID4EEBUh'
-    'ByZXF1aXJlbWVudFR5cGVzEmsKG2N1bHR1cmFsX3N1YmplY3RfY2F0ZWdvcmllcxgKIAMoDjIm'
+    'YgAygOMhcuYXBwLnYxLlN1YmplY3RTZW1lc3RlckID4EEBUglzZW1lc3RlcnMSUAoRcmVxdWly'
+    'ZW1lbnRfdHlwZXMYByADKA4yHi5hcHAudjEuU3ViamVjdFJlcXVpcmVtZW50VHlwZUID4EEBUh'
+    'ByZXF1aXJlbWVudFR5cGVzEmsKG2N1bHR1cmFsX3N1YmplY3RfY2F0ZWdvcmllcxgIIAMoDjIm'
     'LmFwcC52MS5TdWJqZWN0Q3VsdHVyYWxTdWJqZWN0Q2F0ZWdvcnlCA+BBAVIZY3VsdHVyYWxTdW'
-    'JqZWN0Q2F0ZWdvcmllc0oECAEQAkoECAIQA1IJcGFnZV9zaXplUgpwYWdlX3Rva2Vu');
+    'JqZWN0Q2F0ZWdvcmllcw==');
 
 @$core.Deprecated('Use listSubjectsResponseDescriptor instead')
 const ListSubjectsResponse$json = {
@@ -542,16 +626,12 @@ const ListSubjectsResponse$json = {
       '10': 'subjects'
     },
   ],
-  '9': [
-    {'1': 2, '2': 3},
-  ],
-  '10': ['next_page_token'],
 };
 
 /// Descriptor for `ListSubjectsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listSubjectsResponseDescriptor = $convert.base64Decode(
     'ChRMaXN0U3ViamVjdHNSZXNwb25zZRIrCghzdWJqZWN0cxgBIAMoCzIPLmFwcC52MS5TdWJqZW'
-    'N0UghzdWJqZWN0c0oECAIQA1IPbmV4dF9wYWdlX3Rva2Vu');
+    'N0UghzdWJqZWN0cw==');
 
 @$core.Deprecated('Use getSubjectRequestDescriptor instead')
 const GetSubjectRequest$json = {
