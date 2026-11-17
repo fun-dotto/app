@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dotto/data/bus_data_source.dart';
+import 'package:dotto/data/remote_config_data_source.dart';
 import 'package:dotto/domain/entity/bus_trip_id.dart';
 import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:dotto/presentation/bus/bus_initial_direction_state.dart';
@@ -12,14 +13,23 @@ import 'package:dotto/presentation/bus/selected_bus_stop_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../helpers/fake_bus_data_source.dart';
+import '../../helpers/fake_remote_config_data_source.dart';
 
 void main() {
+  setUp(() => SharedPreferences.setMockInitialValues({}));
+
   ProviderContainer createContainer(FakeBusDataSource source) {
     final container = ProviderContainer(
       retry: (_, _) => null,
-      overrides: [busDataSourceProvider.overrideWithValue(source)],
+      overrides: [
+        busDataSourceProvider.overrideWithValue(source),
+        remoteConfigDataSourceProvider.overrideWithValue(
+          FakeRemoteConfigDataSource(),
+        ),
+      ],
     );
     addTearDown(container.dispose);
     return container;
@@ -30,6 +40,9 @@ void main() {
       ProviderScope(
         overrides: [
           busDataSourceProvider.overrideWithValue(FakeBusDataSource()),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
         ],
         child: const MaterialApp(home: BusScreen()),
       ),
@@ -46,7 +59,12 @@ void main() {
     final source = FakeBusDataSource()..nearUniversityResult = location.future;
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [busDataSourceProvider.overrideWithValue(source)],
+        overrides: [
+          busDataSourceProvider.overrideWithValue(source),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
+        ],
         child: const MaterialApp(home: BusScreen()),
       ),
     );
@@ -67,7 +85,12 @@ void main() {
     final source = FakeBusDataSource()..holidayDatesResult = holidays.future;
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [busDataSourceProvider.overrideWithValue(source)],
+        overrides: [
+          busDataSourceProvider.overrideWithValue(source),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
+        ],
         child: const MaterialApp(home: BusScreen()),
       ),
     );
@@ -88,7 +111,12 @@ void main() {
     final source = FakeBusDataSource()..holidayDatesResult = holidays.future;
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [busDataSourceProvider.overrideWithValue(source)],
+        overrides: [
+          busDataSourceProvider.overrideWithValue(source),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
+        ],
         child: const MaterialApp(home: BusScreen()),
       ),
     );
@@ -108,6 +136,9 @@ void main() {
       ProviderScope(
         overrides: [
           busDataSourceProvider.overrideWithValue(FakeBusDataSource()),
+          remoteConfigDataSourceProvider.overrideWithValue(
+            FakeRemoteConfigDataSource(),
+          ),
         ],
         child: const MaterialApp(home: BusTripScreen(id: 'invalid')),
       ),
