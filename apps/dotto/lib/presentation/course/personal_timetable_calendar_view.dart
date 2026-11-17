@@ -75,18 +75,15 @@ final class PersonalTimetableCalendarView extends HookConsumerWidget {
       return null;
     }, [personalTimetableDays, safeSelectedDate, pageController]);
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: _Calendar(
-        this,
-        days: personalTimetableDays,
-        selectedDate: safeSelectedDate,
-        currentPage: currentPage.value,
-        onPageChanged: (newPage) => currentPage.value = newPage,
-        pageController: pageController,
-        onDateSelected: onDateSelected,
-        isTimetableTimeVisible: isTimetableTimeVisible,
-      ),
+    return _Calendar(
+      this,
+      days: personalTimetableDays,
+      selectedDate: safeSelectedDate,
+      currentPage: currentPage.value,
+      onPageChanged: (newPage) => currentPage.value = newPage,
+      pageController: pageController,
+      onDateSelected: onDateSelected,
+      isTimetableTimeVisible: isTimetableTimeVisible,
     );
   }
 

@@ -238,20 +238,15 @@ final class CourseScreen extends HookConsumerWidget {
                     primary: isAuthenticated
                         ? Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsetsGeometry.symmetric(
-                                  horizontal: 8,
-                                ),
-                                child: PersonalTimetableCalendarView(
-                                  personalTimetableDays: courseState,
-                                  selectedDate: selectedDate.value,
-                                  onDateSelected: (newDate) =>
-                                      selectedDate.value = newDate,
-                                  onSubjectSelected: (subject) =>
-                                      CourseSubjectSyllabusRouteData(
-                                        id: subject.id,
-                                      ).push<void>(context),
-                                ),
+                              PersonalTimetableCalendarView(
+                                personalTimetableDays: courseState,
+                                selectedDate: selectedDate.value,
+                                onDateSelected: (newDate) =>
+                                    selectedDate.value = newDate,
+                                onSubjectSelected: (subject) =>
+                                    CourseSubjectSyllabusRouteData(
+                                      id: subject.id,
+                                    ).push<void>(context),
                               ),
                               Row(
                                 mainAxisAlignment: .end,
