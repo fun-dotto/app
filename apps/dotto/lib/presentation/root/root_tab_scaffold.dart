@@ -18,6 +18,7 @@ const _minimumVerticalBarHeight = 360.0;
 const _minimumOutsideBarHeight = 280.0;
 
 const _barMargin = 16.0;
+const _bottomBarMargin = 24.0;
 
 // システムの縦バーがないときに、タブバーのために確保する帯の幅。
 const double _outsideBarWidth = glassIconOnlyItemExtent + 8 + _barMargin;
@@ -70,16 +71,15 @@ final class RootTabScaffold extends HookWidget {
         body: paddedBody,
         bottomNavigationBar: SafeArea(
           top: false,
+          bottom: false,
           child: Padding(
-            // 下部にインセットがあるときはそれ自体が余白になるため、なければ
-            // 画面の下端に張り付かないよう余白を空ける。
-            padding: EdgeInsets.only(
+            // 縦横で見た目を揃えるため、下部インセットを加算せず、
+            // 画面下端からバーまでの合計余白を固定する。
+            padding: const EdgeInsets.only(
               left: _barMargin,
               right: _barMargin,
               top: _barMargin / 2,
-              bottom: MediaQuery.paddingOf(context).bottom > 0
-                  ? 0
-                  : _barMargin / 2,
+              bottom: _bottomBarMargin,
             ),
             // bottomNavigationBar は高さが緩い制約で渡されるため、高さは中身に
             // 合わせないと全体に広がり、本文が潰れてしまう。
