@@ -23,8 +23,14 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
       (l10n.subjectTerm, syllabus.term),
       (l10n.subjectCredit, syllabus.credit),
       (l10n.subjectFacultyNames, syllabus.facultyNames),
-      (l10n.subjectPracticalHomeFacultyCategory, syllabus.practicalHomeFacultyCategory),
-      (l10n.subjectMultiplePersonTeachingForm, syllabus.multiplePersonTeachingForm),
+      (
+        l10n.subjectPracticalHomeFacultyCategory,
+        syllabus.practicalHomeFacultyCategory,
+      ),
+      (
+        l10n.subjectMultiplePersonTeachingForm,
+        syllabus.multiplePersonTeachingForm,
+      ),
       (l10n.subjectTeachingForm, syllabus.teachingForm),
       (l10n.subjectSummary, syllabus.summary),
       (l10n.subjectLearningOutcomes, syllabus.learningOutcomes),
@@ -54,7 +60,10 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
       (l10n.subjectEnNotes, syllabus.enNotes),
       (l10n.subjectEnTeachingAndExamForm, syllabus.enTeachingAndExamForm),
       (l10n.subjectDiplomaPolicies, syllabus.diplomaPolicies),
-      (l10n.subjectDiplomaPolicyCorrespondence, syllabus.diplomaPolicyCorrespondence),
+      (
+        l10n.subjectDiplomaPolicyCorrespondence,
+        syllabus.diplomaPolicyCorrespondence,
+      ),
     ];
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: 8)
