@@ -17,7 +17,8 @@ final class FetchBusScheduleUseCase {
 }
 
 @riverpod
-FetchBusScheduleUseCase fetchBusScheduleUseCase(Ref ref) => FetchBusScheduleUseCase(
-  ref.watch(busScheduleRepositoryProvider),
-  ref.watch(busScheduleApiRepositoryProvider),
-);
+FetchBusScheduleUseCase fetchBusScheduleUseCase(Ref ref) =>
+    FetchBusScheduleUseCase(
+      ref.watch(busScheduleRepositoryProvider),
+      ref.watch(busScheduleApiRepositoryProvider),
+    );

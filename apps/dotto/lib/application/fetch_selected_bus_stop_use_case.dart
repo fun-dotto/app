@@ -17,7 +17,8 @@ final class FetchSelectedBusStopUseCase {
 }
 
 @riverpod
-FetchSelectedBusStopUseCase fetchSelectedBusStopUseCase(Ref ref) => FetchSelectedBusStopUseCase(
-  ref.watch(busScheduleRepositoryProvider),
-  ref.watch(busScheduleApiRepositoryProvider),
-);
+FetchSelectedBusStopUseCase fetchSelectedBusStopUseCase(Ref ref) =>
+    FetchSelectedBusStopUseCase(
+      ref.watch(busScheduleRepositoryProvider),
+      ref.watch(busScheduleApiRepositoryProvider),
+    );
