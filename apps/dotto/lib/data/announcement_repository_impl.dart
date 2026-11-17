@@ -23,9 +23,7 @@ final class AnnouncementRepositoryImpl implements AnnouncementRepository {
   @override
   Future<List<Announcement>> fetchAll() async {
     try {
-      final response = await _client.listArticles(
-        api.ListArticlesRequest(),
-      );
+      final response = await _client.listArticles(api.ListArticlesRequest());
       return List.unmodifiable(
         response.articles.map(
           (e) => Announcement(

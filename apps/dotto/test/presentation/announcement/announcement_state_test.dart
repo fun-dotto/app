@@ -45,8 +45,7 @@ void main() {
   });
 
   test('取得に失敗するとDomainErrorになる', () async {
-    final transport = FakeAppApiTransport()
-      ..fail(ArticleService.listArticles);
+    final transport = FakeAppApiTransport()..fail(ArticleService.listArticles);
     final container = createContainer(transport);
 
     await expectLater(

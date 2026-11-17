@@ -66,8 +66,7 @@ void main() {
     await _pump(
       tester,
       const AnnouncementScreen(),
-      transport: FakeAppApiTransport()
-        ..fail(ArticleService.listArticles),
+      transport: FakeAppApiTransport()..fail(ArticleService.listArticles),
     );
 
     expect(find.byType(ErrorView), findsOneWidget);
@@ -96,8 +95,7 @@ void main() {
     await _pump(
       tester,
       const AnnouncementDetailScreen(id: '1'),
-      transport: FakeAppApiTransport()
-        ..fail(ArticleService.listArticles),
+      transport: FakeAppApiTransport()..fail(ArticleService.listArticles),
     );
 
     expect(find.byType(ErrorView), findsOneWidget);
