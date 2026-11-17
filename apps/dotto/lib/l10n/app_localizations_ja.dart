@@ -333,9 +333,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subjectName => '科目名';
 
   @override
-  String get subjectEnName => '英語科目名';
-
-  @override
   String get subjectSyllabusGrades => '配当年次';
 
   @override
@@ -357,40 +354,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subjectTeachingForm => '授業形態';
 
   @override
-  String get subjectEnSummary => '概要（英語）';
-
-  @override
-  String get subjectEnLearningOutcomes => '到達目標（英語）';
-
-  @override
-  String get subjectEnContentsAndSchedule => '授業内容とスケジュール（英語）';
-
-  @override
-  String get subjectEnEvaluationMethod => '評価方法・基準（英語）';
-
-  @override
-  String get subjectEnTeachingLanguage => '教授言語（英語）';
-
-  @override
-  String get subjectEnPrerequisites => '履修条件（英語）';
-
-  @override
-  String get subjectEnPrePostLearning => '事前・事後学習（英語）';
-
-  @override
-  String get subjectEnTextbooks => 'テキスト（英語）';
-
-  @override
-  String get subjectEnNotes => '履修上の留意点（英語）';
-
-  @override
-  String get subjectEnTeachingAndExamForm => '授業・試験の形式（英語）';
-
-  @override
   String get subjectDiplomaPolicies => 'ディプロマ・ポリシー';
 
   @override
   String get subjectDiplomaPolicyCorrespondence => 'ディプロマ・ポリシーとの対応';
+
+  @override
+  String get subjectPrePostLearning => '事前・事後学習';
 
   @override
   String get subjectDSOPSubject => 'DSOP対象科目';

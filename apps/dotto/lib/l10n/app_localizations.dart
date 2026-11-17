@@ -710,12 +710,6 @@ abstract class AppLocalizations {
   /// **'科目名'**
   String get subjectName;
 
-  /// No description provided for @subjectEnName.
-  ///
-  /// In ja, this message translates to:
-  /// **'英語科目名'**
-  String get subjectEnName;
-
   /// No description provided for @subjectSyllabusGrades.
   ///
   /// In ja, this message translates to:
@@ -758,66 +752,6 @@ abstract class AppLocalizations {
   /// **'授業形態'**
   String get subjectTeachingForm;
 
-  /// No description provided for @subjectEnSummary.
-  ///
-  /// In ja, this message translates to:
-  /// **'概要（英語）'**
-  String get subjectEnSummary;
-
-  /// No description provided for @subjectEnLearningOutcomes.
-  ///
-  /// In ja, this message translates to:
-  /// **'到達目標（英語）'**
-  String get subjectEnLearningOutcomes;
-
-  /// No description provided for @subjectEnContentsAndSchedule.
-  ///
-  /// In ja, this message translates to:
-  /// **'授業内容とスケジュール（英語）'**
-  String get subjectEnContentsAndSchedule;
-
-  /// No description provided for @subjectEnEvaluationMethod.
-  ///
-  /// In ja, this message translates to:
-  /// **'評価方法・基準（英語）'**
-  String get subjectEnEvaluationMethod;
-
-  /// No description provided for @subjectEnTeachingLanguage.
-  ///
-  /// In ja, this message translates to:
-  /// **'教授言語（英語）'**
-  String get subjectEnTeachingLanguage;
-
-  /// No description provided for @subjectEnPrerequisites.
-  ///
-  /// In ja, this message translates to:
-  /// **'履修条件（英語）'**
-  String get subjectEnPrerequisites;
-
-  /// No description provided for @subjectEnPrePostLearning.
-  ///
-  /// In ja, this message translates to:
-  /// **'事前・事後学習（英語）'**
-  String get subjectEnPrePostLearning;
-
-  /// No description provided for @subjectEnTextbooks.
-  ///
-  /// In ja, this message translates to:
-  /// **'テキスト（英語）'**
-  String get subjectEnTextbooks;
-
-  /// No description provided for @subjectEnNotes.
-  ///
-  /// In ja, this message translates to:
-  /// **'履修上の留意点（英語）'**
-  String get subjectEnNotes;
-
-  /// No description provided for @subjectEnTeachingAndExamForm.
-  ///
-  /// In ja, this message translates to:
-  /// **'授業・試験の形式（英語）'**
-  String get subjectEnTeachingAndExamForm;
-
   /// No description provided for @subjectDiplomaPolicies.
   ///
   /// In ja, this message translates to:
@@ -829,6 +763,12 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'ディプロマ・ポリシーとの対応'**
   String get subjectDiplomaPolicyCorrespondence;
+
+  /// No description provided for @subjectPrePostLearning.
+  ///
+  /// In ja, this message translates to:
+  /// **'事前・事後学習'**
+  String get subjectPrePostLearning;
 
   /// No description provided for @subjectDSOPSubject.
   ///

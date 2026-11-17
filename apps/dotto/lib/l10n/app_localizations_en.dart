@@ -337,9 +337,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectName => 'Subject name';
 
   @override
-  String get subjectEnName => 'Subject name (English)';
-
-  @override
   String get subjectSyllabusGrades => 'Grades';
 
   @override
@@ -363,43 +360,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectTeachingForm => 'Teaching form';
 
   @override
-  String get subjectEnSummary => 'Summary (English)';
-
-  @override
-  String get subjectEnLearningOutcomes => 'Learning outcomes (English)';
-
-  @override
-  String get subjectEnContentsAndSchedule => 'Contents and schedule (English)';
-
-  @override
-  String get subjectEnEvaluationMethod =>
-      'Evaluation methods and criteria (English)';
-
-  @override
-  String get subjectEnTeachingLanguage => 'Teaching language (English)';
-
-  @override
-  String get subjectEnPrerequisites => 'Prerequisites (English)';
-
-  @override
-  String get subjectEnPrePostLearning => 'Pre- and post-learning (English)';
-
-  @override
-  String get subjectEnTextbooks => 'Textbooks (English)';
-
-  @override
-  String get subjectEnNotes => 'Notes (English)';
-
-  @override
-  String get subjectEnTeachingAndExamForm =>
-      'Teaching and exam format (English)';
-
-  @override
   String get subjectDiplomaPolicies => 'Diploma policies';
 
   @override
   String get subjectDiplomaPolicyCorrespondence =>
       'Diploma policy correspondence';
+
+  @override
+  String get subjectPrePostLearning => 'Pre- and post-learning';
 
   @override
   String get subjectDSOPSubject => 'DSOP subject';

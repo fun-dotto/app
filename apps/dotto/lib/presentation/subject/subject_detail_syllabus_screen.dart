@@ -12,13 +12,18 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.subjectL10n;
+    final isEnglish = Localizations.localeOf(context).languageCode == 'en';
+    // 英語版がある項目は、英語表示かつ英語版が空でなければ英語版を使う。
+    String localized(String ja, String en) =>
+        isEnglish && en.isNotEmpty ? en : ja;
+    final showEnPrePostLearning =
+        isEnglish && syllabus.enPrePostLearning.isNotEmpty;
     // API (SubjectSyllabus) のフィールド順に並べる。
     final items = <(String, String)>[
       (l10n.subjectSyllabusId, syllabus.id),
       (l10n.subjectLessonId, syllabus.lessonId),
       (l10n.subjectYear, syllabus.year.toString()),
-      (l10n.subjectName, syllabus.name),
-      (l10n.subjectEnName, syllabus.enName),
+      (l10n.subjectName, localized(syllabus.name, syllabus.enName)),
       (l10n.subjectSyllabusGrades, syllabus.grades),
       (l10n.subjectTerm, syllabus.term),
       (l10n.subjectCredit, syllabus.credit),
@@ -32,33 +37,48 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
         syllabus.multiplePersonTeachingForm,
       ),
       (l10n.subjectTeachingForm, syllabus.teachingForm),
-      (l10n.subjectSummary, syllabus.summary),
-      (l10n.subjectLearningOutcomes, syllabus.learningOutcomes),
+      (l10n.subjectSummary, localized(syllabus.summary, syllabus.enSummary)),
+      (
+        l10n.subjectLearningOutcomes,
+        localized(syllabus.learningOutcomes, syllabus.enLearningOutcomes),
+      ),
       (l10n.subjectAssignments, syllabus.assignments),
-      (l10n.subjectEvaluationMethodsAndCriteria, syllabus.evaluationMethod),
-      (l10n.subjectTextbooks, syllabus.textbooks),
+      (
+        l10n.subjectEvaluationMethodsAndCriteria,
+        localized(syllabus.evaluationMethod, syllabus.enEvaluationMethod),
+      ),
+      (
+        l10n.subjectTextbooks,
+        localized(syllabus.textbooks, syllabus.enTextbooks),
+      ),
       (l10n.subjectReferenceBooks, syllabus.referenceBooks),
-      (l10n.subjectPrerequisites, syllabus.prerequisites),
-      (l10n.subjectPreLearning, syllabus.preLearning),
-      (l10n.subjectPostLearning, syllabus.postLearning),
-      (l10n.subjectNotes, syllabus.notes),
+      (
+        l10n.subjectPrerequisites,
+        localized(syllabus.prerequisites, syllabus.enPrerequisites),
+      ),
+      if (showEnPrePostLearning)
+        (l10n.subjectPrePostLearning, syllabus.enPrePostLearning)
+      else ...[
+        (l10n.subjectPreLearning, syllabus.preLearning),
+        (l10n.subjectPostLearning, syllabus.postLearning),
+      ],
+      (l10n.subjectNotes, localized(syllabus.notes, syllabus.enNotes)),
       (l10n.subjectKeywords, syllabus.keywords),
       (l10n.subjectTargetCoursesAndAreas, syllabus.targetCourses),
       (l10n.subjectClassificationPrompt, syllabus.classifications),
       (l10n.subjectDSOPSubject, syllabus.dsopSubject),
-      (l10n.subjectTeachingLanguage, syllabus.teachingLanguage),
-      (l10n.subjectTeachingAndExamFormat, syllabus.teachingAndExamForm),
-      (l10n.subjectContentsAndSchedule, syllabus.contentsAndSchedule),
-      (l10n.subjectEnSummary, syllabus.enSummary),
-      (l10n.subjectEnLearningOutcomes, syllabus.enLearningOutcomes),
-      (l10n.subjectEnContentsAndSchedule, syllabus.enContentsAndSchedule),
-      (l10n.subjectEnEvaluationMethod, syllabus.enEvaluationMethod),
-      (l10n.subjectEnTeachingLanguage, syllabus.enTeachingLanguage),
-      (l10n.subjectEnPrerequisites, syllabus.enPrerequisites),
-      (l10n.subjectEnPrePostLearning, syllabus.enPrePostLearning),
-      (l10n.subjectEnTextbooks, syllabus.enTextbooks),
-      (l10n.subjectEnNotes, syllabus.enNotes),
-      (l10n.subjectEnTeachingAndExamForm, syllabus.enTeachingAndExamForm),
+      (
+        l10n.subjectTeachingLanguage,
+        localized(syllabus.teachingLanguage, syllabus.enTeachingLanguage),
+      ),
+      (
+        l10n.subjectTeachingAndExamFormat,
+        localized(syllabus.teachingAndExamForm, syllabus.enTeachingAndExamForm),
+      ),
+      (
+        l10n.subjectContentsAndSchedule,
+        localized(syllabus.contentsAndSchedule, syllabus.enContentsAndSchedule),
+      ),
       (l10n.subjectDiplomaPolicies, syllabus.diplomaPolicies),
       (
         l10n.subjectDiplomaPolicyCorrespondence,
