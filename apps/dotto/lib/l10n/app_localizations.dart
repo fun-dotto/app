@@ -686,6 +686,78 @@ abstract class AppLocalizations {
   /// **'授業・試験の形式'**
   String get subjectTeachingAndExamFormat;
 
+  /// No description provided for @subjectYear.
+  ///
+  /// In ja, this message translates to:
+  /// **'年度'**
+  String get subjectYear;
+
+  /// No description provided for @subjectName.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目名'**
+  String get subjectName;
+
+  /// No description provided for @subjectSyllabusGrades.
+  ///
+  /// In ja, this message translates to:
+  /// **'配当年次'**
+  String get subjectSyllabusGrades;
+
+  /// No description provided for @subjectTerm.
+  ///
+  /// In ja, this message translates to:
+  /// **'開講時期'**
+  String get subjectTerm;
+
+  /// No description provided for @subjectCredit.
+  ///
+  /// In ja, this message translates to:
+  /// **'単位数'**
+  String get subjectCredit;
+
+  /// No description provided for @subjectFacultyNames.
+  ///
+  /// In ja, this message translates to:
+  /// **'担当教員'**
+  String get subjectFacultyNames;
+
+  /// No description provided for @subjectPracticalHomeFacultyCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'実務家教員区分'**
+  String get subjectPracticalHomeFacultyCategory;
+
+  /// No description provided for @subjectMultiplePersonTeachingForm.
+  ///
+  /// In ja, this message translates to:
+  /// **'複数人担当形態'**
+  String get subjectMultiplePersonTeachingForm;
+
+  /// No description provided for @subjectTeachingForm.
+  ///
+  /// In ja, this message translates to:
+  /// **'授業形態'**
+  String get subjectTeachingForm;
+
+  /// No description provided for @subjectDiplomaPolicies.
+  ///
+  /// In ja, this message translates to:
+  /// **'ディプロマ・ポリシー'**
+  String get subjectDiplomaPolicies;
+
+  /// No description provided for @subjectDiplomaPolicyCorrespondence.
+  ///
+  /// In ja, this message translates to:
+  /// **'ディプロマ・ポリシーとの対応'**
+  String get subjectDiplomaPolicyCorrespondence;
+
+  /// No description provided for @subjectPrePostLearning.
+  ///
+  /// In ja, this message translates to:
+  /// **'事前・事後学習'**
+  String get subjectPrePostLearning;
+
   /// No description provided for @subjectDSOPSubject.
   ///
   /// In ja, this message translates to:

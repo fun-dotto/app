@@ -325,6 +325,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectTeachingAndExamFormat => 'Teaching and exam format';
 
   @override
+  String get subjectYear => 'Year';
+
+  @override
+  String get subjectName => 'Subject name';
+
+  @override
+  String get subjectSyllabusGrades => 'Grades';
+
+  @override
+  String get subjectTerm => 'Term';
+
+  @override
+  String get subjectCredit => 'Credits';
+
+  @override
+  String get subjectFacultyNames => 'Faculty';
+
+  @override
+  String get subjectPracticalHomeFacultyCategory =>
+      'Practitioner faculty category';
+
+  @override
+  String get subjectMultiplePersonTeachingForm =>
+      'Multiple-instructor teaching form';
+
+  @override
+  String get subjectTeachingForm => 'Teaching form';
+
+  @override
+  String get subjectDiplomaPolicies => 'Diploma policies';
+
+  @override
+  String get subjectDiplomaPolicyCorrespondence =>
+      'Diploma policy correspondence';
+
+  @override
+  String get subjectPrePostLearning => 'Pre- and post-learning';
+
+  @override
   String get subjectDSOPSubject => 'DSOP subject';
 
   @override

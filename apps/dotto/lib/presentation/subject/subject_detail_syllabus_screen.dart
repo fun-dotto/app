@@ -11,6 +11,78 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.subjectL10n;
+    final isEnglish = Localizations.localeOf(context).languageCode == 'en';
+    // 英語版がある項目は、英語表示かつ英語版が空でなければ英語版を使う。
+    String localized(String ja, String en) =>
+        isEnglish && en.isNotEmpty ? en : ja;
+    final showEnPrePostLearning =
+        isEnglish && syllabus.enPrePostLearning.isNotEmpty;
+    // API (SubjectSyllabus) のフィールド順に並べる。
+    final items = <(String, String)>[
+      (l10n.subjectYear, syllabus.year.toString()),
+      (l10n.subjectName, localized(syllabus.name, syllabus.enName)),
+      (l10n.subjectSyllabusGrades, syllabus.grades),
+      (l10n.subjectTerm, syllabus.term),
+      (l10n.subjectCredit, syllabus.credit),
+      (l10n.subjectFacultyNames, syllabus.facultyNames),
+      (
+        l10n.subjectPracticalHomeFacultyCategory,
+        syllabus.practicalHomeFacultyCategory,
+      ),
+      (
+        l10n.subjectMultiplePersonTeachingForm,
+        syllabus.multiplePersonTeachingForm,
+      ),
+      (l10n.subjectTeachingForm, syllabus.teachingForm),
+      (l10n.subjectSummary, localized(syllabus.summary, syllabus.enSummary)),
+      (
+        l10n.subjectLearningOutcomes,
+        localized(syllabus.learningOutcomes, syllabus.enLearningOutcomes),
+      ),
+      (l10n.subjectAssignments, syllabus.assignments),
+      (
+        l10n.subjectEvaluationMethodsAndCriteria,
+        localized(syllabus.evaluationMethod, syllabus.enEvaluationMethod),
+      ),
+      (
+        l10n.subjectTextbooks,
+        localized(syllabus.textbooks, syllabus.enTextbooks),
+      ),
+      (l10n.subjectReferenceBooks, syllabus.referenceBooks),
+      (
+        l10n.subjectPrerequisites,
+        localized(syllabus.prerequisites, syllabus.enPrerequisites),
+      ),
+      if (showEnPrePostLearning)
+        (l10n.subjectPrePostLearning, syllabus.enPrePostLearning)
+      else ...[
+        (l10n.subjectPreLearning, syllabus.preLearning),
+        (l10n.subjectPostLearning, syllabus.postLearning),
+      ],
+      (l10n.subjectNotes, localized(syllabus.notes, syllabus.enNotes)),
+      (l10n.subjectKeywords, syllabus.keywords),
+      (l10n.subjectTargetCoursesAndAreas, syllabus.targetCourses),
+      (l10n.subjectClassificationPrompt, syllabus.classifications),
+      (l10n.subjectDSOPSubject, syllabus.dsopSubject),
+      (
+        l10n.subjectTeachingLanguage,
+        localized(syllabus.teachingLanguage, syllabus.enTeachingLanguage),
+      ),
+      (
+        l10n.subjectTeachingAndExamFormat,
+        localized(syllabus.teachingAndExamForm, syllabus.enTeachingAndExamForm),
+      ),
+      (
+        l10n.subjectContentsAndSchedule,
+        localized(syllabus.contentsAndSchedule, syllabus.enContentsAndSchedule),
+      ),
+      (l10n.subjectDiplomaPolicies, syllabus.diplomaPolicies),
+      (
+        l10n.subjectDiplomaPolicyCorrespondence,
+        syllabus.diplomaPolicyCorrespondence,
+      ),
+    ];
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: 8)
           .withBottomBarInset(context),
@@ -19,107 +91,11 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
           spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              context.subjectL10n.subjectSummary,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.summary),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectLearningOutcomes,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.learningOutcomes),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectAssignments,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.assignments),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectEvaluationMethodsAndCriteria,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.evaluationMethod),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectTextbooks,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.textbooks),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectReferenceBooks,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.referenceBooks),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectPrerequisites,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.prerequisites),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectPreLearning,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.preLearning),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectPostLearning,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.postLearning),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectNotes,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.notes),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectKeywords,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.keywords),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectTargetCoursesAndAreas,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.targetCourses),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectClassificationPrompt,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.classifications),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectTeachingLanguage,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.teachingLanguage),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectContentsAndSchedule,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.contentsAndSchedule),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectTeachingAndExamFormat,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.teachingAndExamForm),
-            const Divider(height: 0),
-            Text(
-              context.subjectL10n.subjectDSOPSubject,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.dsopSubject),
+            for (final (index, (title, value)) in items.indexed) ...[
+              if (index > 0) const Divider(height: 0),
+              Text(title, style: Theme.of(context).textTheme.titleMedium),
+              Text(value),
+            ],
           ],
         ),
       ),

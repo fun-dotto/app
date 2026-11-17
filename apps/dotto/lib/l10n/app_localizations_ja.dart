@@ -321,6 +321,42 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subjectTeachingAndExamFormat => '授業・試験の形式';
 
   @override
+  String get subjectYear => '年度';
+
+  @override
+  String get subjectName => '科目名';
+
+  @override
+  String get subjectSyllabusGrades => '配当年次';
+
+  @override
+  String get subjectTerm => '開講時期';
+
+  @override
+  String get subjectCredit => '単位数';
+
+  @override
+  String get subjectFacultyNames => '担当教員';
+
+  @override
+  String get subjectPracticalHomeFacultyCategory => '実務家教員区分';
+
+  @override
+  String get subjectMultiplePersonTeachingForm => '複数人担当形態';
+
+  @override
+  String get subjectTeachingForm => '授業形態';
+
+  @override
+  String get subjectDiplomaPolicies => 'ディプロマ・ポリシー';
+
+  @override
+  String get subjectDiplomaPolicyCorrespondence => 'ディプロマ・ポリシーとの対応';
+
+  @override
+  String get subjectPrePostLearning => '事前・事後学習';
+
+  @override
   String get subjectDSOPSubject => 'DSOP対象科目';
 
   @override
