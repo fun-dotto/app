@@ -5,6 +5,8 @@ import 'package:dotto/presentation/debug/debug_screen.dart';
 import 'package:dotto/presentation/github_contributor/github_contributor_screen.dart';
 import 'package:dotto/presentation/setting/settings_license_screen.dart';
 import 'package:dotto/presentation/setting/settings_screen.dart';
+import 'package:dotto/presentation/setting/user_profile_field.dart';
+import 'package:dotto/presentation/setting/user_profile_option_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto_design_system/component/list_detail.dart';
 import 'package:go_router/go_router.dart';
@@ -32,6 +34,18 @@ final class SettingsRouteData extends GoRouteData with $SettingsRouteData {
       ),
       child: SettingsScreen(),
     );
+  }
+}
+
+final class UserProfileOptionRouteData extends GoRouteData
+    with $UserProfileOptionRouteData {
+  const new({required this.field});
+
+  final UserProfileField field;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return UserProfileOptionScreen(field: field);
   }
 }
 

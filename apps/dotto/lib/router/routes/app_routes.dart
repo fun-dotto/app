@@ -1,5 +1,6 @@
 import 'package:dotto/presentation/common/tab_item.dart';
 import 'package:dotto/presentation/root/root_screen.dart';
+import 'package:dotto/presentation/setting/user_profile_field.dart';
 import 'package:dotto/router/routes/bus_routes.dart';
 import 'package:dotto/router/routes/course_routes.dart';
 import 'package:dotto/router/routes/funch_routes.dart';
@@ -43,6 +44,7 @@ part 'app_routes.g.dart';
 // /bus/trips/:id
 //
 // /setting
+// /setting/profile/:field
 // /setting/announcements
 // /setting/announcements/:id
 // /setting/developers
@@ -184,6 +186,10 @@ part 'app_routes.g.dart';
               path: '/setting',
               name: '/setting',
               routes: <TypedRoute<RouteData>>[
+                TypedGoRoute<UserProfileOptionRouteData>(
+                  path: 'profile/:field',
+                  name: '/setting/profile/:field',
+                ),
                 TypedGoRoute<AnnouncementsRouteData>(
                   path: 'announcements',
                   name: '/setting/announcements',
