@@ -30,9 +30,14 @@ connect.Transport appApiTransport(Ref ref) {
           request.headers['X-Firebase-AppCheck'] = 'Bearer $appCheckToken';
         }
       } on Exception catch (e, stack) {
-        await ref
-            .read(loggerProvider)
-            .logError(e, stack, reason: 'Failed to get App Check token');
+        // デバッグ時は App Check の失敗を握りつぶす (Debug Token 未登録など)
+        if (!kReleaseMode) {
+          debugPrint('Failed to get App Check token: $e');
+        } else {
+          await ref
+              .read(loggerProvider)
+              .logError(e, stack, reason: 'Failed to get App Check token');
+        }
       }
       final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
       if (idToken != null) {

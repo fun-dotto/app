@@ -1,7 +1,6 @@
 import 'package:dotto/application/fetch_debug_tokens_use_case.dart';
 import 'package:dotto/data/debug_token_data_source.dart';
 import 'package:dotto/domain/entity/debug_tokens.dart';
-import 'package:dotto/domain/entity/domain_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -27,14 +26,14 @@ void main() {
     );
   });
 
-  test('トークンの取得に失敗したらドメインエラーにする', () async {
+  test('トークンの取得に失敗しても例外にせず null を返す', () async {
     final container = _container(
       FakeDebugTokenDataSource(error: Exception('offline')),
     );
 
-    await expectLater(
-      container.read(fetchDebugTokensUseCaseProvider)(),
-      throwsA(isA<DomainError>()),
+    expect(
+      await container.read(fetchDebugTokensUseCaseProvider)(),
+      const DebugTokens(),
     );
   });
 }
