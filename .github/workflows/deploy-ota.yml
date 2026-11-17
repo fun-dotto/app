@@ -209,7 +209,11 @@ jobs:
           # アーティファクトごとに同名ファイル(ota-result.txt)が含まれるため、merge-multiple は使わず
           # アーティファクト別のサブディレクトリに展開し、再帰的に収集する
           fields=$(mktemp)
-          result_files=$(find ota-results -type f -name '*.txt' | sort)
+          # ビルド/配信が失敗すると結果アーティファクトが 1 つも無く ota-results ディレクトリ自体が作られないため、存在確認してから探す
+          result_files=""
+          if [ -d ota-results ]; then
+            result_files=$(find ota-results -type f -name '*.txt' | sort)
+          fi
           if [ -n "$result_files" ]; then
             # 表示順: 環境を prd→stg→dev、各環境内は iOS→Android で並べる
             # (section.fields は 2 列で折り返されるため、左=iOS / 右=Android になる)
