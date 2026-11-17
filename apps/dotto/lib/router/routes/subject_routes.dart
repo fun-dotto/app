@@ -1,24 +1,51 @@
 import 'dart:async';
 
+import 'package:dotto/extension/go_route_data_extension.dart';
 import 'package:dotto/presentation/common/pdf/cloudflare_pdf_viewer.dart';
 import 'package:dotto/presentation/subject/search_subject_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_past_exam_screen.dart';
 import 'package:dotto/presentation/subject/subject_detail_screen.dart';
+import 'package:dotto/presentation/subject/subject_localizations.dart';
 import 'package:dotto/presentation/subject/subject_review_new_screen.dart';
 import 'package:dotto/router/routes/app_routes.dart';
 import 'package:dotto/router/routes/subject_detail_builder.dart';
+import 'package:dotto_design_system/component/list_detail.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+
+/// 科目検索タブの一覧と詳細を、幅に応じて左右に並べる。
+final class SubjectListDetailShellRouteData extends ShellRouteData {
+  const new();
+
+  @override
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
+    return DottoListDetail(list: const _SubjectSearch(), detail: navigator);
+  }
+}
 
 final class SubjectsRouteData extends GoRouteData with $SubjectsRouteData {
   const new();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SearchSubjectScreen(
-      onSubjectSelected: (subjectId) => unawaited(
-        SubjectSyllabusRouteData(id: subjectId).push<void>(context),
+    return DottoListDetailRoot(
+      placeholder: DottoListDetailPlaceholder(
+        icon: Icons.menu_book,
+        message: context.subjectL10n.subjectSelectSubject,
       ),
+      child: const _SubjectSearch(),
+    );
+  }
+}
+
+final class _SubjectSearch extends StatelessWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context) {
+    return SearchSubjectScreen(
+      onSubjectSelected: (subjectId) =>
+          SubjectSyllabusRouteData(id: subjectId).openAsDetail(context),
     );
   }
 }

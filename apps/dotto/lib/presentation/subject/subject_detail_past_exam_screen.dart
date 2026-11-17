@@ -2,6 +2,7 @@ import 'package:dotto/presentation/common/error_view.dart';
 import 'package:dotto/presentation/common/loading_view.dart';
 import 'package:dotto/presentation/subject/past_exams_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -30,12 +31,16 @@ final class SubjectDetailPastExamScreen extends HookConsumerWidget {
       AsyncData(:final value) when value.isEmpty => Center(
         child: Text(context.subjectL10n.subjectNoPastExamsAvailable),
       ),
-      AsyncData(:final value) => ListView.separated(
-        itemCount: value.length,
-        separatorBuilder: (_, _) => const Divider(height: 0),
-        itemBuilder: (context, index) => ListTile(
-          title: Text(pastExamFileName(value[index])),
-          onTap: () => onPastExamSelected(value[index]),
+      AsyncData(:final value) => DottoContentInsets(
+        margin: false,
+        builder: (_, insets) => ListView.separated(
+          padding: insets + MediaQuery.paddingOf(context),
+          itemCount: value.length,
+          separatorBuilder: (_, _) => const Divider(height: 0),
+          itemBuilder: (context, index) => ListTile(
+            title: Text(pastExamFileName(value[index])),
+            onTap: () => onPastExamSelected(value[index]),
+          ),
         ),
       ),
       AsyncError() => const ErrorView(),

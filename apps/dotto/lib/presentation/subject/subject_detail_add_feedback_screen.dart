@@ -3,6 +3,7 @@ import 'package:dotto/domain/entity/subject_feedback.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/subject/subject_feedbacks_state.dart';
 import 'package:dotto/presentation/subject/subject_localizations.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -83,8 +84,8 @@ final class SubjectDetailAddFeedbackScreen extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      body: DottoContentPadding(
+        vertical: 16,
         child: Column(
           spacing: 16,
           children: [

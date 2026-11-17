@@ -1,3 +1,7 @@
+import 'dart:math' as math;
+
+import 'package:flutter/painting.dart';
+
 /// 本文の組み方。
 ///
 /// 本文に使える幅が [DottoLayout.breakpoint] 未満のときは、どれを選んでも
@@ -36,6 +40,44 @@ abstract final class DottoLayout {
   /// 2カラムのカラム間の余白。
   static const double columnGutter = 16;
 
+  /// 一覧と詳細を左右に並べるときの、一覧ペインの幅。
+  static const double listPaneWidth = 360;
+
+  /// この幅以上で、一覧と詳細を左右に並べる。
+  ///
+  /// 一覧ペインを除いた詳細ペインで、本文の最大幅 [narrowMaxWidth] を
+  /// 確保できる幅。
+  static const double listDetailBreakpoint = listPaneWidth + narrowMaxWidth;
+
+  /// 幅 [width] で一覧と詳細を左右に並べるか。
+  static bool isListDetailSplit(double width) => width >= listDetailBreakpoint;
+
   /// 本文に使える幅 [width] がブレイクポイント以上か。
   static bool isExpanded(double width) => width >= breakpoint;
+
+  /// 本文に使える幅 [width] で、1カラムの本文がとる最大幅。
+  static double singleMaxWidth(double width, DottoContentLayout layout) =>
+      isExpanded(width) && layout == DottoContentLayout.singleWide
+      ? wideMaxWidth
+      : narrowMaxWidth;
+
+  /// スクロールビューの左右に入れる余白。
+  ///
+  /// スクロールできる範囲は全幅のまま、中身だけを本文の最大幅に収めて
+  /// 中央に寄せるために使う。余白は [horizontalMargin] 以上になる。
+  ///
+  /// `ListTile` のように中身が自前で左右の余白を持つときは [margin] を
+  /// false にする。余白込みで本文の最大幅 + [horizontalMargin] * 2 に収め、
+  /// 幅が足りなければ余白は 0 になる。
+  static EdgeInsets horizontalInsets(
+    double width, {
+    DottoContentLayout layout = DottoContentLayout.singleNarrow,
+    bool margin = true,
+  }) {
+    final maxWidth = singleMaxWidth(width, layout);
+    final side = margin
+        ? math.max(horizontalMargin, (width - maxWidth) / 2)
+        : math.max(0, (width - maxWidth) / 2 - horizontalMargin).toDouble();
+    return EdgeInsets.symmetric(horizontal: side);
+  }
 }

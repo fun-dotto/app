@@ -1,4 +1,5 @@
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
+import 'package:dotto_design_system/component/list_detail.dart';
 import 'package:dotto_design_system/component/vertical_bar_actions.dart';
 import 'package:dotto_design_system/component/vertical_bar_scope.dart';
 import 'package:dotto_design_system/story/glass_backdrop.dart';
@@ -31,8 +32,15 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scope = VerticalBarScope.maybeOf(context);
-    final canPop = Navigator.canPop(context);
+    // ボトムシートやダイアログの中では、縦バーがモーダルバリアの裏に
+    // 隠れて押せないため、アクションは AppBar に表示する。
+    final scope = ModalRoute.of(context) is PopupRoute
+        ? null
+        : VerticalBarScope.maybeOf(context);
+    // 2カラムの右ペインで一覧から開いた詳細は、一覧が左に見えているため
+    // 戻るボタンを出さない。
+    final isFirstDetail = DottoListDetail.isFirstDetail(context);
+    final canPop = Navigator.canPop(context) && !isFirstDetail;
     final dismissAction = actions
         .where((action) => action.role == DottoAppBarActionRole.dismiss)
         .firstOrNull;
@@ -42,7 +50,14 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
     ];
     // 縦バーでは、戻るボタンをツールバーアイテムの先頭に置く。
     final barActions = <Widget>[
-      ?dismissAction ?? (canPop ? const _VerticalBarBackButton() : null),
+      ?dismissAction ??
+          (canPop
+              // 縦バーは画面の Navigator の外にあるため、画面側の context で
+              // pop しないと画面を積んだ Navigator を戻せない。
+              ? _VerticalBarBackButton(
+                  onPressed: () => Navigator.maybePop(context),
+                )
+              : null),
       ...trailingActions,
     ];
     // 他の画面が重なっている間や、タブ切り替えで裏に回っている間
@@ -67,7 +82,7 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
       title: title,
       centerTitle: centerTitle,
       leading: scope == null ? dismissAction : null,
-      automaticallyImplyLeading: scope == null,
+      automaticallyImplyLeading: scope == null && !isFirstDetail,
       actions: scope == null ? trailingActions : null,
       bottom: bottom,
     );
@@ -75,13 +90,15 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
 }
 
 final class _VerticalBarBackButton extends StatelessWidget {
-  const new();
+  const new({required this.onPressed});
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) => IconButton(
     icon: const BackButtonIcon(),
     tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-    onPressed: () => Navigator.maybePop(context),
+    onPressed: onPressed,
   );
 }
 

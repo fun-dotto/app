@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dotto/application/open_external_link_use_case.dart';
 import 'package:dotto/domain/entity/dotto_user.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
+import 'package:dotto/extension/go_route_data_extension.dart';
 import 'package:dotto/presentation/common/notification_alert_status_state.dart';
 import 'package:dotto/presentation/common/user_state.dart';
 import 'package:dotto/presentation/setting/app_links_state.dart';
@@ -11,6 +12,7 @@ import 'package:dotto/presentation/setting/user_info_tile.dart';
 import 'package:dotto/presentation/setting/user_profile_section.dart';
 import 'package:dotto/router/routes/setting_routes.dart';
 import 'package:dotto_design_system/component/button.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dialog.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/component/list_section.dart';
@@ -44,10 +46,10 @@ final class SettingsScreen extends HookConsumerWidget {
         centerTitle: false,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16).withBottomBarInset(context),
-        child: Column(
-          spacing: 16,
-          children: [
+        padding: const EdgeInsets.symmetric(vertical: 16)
+            .withBottomBarInset(context),
+        child: DottoContent.flow(
+          sections: [
             _AccountTile(user: user),
             if (user.value case final DottoUser value)
               UserProfileSection(user: value),
@@ -145,7 +147,8 @@ final class _AboutAppSection extends HookConsumerWidget {
         _LinkTile(
           title: 'お知らせ',
           icon: Icons.notifications,
-          onTap: () => const AnnouncementsRouteData().push<void>(context),
+          onTap: () async =>
+              const AnnouncementsRouteData().openAsDetail(context),
         ),
         DottoListTile(
           firstLine: const Text('通知'),
@@ -166,12 +169,13 @@ final class _AboutAppSection extends HookConsumerWidget {
         _LinkTile(
           title: '開発者',
           icon: Icons.person,
-          onTap: () => const DevelopersRouteData().push<void>(context),
+          onTap: () async => const DevelopersRouteData().openAsDetail(context),
         ),
         _LinkTile(
           title: 'アプリの使い方',
           icon: Icons.assignment,
-          onTap: () => const SettingOnboardingRouteData().push<void>(context),
+          onTap: () async =>
+              const SettingOnboardingRouteData().openAsDetail(context),
         ),
         _LinkTile(
           title: '利用規約',
@@ -190,7 +194,8 @@ final class _AboutAppSection extends HookConsumerWidget {
         _LinkTile(
           title: 'ライセンス',
           icon: Icons.info,
-          onTap: () => const SettingsLicenseRouteData().push<void>(context),
+          onTap: () async =>
+              const SettingsLicenseRouteData().openAsDetail(context),
         ),
       ],
     );

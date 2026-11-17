@@ -20,7 +20,6 @@ final class MenuCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.85,
         height: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

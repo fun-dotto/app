@@ -75,6 +75,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get busUniversity => 'はこだて未来大学';
 
   @override
+  String get busSelectTrip => '便を選択してください';
+
+  @override
   String get busKameda => '亀田支所前';
 
   @override
@@ -325,6 +328,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get subjectSubjectSearch => '科目検索';
+
+  @override
+  String get subjectSelectSubject => '科目を選択してください';
 
   @override
   String get subjectSearchBySubjectName => '科目名で検索';

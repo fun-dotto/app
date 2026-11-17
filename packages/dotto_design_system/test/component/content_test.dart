@@ -128,4 +128,18 @@ void main() {
       expect(cPos.dy, greaterThan(a.dy));
     });
   });
+
+  testWidgets('DottoContentPadding は余白だけを足す', (tester) async {
+    await _pump(
+      tester,
+      1100,
+      const DottoContentPadding(
+        layout: DottoContentLayout.singleWide,
+        vertical: 8,
+        child: SizedBox(key: _a, height: 10),
+      ),
+    );
+    expect(_width(tester, _a), 960);
+    expect(tester.getTopLeft(find.byKey(_a)), const Offset(70, 8));
+  });
 }

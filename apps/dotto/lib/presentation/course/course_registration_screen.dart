@@ -8,6 +8,7 @@ import 'package:dotto/l10n/app_localizations_ja.dart';
 import 'package:dotto/presentation/common/use_tab_controller.dart';
 import 'package:dotto/presentation/course/course_registration_state.dart';
 import 'package:dotto/presentation/course/select_course_screen.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/primitive_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,12 +32,18 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
           (AppLocalizations.of(context) ?? AppLocalizationsJa())
               .courseRegistration,
         ),
-        bottom: TabBar(
-          dividerColor: Colors.transparent,
-          controller: tabController,
-          tabs: TimetableSemester.values
-              .map((e) => Tab(text: e.label))
-              .toList(),
+        // タブも下の時間割と同じ幅に揃える。
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(kTextTabBarHeight),
+          child: DottoContentPadding(
+            child: TabBar(
+              dividerColor: Colors.transparent,
+              controller: tabController,
+              tabs: TimetableSemester.values
+                  .map((e) => Tab(text: e.label))
+                  .toList(),
+            ),
+          ),
         ),
       ),
       body: switch (state) {
@@ -72,8 +79,8 @@ final class _CourseRegistrationSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
+      child: DottoContentPadding(
+        vertical: 8,
         child: Table(
           columnWidths: {
             for (final e in Period.values) e.number: const FlexColumnWidth(),
@@ -167,8 +174,8 @@ final class _PersonalWeeklyTimetable extends HookConsumerWidget {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.zero.withBottomBarInset(context),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
+        child: DottoContentPadding(
+          vertical: 8,
           child: Table(
             columnWidths: {
               for (final e in Period.values) e.number: const FlexColumnWidth(),
