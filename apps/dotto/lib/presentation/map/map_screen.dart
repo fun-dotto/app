@@ -115,6 +115,10 @@ final class MapScreen extends HookConsumerWidget {
             ),
           ),
           showDragHandle: true,
+          // 広い画面で全幅に広がらないよう、本文の最大幅に収めて中央に置く。
+          constraints: const BoxConstraints(
+            maxWidth: DottoLayout.narrowMaxWidth,
+          ),
         );
         sheetController.value = newController;
         searchFocusNode.unfocus();
