@@ -42,7 +42,7 @@ configure<ApplicationExtension> {
     defaultConfig {
         applicationId = "jp.ac.fun.dotto"
         manifestPlaceholders["appName"] = "Dotto"
-        manifestPlaceholders["serviceHost"] = "dotto.furari.co"
+        manifestPlaceholders["serviceHost"] = "fun-dotto.com"
         minSdk = 30
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInt()
@@ -76,26 +76,26 @@ configure<ApplicationExtension> {
             dimension = "default"
             applicationIdSuffix = ".dev"
             manifestPlaceholders["appName"] = "Dotto Dev"
-            manifestPlaceholders["serviceHost"] = "dev.dotto.furari.co"
+            manifestPlaceholders["serviceHost"] = "dev.fun-dotto.com"
         }
         create("stg") {
             dimension = "default"
             applicationIdSuffix = ".stg"
             manifestPlaceholders["appName"] = "Dotto Stg"
-            manifestPlaceholders["serviceHost"] = "stg.dotto.furari.co"
+            manifestPlaceholders["serviceHost"] = "stg.fun-dotto.com"
         }
         create("prd") {
             dimension = "default"
             applicationIdSuffix = ".prd"
             manifestPlaceholders["appName"] = "Dotto Prd"
-            manifestPlaceholders["serviceHost"] = "dotto.furari.co"
+            manifestPlaceholders["serviceHost"] = "fun-dotto.com"
         }
         // ストア(Google Play)配信用。iOSのRunnerスキーム(Release構成)と対応し、
         // applicationIdSuffixを付けずに素のapplicationIdで配信する
         create("store") {
             dimension = "default"
             manifestPlaceholders["appName"] = "Dotto"
-            manifestPlaceholders["serviceHost"] = "dotto.furari.co"
+            manifestPlaceholders["serviceHost"] = "fun-dotto.com"
         }
     }
 
