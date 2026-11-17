@@ -1,6 +1,6 @@
 // This is a generated file - do not edit.
 //
-// Generated from app/v1/announcement.proto.
+// Generated from app/v1/article.proto.
 
 // @dart = 3.3
 
@@ -15,19 +15,19 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'announcement.pb.dart' as $1;
-import 'announcement.pbjson.dart';
+import 'article.pb.dart' as $1;
+import 'article.pbjson.dart';
 
-export 'announcement.pb.dart';
+export 'article.pb.dart';
 
-abstract class AnnouncementServiceBase extends $pb.GeneratedService {
-  $async.Future<$1.ListAnnouncementsResponse> listAnnouncements(
-      $pb.ServerContext ctx, $1.ListAnnouncementsRequest request);
+abstract class ArticleServiceBase extends $pb.GeneratedService {
+  $async.Future<$1.ListArticlesResponse> listArticles(
+      $pb.ServerContext ctx, $1.ListArticlesRequest request);
 
   $pb.GeneratedMessage createRequest($core.String methodName) {
     switch (methodName) {
-      case 'ListAnnouncements':
-        return $1.ListAnnouncementsRequest();
+      case 'ListArticles':
+        return $1.ListArticlesRequest();
       default:
         throw $core.ArgumentError('Unknown method: $methodName');
     }
@@ -36,15 +36,14 @@ abstract class AnnouncementServiceBase extends $pb.GeneratedService {
   $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx,
       $core.String methodName, $pb.GeneratedMessage request) {
     switch (methodName) {
-      case 'ListAnnouncements':
-        return listAnnouncements(ctx, request as $1.ListAnnouncementsRequest);
+      case 'ListArticles':
+        return listArticles(ctx, request as $1.ListArticlesRequest);
       default:
         throw $core.ArgumentError('Unknown method: $methodName');
     }
   }
 
-  $core.Map<$core.String, $core.dynamic> get $json =>
-      AnnouncementServiceBase$json;
+  $core.Map<$core.String, $core.dynamic> get $json => ArticleServiceBase$json;
   $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>>
-      get $messageJson => AnnouncementServiceBase$messageJson;
+      get $messageJson => ArticleServiceBase$messageJson;
 }
