@@ -31,9 +31,7 @@ connect.Transport appApiTransport(Ref ref) {
         }
       } on Exception catch (e, stack) {
         // デバッグ時は App Check の失敗を握りつぶす (Debug Token 未登録など)
-        if (!kReleaseMode) {
-          debugPrint('Failed to get App Check token: $e');
-        } else {
+        if (kReleaseMode) {
           await ref
               .read(loggerProvider)
               .logError(e, stack, reason: 'Failed to get App Check token');
