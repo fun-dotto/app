@@ -40,6 +40,18 @@ abstract final class DottoLayout {
   /// 2カラムのカラム間の余白。
   static const double columnGutter = 16;
 
+  /// 一覧と詳細を左右に並べるときの、一覧ペインの幅。
+  static const double listPaneWidth = 360;
+
+  /// この幅以上で、一覧と詳細を左右に並べる。
+  ///
+  /// 一覧ペインを除いた詳細ペインで、本文の最大幅 [narrowMaxWidth] を
+  /// 確保できる幅。
+  static const double listDetailBreakpoint = listPaneWidth + narrowMaxWidth;
+
+  /// 幅 [width] で一覧と詳細を左右に並べるか。
+  static bool isListDetailSplit(double width) => width >= listDetailBreakpoint;
+
   /// 本文に使える幅 [width] がブレイクポイント以上か。
   static bool isExpanded(double width) => width >= breakpoint;
 
