@@ -15,6 +15,7 @@ import 'package:dotto/presentation/map/widget/map_date_picker.dart';
 import 'package:dotto/presentation/map/widget/map_detail_bottom_sheet.dart';
 import 'package:dotto/presentation/map/widget/map_floor_button.dart';
 import 'package:dotto/presentation/map/widget/map_legend.dart';
+import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
 import 'package:dotto_design_system/style/layout.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
@@ -110,6 +111,10 @@ final class MapScreen extends HookConsumerWidget {
             ),
           ),
           showDragHandle: true,
+          // 広い画面で全幅に広がらないよう、本文の最大幅に収めて中央に置く。
+          constraints: const BoxConstraints(
+            maxWidth: DottoLayout.narrowMaxWidth,
+          ),
         );
         sheetController.value = newController;
         searchFocusNode.unfocus();
@@ -143,8 +148,8 @@ final class MapScreen extends HookConsumerWidget {
         centerTitle: false,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          // 階の切り替えや日時の選択と同じく、本文の最大幅に収める。
+          child: DottoContentPadding(
             child: SearchAnchor(
               searchController: searchController,
               textCapitalization: TextCapitalization.none,
@@ -234,81 +239,69 @@ final class MapScreen extends HookConsumerWidget {
         // 地図は固定レイアウトのため、下部のタブバーの上に収める。
         padding: const EdgeInsets.only(top: 8).withBottomBarInset(context),
         child: switch ((asyncState, asyncCampusMap)) {
+          // 地図も含めて本文の最大幅に収め、広い画面では中央に置く。
           (AsyncData(value: final state), AsyncData(value: final map)) =>
-            Column(
-              spacing: 8,
-              children: [
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Column(
-                        spacing: 8,
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: _maxWidth),
+                child: Column(
+                  spacing: 8,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: DottoLayout.horizontalMargin,
+                      ),
+                      child: MapFloorButton(
+                        selectedFloor: selectedFloor.value,
+                        onPressed: (floor) {
+                          selectedFloor.value = floor;
+                          focusedUnit.value = null;
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
                         children: [
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxWidth:
-                                  DottoLayout.narrowMaxWidth +
-                                  DottoLayout.horizontalMargin * 2,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: DottoLayout.horizontalMargin,
-                              ),
-                              child: MapFloorButton(
-                                selectedFloor: selectedFloor.value,
-                                onPressed: (floor) {
-                                  selectedFloor.value = floor;
-                                  focusedUnit.value = null;
-                                },
-                              ),
+                          SizedBox.expand(
+                            child: CampusMapView(
+                              campusMap: map,
+                              selectedFloor: selectedFloor.value,
+                              rooms: state,
+                              focusedUnit: focusedUnit.value,
+                              dateTime: searchDatetime,
+                              onTapped: (unit, _) {
+                                focusedUnit.value =
+                                    focusedUnit.value?.id == unit.id
+                                    ? null
+                                    : unit;
+                              },
                             ),
                           ),
-                          Expanded(
-                            child: Stack(
-                              alignment: Alignment.bottomLeft,
-                              children: [
-                                SizedBox.expand(
-                                  child: CampusMapView(
-                                    campusMap: map,
-                                    selectedFloor: selectedFloor.value,
-                                    rooms: state,
-                                    focusedUnit: focusedUnit.value,
-                                    dateTime: searchDatetime,
-                                    onTapped: (unit, _) {
-                                      focusedUnit.value =
-                                          focusedUnit.value?.id == unit.id
-                                          ? null
-                                          : unit;
-                                    },
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 16),
-                                  child: MapLegend(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          _MapDatePickerSection(
-                            isAuthenticated: isAuthenticated,
-                            searchDatetime: searchDatetime,
-                            onPeriodButtonTapped: (dateTime) async {
-                              var setDate = dateTime;
-                              if (setDate.hour == 0) {
-                                setDate = DateTime.now();
-                              }
-                              searchDate.value = setDate;
-                            },
-                            onDatePickerConfirmed: (dateTime) async {
-                              searchDate.value = dateTime;
-                            },
+                          const Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child: MapLegend(),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    _MapDatePickerSection(
+                      isAuthenticated: isAuthenticated,
+                      searchDatetime: searchDatetime,
+                      onPeriodButtonTapped: (dateTime) async {
+                        var setDate = dateTime;
+                        if (setDate.hour == 0) {
+                          setDate = DateTime.now();
+                        }
+                        searchDate.value = setDate;
+                      },
+                      onDatePickerConfirmed: (dateTime) async {
+                        searchDate.value = dateTime;
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           (AsyncError(), _) || (_, AsyncError()) => Center(
             child: Text(
@@ -321,6 +314,10 @@ final class MapScreen extends HookConsumerWidget {
     );
   }
 }
+
+/// 地図・階の切り替え・日時の選択をまとめて収める最大幅。左右の余白を含む。
+const double _maxWidth =
+    DottoLayout.narrowMaxWidth + DottoLayout.horizontalMargin * 2;
 
 final class _MapDatePickerSection extends StatelessWidget {
   const new({
@@ -337,20 +334,14 @@ final class _MapDatePickerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => isAuthenticated
-      ? ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth:
-                DottoLayout.narrowMaxWidth + DottoLayout.horizontalMargin * 2,
+      ? Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: DottoLayout.horizontalMargin,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: DottoLayout.horizontalMargin,
-            ),
-            child: MapDatePicker(
-              searchDatetime: searchDatetime,
-              onPeriodButtonTapped: onPeriodButtonTapped,
-              onDatePickerConfirmed: onDatePickerConfirmed,
-            ),
+          child: MapDatePicker(
+            searchDatetime: searchDatetime,
+            onPeriodButtonTapped: onPeriodButtonTapped,
+            onDatePickerConfirmed: onDatePickerConfirmed,
           ),
         )
       : const SizedBox.shrink();
