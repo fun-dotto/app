@@ -1,18 +1,18 @@
 import 'package:collection/collection.dart';
 import 'package:dotto/domain/entity/room.dart';
+import 'package:dotto/domain/entity/room_equipment.dart';
 import 'package:dotto/extension/edge_insets_extension.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
-import 'package:dotto/presentation/map/map_tile_props.dart';
-import 'package:dotto/presentation/map/room_equipment.dart';
+import 'package:dotto/presentation/map/campus_map_unit_style.dart';
 import 'package:dotto_design_system/component/button.dart';
 import 'package:dotto_design_system/style/semantic_color.dart';
 import 'package:material_ui/material_ui.dart';
 
 final class MapDetailBottomSheet extends StatelessWidget {
   const new({
-    required this.props,
+    required this.equipment,
     required this.room,
     required this.dateTime,
     required this.isAuthenticated,
@@ -20,7 +20,8 @@ final class MapDetailBottomSheet extends StatelessWidget {
     super.key,
   });
 
-  final MapTileProps props;
+  /// 部屋の設備。`null` の場合は表示しない。
+  final RoomEquipment? equipment;
   final Room room;
   final DateTime dateTime;
   final bool isAuthenticated;
@@ -54,17 +55,19 @@ final class MapDetailBottomSheet extends StatelessWidget {
                     Wrap(
                       spacing: 8,
                       children: [
-                        if (switch (props) {
-                              ClassroomMapTileProps(:final equipment) =>
-                                equipment,
-                              SubRoomMapTileProps(:final equipment) =>
-                                equipment,
-                              _ => null,
-                            }
-                            case final equipment?) ...[
-                          _RoomEquipmentTile(equipment: equipment.food),
-                          _RoomEquipmentTile(equipment: equipment.drink),
-                          _RoomEquipmentTile(equipment: equipment.outlet),
+                        if (equipment case final equipment?) ...[
+                          _RoomEquipmentTile(
+                            type: _RoomEquipmentType.food,
+                            quality: equipment.food,
+                          ),
+                          _RoomEquipmentTile(
+                            type: _RoomEquipmentType.drink,
+                            quality: equipment.drink,
+                          ),
+                          _RoomEquipmentTile(
+                            type: _RoomEquipmentType.outlet,
+                            quality: equipment.outlet,
+                          ),
                         ],
                       ],
                     ),
@@ -179,8 +182,9 @@ final class _RoomScheduleTile extends StatelessWidget {
 }
 
 final class _RoomEquipmentTile extends StatelessWidget {
-  const new({required this.equipment});
-  final RoomEquipment equipment;
+  const new({required this.type, required this.quality});
+  final _RoomEquipmentType type;
+  final RoomEquipmentQuality quality;
   @override
   Widget build(BuildContext context) {
     final fontColor = SemanticColor.light.labelTertiary;
@@ -195,23 +199,33 @@ final class _RoomEquipmentTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(equipment.icon, color: fontColor, size: 20),
+          Icon(type.icon, color: fontColor, size: 20),
           Text(
-            switch (equipment) {
-              RoomEquipmentFood() =>
+            switch (type) {
+              _RoomEquipmentType.food =>
                 (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapFood,
-              RoomEquipmentDrink() =>
+              _RoomEquipmentType.drink =>
                 (AppLocalizations.of(context) ?? AppLocalizationsJa()).mapDrink,
-              _ =>
+              _RoomEquipmentType.outlet =>
                 (AppLocalizations.of(context) ?? AppLocalizationsJa())
                     .mapOutlet,
             },
             style: Theme.of(context).textTheme.labelMedium
                 ?.copyWith(color: fontColor),
           ),
-          Icon(equipment.quality.icon, color: fontColor, size: 20),
+          Icon(quality.icon, color: fontColor, size: 20),
         ],
       ),
     );
   }
+}
+
+enum _RoomEquipmentType {
+  food(icon: Icons.lunch_dining),
+  drink(icon: Icons.local_drink),
+  outlet(icon: Icons.electrical_services);
+
+  new({required this.icon});
+
+  final IconData icon;
 }

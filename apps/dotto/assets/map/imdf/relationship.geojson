@@ -1,0 +1,527 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "e7479bfd-44f5-528c-b909-dfc1d784505c",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "a2cb61e9-0059-5711-9ffb-e9d62576300b",
+            "feature_type": "unit"
+          },
+          {
+            "id": "b73e8ff3-b4b7-5ce8-8a85-adcdb043cde1",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "3c2f704c-42d9-597e-adfa-b184ecee47df",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "799d6b27-a032-5239-a8ed-029038ba40a7",
+            "feature_type": "unit"
+          },
+          {
+            "id": "1e332319-7952-575d-b83e-50f97d77926d",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "dc5d53f4-fde7-5d0c-ae56-a70f28192275",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "ce396072-54f2-5f7b-a116-c61611c0aa5a",
+            "feature_type": "unit"
+          },
+          {
+            "id": "662e466e-3709-59ae-beb4-7d6a338752ba",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "957505c0-c2df-59fd-a866-6a0eb3af05e5",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "612823ec-0706-51c1-ae06-a3428a9cdf3f",
+            "feature_type": "unit"
+          },
+          {
+            "id": "0d561055-029e-5fde-9252-88ac3fe03878",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "c9a13620-8ae2-57c1-bf4e-681155922bfe",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "937d9c50-789e-5505-a1db-43121d7170fe",
+            "feature_type": "unit"
+          },
+          {
+            "id": "f79d48c3-deca-5c05-a320-1426d146db12",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "f9868a8e-182b-593b-8b80-e01550d955b0",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "c6a28806-6229-537a-80ca-3b39abfdcb75",
+            "feature_type": "unit"
+          },
+          {
+            "id": "bb3056ed-00c1-53ef-876e-b0062253ae7d",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "e83b3f31-f631-50d5-b715-8f6ba10f6f2a",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "f5bb84ba-7d6a-57bb-bc90-dd32b3907a38",
+            "feature_type": "unit"
+          },
+          {
+            "id": "be63b772-3cb8-5078-a391-eff58fbe0258",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "05141d79-62ca-5311-86c1-63be4ee4cf98",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "5a1502bd-5f90-528d-9c51-236fe61d6bf0",
+            "feature_type": "unit"
+          },
+          {
+            "id": "03adc5fc-0494-52a8-a582-feac60ea9971",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "f74265ee-189c-52c3-8a52-ef166ff8a03f",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "9b2be3e9-34a5-5814-935d-49c38dcf8772",
+            "feature_type": "unit"
+          },
+          {
+            "id": "79c83130-58a7-57b8-a706-14721a41aa39",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "0a74ebfb-cfcf-5f69-951c-c05b02edcdd8",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "693b2122-8ff7-57c4-8713-c8a60d8a5e6a",
+            "feature_type": "unit"
+          },
+          {
+            "id": "5fa0ba92-8e3e-5fc6-88a9-5e6ba647d0f5",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "5fcfd32a-a406-5b6f-a311-d8c17c702671",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "bb3056ed-00c1-53ef-876e-b0062253ae7d",
+            "feature_type": "unit"
+          },
+          {
+            "id": "3580075b-5152-5c28-9e2c-1d6e8282b2cf",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "bd5f2056-ce0c-51b1-baf2-c37ab9fb5cfb",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "be63b772-3cb8-5078-a391-eff58fbe0258",
+            "feature_type": "unit"
+          },
+          {
+            "id": "33b32aa1-c8b4-54e5-beea-4841619f0c46",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "2f5382cc-86b5-514c-867a-7bee9ce38303",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "f79d48c3-deca-5c05-a320-1426d146db12",
+            "feature_type": "unit"
+          },
+          {
+            "id": "f21b497b-e76d-509a-8c8c-455c4be8524c",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "be117790-0955-5c04-9b03-b370cd96d5f1",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "03adc5fc-0494-52a8-a582-feac60ea9971",
+            "feature_type": "unit"
+          },
+          {
+            "id": "c0b2b589-620a-54dd-80d2-978bd22735e5",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "9b536cfe-2c80-5c5c-8558-7f3b967aa57d",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "79c83130-58a7-57b8-a706-14721a41aa39",
+            "feature_type": "unit"
+          },
+          {
+            "id": "27d52193-8fa8-5f7a-a970-651b33028e95",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "2890c5b8-98bd-557d-a570-bb20b95fd4bb",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "b5da10af-d0e4-58d7-ab84-c90a6f9a34da",
+            "feature_type": "unit"
+          },
+          {
+            "id": "884ebb2b-4892-5ef1-9509-52d5a3252b12",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "98f69b17-1c70-5627-ba5c-a2ae6cee6a1f",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "e38c38e1-29e7-5677-85f3-3fd7f62d0cae",
+            "feature_type": "unit"
+          },
+          {
+            "id": "3174effe-4160-5b17-9e3d-ea297d326db3",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "eebe4e1c-0b92-5c2b-872d-87129e596955",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "7c0e2b42-7d35-5d5d-a320-227608b85653",
+            "feature_type": "unit"
+          },
+          {
+            "id": "bc083cb6-1c1a-548c-9714-83b2c6e97855",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "4cba5a54-59f7-59cc-bc9c-31a364f65a2e",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "stairs",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "cb9abbea-eb43-5a11-a01c-9a4b1823546c",
+            "feature_type": "unit"
+          },
+          {
+            "id": "45e3929f-db79-5e1a-a35d-38141b6e77b0",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "54c254f4-5f74-5b6f-a151-5142c1d00b0a",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "elevator",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "d7de382a-6c4d-5f26-a0c0-f9990ce390de",
+            "feature_type": "unit"
+          },
+          {
+            "id": "076607c0-edf8-56b5-891e-730587d2eda6",
+            "feature_type": "unit"
+          },
+          {
+            "id": "f3666d45-cfb0-5929-b85e-0090e21dee72",
+            "feature_type": "unit"
+          },
+          {
+            "id": "49ca070b-f243-5e5b-839d-bd8ea2ce6861",
+            "feature_type": "unit"
+          },
+          {
+            "id": "e0302914-f1a3-5a2c-bc9d-3188703bdf9c",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "e078bed9-6615-5fa8-9d33-db3a43481b30",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "elevator",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "0fa037a6-da72-5919-ae57-ac0f0edfaf62",
+            "feature_type": "unit"
+          },
+          {
+            "id": "de1be0aa-ccc0-5b4e-a402-acf4bbf9b7c2",
+            "feature_type": "unit"
+          },
+          {
+            "id": "8ef4cf29-6e54-5338-8906-7a0d31eb26e8",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    },
+    {
+      "id": "d790b486-7412-5f1c-8291-68464e4540d8",
+      "type": "Feature",
+      "feature_type": "relationship",
+      "geometry": null,
+      "properties": {
+        "category": "elevator",
+        "direction": "undirected",
+        "origin": null,
+        "intermediary": [
+          {
+            "id": "2910bead-191f-5974-b3c5-40b978bfcabb",
+            "feature_type": "unit"
+          },
+          {
+            "id": "3d918050-3966-51ac-a42e-d76d4b3c1848",
+            "feature_type": "unit"
+          }
+        ],
+        "destination": null,
+        "hours": null
+      }
+    }
+  ]
+}

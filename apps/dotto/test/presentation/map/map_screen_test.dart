@@ -1,14 +1,16 @@
 import 'package:dotto/data/auth_data_source.dart';
+import 'package:dotto/data/campus_map_data_source.dart';
 import 'package:dotto/data/room_data_source.dart';
 import 'package:dotto/domain/entity/floor.dart';
 import 'package:dotto/presentation/map/map_screen.dart';
-import 'package:dotto/presentation/map/widget/map.dart';
+import 'package:dotto/presentation/map/widget/campus_map_view.dart';
 import 'package:dotto/presentation/map/widget/map_floor_button.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../helpers/fake_auth_data_source.dart';
+import '../../helpers/fake_campus_map_data_source.dart';
 import '../../helpers/fake_room_data_source.dart';
 
 const _rooms = {
@@ -16,7 +18,7 @@ const _rooms = {
     '301': {'header': '情報工房', 'classroom_no': '301'},
   },
   '4': {
-    '406': {'header': '講義室', 'classroom_no': '406'},
+    '484': {'header': '講義室', 'classroom_no': '484'},
   },
 };
 
@@ -28,6 +30,9 @@ Future<void> _pumpMap(WidgetTester tester, {String? focusedRoomId}) async {
           const FakeRoomDataSource(rooms: _rooms),
         ),
         authDataSourceProvider.overrideWithValue(FakeAuthDataSource()),
+        campusMapDataSourceProvider.overrideWithValue(
+          const FakeCampusMapDataSource(),
+        ),
       ],
       child: MaterialApp(
         home: MapScreen(
@@ -43,7 +48,7 @@ Future<void> _pumpMap(WidgetTester tester, {String? focusedRoomId}) async {
 
 void main() {
   testWidgets('部屋を指定して開くと該当階と詳細を表示する', (tester) async {
-    await _pumpMap(tester, focusedRoomId: '406');
+    await _pumpMap(tester, focusedRoomId: '484');
 
     expect(
       tester.widget<MapFloorButton>(find.byType(MapFloorButton)).selectedFloor,
@@ -53,24 +58,17 @@ void main() {
     expect(find.text('設定に移動する'), findsOneWidget);
   });
 
-  testWidgets('階を変更すると選択と拡大率をリセットする', (tester) async {
-    await _pumpMap(tester, focusedRoomId: '406');
-    final map = tester.widget<Map>(find.byType(Map));
-    map.mapViewTransformationController.value = Matrix4.diagonal3Values(
-      2,
-      2,
-      1,
-    );
+  testWidgets('階を変更すると選択をリセットする', (tester) async {
+    await _pumpMap(tester, focusedRoomId: '484');
 
     tester
         .widget<MapFloorButton>(find.byType(MapFloorButton))
         .onPressed(Floor.third);
     await tester.pumpAndSettle();
 
-    final changed = tester.widget<Map>(find.byType(Map));
+    final changed = tester.widget<CampusMapView>(find.byType(CampusMapView));
     expect(changed.selectedFloor, Floor.third);
-    expect(changed.focusedMapTileProps, isNull);
-    expect(changed.mapViewTransformationController.value, Matrix4.identity());
+    expect(changed.focusedUnit, isNull);
     expect(find.text('設定に移動する'), findsNothing);
   });
 
