@@ -24,6 +24,18 @@ class DottoListDetail extends StatelessWidget {
       context.dependOnInheritedWidgetOfExactType<_ListDetailScope>()?.isSplit ??
       false;
 
+  /// [context] の画面が、右ペインで一覧から直接開いた詳細か。
+  ///
+  /// 右ペインの最下層は未選択の案内 ([DottoListDetailRoot]) なので、
+  /// その1つ上の画面で戻るボタンを出しても案内に戻るだけになる。
+  /// 戻るボタンを出さない判断に使う。
+  static bool isFirstDetail(BuildContext context) {
+    if (!isSplit(context)) return false;
+    final settings = ModalRoute.of(context)?.settings;
+    final pages = Navigator.maybeOf(context)?.widget.pages ?? const [];
+    return settings is Page<Object?> && pages.indexOf(settings) == 1;
+  }
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {

@@ -1,4 +1,5 @@
 import 'package:dotto_design_system/component/dotto_app_bar_action.dart';
+import 'package:dotto_design_system/component/list_detail.dart';
 import 'package:dotto_design_system/component/vertical_bar_actions.dart';
 import 'package:dotto_design_system/component/vertical_bar_scope.dart';
 import 'package:dotto_design_system/story/glass_backdrop.dart';
@@ -32,7 +33,10 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final scope = VerticalBarScope.maybeOf(context);
-    final canPop = Navigator.canPop(context);
+    // 2カラムの右ペインで一覧から開いた詳細は、一覧が左に見えているため
+    // 戻るボタンを出さない。
+    final isFirstDetail = DottoListDetail.isFirstDetail(context);
+    final canPop = Navigator.canPop(context) && !isFirstDetail;
     final dismissAction = actions
         .where((action) => action.role == DottoAppBarActionRole.dismiss)
         .firstOrNull;
@@ -67,7 +71,7 @@ final class DottoAppBar extends HookWidget implements PreferredSizeWidget {
       title: title,
       centerTitle: centerTitle,
       leading: scope == null ? dismissAction : null,
-      automaticallyImplyLeading: scope == null,
+      automaticallyImplyLeading: scope == null && !isFirstDetail,
       actions: scope == null ? trailingActions : null,
       bottom: bottom,
     );
