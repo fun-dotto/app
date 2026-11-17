@@ -140,13 +140,13 @@ void main() {
     });
 
     test('root deep links redirect to the default tab', () {
-      final uri = Uri.parse('https://dotto.furari.co/');
+      final uri = Uri.parse('https://fun-dotto.com/');
 
       expect(appRedirectLocation(uri), const CourseRouteData().location);
     });
 
     test('deep links with app paths are not redirected', () {
-      final uri = Uri.parse('https://dotto.furari.co/subjects/subject-1');
+      final uri = Uri.parse('https://fun-dotto.com/subjects/subject-1');
 
       expect(appRedirectLocation(uri), isNull);
     });
