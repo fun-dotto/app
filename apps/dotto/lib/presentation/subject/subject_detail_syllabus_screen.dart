@@ -19,7 +19,7 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
       (l10n.subjectYear, syllabus.year.toString()),
       (l10n.subjectName, syllabus.name),
       (l10n.subjectEnName, syllabus.enName),
-      (l10n.subjectGrades, syllabus.grades),
+      (l10n.subjectSyllabusGrades, syllabus.grades),
       (l10n.subjectTerm, syllabus.term),
       (l10n.subjectCredit, syllabus.credit),
       (l10n.subjectFacultyNames, syllabus.facultyNames),

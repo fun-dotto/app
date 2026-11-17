@@ -336,7 +336,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subjectEnName => '英語科目名';
 
   @override
-  String get subjectGrades => '配当年次';
+  String get subjectSyllabusGrades => '配当年次';
 
   @override
   String get subjectTerm => '開講時期';

@@ -147,7 +147,7 @@
   "subjectYear": "年度",
   "subjectName": "科目名",
   "subjectEnName": "英語科目名",
-  "subjectGrades": "配当年次",
+  "subjectSyllabusGrades": "配当年次",
   "subjectTerm": "開講時期",
   "subjectCredit": "単位数",
   "subjectFacultyNames": "担当教員",

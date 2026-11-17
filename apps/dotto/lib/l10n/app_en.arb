@@ -147,7 +147,7 @@
   "subjectYear": "Year",
   "subjectName": "Subject name",
   "subjectEnName": "Subject name (English)",
-  "subjectGrades": "Grades",
+  "subjectSyllabusGrades": "Grades",
   "subjectTerm": "Term",
   "subjectCredit": "Credits",
   "subjectFacultyNames": "Faculty",

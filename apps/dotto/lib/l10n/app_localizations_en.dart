@@ -340,7 +340,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subjectEnName => 'Subject name (English)';
 
   @override
-  String get subjectGrades => 'Grades';
+  String get subjectSyllabusGrades => 'Grades';
 
   @override
   String get subjectTerm => 'Term';

@@ -716,11 +716,11 @@ abstract class AppLocalizations {
   /// **'英語科目名'**
   String get subjectEnName;
 
-  /// No description provided for @subjectGrades.
+  /// No description provided for @subjectSyllabusGrades.
   ///
   /// In ja, this message translates to:
   /// **'配当年次'**
-  String get subjectGrades;
+  String get subjectSyllabusGrades;
 
   /// No description provided for @subjectTerm.
   ///
