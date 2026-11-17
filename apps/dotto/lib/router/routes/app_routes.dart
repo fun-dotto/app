@@ -156,17 +156,21 @@ part 'app_routes.g.dart';
     ),
     TypedStatefulShellBranch<BusShellBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<BusRouteData>(
-          path: '/bus',
-          name: '/bus',
+        TypedShellRoute<BusListDetailShellRouteData>(
           routes: <TypedRoute<RouteData>>[
-            TypedGoRoute<BusStopSelectRouteData>(
-              path: 'stop-selection',
-              name: '/bus/stop-selection',
-            ),
-            TypedGoRoute<BusTripRouteData>(
-              path: 'trips/:id',
-              name: '/bus/trips/:id',
+            TypedGoRoute<BusRouteData>(
+              path: '/bus',
+              name: '/bus',
+              routes: <TypedRoute<RouteData>>[
+                TypedGoRoute<BusStopSelectRouteData>(
+                  path: 'stop-selection',
+                  name: '/bus/stop-selection',
+                ),
+                TypedGoRoute<BusTripRouteData>(
+                  path: 'trips/:id',
+                  name: '/bus/trips/:id',
+                ),
+              ],
             ),
           ],
         ),
@@ -174,68 +178,79 @@ part 'app_routes.g.dart';
     ),
     TypedStatefulShellBranch<SettingShellBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<SettingsRouteData>(
-          path: '/setting',
-          name: '/setting',
+        TypedShellRoute<SettingListDetailShellRouteData>(
           routes: <TypedRoute<RouteData>>[
-            TypedGoRoute<AnnouncementsRouteData>(
-              path: 'announcements',
-              name: '/setting/announcements',
+            TypedGoRoute<SettingsRouteData>(
+              path: '/setting',
+              name: '/setting',
               routes: <TypedRoute<RouteData>>[
-                TypedGoRoute<AnnouncementDetailRouteData>(
-                  path: ':id',
-                  name: '/setting/announcements/:id',
+                TypedGoRoute<AnnouncementsRouteData>(
+                  path: 'announcements',
+                  name: '/setting/announcements',
+                  routes: <TypedRoute<RouteData>>[
+                    TypedGoRoute<AnnouncementDetailRouteData>(
+                      path: ':id',
+                      name: '/setting/announcements/:id',
+                    ),
+                  ],
+                ),
+                TypedGoRoute<DevelopersRouteData>(
+                  path: 'developers',
+                  name: '/setting/developers',
+                ),
+                TypedGoRoute<SettingOnboardingRouteData>(
+                  path: 'onboarding',
+                  name: '/setting/onboarding',
+                ),
+                TypedGoRoute<SettingsLicenseRouteData>(
+                  path: 'licenses',
+                  name: '/setting/licenses',
+                ),
+                TypedGoRoute<DebugRouteData>(
+                  path: 'debug',
+                  name: '/setting/debug',
                 ),
               ],
             ),
-            TypedGoRoute<DevelopersRouteData>(
-              path: 'developers',
-              name: '/setting/developers',
-            ),
-            TypedGoRoute<SettingOnboardingRouteData>(
-              path: 'onboarding',
-              name: '/setting/onboarding',
-            ),
-            TypedGoRoute<SettingsLicenseRouteData>(
-              path: 'licenses',
-              name: '/setting/licenses',
-            ),
-            TypedGoRoute<DebugRouteData>(path: 'debug', name: '/setting/debug'),
           ],
         ),
       ],
     ),
     TypedStatefulShellBranch<SubjectShellBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<SubjectsRouteData>(
-          path: '/subjects',
-          name: '/subjects',
+        TypedShellRoute<SubjectListDetailShellRouteData>(
           routes: <TypedRoute<RouteData>>[
-            TypedGoRoute<SubjectDetailRouteData>(
-              path: ':id',
-              name: '/subjects/:id',
-            ),
-            TypedGoRoute<SubjectSyllabusRouteData>(
-              path: ':id/syllabus',
-              name: '/subjects/:id/syllabus',
-            ),
-            TypedGoRoute<SubjectReviewsRouteData>(
-              path: ':id/reviews',
-              name: '/subjects/:id/reviews',
+            TypedGoRoute<SubjectsRouteData>(
+              path: '/subjects',
+              name: '/subjects',
               routes: <TypedRoute<RouteData>>[
-                TypedGoRoute<SubjectReviewNewRouteData>(
-                  path: 'new',
-                  name: '/subjects/:id/reviews/new',
+                TypedGoRoute<SubjectDetailRouteData>(
+                  path: ':id',
+                  name: '/subjects/:id',
                 ),
-              ],
-            ),
-            TypedGoRoute<SubjectPastExamsRouteData>(
-              path: ':id/past-exams',
-              name: '/subjects/:id/past-exams',
-              routes: <TypedRoute<RouteData>>[
-                TypedGoRoute<SubjectPastExamRouteData>(
-                  path: ':pastExamId',
-                  name: '/subjects/:id/past-exams/:pastExamId',
+                TypedGoRoute<SubjectSyllabusRouteData>(
+                  path: ':id/syllabus',
+                  name: '/subjects/:id/syllabus',
+                ),
+                TypedGoRoute<SubjectReviewsRouteData>(
+                  path: ':id/reviews',
+                  name: '/subjects/:id/reviews',
+                  routes: <TypedRoute<RouteData>>[
+                    TypedGoRoute<SubjectReviewNewRouteData>(
+                      path: 'new',
+                      name: '/subjects/:id/reviews/new',
+                    ),
+                  ],
+                ),
+                TypedGoRoute<SubjectPastExamsRouteData>(
+                  path: ':id/past-exams',
+                  name: '/subjects/:id/past-exams',
+                  routes: <TypedRoute<RouteData>>[
+                    TypedGoRoute<SubjectPastExamRouteData>(
+                      path: ':pastExamId',
+                      name: '/subjects/:id/past-exams/:pastExamId',
+                    ),
+                  ],
                 ),
               ],
             ),

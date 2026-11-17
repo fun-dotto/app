@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:dotto/extension/go_route_data_extension.dart';
 import 'package:dotto/presentation/setting/app_build_info_state.dart';
 import 'package:dotto/router/routes/setting_routes.dart';
 import 'package:flutter/foundation.dart';
@@ -23,7 +22,7 @@ final class AppVersionFooter extends HookConsumerWidget {
 
     return GestureDetector(
       onTap: canOpenDebugScreen
-          ? () => unawaited(const DebugRouteData().push<void>(context))
+          ? () => const DebugRouteData().openAsDetail(context)
           : null,
       child: Text(switch (buildInfo) {
         AsyncData(:final value) => '${value.version} (${value.buildNumber})',

@@ -218,6 +218,12 @@ abstract class AppLocalizations {
   /// **'はこだて未来大学'**
   String get busUniversity;
 
+  /// No description provided for @busSelectTrip.
+  ///
+  /// In ja, this message translates to:
+  /// **'便を選択してください'**
+  String get busSelectTrip;
+
   /// No description provided for @busKameda.
   ///
   /// In ja, this message translates to:
@@ -697,6 +703,12 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'科目検索'**
   String get subjectSubjectSearch;
+
+  /// No description provided for @subjectSelectSubject.
+  ///
+  /// In ja, this message translates to:
+  /// **'科目を選択してください'**
+  String get subjectSelectSubject;
 
   /// No description provided for @subjectSearchBySubjectName.
   ///

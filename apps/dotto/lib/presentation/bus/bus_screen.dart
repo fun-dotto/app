@@ -4,6 +4,7 @@ import 'package:dotto/domain/entity/bus_landmark.dart';
 import 'package:dotto/domain/entity/bus_schedule.dart';
 import 'package:dotto/domain/entity/bus_schedule_stop.dart';
 import 'package:dotto/domain/entity/bus_trip_id.dart';
+import 'package:dotto/extension/go_route_data_extension.dart';
 import 'package:dotto/helper/date_formatter.dart';
 import 'package:dotto/l10n/app_localizations.dart';
 import 'package:dotto/l10n/app_localizations_ja.dart';
@@ -259,15 +260,13 @@ final class _BusTripList extends HookWidget {
               myBusStopName: stop.name,
               onTap: entry.trip.route == '0'
                   ? null
-                  : () async {
-                      await BusTripRouteData(
-                        id: BusTripId(
-                          isTo: isTo,
-                          isWeekday: isWeekday,
-                          index: entry.index,
-                        ).value,
-                      ).push<void>(context);
-                    },
+                  : () => BusTripRouteData(
+                      id: BusTripId(
+                        isTo: isTo,
+                        isWeekday: isWeekday,
+                        index: entry.index,
+                      ).value,
+                    ).openAsDetail(context),
             );
           }
           return const SizedBox.shrink();
