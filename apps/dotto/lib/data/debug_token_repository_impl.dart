@@ -30,9 +30,7 @@ final class DebugTokenRepositoryImpl implements DebugTokenRepository {
     );
   }
 
-  Future<String?> _fetchOrNull(
-    Future<String?> Function() fetch,
-  ) async {
+  Future<String?> _fetchOrNull(Future<String?> Function() fetch) async {
     try {
       return await fetch();
     } on Exception {
