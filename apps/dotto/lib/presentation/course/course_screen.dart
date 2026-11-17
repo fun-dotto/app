@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dotto/application/open_course_link_use_case.dart';
 import 'package:dotto/domain/entity/breaking_announcement.dart';
 import 'package:dotto/domain/entity/course_link_event.dart';
+import 'package:dotto/domain/entity/day_of_week.dart';
 import 'package:dotto/domain/entity/flags.dart';
 import 'package:dotto/domain/entity/personal_timetable_day.dart';
 import 'package:dotto/domain/service/timetable_date_service.dart';
@@ -385,17 +386,15 @@ final class _LoadingSkeleton extends StatelessWidget {
         onRefresh: () async {},
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.zero.withBottomBarInset(context),
+          padding: const EdgeInsets.symmetric(vertical: 16)
+              .withBottomBarInset(context),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: DottoContent.twoColumn(
               primary: Column(
                 children: [
                   if (isAuthenticated)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: _CourseTimetableSkeleton(owner),
-                    )
+                    const _CourseTimetableSkeleton()
                   else
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 48),
@@ -427,15 +426,12 @@ final class _LoadingSkeleton extends StatelessWidget {
                     ),
                 ],
               ),
-              secondary: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: _ShortcutSections(
-                  owner,
-                  isAuthenticated: isAuthenticated,
-                  quickFeatures: quickFeatures,
-                  quickFiles: quickFiles,
-                  quickLinks: quickLinks,
-                ),
+              secondary: _ShortcutSections(
+                owner,
+                isAuthenticated: isAuthenticated,
+                quickFeatures: quickFeatures,
+                quickFiles: quickFiles,
+                quickLinks: quickLinks,
               ),
             ),
           ),
@@ -446,111 +442,35 @@ final class _LoadingSkeleton extends StatelessWidget {
 }
 
 final class _CourseTimetableSkeleton extends StatelessWidget {
-  const new(this.owner);
-  final CourseScreen owner;
+  const new();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              5,
-              (_) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  children: [
-                    _SkeletonBox(owner, height: 14, width: 28),
-                    const SizedBox(height: 8),
-                    _SkeletonCircle(owner, 48),
-                  ],
-                ),
-              ),
-            ),
+    const dateService = TimetableDateService();
+    final now = DateTime.now();
+    final selectedDate = dateService.initialDate(now);
+    final dates = dateService
+        .weeks(now)
+        .firstWhere((week) => week.contains(selectedDate));
+
+    // 実表示とレイアウトを共有し、時刻表示設定や余白の変更にも追従する。
+    return ExcludeSemantics(
+      child: IgnorePointer(
+        child: Shimmer(
+          child: PersonalTimetableCalendarView(
+            personalTimetableDays: dates
+                .map(
+                  (date) => PersonalTimetableDay(
+                    date: date,
+                    items: const [],
+                    timetableDayOfWeek: DayOfWeek.fromDateTime(date),
+                  ),
+                )
+                .toList(),
+            selectedDate: selectedDate,
+            onDateSelected: (_) {},
+            onSubjectSelected: (_) {},
           ),
-        ),
-        const SizedBox(height: 12),
-        ...List.generate(
-          6,
-          (index) => Padding(
-            padding: EdgeInsets.only(top: index == 0 ? 0 : 8, right: 8),
-            child: Row(
-              children: [
-                SizedBox(width: 28, child: Center(child: Text('${index + 1}'))),
-                const SizedBox(width: 8),
-                Expanded(child: _CourseTimetableCellSkeleton(owner)),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-final class _SkeletonCircle extends StatelessWidget {
-  const new(this.owner, this.size);
-  final CourseScreen owner;
-  final double size;
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer(
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: SemanticColor.light.backgroundTertiary,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-}
-
-final class _CourseTimetableCellSkeleton extends StatelessWidget {
-  const new(this.owner);
-  final CourseScreen owner;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 52,
-      decoration: BoxDecoration(
-        color: SemanticColor.light.backgroundPrimary,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _SkeletonBox(owner, height: 12, width: 96, radius: 4),
-          const SizedBox(height: 8),
-          _SkeletonBox(owner, height: 10, width: 48, radius: 4),
-        ],
-      ),
-    );
-  }
-}
-
-final class _SkeletonBox extends StatelessWidget {
-  const new(this.owner, {required this.height, this.width, this.radius = 8});
-  final CourseScreen owner;
-  final double height;
-  final double? width;
-  final double radius;
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer(
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: SemanticColor.light.backgroundTertiary,
-          borderRadius: BorderRadius.circular(radius),
         ),
       ),
     );
