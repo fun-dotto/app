@@ -253,10 +253,13 @@ class SubjectRequirement extends $pb.GeneratedMessage {
 class SubjectSyllabus extends $pb.GeneratedMessage {
   factory SubjectSyllabus({
     $core.String? id,
+    $core.String? lessonId,
+    $core.int? year,
     $core.String? name,
     $core.String? enName,
     $core.String? grades,
-    $core.int? credit,
+    $core.String? term,
+    $core.String? credit,
     $core.String? facultyNames,
     $core.String? practicalHomeFacultyCategory,
     $core.String? multiplePersonTeachingForm,
@@ -273,18 +276,32 @@ class SubjectSyllabus extends $pb.GeneratedMessage {
     $core.String? notes,
     $core.String? keywords,
     $core.String? targetCourses,
-    $core.String? targetAreas,
     $core.String? classifications,
-    $core.String? teachingLanguage,
-    $core.String? contentsAndSchedule,
-    $core.String? teachingAndExamForm,
     $core.String? dsopSubject,
+    $core.String? teachingLanguage,
+    $core.String? teachingAndExamForm,
+    $core.String? contentsAndSchedule,
+    $core.String? enSummary,
+    $core.String? enLearningOutcomes,
+    $core.String? enContentsAndSchedule,
+    $core.String? enEvaluationMethod,
+    $core.String? enTeachingLanguage,
+    $core.String? enPrerequisites,
+    $core.String? enPrePostLearning,
+    $core.String? enTextbooks,
+    $core.String? enNotes,
+    $core.String? enTeachingAndExamForm,
+    $core.String? diplomaPolicies,
+    $core.String? diplomaPolicyCorrespondence,
   }) {
     final result = SubjectSyllabus._();
     if (id != null) result.id = id;
+    if (lessonId != null) result.lessonId = lessonId;
+    if (year != null) result.year = year;
     if (name != null) result.name = name;
     if (enName != null) result.enName = enName;
     if (grades != null) result.grades = grades;
+    if (term != null) result.term = term;
     if (credit != null) result.credit = credit;
     if (facultyNames != null) result.facultyNames = facultyNames;
     if (practicalHomeFacultyCategory != null)
@@ -304,14 +321,31 @@ class SubjectSyllabus extends $pb.GeneratedMessage {
     if (notes != null) result.notes = notes;
     if (keywords != null) result.keywords = keywords;
     if (targetCourses != null) result.targetCourses = targetCourses;
-    if (targetAreas != null) result.targetAreas = targetAreas;
     if (classifications != null) result.classifications = classifications;
+    if (dsopSubject != null) result.dsopSubject = dsopSubject;
     if (teachingLanguage != null) result.teachingLanguage = teachingLanguage;
-    if (contentsAndSchedule != null)
-      result.contentsAndSchedule = contentsAndSchedule;
     if (teachingAndExamForm != null)
       result.teachingAndExamForm = teachingAndExamForm;
-    if (dsopSubject != null) result.dsopSubject = dsopSubject;
+    if (contentsAndSchedule != null)
+      result.contentsAndSchedule = contentsAndSchedule;
+    if (enSummary != null) result.enSummary = enSummary;
+    if (enLearningOutcomes != null)
+      result.enLearningOutcomes = enLearningOutcomes;
+    if (enContentsAndSchedule != null)
+      result.enContentsAndSchedule = enContentsAndSchedule;
+    if (enEvaluationMethod != null)
+      result.enEvaluationMethod = enEvaluationMethod;
+    if (enTeachingLanguage != null)
+      result.enTeachingLanguage = enTeachingLanguage;
+    if (enPrerequisites != null) result.enPrerequisites = enPrerequisites;
+    if (enPrePostLearning != null) result.enPrePostLearning = enPrePostLearning;
+    if (enTextbooks != null) result.enTextbooks = enTextbooks;
+    if (enNotes != null) result.enNotes = enNotes;
+    if (enTeachingAndExamForm != null)
+      result.enTeachingAndExamForm = enTeachingAndExamForm;
+    if (diplomaPolicies != null) result.diplomaPolicies = diplomaPolicies;
+    if (diplomaPolicyCorrespondence != null)
+      result.diplomaPolicyCorrespondence = diplomaPolicyCorrespondence;
     return result;
   }
 
@@ -329,32 +363,46 @@ class SubjectSyllabus extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: SubjectSyllabus.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'id')
-    ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..aOS(3, _omitFieldNames ? '' : 'enName')
-    ..aOS(4, _omitFieldNames ? '' : 'grades')
-    ..aI(5, _omitFieldNames ? '' : 'credit')
-    ..aOS(6, _omitFieldNames ? '' : 'facultyNames')
-    ..aOS(7, _omitFieldNames ? '' : 'practicalHomeFacultyCategory')
-    ..aOS(8, _omitFieldNames ? '' : 'multiplePersonTeachingForm')
-    ..aOS(9, _omitFieldNames ? '' : 'teachingForm')
-    ..aOS(10, _omitFieldNames ? '' : 'summary')
-    ..aOS(11, _omitFieldNames ? '' : 'learningOutcomes')
-    ..aOS(12, _omitFieldNames ? '' : 'assignments')
-    ..aOS(13, _omitFieldNames ? '' : 'evaluationMethod')
-    ..aOS(14, _omitFieldNames ? '' : 'textbooks')
-    ..aOS(15, _omitFieldNames ? '' : 'referenceBooks')
-    ..aOS(16, _omitFieldNames ? '' : 'prerequisites')
-    ..aOS(17, _omitFieldNames ? '' : 'preLearning')
-    ..aOS(18, _omitFieldNames ? '' : 'postLearning')
-    ..aOS(19, _omitFieldNames ? '' : 'notes')
-    ..aOS(20, _omitFieldNames ? '' : 'keywords')
-    ..aOS(21, _omitFieldNames ? '' : 'targetCourses')
-    ..aOS(22, _omitFieldNames ? '' : 'targetAreas')
-    ..aOS(23, _omitFieldNames ? '' : 'classifications')
-    ..aOS(24, _omitFieldNames ? '' : 'teachingLanguage')
-    ..aOS(25, _omitFieldNames ? '' : 'contentsAndSchedule')
-    ..aOS(26, _omitFieldNames ? '' : 'teachingAndExamForm')
-    ..aOS(27, _omitFieldNames ? '' : 'dsopSubject')
+    ..aOS(2, _omitFieldNames ? '' : 'lessonId')
+    ..aI(3, _omitFieldNames ? '' : 'year')
+    ..aOS(4, _omitFieldNames ? '' : 'name')
+    ..aOS(5, _omitFieldNames ? '' : 'enName')
+    ..aOS(6, _omitFieldNames ? '' : 'grades')
+    ..aOS(7, _omitFieldNames ? '' : 'term')
+    ..aOS(8, _omitFieldNames ? '' : 'credit')
+    ..aOS(9, _omitFieldNames ? '' : 'facultyNames')
+    ..aOS(10, _omitFieldNames ? '' : 'practicalHomeFacultyCategory')
+    ..aOS(11, _omitFieldNames ? '' : 'multiplePersonTeachingForm')
+    ..aOS(12, _omitFieldNames ? '' : 'teachingForm')
+    ..aOS(13, _omitFieldNames ? '' : 'summary')
+    ..aOS(14, _omitFieldNames ? '' : 'learningOutcomes')
+    ..aOS(15, _omitFieldNames ? '' : 'assignments')
+    ..aOS(16, _omitFieldNames ? '' : 'evaluationMethod')
+    ..aOS(17, _omitFieldNames ? '' : 'textbooks')
+    ..aOS(18, _omitFieldNames ? '' : 'referenceBooks')
+    ..aOS(19, _omitFieldNames ? '' : 'prerequisites')
+    ..aOS(20, _omitFieldNames ? '' : 'preLearning')
+    ..aOS(21, _omitFieldNames ? '' : 'postLearning')
+    ..aOS(22, _omitFieldNames ? '' : 'notes')
+    ..aOS(23, _omitFieldNames ? '' : 'keywords')
+    ..aOS(24, _omitFieldNames ? '' : 'targetCourses')
+    ..aOS(25, _omitFieldNames ? '' : 'classifications')
+    ..aOS(26, _omitFieldNames ? '' : 'dsopSubject')
+    ..aOS(27, _omitFieldNames ? '' : 'teachingLanguage')
+    ..aOS(28, _omitFieldNames ? '' : 'teachingAndExamForm')
+    ..aOS(29, _omitFieldNames ? '' : 'contentsAndSchedule')
+    ..aOS(30, _omitFieldNames ? '' : 'enSummary')
+    ..aOS(31, _omitFieldNames ? '' : 'enLearningOutcomes')
+    ..aOS(32, _omitFieldNames ? '' : 'enContentsAndSchedule')
+    ..aOS(33, _omitFieldNames ? '' : 'enEvaluationMethod')
+    ..aOS(34, _omitFieldNames ? '' : 'enTeachingLanguage')
+    ..aOS(35, _omitFieldNames ? '' : 'enPrerequisites')
+    ..aOS(36, _omitFieldNames ? '' : 'enPrePostLearning')
+    ..aOS(37, _omitFieldNames ? '' : 'enTextbooks')
+    ..aOS(38, _omitFieldNames ? '' : 'enNotes')
+    ..aOS(39, _omitFieldNames ? '' : 'enTeachingAndExamForm')
+    ..aOS(40, _omitFieldNames ? '' : 'diplomaPolicies')
+    ..aOS(41, _omitFieldNames ? '' : 'diplomaPolicyCorrespondence')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -379,7 +427,7 @@ class SubjectSyllabus extends $pb.GeneratedMessage {
           SubjectSyllabus.$_createMessage);
   static SubjectSyllabus? _defaultInstance;
 
-  /// 教務システムのシラバスID。
+  /// ID（UUID）。
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -389,265 +437,405 @@ class SubjectSyllabus extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearId() => $_clearField(1);
 
-  /// 授業名。
+  /// 授業コード（教務システムのシラバスID）。
   @$pb.TagNumber(2)
-  $core.String get name => $_getSZ(1);
+  $core.String get lessonId => $_getSZ(1);
   @$pb.TagNumber(2)
-  set name($core.String value) => $_setString(1, value);
+  set lessonId($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
-  $core.bool hasName() => $_has(1);
+  $core.bool hasLessonId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearName() => $_clearField(2);
+  void clearLessonId() => $_clearField(2);
 
-  /// 授業名（英語）。
+  /// 年度。
   @$pb.TagNumber(3)
-  $core.String get enName => $_getSZ(2);
+  $core.int get year => $_getIZ(2);
   @$pb.TagNumber(3)
-  set enName($core.String value) => $_setString(2, value);
+  set year($core.int value) => $_setSignedInt32(2, value);
   @$pb.TagNumber(3)
-  $core.bool hasEnName() => $_has(2);
+  $core.bool hasYear() => $_has(2);
   @$pb.TagNumber(3)
-  void clearEnName() => $_clearField(3);
+  void clearYear() => $_clearField(3);
+
+  /// 授業名。
+  @$pb.TagNumber(4)
+  $core.String get name => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set name($core.String value) => $_setString(3, value);
+  @$pb.TagNumber(4)
+  $core.bool hasName() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearName() => $_clearField(4);
+
+  /// 授業名（英語）。Course。
+  @$pb.TagNumber(5)
+  $core.String get enName => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set enName($core.String value) => $_setString(4, value);
+  @$pb.TagNumber(5)
+  $core.bool hasEnName() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearEnName() => $_clearField(5);
 
   /// 配当年次。
-  @$pb.TagNumber(4)
-  $core.String get grades => $_getSZ(3);
-  @$pb.TagNumber(4)
-  set grades($core.String value) => $_setString(3, value);
-  @$pb.TagNumber(4)
-  $core.bool hasGrades() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearGrades() => $_clearField(4);
+  @$pb.TagNumber(6)
+  $core.String get grades => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set grades($core.String value) => $_setString(5, value);
+  @$pb.TagNumber(6)
+  $core.bool hasGrades() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearGrades() => $_clearField(6);
 
-  /// 単位数。
-  @$pb.TagNumber(5)
-  $core.int get credit => $_getIZ(4);
-  @$pb.TagNumber(5)
-  set credit($core.int value) => $_setSignedInt32(4, value);
-  @$pb.TagNumber(5)
-  $core.bool hasCredit() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearCredit() => $_clearField(5);
+  /// 開講期（一部の科目では「予定開講期」）。
+  @$pb.TagNumber(7)
+  $core.String get term => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set term($core.String value) => $_setString(6, value);
+  @$pb.TagNumber(7)
+  $core.bool hasTerm() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearTerm() => $_clearField(7);
 
-  /// 担当教員名。
-  @$pb.TagNumber(6)
-  $core.String get facultyNames => $_getSZ(5);
-  @$pb.TagNumber(6)
-  set facultyNames($core.String value) => $_setString(5, value);
-  @$pb.TagNumber(6)
-  $core.bool hasFacultyNames() => $_has(5);
-  @$pb.TagNumber(6)
-  void clearFacultyNames() => $_clearField(6);
+  /// 単位数（例: `2単位`）。
+  @$pb.TagNumber(8)
+  $core.String get credit => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set credit($core.String value) => $_setString(7, value);
+  @$pb.TagNumber(8)
+  $core.bool hasCredit() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearCredit() => $_clearField(8);
+
+  /// 担当教員名（改行区切り、主担当に `◎`）。
+  @$pb.TagNumber(9)
+  $core.String get facultyNames => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set facultyNames($core.String value) => $_setString(8, value);
+  @$pb.TagNumber(9)
+  $core.bool hasFacultyNames() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearFacultyNames() => $_clearField(9);
 
   /// 実務家教員区分。
-  @$pb.TagNumber(7)
-  $core.String get practicalHomeFacultyCategory => $_getSZ(6);
-  @$pb.TagNumber(7)
-  set practicalHomeFacultyCategory($core.String value) => $_setString(6, value);
-  @$pb.TagNumber(7)
-  $core.bool hasPracticalHomeFacultyCategory() => $_has(6);
-  @$pb.TagNumber(7)
-  void clearPracticalHomeFacultyCategory() => $_clearField(7);
+  @$pb.TagNumber(10)
+  $core.String get practicalHomeFacultyCategory => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set practicalHomeFacultyCategory($core.String value) => $_setString(9, value);
+  @$pb.TagNumber(10)
+  $core.bool hasPracticalHomeFacultyCategory() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearPracticalHomeFacultyCategory() => $_clearField(10);
 
   /// 複数人担当形式。
-  @$pb.TagNumber(8)
-  $core.String get multiplePersonTeachingForm => $_getSZ(7);
-  @$pb.TagNumber(8)
-  set multiplePersonTeachingForm($core.String value) => $_setString(7, value);
-  @$pb.TagNumber(8)
-  $core.bool hasMultiplePersonTeachingForm() => $_has(7);
-  @$pb.TagNumber(8)
-  void clearMultiplePersonTeachingForm() => $_clearField(8);
+  @$pb.TagNumber(11)
+  $core.String get multiplePersonTeachingForm => $_getSZ(10);
+  @$pb.TagNumber(11)
+  set multiplePersonTeachingForm($core.String value) => $_setString(10, value);
+  @$pb.TagNumber(11)
+  $core.bool hasMultiplePersonTeachingForm() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearMultiplePersonTeachingForm() => $_clearField(11);
 
   /// 授業形態。
-  @$pb.TagNumber(9)
-  $core.String get teachingForm => $_getSZ(8);
-  @$pb.TagNumber(9)
-  set teachingForm($core.String value) => $_setString(8, value);
-  @$pb.TagNumber(9)
-  $core.bool hasTeachingForm() => $_has(8);
-  @$pb.TagNumber(9)
-  void clearTeachingForm() => $_clearField(9);
+  @$pb.TagNumber(12)
+  $core.String get teachingForm => $_getSZ(11);
+  @$pb.TagNumber(12)
+  set teachingForm($core.String value) => $_setString(11, value);
+  @$pb.TagNumber(12)
+  $core.bool hasTeachingForm() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearTeachingForm() => $_clearField(12);
 
   /// 授業の概要。
-  @$pb.TagNumber(10)
-  $core.String get summary => $_getSZ(9);
-  @$pb.TagNumber(10)
-  set summary($core.String value) => $_setString(9, value);
-  @$pb.TagNumber(10)
-  $core.bool hasSummary() => $_has(9);
-  @$pb.TagNumber(10)
-  void clearSummary() => $_clearField(10);
+  @$pb.TagNumber(13)
+  $core.String get summary => $_getSZ(12);
+  @$pb.TagNumber(13)
+  set summary($core.String value) => $_setString(12, value);
+  @$pb.TagNumber(13)
+  $core.bool hasSummary() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearSummary() => $_clearField(13);
 
   /// 授業の到達目標。
-  @$pb.TagNumber(11)
-  $core.String get learningOutcomes => $_getSZ(10);
-  @$pb.TagNumber(11)
-  set learningOutcomes($core.String value) => $_setString(10, value);
-  @$pb.TagNumber(11)
-  $core.bool hasLearningOutcomes() => $_has(10);
-  @$pb.TagNumber(11)
-  void clearLearningOutcomes() => $_clearField(11);
+  @$pb.TagNumber(14)
+  $core.String get learningOutcomes => $_getSZ(13);
+  @$pb.TagNumber(14)
+  set learningOutcomes($core.String value) => $_setString(13, value);
+  @$pb.TagNumber(14)
+  $core.bool hasLearningOutcomes() => $_has(13);
+  @$pb.TagNumber(14)
+  void clearLearningOutcomes() => $_clearField(14);
 
   /// 提出課題等。
-  @$pb.TagNumber(12)
-  $core.String get assignments => $_getSZ(11);
-  @$pb.TagNumber(12)
-  set assignments($core.String value) => $_setString(11, value);
-  @$pb.TagNumber(12)
-  $core.bool hasAssignments() => $_has(11);
-  @$pb.TagNumber(12)
-  void clearAssignments() => $_clearField(12);
+  @$pb.TagNumber(15)
+  $core.String get assignments => $_getSZ(14);
+  @$pb.TagNumber(15)
+  set assignments($core.String value) => $_setString(14, value);
+  @$pb.TagNumber(15)
+  $core.bool hasAssignments() => $_has(14);
+  @$pb.TagNumber(15)
+  void clearAssignments() => $_clearField(15);
 
   /// 成績の評価方法・基準。
-  @$pb.TagNumber(13)
-  $core.String get evaluationMethod => $_getSZ(12);
-  @$pb.TagNumber(13)
-  set evaluationMethod($core.String value) => $_setString(12, value);
-  @$pb.TagNumber(13)
-  $core.bool hasEvaluationMethod() => $_has(12);
-  @$pb.TagNumber(13)
-  void clearEvaluationMethod() => $_clearField(13);
+  @$pb.TagNumber(16)
+  $core.String get evaluationMethod => $_getSZ(15);
+  @$pb.TagNumber(16)
+  set evaluationMethod($core.String value) => $_setString(15, value);
+  @$pb.TagNumber(16)
+  $core.bool hasEvaluationMethod() => $_has(15);
+  @$pb.TagNumber(16)
+  void clearEvaluationMethod() => $_clearField(16);
 
   /// テキスト。
-  @$pb.TagNumber(14)
-  $core.String get textbooks => $_getSZ(13);
-  @$pb.TagNumber(14)
-  set textbooks($core.String value) => $_setString(13, value);
-  @$pb.TagNumber(14)
-  $core.bool hasTextbooks() => $_has(13);
-  @$pb.TagNumber(14)
-  void clearTextbooks() => $_clearField(14);
+  @$pb.TagNumber(17)
+  $core.String get textbooks => $_getSZ(16);
+  @$pb.TagNumber(17)
+  set textbooks($core.String value) => $_setString(16, value);
+  @$pb.TagNumber(17)
+  $core.bool hasTextbooks() => $_has(16);
+  @$pb.TagNumber(17)
+  void clearTextbooks() => $_clearField(17);
 
   /// 参考書。
-  @$pb.TagNumber(15)
-  $core.String get referenceBooks => $_getSZ(14);
-  @$pb.TagNumber(15)
-  set referenceBooks($core.String value) => $_setString(14, value);
-  @$pb.TagNumber(15)
-  $core.bool hasReferenceBooks() => $_has(14);
-  @$pb.TagNumber(15)
-  void clearReferenceBooks() => $_clearField(15);
+  @$pb.TagNumber(18)
+  $core.String get referenceBooks => $_getSZ(17);
+  @$pb.TagNumber(18)
+  set referenceBooks($core.String value) => $_setString(17, value);
+  @$pb.TagNumber(18)
+  $core.bool hasReferenceBooks() => $_has(17);
+  @$pb.TagNumber(18)
+  void clearReferenceBooks() => $_clearField(18);
 
   /// 履修条件。
-  @$pb.TagNumber(16)
-  $core.String get prerequisites => $_getSZ(15);
-  @$pb.TagNumber(16)
-  set prerequisites($core.String value) => $_setString(15, value);
-  @$pb.TagNumber(16)
-  $core.bool hasPrerequisites() => $_has(15);
-  @$pb.TagNumber(16)
-  void clearPrerequisites() => $_clearField(16);
+  @$pb.TagNumber(19)
+  $core.String get prerequisites => $_getSZ(18);
+  @$pb.TagNumber(19)
+  set prerequisites($core.String value) => $_setString(18, value);
+  @$pb.TagNumber(19)
+  $core.bool hasPrerequisites() => $_has(18);
+  @$pb.TagNumber(19)
+  void clearPrerequisites() => $_clearField(19);
 
   /// 事前学習。
-  @$pb.TagNumber(17)
-  $core.String get preLearning => $_getSZ(16);
-  @$pb.TagNumber(17)
-  set preLearning($core.String value) => $_setString(16, value);
-  @$pb.TagNumber(17)
-  $core.bool hasPreLearning() => $_has(16);
-  @$pb.TagNumber(17)
-  void clearPreLearning() => $_clearField(17);
+  @$pb.TagNumber(20)
+  $core.String get preLearning => $_getSZ(19);
+  @$pb.TagNumber(20)
+  set preLearning($core.String value) => $_setString(19, value);
+  @$pb.TagNumber(20)
+  $core.bool hasPreLearning() => $_has(19);
+  @$pb.TagNumber(20)
+  void clearPreLearning() => $_clearField(20);
 
   /// 事後学習。
-  @$pb.TagNumber(18)
-  $core.String get postLearning => $_getSZ(17);
-  @$pb.TagNumber(18)
-  set postLearning($core.String value) => $_setString(17, value);
-  @$pb.TagNumber(18)
-  $core.bool hasPostLearning() => $_has(17);
-  @$pb.TagNumber(18)
-  void clearPostLearning() => $_clearField(18);
+  @$pb.TagNumber(21)
+  $core.String get postLearning => $_getSZ(20);
+  @$pb.TagNumber(21)
+  set postLearning($core.String value) => $_setString(20, value);
+  @$pb.TagNumber(21)
+  $core.bool hasPostLearning() => $_has(20);
+  @$pb.TagNumber(21)
+  void clearPostLearning() => $_clearField(21);
 
   /// 履修上の留意点。
-  @$pb.TagNumber(19)
-  $core.String get notes => $_getSZ(18);
-  @$pb.TagNumber(19)
-  set notes($core.String value) => $_setString(18, value);
-  @$pb.TagNumber(19)
-  $core.bool hasNotes() => $_has(18);
-  @$pb.TagNumber(19)
-  void clearNotes() => $_clearField(19);
+  @$pb.TagNumber(22)
+  $core.String get notes => $_getSZ(21);
+  @$pb.TagNumber(22)
+  set notes($core.String value) => $_setString(21, value);
+  @$pb.TagNumber(22)
+  $core.bool hasNotes() => $_has(21);
+  @$pb.TagNumber(22)
+  void clearNotes() => $_clearField(22);
 
-  /// キーワード。
-  @$pb.TagNumber(20)
-  $core.String get keywords => $_getSZ(19);
-  @$pb.TagNumber(20)
-  set keywords($core.String value) => $_setString(19, value);
-  @$pb.TagNumber(20)
-  $core.bool hasKeywords() => $_has(19);
-  @$pb.TagNumber(20)
-  void clearKeywords() => $_clearField(20);
+  /// キーワード/keywords。
+  @$pb.TagNumber(23)
+  $core.String get keywords => $_getSZ(22);
+  @$pb.TagNumber(23)
+  set keywords($core.String value) => $_setString(22, value);
+  @$pb.TagNumber(23)
+  $core.bool hasKeywords() => $_has(22);
+  @$pb.TagNumber(23)
+  void clearKeywords() => $_clearField(23);
 
   /// 対象コース・領域。
-  @$pb.TagNumber(21)
-  $core.String get targetCourses => $_getSZ(20);
-  @$pb.TagNumber(21)
-  set targetCourses($core.String value) => $_setString(20, value);
-  @$pb.TagNumber(21)
-  $core.bool hasTargetCourses() => $_has(20);
-  @$pb.TagNumber(21)
-  void clearTargetCourses() => $_clearField(21);
-
-  /// 対象領域。
-  @$pb.TagNumber(22)
-  $core.String get targetAreas => $_getSZ(21);
-  @$pb.TagNumber(22)
-  set targetAreas($core.String value) => $_setString(21, value);
-  @$pb.TagNumber(22)
-  $core.bool hasTargetAreas() => $_has(21);
-  @$pb.TagNumber(22)
-  void clearTargetAreas() => $_clearField(22);
+  @$pb.TagNumber(24)
+  $core.String get targetCourses => $_getSZ(23);
+  @$pb.TagNumber(24)
+  set targetCourses($core.String value) => $_setString(23, value);
+  @$pb.TagNumber(24)
+  $core.bool hasTargetCourses() => $_has(23);
+  @$pb.TagNumber(24)
+  void clearTargetCourses() => $_clearField(24);
 
   /// 科目群・科目区分。
-  @$pb.TagNumber(23)
-  $core.String get classifications => $_getSZ(22);
-  @$pb.TagNumber(23)
-  set classifications($core.String value) => $_setString(22, value);
-  @$pb.TagNumber(23)
-  $core.bool hasClassifications() => $_has(22);
-  @$pb.TagNumber(23)
-  void clearClassifications() => $_clearField(23);
+  @$pb.TagNumber(25)
+  $core.String get classifications => $_getSZ(24);
+  @$pb.TagNumber(25)
+  set classifications($core.String value) => $_setString(24, value);
+  @$pb.TagNumber(25)
+  $core.bool hasClassifications() => $_has(24);
+  @$pb.TagNumber(25)
+  void clearClassifications() => $_clearField(25);
+
+  /// DSOP対象科目。
+  @$pb.TagNumber(26)
+  $core.String get dsopSubject => $_getSZ(25);
+  @$pb.TagNumber(26)
+  set dsopSubject($core.String value) => $_setString(25, value);
+  @$pb.TagNumber(26)
+  $core.bool hasDsopSubject() => $_has(25);
+  @$pb.TagNumber(26)
+  void clearDsopSubject() => $_clearField(26);
 
   /// 教授言語。
-  @$pb.TagNumber(24)
-  $core.String get teachingLanguage => $_getSZ(23);
-  @$pb.TagNumber(24)
-  set teachingLanguage($core.String value) => $_setString(23, value);
-  @$pb.TagNumber(24)
-  $core.bool hasTeachingLanguage() => $_has(23);
-  @$pb.TagNumber(24)
-  void clearTeachingLanguage() => $_clearField(24);
-
-  /// 授業内容とスケジュール。
-  @$pb.TagNumber(25)
-  $core.String get contentsAndSchedule => $_getSZ(24);
-  @$pb.TagNumber(25)
-  set contentsAndSchedule($core.String value) => $_setString(24, value);
-  @$pb.TagNumber(25)
-  $core.bool hasContentsAndSchedule() => $_has(24);
-  @$pb.TagNumber(25)
-  void clearContentsAndSchedule() => $_clearField(25);
+  @$pb.TagNumber(27)
+  $core.String get teachingLanguage => $_getSZ(26);
+  @$pb.TagNumber(27)
+  set teachingLanguage($core.String value) => $_setString(26, value);
+  @$pb.TagNumber(27)
+  $core.bool hasTeachingLanguage() => $_has(26);
+  @$pb.TagNumber(27)
+  void clearTeachingLanguage() => $_clearField(27);
 
   /// 授業・試験の形式。
-  @$pb.TagNumber(26)
-  $core.String get teachingAndExamForm => $_getSZ(25);
-  @$pb.TagNumber(26)
-  set teachingAndExamForm($core.String value) => $_setString(25, value);
-  @$pb.TagNumber(26)
-  $core.bool hasTeachingAndExamForm() => $_has(25);
-  @$pb.TagNumber(26)
-  void clearTeachingAndExamForm() => $_clearField(26);
+  @$pb.TagNumber(28)
+  $core.String get teachingAndExamForm => $_getSZ(27);
+  @$pb.TagNumber(28)
+  set teachingAndExamForm($core.String value) => $_setString(27, value);
+  @$pb.TagNumber(28)
+  $core.bool hasTeachingAndExamForm() => $_has(27);
+  @$pb.TagNumber(28)
+  void clearTeachingAndExamForm() => $_clearField(28);
 
-  /// DSOP 対象科目。
-  @$pb.TagNumber(27)
-  $core.String get dsopSubject => $_getSZ(26);
-  @$pb.TagNumber(27)
-  set dsopSubject($core.String value) => $_setString(26, value);
-  @$pb.TagNumber(27)
-  $core.bool hasDsopSubject() => $_has(26);
-  @$pb.TagNumber(27)
-  void clearDsopSubject() => $_clearField(27);
+  /// 授業内容とスケジュール。
+  @$pb.TagNumber(29)
+  $core.String get contentsAndSchedule => $_getSZ(28);
+  @$pb.TagNumber(29)
+  set contentsAndSchedule($core.String value) => $_setString(28, value);
+  @$pb.TagNumber(29)
+  $core.bool hasContentsAndSchedule() => $_has(28);
+  @$pb.TagNumber(29)
+  void clearContentsAndSchedule() => $_clearField(29);
+
+  /// (E)Course outline。
+  @$pb.TagNumber(30)
+  $core.String get enSummary => $_getSZ(29);
+  @$pb.TagNumber(30)
+  set enSummary($core.String value) => $_setString(29, value);
+  @$pb.TagNumber(30)
+  $core.bool hasEnSummary() => $_has(29);
+  @$pb.TagNumber(30)
+  void clearEnSummary() => $_clearField(30);
+
+  /// (E)Course Objectives。
+  @$pb.TagNumber(31)
+  $core.String get enLearningOutcomes => $_getSZ(30);
+  @$pb.TagNumber(31)
+  set enLearningOutcomes($core.String value) => $_setString(30, value);
+  @$pb.TagNumber(31)
+  $core.bool hasEnLearningOutcomes() => $_has(30);
+  @$pb.TagNumber(31)
+  void clearEnLearningOutcomes() => $_clearField(31);
+
+  /// (E)Course Schedule。
+  @$pb.TagNumber(32)
+  $core.String get enContentsAndSchedule => $_getSZ(31);
+  @$pb.TagNumber(32)
+  set enContentsAndSchedule($core.String value) => $_setString(31, value);
+  @$pb.TagNumber(32)
+  $core.bool hasEnContentsAndSchedule() => $_has(31);
+  @$pb.TagNumber(32)
+  void clearEnContentsAndSchedule() => $_clearField(32);
+
+  /// (E)Assessment。
+  @$pb.TagNumber(33)
+  $core.String get enEvaluationMethod => $_getSZ(32);
+  @$pb.TagNumber(33)
+  set enEvaluationMethod($core.String value) => $_setString(32, value);
+  @$pb.TagNumber(33)
+  $core.bool hasEnEvaluationMethod() => $_has(32);
+  @$pb.TagNumber(33)
+  void clearEnEvaluationMethod() => $_clearField(33);
+
+  /// (E)Language of Instruction。
+  @$pb.TagNumber(34)
+  $core.String get enTeachingLanguage => $_getSZ(33);
+  @$pb.TagNumber(34)
+  set enTeachingLanguage($core.String value) => $_setString(33, value);
+  @$pb.TagNumber(34)
+  $core.bool hasEnTeachingLanguage() => $_has(33);
+  @$pb.TagNumber(34)
+  void clearEnTeachingLanguage() => $_clearField(34);
+
+  /// (E)Requirements for registration。
+  @$pb.TagNumber(35)
+  $core.String get enPrerequisites => $_getSZ(34);
+  @$pb.TagNumber(35)
+  set enPrerequisites($core.String value) => $_setString(34, value);
+  @$pb.TagNumber(35)
+  $core.bool hasEnPrerequisites() => $_has(34);
+  @$pb.TagNumber(35)
+  void clearEnPrerequisites() => $_clearField(35);
+
+  /// (E)Prior/Post Assignment。
+  @$pb.TagNumber(36)
+  $core.String get enPrePostLearning => $_getSZ(35);
+  @$pb.TagNumber(36)
+  set enPrePostLearning($core.String value) => $_setString(35, value);
+  @$pb.TagNumber(36)
+  $core.bool hasEnPrePostLearning() => $_has(35);
+  @$pb.TagNumber(36)
+  void clearEnPrePostLearning() => $_clearField(36);
+
+  /// (E)Textbooks。
+  @$pb.TagNumber(37)
+  $core.String get enTextbooks => $_getSZ(36);
+  @$pb.TagNumber(37)
+  set enTextbooks($core.String value) => $_setString(36, value);
+  @$pb.TagNumber(37)
+  $core.bool hasEnTextbooks() => $_has(36);
+  @$pb.TagNumber(37)
+  void clearEnTextbooks() => $_clearField(37);
+
+  /// (E)Note。
+  @$pb.TagNumber(38)
+  $core.String get enNotes => $_getSZ(37);
+  @$pb.TagNumber(38)
+  set enNotes($core.String value) => $_setString(37, value);
+  @$pb.TagNumber(38)
+  $core.bool hasEnNotes() => $_has(37);
+  @$pb.TagNumber(38)
+  void clearEnNotes() => $_clearField(38);
+
+  /// (E)Type of class and exam。
+  @$pb.TagNumber(39)
+  $core.String get enTeachingAndExamForm => $_getSZ(38);
+  @$pb.TagNumber(39)
+  set enTeachingAndExamForm($core.String value) => $_setString(38, value);
+  @$pb.TagNumber(39)
+  $core.bool hasEnTeachingAndExamForm() => $_has(38);
+  @$pb.TagNumber(39)
+  void clearEnTeachingAndExamForm() => $_clearField(39);
+
+  /// ディプロマポリシー。
+  @$pb.TagNumber(40)
+  $core.String get diplomaPolicies => $_getSZ(39);
+  @$pb.TagNumber(40)
+  set diplomaPolicies($core.String value) => $_setString(39, value);
+  @$pb.TagNumber(40)
+  $core.bool hasDiplomaPolicies() => $_has(39);
+  @$pb.TagNumber(40)
+  void clearDiplomaPolicies() => $_clearField(40);
+
+  /// ディプロマポリシーとの対応（例: `DP2,DP4`）。
+  @$pb.TagNumber(41)
+  $core.String get diplomaPolicyCorrespondence => $_getSZ(40);
+  @$pb.TagNumber(41)
+  set diplomaPolicyCorrespondence($core.String value) => $_setString(40, value);
+  @$pb.TagNumber(41)
+  $core.bool hasDiplomaPolicyCorrespondence() => $_has(40);
+  @$pb.TagNumber(41)
+  void clearDiplomaPolicyCorrespondence() => $_clearField(41);
 }
 
 /// 科目。
@@ -842,37 +1030,37 @@ class ListSubjectsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListSubjectsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'app.v1'),
       createEmptyInstance: ListSubjectsRequest.$_createMessage)
-    ..aOS(3, _omitFieldNames ? '' : 'query')
-    ..pc<$1.Grade>(4, _omitFieldNames ? '' : 'grades', $pb.PbFieldType.KE,
+    ..aOS(1, _omitFieldNames ? '' : 'query')
+    ..pc<$1.Grade>(2, _omitFieldNames ? '' : 'grades', $pb.PbFieldType.KE,
         valueOf: $1.Grade.valueOf,
         enumValues: $1.Grade.values,
         defaultEnumValue: $1.Grade.GRADE_UNSPECIFIED)
-    ..pc<$1.Course>(5, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.KE,
+    ..pc<$1.Course>(3, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.KE,
         valueOf: $1.Course.valueOf,
         enumValues: $1.Course.values,
         defaultEnumValue: $1.Course.COURSE_UNSPECIFIED)
-    ..pc<$1.Class>(6, _omitFieldNames ? '' : 'classes', $pb.PbFieldType.KE,
+    ..pc<$1.Class>(4, _omitFieldNames ? '' : 'classes', $pb.PbFieldType.KE,
         valueOf: $1.Class.valueOf,
         enumValues: $1.Class.values,
         defaultEnumValue: $1.Class.CLASS_UNSPECIFIED)
     ..pc<SubjectClassification>(
-        7, _omitFieldNames ? '' : 'classifications', $pb.PbFieldType.KE,
+        5, _omitFieldNames ? '' : 'classifications', $pb.PbFieldType.KE,
         valueOf: SubjectClassification.valueOf,
         enumValues: SubjectClassification.values,
         defaultEnumValue:
             SubjectClassification.SUBJECT_CLASSIFICATION_UNSPECIFIED)
     ..pc<SubjectSemester>(
-        8, _omitFieldNames ? '' : 'semesters', $pb.PbFieldType.KE,
+        6, _omitFieldNames ? '' : 'semesters', $pb.PbFieldType.KE,
         valueOf: SubjectSemester.valueOf,
         enumValues: SubjectSemester.values,
         defaultEnumValue: SubjectSemester.SUBJECT_SEMESTER_UNSPECIFIED)
     ..pc<SubjectRequirementType>(
-        9, _omitFieldNames ? '' : 'requirementTypes', $pb.PbFieldType.KE,
+        7, _omitFieldNames ? '' : 'requirementTypes', $pb.PbFieldType.KE,
         valueOf: SubjectRequirementType.valueOf,
         enumValues: SubjectRequirementType.values,
         defaultEnumValue:
             SubjectRequirementType.SUBJECT_REQUIREMENT_TYPE_UNSPECIFIED)
-    ..pc<SubjectCulturalSubjectCategory>(10,
+    ..pc<SubjectCulturalSubjectCategory>(8,
         _omitFieldNames ? '' : 'culturalSubjectCategories', $pb.PbFieldType.KE,
         valueOf: SubjectCulturalSubjectCategory.valueOf,
         enumValues: SubjectCulturalSubjectCategory.values,
@@ -904,41 +1092,41 @@ class ListSubjectsRequest extends $pb.GeneratedMessage {
   static ListSubjectsRequest? _defaultInstance;
 
   /// 検索ワード。空文字の場合は絞り込まない。
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $core.String get query => $_getSZ(0);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   set query($core.String value) => $_setString(0, value);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(1)
   $core.bool hasQuery() => $_has(0);
-  @$pb.TagNumber(3)
-  void clearQuery() => $_clearField(3);
+  @$pb.TagNumber(1)
+  void clearQuery() => $_clearField(1);
 
   /// 学年。空の場合は絞り込まない。
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(2)
   $pb.PbList<$1.Grade> get grades => $_getList(1);
 
   /// コース。大学院の場合は大学院コースに読み替える。空の場合は絞り込まない。
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(3)
   $pb.PbList<$1.Course> get courses => $_getList(2);
 
   /// クラス。大学院の学年を指定した場合は指定できない。空の場合は絞り込まない。
-  @$pb.TagNumber(6)
+  @$pb.TagNumber(4)
   $pb.PbList<$1.Class> get classes => $_getList(3);
 
   /// 科目カテゴリ（学部: 専門・教養、大学院: 専門・研究指導）。空の場合は絞り込まない。
-  @$pb.TagNumber(7)
+  @$pb.TagNumber(5)
   $pb.PbList<SubjectClassification> get classifications => $_getList(4);
 
   /// 開講時期。空の場合は絞り込まない。
-  @$pb.TagNumber(8)
+  @$pb.TagNumber(6)
   $pb.PbList<SubjectSemester> get semesters => $_getList(5);
 
   /// 必修・選択・選択必修。空の場合は絞り込まない。
-  @$pb.TagNumber(9)
+  @$pb.TagNumber(7)
   $pb.PbList<SubjectRequirementType> get requirementTypes => $_getList(6);
 
   /// 教養科目カテゴリ。空の場合は絞り込まない。
-  @$pb.TagNumber(10)
+  @$pb.TagNumber(8)
   $pb.PbList<SubjectCulturalSubjectCategory> get culturalSubjectCategories =>
       $_getList(7);
 }
