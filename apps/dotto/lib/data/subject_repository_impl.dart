@@ -148,7 +148,6 @@ final class SubjectRepositoryImpl implements SubjectRepository {
           notes: syllabus.notes,
           keywords: syllabus.keywords,
           targetCourses: syllabus.targetCourses,
-          targetAreas: syllabus.targetAreas,
           classifications: syllabus.classifications,
           teachingLanguage: syllabus.teachingLanguage,
           contentsAndSchedule: syllabus.contentsAndSchedule,

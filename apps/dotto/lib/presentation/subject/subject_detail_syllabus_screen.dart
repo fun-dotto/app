@@ -92,12 +92,6 @@ final class SubjectDetailSyllabusScreen extends StatelessWidget {
             Text(syllabus.targetCourses),
             const Divider(height: 0),
             Text(
-              context.subjectL10n.subjectTargetAreas,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(syllabus.targetAreas),
-            const Divider(height: 0),
-            Text(
               context.subjectL10n.subjectClassificationPrompt,
               style: Theme.of(context).textTheme.titleMedium,
             ),
