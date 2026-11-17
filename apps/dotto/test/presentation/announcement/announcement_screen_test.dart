@@ -3,8 +3,8 @@ import 'package:dotto/foundation/log/logger.dart';
 import 'package:dotto/presentation/announcement/announcement_detail_screen.dart';
 import 'package:dotto/presentation/announcement/announcement_screen.dart';
 import 'package:dotto/presentation/common/error_view.dart';
-import 'package:dotto_app_api/app/v1/announcement.connect.spec.dart';
-import 'package:dotto_app_api/app/v1/announcement.pb.dart' as api;
+import 'package:dotto_app_api/app/v1/article.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/article.pb.dart' as api;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -17,14 +17,14 @@ import '../../helpers/fake_url_launcher.dart';
 
 FakeAppApiTransport _transport() => FakeAppApiTransport()
   ..on(
-    AnnouncementService.listAnnouncements,
-    (_) => api.ListAnnouncementsResponse(
-      announcements: [
-        api.Announcement(
+    ArticleService.listArticles,
+    (_) => api.ListArticlesResponse(
+      articles: [
+        api.Article(
           id: '1',
           title: '休講のお知らせ',
           url: 'https://example.com/1',
-          availableFrom: Timestamp.fromDateTime(DateTime.utc(2026, 4)),
+          publishTime: Timestamp.fromDateTime(DateTime.utc(2026, 4)),
         ),
       ],
     ),
@@ -67,7 +67,7 @@ void main() {
       tester,
       const AnnouncementScreen(),
       transport: FakeAppApiTransport()
-        ..fail(AnnouncementService.listAnnouncements),
+        ..fail(ArticleService.listArticles),
     );
 
     expect(find.byType(ErrorView), findsOneWidget);
@@ -97,7 +97,7 @@ void main() {
       tester,
       const AnnouncementDetailScreen(id: '1'),
       transport: FakeAppApiTransport()
-        ..fail(AnnouncementService.listAnnouncements),
+        ..fail(ArticleService.listArticles),
     );
 
     expect(find.byType(ErrorView), findsOneWidget);
