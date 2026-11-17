@@ -10,7 +10,6 @@ import 'package:dotto/presentation/course/course_registration_state.dart';
 import 'package:dotto/presentation/course/select_course_screen.dart';
 import 'package:dotto_design_system/component/content.dart';
 import 'package:dotto_design_system/component/dotto_app_bar.dart';
-import 'package:dotto_design_system/style/layout.dart';
 import 'package:dotto_design_system/style/primitive_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -33,12 +32,18 @@ final class CourseRegistrationScreen extends HookConsumerWidget {
           (AppLocalizations.of(context) ?? AppLocalizationsJa())
               .courseRegistration,
         ),
-        bottom: TabBar(
-          dividerColor: Colors.transparent,
-          controller: tabController,
-          tabs: TimetableSemester.values
-              .map((e) => Tab(text: e.label))
-              .toList(),
+        // タブも下の時間割と同じ幅に揃える。
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(kTextTabBarHeight),
+          child: DottoContentPadding(
+            child: TabBar(
+              dividerColor: Colors.transparent,
+              controller: tabController,
+              tabs: TimetableSemester.values
+                  .map((e) => Tab(text: e.label))
+                  .toList(),
+            ),
+          ),
         ),
       ),
       body: switch (state) {
@@ -75,7 +80,6 @@ final class _CourseRegistrationSkeleton extends StatelessWidget {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: DottoContentPadding(
-        layout: DottoContentLayout.singleWide,
         vertical: 8,
         child: Table(
           columnWidths: {
@@ -171,7 +175,6 @@ final class _PersonalWeeklyTimetable extends HookConsumerWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.zero.withBottomBarInset(context),
         child: DottoContentPadding(
-          layout: DottoContentLayout.singleWide,
           vertical: 8,
           child: Table(
             columnWidths: {
