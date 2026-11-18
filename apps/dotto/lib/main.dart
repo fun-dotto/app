@@ -25,6 +25,19 @@ Future<void> main() async {
     options: FlavoredFirebaseOptions.currentPlatform,
   );
 
+  // Firebase App Check
+  // 他の Firebase SDK がトークンを要求する前に有効化する。
+  // activate() 前にトークンが要求されると、プラグイン既定の DeviceCheck で
+  // 取得を試みて失敗し、SDK のバックオフ (Too many attempts) に入ってしまう。
+  await FirebaseAppCheck.instance.activate(
+    providerApple: kReleaseMode
+        ? const AppleAppAttestProvider()
+        : const AppleDebugProvider(),
+    providerAndroid: kReleaseMode
+        ? const AndroidPlayIntegrityProvider()
+        : const AndroidDebugProvider(),
+  );
+
   // Firebase Crashlytics
   // Debugモードではクラッシュレポートを送信しない
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
@@ -40,16 +53,6 @@ Future<void> main() async {
     );
     return true;
   };
-
-  // Firebase App Check
-  await FirebaseAppCheck.instance.activate(
-    providerApple: kReleaseMode
-        ? const AppleAppAttestProvider()
-        : const AppleDebugProvider(),
-    providerAndroid: kReleaseMode
-        ? const AndroidPlayIntegrityProvider()
-        : const AndroidDebugProvider(),
-  );
 
   // Firebase Authentication
   await GoogleSignIn.instance.initialize();
