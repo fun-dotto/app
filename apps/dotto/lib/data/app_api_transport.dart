@@ -6,12 +6,29 @@ import 'package:connectrpc/protobuf.dart' as connect_protobuf;
 import 'package:connectrpc/protocol/connect.dart' as connect_protocol;
 import 'package:dotto/foundation/config/environment_configs.dart';
 import 'package:dotto/foundation/log/logger.dart';
+import 'package:dotto_app_api/app/v1/course_registration.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/fcm_token.connect.spec.dart';
+import 'package:dotto_app_api/app/v1/user.connect.spec.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_api_transport.g.dart';
+
+/// App Check のリプレイ保護を有効にする RPC。
+///
+/// これらの RPC では使い捨て (limited-use) トークンを送信し、
+/// サーバー側で `consume: true` を指定して検証・消費する。
+/// limited-use トークンは毎回 attestation を行い Provider のクォータを消費するため、
+/// 状態を変更する RPC のみに限定している。
+@visibleForTesting
+final Set<String> replayProtectedProcedures = {
+  CourseRegistrationService.createCourseRegistration.procedure,
+  CourseRegistrationService.deleteCourseRegistration.procedure,
+  FcmTokenService.registerFcmToken.procedure,
+  UserService.updateUser.procedure,
+};
 
 /// app-api (Connect RPC) への Transport。
 @Riverpod(keepAlive: true)
@@ -25,7 +42,10 @@ connect.Transport appApiTransport(Ref ref) {
     return (request) async {
       debugPrint('Request: ${request.spec.procedure}');
       try {
-        final appCheckToken = await FirebaseAppCheck.instance.getToken();
+        final appCheckToken =
+            replayProtectedProcedures.contains(request.spec.procedure)
+            ? await FirebaseAppCheck.instance.getLimitedUseToken()
+            : await FirebaseAppCheck.instance.getToken();
         if (appCheckToken != null) {
           request.headers['X-Firebase-AppCheck'] = 'Bearer $appCheckToken';
         }
