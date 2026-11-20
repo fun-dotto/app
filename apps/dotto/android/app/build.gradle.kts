@@ -120,7 +120,7 @@ dependencies {
     implementation("com.google.firebase:firebase-appcheck-debug:18.0.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity:18.0.0")
     implementation("androidx.window:window:1.5.1")
-    implementation("androidx.window:window-java:1.3.0")
+    implementation("androidx.window:window-java:1.5.1")
 
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
