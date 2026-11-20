@@ -9,6 +9,12 @@
   },
   "packageRules": [
     {
+      "description": "Wait for workspace dependency resolution before opening Dart dependency PRs",
+      "matchManagers": ["pub"],
+      "prCreation": "status-success",
+      "internalChecksAsSuccess": false
+    },
+    {
       "groupName": "firebase",
       "matchManagers": ["pub"],
       "matchPackageNames": [

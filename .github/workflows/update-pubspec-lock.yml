@@ -1,23 +1,49 @@
 name: Update pubspec.lock
 
 on:
+  push:
+    branches:
+      - 'renovate/**'
+    paths:
+      - '**/pubspec.yaml'
+      - '**/pubspec.yml'
+      - pubspec.lock
   pull_request:
     types:
       - opened
       - synchronize
 
 permissions:
-  actions: write
-  contents: write
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  resolve-workspace:
+    name: Resolve pub workspace
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        with:
+          github_token: ${{ github.token }}
+          cache: true
+          working_directory: .
+      - run: flutter pub get
+
   update-lock:
     name: Update pubspec.lock
+    permissions:
+      actions: write
+      contents: write
     if: >-
+      github.event_name == 'pull_request' &&
       github.event.pull_request.user.login == 'renovate[bot]' &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
