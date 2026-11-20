@@ -27,3 +27,21 @@ def ota_release_notes
   commit_message = sh("git", "log", "-1", "--pretty=%B", log: false).strip
   "#{commit_hash}: #{commit_message}"
 end
+
+# 外部サービス(Gradle Plugin Portal / Maven リポジトリ、Firebase App Distribution API など)の
+# 一時的な障害で CI が落ちないよう、ブロックを一定回数までリトライする共通ヘルパー。
+# 恒久的なエラーでも最大 attempts 回は実行されるため、冪等な処理にのみ使う。
+def with_retry(label:, attempts: 3, wait_seconds: 30)
+  attempt = 1
+  begin
+    yield
+  rescue StandardError => e
+    raise if attempt >= attempts
+
+    UI.important("#{label} failed (attempt #{attempt}/#{attempts}): #{e.class}: #{e.message.lines.first&.strip}")
+    UI.important("Retrying in #{wait_seconds * attempt}s...")
+    sleep(wait_seconds * attempt)
+    attempt += 1
+    retry
+  end
+end

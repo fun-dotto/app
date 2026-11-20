@@ -22,20 +22,23 @@ platform :android do
 
   # 指定フレーバーの aab をビルドする
   # Firebase App Distribution で AAB を配信するには、Firebase アプリと Google Play アプリの連携が必要
+  # Gradle が依存解決時に外部リポジトリへアクセスするため、一時的な取得失敗に備えてリトライする
   def build_android_ota_flavor(flavor, build_number)
-    sh(
-      'melos',
-      'exec',
-      '--scope=dotto',
-      '--',
-      'flutter',
-      'build',
-      'appbundle',
-      '--release',
-      "--flavor=#{flavor}",
-      "--dart-define-from-file=dart_defines/#{flavor}.json",
-      "--build-number=#{build_number}",
-    )
+    with_retry(label: "flutter build appbundle (#{flavor})") do
+      sh(
+        'melos',
+        'exec',
+        '--scope=dotto',
+        '--',
+        'flutter',
+        'build',
+        'appbundle',
+        '--release',
+        "--flavor=#{flavor}",
+        "--dart-define-from-file=dart_defines/#{flavor}.json",
+        "--build-number=#{build_number}",
+      )
+    end
   end
 
   # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、AABをビルドする
@@ -43,9 +46,9 @@ platform :android do
     config = ANDROID_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
 
-    latest_release = firebase_app_distribution_get_latest_release(
-      app: firebase_app_id,
-    )
+    latest_release = with_retry(label: "firebase_app_distribution_get_latest_release (#{flavor})") do
+      firebase_app_distribution_get_latest_release(app: firebase_app_id)
+    end
     build_number = latest_release.nil? ? 1 : latest_release[:buildVersion].to_i + 1
 
     build_android_ota_flavor(flavor, build_number)
@@ -53,13 +56,15 @@ platform :android do
 
   def distribute_android_ota_flavor(flavor)
     config = ANDROID_OTA_FLAVORS.fetch(flavor)
-    firebase_app_distribution(
-      app: ENV[config[:firebase_app_id_env]],
-      android_artifact_type: "AAB",
-      android_artifact_path: "apps/dotto/build/app/outputs/bundle/#{flavor}Release/app-#{flavor}-release.aab",
-      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-      release_notes: ota_release_notes,
-    )
+    with_retry(label: "firebase_app_distribution (Android #{flavor})") do
+      firebase_app_distribution(
+        app: ENV[config[:firebase_app_id_env]],
+        android_artifact_type: "AAB",
+        android_artifact_path: "apps/dotto/build/app/outputs/bundle/#{flavor}Release/app-#{flavor}-release.aab",
+        groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+        release_notes: ota_release_notes,
+      )
+    end
   end
 
   desc "Build OTA (single flavor)"

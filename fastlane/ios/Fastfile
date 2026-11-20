@@ -194,9 +194,9 @@ platform :ios do
     config = IOS_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
 
-    latest_release = firebase_app_distribution_get_latest_release(
-      app: firebase_app_id,
-    )
+    latest_release = with_retry(label: "firebase_app_distribution_get_latest_release (#{flavor})") do
+      firebase_app_distribution_get_latest_release(app: firebase_app_id)
+    end
     if latest_release.nil?
       reset_build_number
     else
@@ -223,12 +223,14 @@ platform :ios do
     flavor = options.fetch(:flavor)
     config = IOS_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
-    release = firebase_app_distribution(
-      app: firebase_app_id,
-      ipa_path: "build/dotto-#{flavor}.ipa",
-      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-      release_notes: ota_release_notes,
-    )
+    release = with_retry(label: "firebase_app_distribution (iOS #{flavor})") do
+      firebase_app_distribution(
+        app: firebase_app_id,
+        ipa_path: "build/dotto-#{flavor}.ipa",
+        groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+        release_notes: ota_release_notes,
+      )
+    end
     append_ota_result(platform_label: "iOS", flavor: flavor, release: release)
   end
 
@@ -241,12 +243,14 @@ platform :ios do
     prepare_ios_ota_flavor(flavor)
     config = IOS_OTA_FLAVORS.fetch(flavor)
     firebase_app_id = ENV[config[:firebase_app_id_env]]
-    release = firebase_app_distribution(
-      app: firebase_app_id,
-      ipa_path: "build/dotto-#{flavor}.ipa",
-      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-      release_notes: ota_release_notes,
-    )
+    release = with_retry(label: "firebase_app_distribution (iOS #{flavor})") do
+      firebase_app_distribution(
+        app: firebase_app_id,
+        ipa_path: "build/dotto-#{flavor}.ipa",
+        groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+        release_notes: ota_release_notes,
+      )
+    end
     reset_build_number
     append_ota_result(platform_label: "iOS", flavor: flavor, release: release)
   end
@@ -260,12 +264,14 @@ platform :ios do
     releases = IOS_OTA_FLAVORS.keys.map do |flavor|
       prepare_ios_ota_flavor(flavor)
       config = IOS_OTA_FLAVORS.fetch(flavor)
-      release = firebase_app_distribution(
-        app: ENV[config[:firebase_app_id_env]],
-        ipa_path: "build/dotto-#{flavor}.ipa",
-        groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-        release_notes: ota_release_notes,
-      )
+      release = with_retry(label: "firebase_app_distribution (iOS #{flavor})") do
+        firebase_app_distribution(
+          app: ENV[config[:firebase_app_id_env]],
+          ipa_path: "build/dotto-#{flavor}.ipa",
+          groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+          release_notes: ota_release_notes,
+        )
+      end
       reset_build_number
       [flavor, release]
     end
