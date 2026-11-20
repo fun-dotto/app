@@ -15,7 +15,7 @@ flutter = "3.50.0"
 gcloud = "593.0.0"
 java = "21.0.13+9.0.LTS"
 node = "26.13.1"
-"npm:firebase-tools" = "15.34.1"
+"npm:firebase-tools" = "15.37.0"
 "npm:rulesync" = "43.8.2"
 ruby = "4.0.10"
 
