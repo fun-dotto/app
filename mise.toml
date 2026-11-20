@@ -16,7 +16,7 @@ gcloud = "593.0.0"
 java = "21.0.13+9.0.LTS"
 node = "26.13.1"
 "npm:firebase-tools" = "15.37.0"
-"npm:rulesync" = "43.8.2"
+"npm:rulesync" = "43.9.2"
 ruby = "4.0.10"
 
 [tasks.bootstrap]
