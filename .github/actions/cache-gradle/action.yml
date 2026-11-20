@@ -1,0 +1,21 @@
+name: Cache Gradle
+description: Restore Gradle dependency and wrapper caches for Android builds.
+
+runs:
+  using: composite
+  steps:
+    # Gradle Plugin Portal / Maven リポジトリの一時的な障害でビルドが落ちないよう、
+    # 依存アーティファクトと Gradle ディストリビューションをキャッシュして外部取得を減らす。
+    # Flutter SDK 同梱の Gradle プロジェクト(:gradle)の依存も ~/.gradle に入るため、
+    # Flutter のバージョンを管理している mise.toml もキーに含める。
+    - name: Cache Gradle
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: |
+          ~/.gradle/caches/modules-2
+          ~/.gradle/caches/jars-*
+          ~/.gradle/caches/transforms-*
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('mise.toml', 'apps/dotto/android/**/*.gradle*', 'apps/dotto/android/gradle/wrapper/gradle-wrapper.properties', 'apps/dotto/android/gradle.properties', 'pubspec.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
