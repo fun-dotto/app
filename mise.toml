@@ -17,7 +17,7 @@ java = "21.0.13+9.0.LTS"
 node = "26.13.1"
 "npm:firebase-tools" = "15.34.1"
 "npm:rulesync" = "43.8.2"
-ruby = "4.0.9"
+ruby = "4.0.10"
 
 [tasks.bootstrap]
 run = [
