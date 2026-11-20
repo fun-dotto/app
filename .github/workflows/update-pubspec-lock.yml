@@ -7,6 +7,7 @@ on:
       - synchronize
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -16,13 +17,15 @@ concurrency:
 jobs:
   update-lock:
     name: Update pubspec.lock
-    if: github.event.pull_request.user.login == 'renovate[bot]'
+    if: >-
+      github.event.pull_request.user.login == 'renovate[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           github_token: ${{ github.token }}
@@ -30,7 +33,11 @@ jobs:
           working_directory: .
       - name: Update pubspec.lock
         run: flutter pub get
-      - name: Commit pubspec.lock
+      - name: Commit pubspec.lock and trigger CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_IS_DRAFT: ${{ github.event.pull_request.draft }}
         run: |
           if git diff --quiet -- pubspec.lock; then
             echo "pubspec.lock に差分はありません。"
@@ -40,4 +47,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add pubspec.lock
           git commit -m "pubspec.lockを更新"
-          git push
+          git push origin "HEAD:refs/heads/$PR_BRANCH"
+
+          # GITHUB_TOKEN で push したコミットの CI を承認なしで起動する。
+          if [ "$PR_IS_DRAFT" = "false" ]; then
+            gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref "$PR_BRANCH"
+          fi
