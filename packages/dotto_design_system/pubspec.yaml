@@ -8,7 +8,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_hooks: 0.21.4
-  material_ui: 1.1.1
+  material_ui: 1.11.1
   widgetbook: 3.25.0
   widgetbook_annotation: 3.11.0
 
