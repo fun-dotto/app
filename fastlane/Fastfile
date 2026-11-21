@@ -33,9 +33,11 @@ end
 
 desc "Pre-build"
 lane :pre_build do
-  # melos はワークスペースの dev_dependency なので、pub get 後に dart run で呼び出す
+  # melos はワークスペースの dev_dependency なので、pub get 後に dart run で呼び出す。
+  # `melos run` は内部で `melos exec` をシェル経由で起動するため、melos バイナリが
+  # PATH に無い環境 (CI) では失敗する。`melos exec` を直接呼んで回避する。
   sh('flutter', 'pub', 'get')
-  sh('dart', 'run', 'melos', 'run', 'gen:build_runner', '--no-select')
+  sh('dart', 'run', 'melos', 'exec', '--depends-on', 'build_runner', '--concurrency', '8', '--', 'dart run build_runner build --delete-conflicting-outputs')
 end
 
 # apps/dotto で flutter build を実行する共通ヘルパー。
