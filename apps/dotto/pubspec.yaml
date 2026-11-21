@@ -27,7 +27,7 @@ dependencies:
   firebase_storage: 13.6.1
   flutter:
     sdk: flutter
-  flutter_datetime_picker_plus: 2.4.1
+  flutter_datetime_picker_plus: 3.0.1
   flutter_hooks: 0.21.4
   flutter_local_notifications: 22.3.3
   flutter_localizations:
