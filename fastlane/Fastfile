@@ -50,5 +50,7 @@ def flutter_build(target, flavor:, dart_define: flavor, build_number: nil, extra
   ]
   args << "--build-number=#{build_number}" unless build_number.nil?
   args.concat(extra_args)
-  sh("cd apps/dotto && #{Shellwords.join(args)}")
+  # fastlane はレーン内の sh を fastlane/ ディレクトリで実行するため、Fastfile 基準の絶対パスで移動する。
+  app_dir = File.expand_path('../apps/dotto', __dir__)
+  sh("cd #{Shellwords.escape(app_dir)} && #{Shellwords.join(args)}")
 end
