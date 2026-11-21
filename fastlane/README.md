@@ -13,15 +13,17 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-## Android
-
-### android pre_build
+### pre_build
 
 ```sh
-[bundle exec] fastlane android pre_build
+[bundle exec] fastlane pre_build
 ```
 
 Pre-build
+
+----
+
+## Android
 
 ### android build_ota_flavor
 
@@ -147,14 +149,6 @@ Register devices
 ```
 
 Reset build number
-
-### ios pre_build
-
-```sh
-[bundle exec] fastlane ios pre_build
-```
-
-Pre-build
 
 ### ios build_ota_flavor
 

@@ -1,4 +1,7 @@
 require 'fileutils'
+require 'shellwords'
+
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
 
 import('android/Fastfile')
 import('ios/Fastfile')
@@ -26,4 +29,24 @@ def ota_release_notes
   commit_hash = sh("git", "rev-parse", "--short", "HEAD", log: false).strip
   commit_message = sh("git", "log", "-1", "--pretty=%B", log: false).strip
   "#{commit_hash}: #{commit_message}"
+end
+
+desc "Pre-build"
+lane :pre_build do
+  # melos はワークスペースの dev_dependency なので、pub get 後に dart run で呼び出す
+  sh('flutter', 'pub', 'get')
+  sh('dart', 'run', 'melos', 'run', 'gen:build_runner', '--no-select')
+end
+
+# apps/dotto で flutter build を実行する共通ヘルパー。
+# store flavor は prd と同じ本番バックエンドを参照するため dart_define に prd を渡す。
+def flutter_build(target, flavor:, dart_define: flavor, build_number: nil, extra_args: [])
+  args = [
+    'flutter', 'build', target, '--release',
+    "--flavor=#{flavor}",
+    "--dart-define-from-file=dart_defines/#{dart_define}.json",
+  ]
+  args << "--build-number=#{build_number}" unless build_number.nil?
+  args.concat(extra_args)
+  sh("cd apps/dotto && #{Shellwords.join(args)}")
 end
