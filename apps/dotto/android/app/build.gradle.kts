@@ -116,7 +116,7 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation(platform("com.google.firebase:firebase-bom:35.2.0"))
     implementation("com.google.firebase:firebase-appcheck-debug:20.1.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity:20.1.0")
     implementation("androidx.window:window:1.5.1")
