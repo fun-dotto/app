@@ -33,15 +33,18 @@ melos:
       packageFilters:
         dependsOn: "build_runner"
     test:unit_tests:
-      steps:
-        - melos run gen:build_runner
-        - melos exec --concurrency 8 --dir-exists=test --flutter -- "flutter test -j 8 --reporter=failures-only --dart-define=VERBOSE_TEST=false --no-pub"
-    fetch:dart_defines:
-      steps:
-        - rm -rf ./apps/dotto/dart_defines
-        - mkdir -p ./apps/dotto/dart_defines
-        - gcloud secrets versions access latest --secret=app_dart_define_dev --project=swift2023groupc > ./apps/dotto/dart_defines/dev.json
-        - gcloud secrets versions access latest --secret=app_dart_define_stg --project=swift2023groupc > ./apps/dotto/dart_defines/stg.json
-        - gcloud secrets versions access latest --secret=app_dart_define_prd --project=swift2023groupc > ./apps/dotto/dart_defines/prd.json
+      run: flutter test --reporter=failures-only --dart-define=VERBOSE_TEST=false --no-pub
+      exec:
+        concurrency: 2
       packageFilters:
-        scope: dotto
+        dirExists: test
+        flutter: true
+    fetch:dart_defines:
+      run: |
+        rm -rf apps/dotto/dart_defines && mkdir -p apps/dotto/dart_defines
+        pids=""
+        for env in dev stg prd; do
+          gcloud secrets versions access latest --secret=app_dart_define_$env --project=swift2023groupc > apps/dotto/dart_defines/$env.json &
+          pids="$pids $!"
+        done
+        for pid in $pids; do wait $pid || exit 1; done
