@@ -9,6 +9,6 @@
 		<string>applinks:$(SERVICE_HOST)</string>
 	</array>
 	<key>com.apple.developer.devicecheck.appattest-environment</key>
-	<string>development</string>
+	<string>production</string>
 </dict>
 </plist>
