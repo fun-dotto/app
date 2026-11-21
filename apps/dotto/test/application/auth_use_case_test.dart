@@ -57,6 +57,21 @@ void main() {
     expect(logger.events, isEmpty);
   });
 
+  test('サインインに失敗したら原因のエラーを報告する', () async {
+    final logger = RecordingLogger();
+    final container = _container(FakeAuthDataSource(), logger);
+
+    await expectLater(
+      container.read(signInUseCaseProvider)(),
+      throwsA(isA<DomainError>()),
+    );
+    expect(logger.errors, hasLength(1));
+    expect(
+      logger.errors.single.error.toString(),
+      contains('sign in cancelled'),
+    );
+  });
+
   test('サインアウトするとアカウントが外れ、ログアウトを記録する', () async {
     final logger = RecordingLogger();
     final container = _container(
