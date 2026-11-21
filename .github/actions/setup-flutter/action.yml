@@ -1,0 +1,21 @@
+name: Setup Flutter
+description: mise.toml に記載されたバージョンの Flutter をセットアップし、pub の依存関係を取得する。
+
+runs:
+  using: composite
+  steps:
+    - name: Read Flutter version from mise.toml
+      id: version
+      shell: bash
+      # mise.toml をローカル (mise) と CI 共通のバージョンの唯一の情報源とし、ここから読み取る
+      run: echo "flutter=$(sed -n 's/^flutter = "\(.*\)"$/\1/p' mise.toml)" >> "$GITHUB_OUTPUT"
+
+    - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+      with:
+        channel: stable
+        flutter-version: ${{ steps.version.outputs.flutter }}
+        # Flutter SDK と pub キャッシュ (pubspec.lock のハッシュがキー) をキャッシュする
+        cache: true
+
+    - shell: bash
+      run: flutter pub get
