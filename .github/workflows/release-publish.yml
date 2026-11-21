@@ -1,0 +1,42 @@
+name: Publish Release
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    name: Create GitHub Release
+    # Release ワークフローが bump に build 以外を選んだときだけ Release ラベルを付けている
+    if: ${{ github.event.pull_request.merged && startsWith(github.event.pull_request.head.ref, 'release/') && contains(github.event.pull_request.labels.*.name, 'Release') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Generate Dotto Release Manager token
+        id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ vars.DOTTO_RELEASE_MANAGER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.DOTTO_RELEASE_MANAGER_APP_PRIVATE_KEY }}
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          # release/<x.y.z>+<build> からタグ名を作る (ビルド番号は含めない)
+          full_version=${HEAD_REF#release/}
+          version=${full_version%+*}
+          gh release create "v${version}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$MERGE_SHA" \
+            --title "v${version}" \
+            --generate-notes
