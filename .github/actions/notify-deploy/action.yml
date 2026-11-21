@@ -1,0 +1,94 @@
+name: Notify deploy
+description: >-
+  1 つの OS・環境のデプロイ結果を Slack と Release PR に通知する。
+
+inputs:
+  status:
+    description: ジョブの結果 (job.status)
+    required: true
+  os:
+    description: ios / android
+    required: true
+  environment:
+    description: store / prd / stg / dev
+    required: true
+  version:
+    description: pubspec.yaml の version (x.y.z+build)
+    required: true
+  pr-number:
+    description: 結果をコメントする PR
+    required: true
+  ota-result-file:
+    description: fastlane の distribute_ota_flavor が書き出す配信結果 (label\tversion\tURL)
+    required: true
+  slack-url:
+    description: Slack Incoming Webhook の URL
+    required: true
+  github-token:
+    description: PR にコメントするトークン
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Notify Slack and pull request
+      shell: bash
+      env:
+        STATUS: ${{ inputs.status }}
+        OS: ${{ inputs.os }}
+        ENVIRONMENT: ${{ inputs.environment }}
+        VERSION: ${{ inputs.version }}
+        PR_NUMBER: ${{ inputs.pr-number }}
+        OTA_RESULT_FILE: ${{ inputs.ota-result-file }}
+        SLACK_URL: ${{ inputs.slack-url }}
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        case "${OS}/${ENVIRONMENT}" in
+          ios/store) target="TestFlight" ;;
+          android/store) target="Google Play" ;;
+          ios/*) target="iOS (${ENVIRONMENT})" ;;
+          android/*) target="Android (${ENVIRONMENT})" ;;
+        esac
+
+        # OTA 配信に成功した場合のみ、Firebase App Distribution のテスター向け URL が書き出される
+        url=""
+        if [ -f "$OTA_RESULT_FILE" ]; then
+          url=$(cut -f3 "$OTA_RESULT_FILE" | head -n1)
+        fi
+
+        if [ "$STATUS" = "success" ]; then
+          header=":rocket: Dotto ${VERSION} deployed to ${target}!"
+          pr_header=":rocket: **${target}** へのデプロイに成功しました"
+        else
+          header=":x: Dotto ${VERSION} failed to deploy to ${target}."
+          pr_header=":x: **${target}** へのデプロイに失敗しました"
+        fi
+        version_text="$VERSION"
+        if [ -n "$url" ]; then
+          version_text="<${url}|${VERSION}>"
+        fi
+
+        run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+        pr_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${PR_NUMBER}"
+        sha=$(git rev-parse HEAD)
+        commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${sha}"
+
+        payload=$(jq -n \
+          --arg header "$header" \
+          --arg field "*${target}*"$'\n'"${version_text}" \
+          --arg context "<$run_url|GitHub Actions> | PR: <$pr_url|#${PR_NUMBER}> | Commit: <$commit_url|${sha:0:7}>" \
+          '{
+            blocks: [
+              {type:"section", text:{type:"mrkdwn", text:$header}},
+              {type:"section", fields:[{type:"mrkdwn", text:$field}]},
+              {type:"context", elements:[{type:"mrkdwn", text:$context}]}
+            ]
+          }')
+        curl -fsSL -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_URL"
+
+        body="${pr_header}"$'\n\n'"- バージョン: \`${VERSION}\`"$'\n'"- コミット: ${sha}"
+        if [ -n "$url" ]; then
+          body+=$'\n'"- 配信: ${url}"
+        fi
+        body+=$'\n'"- 実行ログ: ${run_url}"
+        gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$body"

@@ -1,0 +1,208 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 上げるバージョン (build はビルド番号のみ上げ、GitHub Release を作らない)
+        type: choice
+        required: true
+        options:
+          - patch
+          - minor
+          - major
+          - build
+      build_number:
+        description: ビルド番号 (省略時は現在の番号 + 1)
+        type: string
+        required: false
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  PUBSPEC_PATH: apps/dotto/pubspec.yaml
+  RELEASE_LABEL: Release
+  # Release PR に投稿する /deploy コマンドの組み合わせ (OS × 環境)。bump が build のときは store を除く
+  DEPLOY_OSES: ios android
+  DEPLOY_ENVIRONMENTS: store prd stg dev
+
+jobs:
+  release:
+    name: Create release PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # GITHUB_TOKEN で作った PR・コメントは他のワークフローを起動しないため、専用 App のトークンを使う
+      - name: Generate Dotto Release Manager token
+        id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ vars.DOTTO_RELEASE_MANAGER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.DOTTO_RELEASE_MANAGER_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Configure git
+        env:
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          user_id=$(gh api "users/${APP_SLUG}[bot]" --jq .id)
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${user_id}+${APP_SLUG}[bot]@users.noreply.github.com"
+
+      - name: Compute next version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+          INPUT_BUILD_NUMBER: ${{ inputs.build_number }}
+        run: |
+          current=$(sed -n 's/^version: *\([0-9.]*+[0-9]*\) *$/\1/p' "$PUBSPEC_PATH")
+          if [ -z "$current" ]; then
+            echo "::error::${PUBSPEC_PATH} の version を x.y.z+build 形式で読み取れません"
+            exit 1
+          fi
+          IFS=. read -r major minor patch <<< "${current%+*}"
+          current_build=${current#*+}
+
+          case "$BUMP" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+            build) ;;
+          esac
+
+          if [ -z "$INPUT_BUILD_NUMBER" ]; then
+            build=$((current_build + 1))
+          elif [[ ! "$INPUT_BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "::error::ビルド番号は数字で指定してください: ${INPUT_BUILD_NUMBER}"
+            exit 1
+          elif [ "$INPUT_BUILD_NUMBER" -le "$current_build" ]; then
+            echo "::error::ビルド番号は現在の番号 (${current_build}) より大きくしてください: ${INPUT_BUILD_NUMBER}"
+            exit 1
+          else
+            build=$INPUT_BUILD_NUMBER
+          fi
+
+          version="${major}.${minor}.${patch}"
+          echo "current=${current}" >> "$GITHUB_OUTPUT"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "build=${build}" >> "$GITHUB_OUTPUT"
+          echo "full=${version}+${build}" >> "$GITHUB_OUTPUT"
+
+      - name: Check existing release
+        env:
+          BUMP: ${{ inputs.bump }}
+          VERSION: ${{ steps.version.outputs.version }}
+          FULL_VERSION: ${{ steps.version.outputs.full }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
+        run: |
+          branches=("release/${FULL_VERSION}")
+          if [ "$SOURCE_BRANCH" != "main" ]; then
+            branches+=("release/${SOURCE_BRANCH}-${FULL_VERSION}")
+          fi
+          for branch in "${branches[@]}"; do
+            if git ls-remote --exit-code --heads origin "$branch" > /dev/null; then
+              echo "::error::ブランチ ${branch} は既に存在します"
+              exit 1
+            fi
+          done
+          if [ "$BUMP" != "build" ] && git ls-remote --exit-code --tags origin "refs/tags/v${VERSION}" > /dev/null; then
+            echo "::error::タグ v${VERSION} は既に存在します"
+            exit 1
+          fi
+
+      - name: Ensure release label
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh label create "$RELEASE_LABEL" --color 5319e7 --description "マージ時に GitHub Release を作成する" --force
+
+      - name: Create release PR
+        id: release-pr
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          BUMP: ${{ inputs.bump }}
+          CURRENT_VERSION: ${{ steps.version.outputs.current }}
+          FULL_VERSION: ${{ steps.version.outputs.full }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
+        run: |
+          branch="release/${FULL_VERSION}"
+          git switch -c "$branch"
+          sed -i "s/^version: .*/version: ${FULL_VERSION}/" "$PUBSPEC_PATH"
+          git commit -am "バージョンを ${FULL_VERSION} に更新"
+          git push origin "$branch"
+
+          label_args=()
+          if [ "$BUMP" != "build" ]; then
+            # マージ時に release-publish.yml が GitHub Release を作る目印
+            label_args=(--label "$RELEASE_LABEL")
+          fi
+          body=$(cat <<EOF
+          バージョンを \`${CURRENT_VERSION}\` から \`${FULL_VERSION}\` に更新します。
+
+          この PR で \`/deploy <ios|android> <store|prd|stg|dev>\` とコメントすると、ビルドとデプロイを行います。
+          EOF
+          )
+          url=$(gh pr create \
+            --base "$SOURCE_BRANCH" \
+            --head "$branch" \
+            --title "Release ${FULL_VERSION}" \
+            --body "$body" \
+            "${label_args[@]}")
+          echo "url=${url}" >> "$GITHUB_OUTPUT"
+
+      - name: Post deploy commands
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_URL: ${{ steps.release-pr.outputs.url }}
+          BUMP: ${{ inputs.bump }}
+        run: |
+          for os in $DEPLOY_OSES; do
+            for environment in $DEPLOY_ENVIRONMENTS; do
+              # ビルド番号だけ上げたリリースはストアに出さず、OTA 配信のみ行う
+              if [ "$BUMP" = "build" ] && [ "$environment" = "store" ]; then
+                continue
+              fi
+              gh pr comment "$PR_URL" --body "/deploy ${os} ${environment}"
+            done
+          done
+
+      - name: Create PR to sync version into main
+        if: ${{ github.ref_name != 'main' }}
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          FULL_VERSION: ${{ steps.version.outputs.full }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
+          RELEASE_PR_URL: ${{ steps.release-pr.outputs.url }}
+        run: |
+          git switch -c "release/${SOURCE_BRANCH}-${FULL_VERSION}" origin/main
+          main_version=$(sed -n 's/^version: *\([0-9.]*+[0-9]*\) *$/\1/p' "$PUBSPEC_PATH")
+
+          # x.y.z+b を x.y.z.b にして sort -V で比較し、main の方が新しければ同期しない
+          newest=$(printf '%s\n%s\n' "${main_version/+/.}" "${FULL_VERSION/+/.}" | sort -V | tail -n1)
+          if [ "${main_version}" = "${FULL_VERSION}" ] || [ "$newest" != "${FULL_VERSION/+/.}" ]; then
+            echo "::notice::main のバージョン (${main_version}) が ${FULL_VERSION} 以上のため、main への同期 PR は作成しません"
+            exit 0
+          fi
+
+          branch="release/${SOURCE_BRANCH}-${FULL_VERSION}"
+          sed -i "s/^version: .*/version: ${FULL_VERSION}/" "$PUBSPEC_PATH"
+          git commit -am "バージョンを ${FULL_VERSION} に更新"
+          git push origin "$branch"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "バージョンを ${FULL_VERSION} に更新" \
+            --body "\`${SOURCE_BRANCH}\` からのリリース (${RELEASE_PR_URL}) のバージョンを main に反映します。"

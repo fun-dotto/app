@@ -1,7 +1,7 @@
 name: dotto
 resolution: workspace
 
-version: 2.2.0+0
+version: 2.2.0+134
 
 environment:
   sdk: 3.14.0

@@ -1,226 +1,116 @@
 name: Deploy
 
+# Release PR に `/deploy <ios|android> <store|prd|stg|dev>` とコメントすると、PR の head をビルドしてデプロイする。
+# issue_comment は既定ブランチのワークフロー定義で動くため、変更は main へのマージ後に反映される。
 on:
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  issue_comment:
+    types: [created]
 
 permissions:
   contents: read
-  id-token: write
 
 defaults:
   run:
     shell: bash
-    working-directory: .
+
+env:
+  # Release ワークフローがコマンドを投稿する App のボットユーザー
+  RELEASE_MANAGER_BOT: dotto-release-manager[bot]
 
 jobs:
-  ios-build:
-    name: Build iOS
-    runs-on: xcode-27
-    timeout-minutes: 60
-    env:
-      APP_STORE_CONNECT_API_KEY_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ID }}
-      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
-      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
-      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Setup Xcode
-        run: xcodes select
-      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
-        with:
-          project_id: swift2023groupc
-          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - name: Generate token to access certificates repository
-        id: app-token
-        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
-        with:
-          client-id: ${{ vars.DOTTO_APPLE_CERTIFICATES_USER_APP_CLIENT_ID }}
-          private-key: ${{ secrets.DOTTO_APPLE_CERTIFICATES_USER_APP_PRIVATE_KEY }}
-          owner: fun-dotto
-          repositories: apple-certificates
-      - name: Set match git basic authorization
-        run: |
-          # GitHub App のインストールトークンを base64 化して match の HTTPS Basic 認証に渡す
-          echo "MATCH_GIT_BASIC_AUTHORIZATION=$(printf 'x-access-token:%s' '${{ steps.app-token.outputs.token }}' | base64 | tr -d '\n')" >> "$GITHUB_ENV"
-      - uses: ./.github/actions/setup-flutter
-      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
-        with:
-          # バージョンは .tool-versions から読み取られる
-          bundler-cache: true
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/Library/Developer/Xcode/DerivedData/Runner-*/SourcePackages
-          key: ${{ runner.os }}-spm-${{ hashFiles('apps/dotto/ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-spm-
-      - uses: ./.github/actions/fetch-config
-      - name: Build iOS
-        run: bundle exec fastlane ios build_production
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: production-ipa
-          path: build/dotto.ipa
-          if-no-files-found: error
-          retention-days: 1
-
-  android-build:
-    name: Build Android
+  prepare:
+    name: Parse deploy command
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/deploy ') }}
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write
+    outputs:
+      os: ${{ steps.command.outputs.os }}
+      environment: ${{ steps.command.outputs.environment }}
+      sha: ${{ steps.pr.outputs.sha }}
+      version: ${{ steps.pr.outputs.version }}
+      build: ${{ steps.pr.outputs.build }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
-        with:
-          project_id: swift2023groupc
-          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - uses: ./.github/actions/setup-flutter
-      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
-        with:
-          distribution: temurin
-          java-version-file: .tool-versions
-          cache: gradle
-      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
-        with:
-          # バージョンは .tool-versions から読み取られる
-          bundler-cache: true
-      - uses: ./.github/actions/fetch-config
-      - name: Setup Android keystore
+      - name: Parse command
+        id: command
         env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_RELEASE_KEY_ALIAS: ${{ vars.ANDROID_RELEASE_KEY_ALIAS }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/dotto/android/app/release.jks
-
-          # PKCS12 キーストアではキーパスワード = ストアパスワード固定
-          cat > apps/dotto/android/release.properties <<EOF
-          storeFile=release.jks
-          storePassword=$ANDROID_KEYSTORE_PASSWORD
-          keyAlias=$ANDROID_RELEASE_KEY_ALIAS
-          keyPassword=$ANDROID_KEYSTORE_PASSWORD
-          EOF
-      - name: Build Android
-        run: bundle exec fastlane android build_production
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: production-aab
-          path: apps/dotto/build/app/outputs/bundle/storeRelease/app-store-release.aab
-          if-no-files-found: error
-          retention-days: 1
-
-  ready-to-upload:
-    name: Ready to upload
-    needs: [ios-build, android-build]
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - run: echo "iOS/Android 双方のビルドに成功。ストアへのアップロードを開始します。"
-
-  ios-upload:
-    name: Upload to TestFlight
-    needs: ready-to-upload
-    # TestFlight へのアップロードには Xcode 同梱の iTMSTransporter が必要なため macOS で実行する
-    runs-on: xcode-27
-    timeout-minutes: 60
-    env:
-      APP_STORE_CONNECT_API_KEY_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ID }}
-      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
-      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Setup Xcode
-        run: xcodes select
-      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
-        with:
-          project_id: swift2023groupc
-          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
-        with:
-          # バージョンは .tool-versions から読み取られる
-          bundler-cache: true
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with:
-          name: production-ipa
-          path: build
-      - name: Upload to TestFlight
-        run: bundle exec fastlane ios upload_testflight
-
-  android-upload:
-    name: Upload to Google Play
-    needs: ready-to-upload
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
-        with:
-          project_id: swift2023groupc
-          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
-        with:
-          # バージョンは .tool-versions から読み取られる
-          bundler-cache: true
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with:
-          name: production-aab
-          path: apps/dotto/build/app/outputs/bundle/storeRelease
-      - name: Upload to Google Play
-        run: bundle exec fastlane android upload_google_play
-
-  notify:
-    name: Notify Slack
-    needs: [ios-build, android-build, ios-upload, android-upload]
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - name: Send Slack notification
-        env:
-          SLACK_URL: ${{ secrets.SLACK_URL }}
-          IOS_RESULT: ${{ needs.ios-build.result == 'success' && needs.ios-upload.result == 'success' && 'success' || 'failure' }}
-          ANDROID_RESULT: ${{ needs.android-build.result == 'success' && needs.android-upload.result == 'success' && 'success' || 'failure' }}
-        run: |
-          # ビルドとアップロードの結果をプラットフォームごとに集約して Slack に通知する
-          status_text() {
-            if [ "$1" = "success" ]; then
-              echo ":white_check_mark: Uploaded"
-            else
-              echo ":x: Failed"
-            fi
-          }
-
-          if [ "$IOS_RESULT" = "success" ] && [ "$ANDROID_RESULT" = "success" ]; then
-            header=":rocket: Dotto deployed to TestFlight / Google Play!"
-          else
-            header=":x: Dotto failed to deploy to TestFlight / Google Play."
+          if [[ ! "$COMMENT_BODY" =~ ^/deploy\ (ios|android)\ (store|prd|stg|dev)[[:space:]]*$ ]]; then
+            echo "::error::コマンドの形式が不正です。/deploy <ios|android> <store|prd|stg|dev> で指定してください"
+            exit 1
           fi
-          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          branch_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_REF_NAME}"
-          commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
-          commit_short="${GITHUB_SHA:0:7}"
+          echo "os=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+          echo "environment=${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
 
-          payload=$(jq -n \
-            --arg header "$header" \
-            --arg ios "$(status_text "$IOS_RESULT")" \
-            --arg android "$(status_text "$ANDROID_RESULT")" \
-            --arg context "<$run_url|GitHub Actions> | Branch: <$branch_url|$GITHUB_REF_NAME> | Commit: <$commit_url|$commit_short>" \
-            '{
-              blocks: [
-                {type:"section", text:{type:"mrkdwn", text:$header}},
-                {type:"section", fields:[
-                  {type:"mrkdwn", text:("*TestFlight*\n" + $ios)},
-                  {type:"mrkdwn", text:("*Google Play*\n" + $android)}
-                ]},
-                {type:"context", elements:[{type:"mrkdwn", text:$context}]}
-              ]
-            }')
+      - name: Check commenter permission
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMENTER: ${{ github.event.comment.user.login }}
+        run: |
+          if [ "$COMMENTER" = "$RELEASE_MANAGER_BOT" ]; then
+            exit 0
+          fi
+          # maintain は write、triage は read として返る
+          permission=$(gh api "repos/${GITHUB_REPOSITORY}/collaborators/${COMMENTER}/permission" --jq .permission)
+          if [ "$permission" != "admin" ] && [ "$permission" != "write" ]; then
+            echo "::error::${COMMENTER} には write 以上の権限がないためデプロイできません (${permission})"
+            exit 1
+          fi
 
-          curl -fsSL -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_URL"
+      - name: Resolve pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          pr=$(gh api "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}")
+          head_ref=$(jq -r .head.ref <<< "$pr")
+          head_repo=$(jq -r .head.repo.full_name <<< "$pr")
+          if [[ "$head_ref" != release/* ]]; then
+            echo "::error::デプロイは release/ ブランチの PR からのみ実行できます (${head_ref})"
+            exit 1
+          fi
+          # issue_comment はシークレットを使えるため、フォークのコードはビルドしない
+          if [ "$head_repo" != "$GITHUB_REPOSITORY" ]; then
+            echo "::error::フォークからの PR はデプロイできません (${head_repo})"
+            exit 1
+          fi
+          sha=$(jq -r .head.sha <<< "$pr")
+          full_version=$(gh api "repos/${GITHUB_REPOSITORY}/contents/apps/dotto/pubspec.yaml?ref=${sha}" --jq .content \
+            | base64 --decode | sed -n 's/^version: *\([0-9.]*+[0-9]*\) *$/\1/p')
+          if [ -z "$full_version" ]; then
+            echo "::error::pubspec.yaml の version を読み取れません"
+            exit 1
+          fi
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+          echo "version=${full_version}" >> "$GITHUB_OUTPUT"
+          echo "build=${full_version#*+}" >> "$GITHUB_OUTPUT"
+
+      - name: Acknowledge command
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+        run: gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" -f content=rocket > /dev/null
+
+  deploy:
+    name: Deploy ${{ needs.prepare.outputs.os }} (${{ needs.prepare.outputs.environment }})
+    needs: prepare
+    # 同じ OS・環境・ビルド番号のデプロイは、新しいコマンドで古い実行をキャンセルする
+    concurrency:
+      group: deploy-${{ needs.prepare.outputs.os }}-${{ needs.prepare.outputs.environment }}-${{ needs.prepare.outputs.build }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    uses: ./.github/workflows/deploy-app.yml
+    with:
+      os: ${{ needs.prepare.outputs.os }}
+      environment: ${{ needs.prepare.outputs.environment }}
+      ref: ${{ needs.prepare.outputs.sha }}
+      version: ${{ needs.prepare.outputs.version }}
+      pr-number: ${{ github.event.issue.number }}
+    secrets: inherit

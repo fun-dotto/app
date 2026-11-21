@@ -10,15 +10,10 @@ platform :android do
     ENV[ANDROID_OTA_FIREBASE_APP_ID_ENVS.fetch(flavor)]
   end
 
-  # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、AABをビルドする
+  # 指定フレーバーの AAB をビルドする
   # Firebase App Distribution で AAB を配信するには、Firebase アプリと Google Play アプリの連携が必要
   def prepare_android_ota_flavor(flavor)
-    latest_release = firebase_app_distribution_get_latest_release(
-      app: android_ota_firebase_app_id(flavor),
-    )
-    build_number = latest_release.nil? ? 1 : latest_release[:buildVersion].to_i + 1
-
-    flutter_build('appbundle', flavor: flavor, build_number: build_number)
+    flutter_build('appbundle', flavor: flavor)
   end
 
   def distribute_android_ota_flavor(flavor)
@@ -73,19 +68,11 @@ platform :android do
   ANDROID_PRODUCTION_FLAVOR = "store"
   ANDROID_PRODUCTION_AAB_PATH = "apps/dotto/build/app/outputs/bundle/#{ANDROID_PRODUCTION_FLAVOR}Release/app-#{ANDROID_PRODUCTION_FLAVOR}-release.aab"
 
-  # バージョンコードを Google Play の production トラック基準に揃え、AABをビルドする
-  # json_key を渡さないことで supply は ADC (GOOGLE_APPLICATION_CREDENTIALS) を利用する。
-  # CI では Workload Identity 連携の認証情報が入るため、サービスアカウント鍵は不要
+  # Google Play 向けの AAB をビルドする
   # flavor を省略すると Gradle が全 flavor をビルドし、成果物が
   # bundle/<flavor>Release/ 配下に出るため flutter が AAB を見つけられない
   def prepare_android_production
-    latest_version_code = google_play_track_version_codes.first
-    flutter_build(
-      'appbundle',
-      flavor: ANDROID_PRODUCTION_FLAVOR,
-      dart_define: 'prd',
-      build_number: latest_version_code.to_i + 1,
-    )
+    flutter_build('appbundle', flavor: ANDROID_PRODUCTION_FLAVOR, dart_define: 'prd')
   end
 
   desc "Build Production"
@@ -94,6 +81,8 @@ platform :android do
     prepare_android_production
   end
 
+  # json_key を渡さないことで supply は ADC (GOOGLE_APPLICATION_CREDENTIALS) を利用する。
+  # CI では Workload Identity 連携の認証情報が入るため、サービスアカウント鍵は不要
   desc "Upload to Google Play"
   lane :upload_google_play do
     upload_to_play_store(
