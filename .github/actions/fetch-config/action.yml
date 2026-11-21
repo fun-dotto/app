@@ -1,0 +1,49 @@
+name: Fetch config
+description: >-
+  dart_defines と Firebase 設定ファイルを取得する。
+  google-github-actions/auth と Setup Flutter が前提。
+
+runs:
+  using: composite
+  steps:
+    - name: Read tool versions from mise.toml
+      id: versions
+      shell: bash
+      run: |
+        version() { sed -n "s/^$1 = \"\(.*\)\"$/\1/p" mise.toml; }
+        {
+          echo "gcloud=$(version gcloud)"
+          echo "firebase-tools=$(version '"npm:firebase-tools"')"
+        } >> "$GITHUB_OUTPUT"
+
+    - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
+      with:
+        version: ${{ steps.versions.outputs.gcloud }}
+
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version-file: .tool-versions
+
+    - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-npm-firebase-tools-${{ steps.versions.outputs.firebase-tools }}
+
+    - name: Install Firebase CLI
+      shell: bash
+      run: npm install --global "firebase-tools@${{ steps.versions.outputs.firebase-tools }}"
+
+    - name: Fetch dart defines
+      shell: bash
+      run: |
+        mkdir -p apps/dotto/dart_defines
+        pids=()
+        for env in dev stg prd; do
+          gcloud secrets versions access latest --secret="app_dart_define_$env" --project=swift2023groupc > "apps/dotto/dart_defines/$env.json" &
+          pids+=($!)
+        done
+        for pid in "${pids[@]}"; do wait "$pid"; done
+
+    - name: Fetch Firebase config
+      shell: bash
+      run: dart run scripts/fetch_firebase_config.dart

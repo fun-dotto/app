@@ -10,11 +10,8 @@ buf = "1.75.0"
 bun = "1.4.5"
 flutter = "3.50.0"
 gcloud = "593.0.0"
-java = "21.0.13+9.0.LTS"
-node = "26.13.1"
 "npm:firebase-tools" = "15.37.0"
 "npm:rulesync" = "43.11.0"
-ruby = "4.0.10"
 
 [tasks.bootstrap]
 description = "依存関係の取得と設定ファイルの取得を行う"

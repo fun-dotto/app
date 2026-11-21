@@ -43,7 +43,8 @@ jobs:
           project_id: swift2023groupc
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - uses: ./.github/actions/setup-ci
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/fetch-config
       - name: Generate code
         run: |
           for dir in apps/dotto packages/dotto_design_system; do
@@ -67,7 +68,8 @@ jobs:
           project_id: swift2023groupc
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - uses: ./.github/actions/setup-ci
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/fetch-config
       - name: Generate code
         run: |
           for dir in apps/dotto packages/dotto_design_system; do
