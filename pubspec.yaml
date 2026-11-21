@@ -9,7 +9,7 @@ workspace:
   - packages/dotto_app_api # protobuf
   - packages/dotto_design_system # dotto_design_system
 dev_dependencies:
-  melos: 7.8.1
+  melos: 8.10.1
 
 melos:
   command:
