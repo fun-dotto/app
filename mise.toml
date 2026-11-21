@@ -5,9 +5,6 @@ npm.package_manager = "bun"
 [settings.ruby]
 compile = false
 
-[env]
-_.path = ["{{env.HOME}}/.pub-cache/bin"]
-
 [tools]
 buf = "1.75.0"
 bun = "1.4.5"
@@ -20,17 +17,18 @@ node = "26.13.1"
 ruby = "4.0.10"
 
 [tasks.bootstrap]
-run = [
-  "bundle install",
-  "dart pub global activate melos 7.8.1",
-  "melos bootstrap",
-  { task = "fetch:dart_defines" },
-  { task = "fetch:firebase_config" },
-  { task = "rulesync" },
-]
+description = "依存関係の取得と設定ファイルの取得を行う"
+depends = ["install:gems", "install:pub", "fetch:dart_defines", "fetch:firebase_config", "rulesync"]
+
+[tasks."install:gems"]
+run = "bundle install"
+
+[tasks."install:pub"]
+run = "flutter pub get"
 
 [tasks."fetch:dart_defines"]
-run = "melos run fetch:dart_defines"
+run = "dart run melos run fetch:dart_defines"
+depends = ["install:pub"]
 
 [tasks."fetch:firebase_config"]
 run = "dart run scripts/fetch_firebase_config.dart"
@@ -39,22 +37,24 @@ run = "dart run scripts/fetch_firebase_config.dart"
 run = "rulesync generate"
 
 [tasks."generate:build_runner"]
-run = "melos run gen:build_runner --no-select"
+run = "dart run melos run gen:build_runner --no-select"
+depends = ["install:pub"]
 
 [tasks."watch:build_runner"]
-run = "melos run watch:build_runner --no-select"
+run = "dart run melos run watch:build_runner --no-select"
+depends = ["install:pub"]
 
 [tasks."run:app"]
-run = [
-  { task = "generate:build_runner" },
-  "cd apps/dotto && flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json",
-]
+dir = "apps/dotto"
+depends = ["generate:build_runner"]
+run = "flutter run --flavor dev --dart-define-from-file=dart_defines/dev.json"
+raw = true
 
 [tasks."run:widgetbook"]
-run = [
-  { task = "generate:build_runner" },
-  "cd packages/dotto_design_system && flutter run",
-]
+dir = "packages/dotto_design_system"
+depends = ["generate:build_runner"]
+run = "flutter run"
+raw = true
 
 [tasks.lint]
 run = "dart analyze apps/dotto/ packages/dotto_design_system/ scripts/"
@@ -67,4 +67,4 @@ run = "dart fix --dry-run && find apps/dotto/lib apps/dotto/test packages/dotto_
 
 [tasks.test]
 depends = ["generate:build_runner"]
-run = "melos run test:unit_tests --no-select"
+run = "dart run melos run test:unit_tests --no-select"
