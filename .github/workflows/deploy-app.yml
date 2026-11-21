@@ -1,0 +1,180 @@
+name: Deploy App
+
+# deploy.yml から呼び出し、1 つの OS・環境をビルドしてデプロイする。
+# store は TestFlight / Google Play、prd・stg・dev は Firebase App Distribution へ配信する。
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: ios / android
+        type: string
+        required: true
+      environment:
+        description: store / prd / stg / dev
+        type: string
+        required: true
+      ref:
+        description: ビルドするコミット
+        type: string
+        required: true
+      version:
+        description: pubspec.yaml の version (x.y.z+build)
+        type: string
+        required: true
+      pr-number:
+        description: 結果をコメントする PR
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+env:
+  OTA_RESULT_FILE: ${{ github.workspace }}/ota-result.txt
+  FIREBASE_APP_DISTRIBUTION_GROUPS: ${{ vars.FIREBASE_APP_DISTRIBUTION_GROUPS }}
+  IS_STORE: ${{ inputs.environment == 'store' }}
+
+jobs:
+  ios:
+    name: Deploy iOS (${{ inputs.environment }})
+    if: ${{ inputs.os == 'ios' }}
+    runs-on: xcode-27
+    timeout-minutes: 90
+    env:
+      APP_STORE_CONNECT_API_KEY_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      FIREBASE_APP_ID_IOS_DEV: ${{ vars.FIREBASE_APP_ID_IOS_DEV }}
+      FIREBASE_APP_ID_IOS_STG: ${{ vars.FIREBASE_APP_ID_IOS_STG }}
+      FIREBASE_APP_ID_IOS_PRD: ${{ vars.FIREBASE_APP_ID_IOS_PRD }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Setup Xcode
+        run: xcodes select
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - name: Generate token to access certificates repository
+        id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ vars.DOTTO_APPLE_CERTIFICATES_USER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.DOTTO_APPLE_CERTIFICATES_USER_APP_PRIVATE_KEY }}
+          owner: fun-dotto
+          repositories: apple-certificates
+      - name: Set match git basic authorization
+        run: |
+          # GitHub App のインストールトークンを base64 化して match の HTTPS Basic 認証に渡す
+          echo "MATCH_GIT_BASIC_AUTHORIZATION=$(printf 'x-access-token:%s' '${{ steps.app-token.outputs.token }}' | base64 | tr -d '\n')" >> "$GITHUB_ENV"
+      - uses: ./.github/actions/setup-flutter
+      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
+        with:
+          # バージョンは .tool-versions から読み取られる
+          bundler-cache: true
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData/Runner-*/SourcePackages
+          key: ${{ runner.os }}-spm-${{ hashFiles('apps/dotto/ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+      - uses: ./.github/actions/fetch-config
+      - name: Build and upload to TestFlight
+        if: ${{ env.IS_STORE == 'true' }}
+        run: |
+          bundle exec fastlane ios build_production
+          bundle exec fastlane ios upload_testflight
+      - name: Build and distribute OTA
+        if: ${{ env.IS_STORE != 'true' }}
+        run: |
+          bundle exec fastlane ios build_ota_flavor flavor:${{ inputs.environment }}
+          bundle exec fastlane ios distribute_ota_flavor flavor:${{ inputs.environment }}
+      - uses: ./.github/actions/notify-deploy
+        if: ${{ !cancelled() }}
+        with:
+          status: ${{ job.status }}
+          os: ios
+          environment: ${{ inputs.environment }}
+          version: ${{ inputs.version }}
+          pr-number: ${{ inputs.pr-number }}
+          ota-result-file: ${{ env.OTA_RESULT_FILE }}
+          slack-url: ${{ secrets.SLACK_URL }}
+          github-token: ${{ github.token }}
+
+  android:
+    name: Deploy Android (${{ inputs.environment }})
+    if: ${{ inputs.os == 'android' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      FIREBASE_APP_ID_ANDROID_DEV: ${{ vars.FIREBASE_APP_ID_ANDROID_DEV }}
+      FIREBASE_APP_ID_ANDROID_STG: ${{ vars.FIREBASE_APP_ID_ANDROID_STG }}
+      FIREBASE_APP_ID_ANDROID_PRD: ${{ vars.FIREBASE_APP_ID_ANDROID_PRD }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: swift2023groupc
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: ./.github/actions/setup-flutter
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version-file: .tool-versions
+          cache: gradle
+      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
+        with:
+          # バージョンは .tool-versions から読み取られる
+          bundler-cache: true
+      - uses: ./.github/actions/fetch-config
+      - name: Setup Android keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          # store は本番用、それ以外は OTA 用の鍵で署名する
+          ANDROID_KEY_ALIAS: ${{ inputs.environment == 'store' && vars.ANDROID_RELEASE_KEY_ALIAS || vars.ANDROID_OTA_KEY_ALIAS }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/dotto/android/app/release.jks
+
+          # PKCS12 キーストアではキーパスワード = ストアパスワード固定
+          cat > apps/dotto/android/release.properties <<EOF
+          storeFile=release.jks
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          keyPassword=$ANDROID_KEYSTORE_PASSWORD
+          EOF
+      - name: Build and upload to Google Play
+        if: ${{ env.IS_STORE == 'true' }}
+        run: |
+          bundle exec fastlane android build_production
+          bundle exec fastlane android upload_google_play
+      - name: Build and distribute OTA
+        if: ${{ env.IS_STORE != 'true' }}
+        run: |
+          bundle exec fastlane android build_ota_flavor flavor:${{ inputs.environment }}
+          bundle exec fastlane android distribute_ota_flavor flavor:${{ inputs.environment }}
+      - uses: ./.github/actions/notify-deploy
+        if: ${{ !cancelled() }}
+        with:
+          status: ${{ job.status }}
+          os: android
+          environment: ${{ inputs.environment }}
+          version: ${{ inputs.version }}
+          pr-number: ${{ inputs.pr-number }}
+          ota-result-file: ${{ env.OTA_RESULT_FILE }}
+          slack-url: ${{ secrets.SLACK_URL }}
+          github-token: ${{ github.token }}
