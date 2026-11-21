@@ -29,6 +29,8 @@ Future<void> main() async {
   // 他の Firebase SDK がトークンを要求する前に有効化する。
   // activate() 前にトークンが要求されると、プラグイン既定の DeviceCheck で
   // 取得を試みて失敗し、SDK のバックオフ (Too many attempts) に入ってしまう。
+  // iOS は initializeApp() 直後の自動リフレッシュも DeviceCheck で走るため、
+  // Info.plist の FirebaseAppCheckTokenAutoRefreshEnabled を false にしている。
   await FirebaseAppCheck.instance.activate(
     providerApple: kReleaseMode
         ? const AppleAppAttestProvider()
