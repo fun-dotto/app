@@ -138,11 +138,13 @@ jobs:
           CURRENT_VERSION: ${{ steps.version.outputs.current }}
           FULL_VERSION: ${{ steps.version.outputs.full }}
           SOURCE_BRANCH: ${{ github.ref_name }}
+          SOURCE_SHA: ${{ github.sha }}
         run: |
           branch="release/${FULL_VERSION}"
           git switch -c "$branch"
           sed -i "s/^version: .*/version: ${FULL_VERSION}/" "$PUBSPEC_PATH"
-          git commit -am "バージョンを ${FULL_VERSION} に更新"
+          # OTA のリリースノートがバージョン更新コミットにならないよう、実行時点のコミットをトレーラーで残す
+          git commit -am "バージョンを ${FULL_VERSION} に更新" --trailer "Source-Commit: ${SOURCE_SHA}"
           git push origin "$branch"
 
           label_args=()
@@ -187,6 +189,7 @@ jobs:
           FULL_VERSION: ${{ steps.version.outputs.full }}
           SOURCE_BRANCH: ${{ github.ref_name }}
           RELEASE_PR_URL: ${{ steps.release-pr.outputs.url }}
+          SOURCE_SHA: ${{ github.sha }}
         run: |
           git switch -c "release/${SOURCE_BRANCH}-${FULL_VERSION}" origin/main
           main_version=$(sed -n 's/^version: *\([0-9.]*+[0-9]*\) *$/\1/p' "$PUBSPEC_PATH")
@@ -200,7 +203,8 @@ jobs:
 
           branch="release/${SOURCE_BRANCH}-${FULL_VERSION}"
           sed -i "s/^version: .*/version: ${FULL_VERSION}/" "$PUBSPEC_PATH"
-          git commit -am "バージョンを ${FULL_VERSION} に更新"
+          # OTA のリリースノートがバージョン更新コミットにならないよう、実行時点のコミットをトレーラーで残す
+          git commit -am "バージョンを ${FULL_VERSION} に更新" --trailer "Source-Commit: ${SOURCE_SHA}"
           git push origin "$branch"
           gh pr create \
             --base main \
