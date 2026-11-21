@@ -7,11 +7,12 @@ on:
         description: 上げるバージョン (build はビルド番号のみ上げ、GitHub Release を作らない)
         type: choice
         required: true
+        default: build
         options:
+          - build
           - patch
           - minor
           - major
-          - build
       build_number:
         description: ビルド番号 (省略時は現在の番号 + 1)
         type: string
