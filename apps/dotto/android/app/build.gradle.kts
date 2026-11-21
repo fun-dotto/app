@@ -30,7 +30,8 @@ if (keystorePropertiesFile.exists()) {
 
 configure<ApplicationExtension> {
     namespace = "jp.ac.fun.dotto"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_local_notifications / androidx.core 1.19 が API 37 以上でのコンパイルを要求するため固定する。
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
