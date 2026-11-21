@@ -70,7 +70,11 @@ runs:
 
         run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
         pr_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${PR_NUMBER}"
-        sha=$(git rev-parse HEAD)
+        # Release ワークフローのバージョン更新コミットなら、実行時点のコミット (Source-Commit トレーラー) を通知する
+        sha=$(git log -1 --format='%(trailers:key=Source-Commit,valueonly)' | head -n1)
+        if [ -z "$sha" ]; then
+          sha=$(git rev-parse HEAD)
+        fi
         commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${sha}"
 
         payload=$(jq -n \
