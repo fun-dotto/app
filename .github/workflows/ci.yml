@@ -44,7 +44,16 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - uses: ./.github/actions/setup-ci
-      - run: mise run test
+      - name: Generate code
+        run: |
+          for dir in apps/dotto packages/dotto_design_system; do
+            (cd "$dir" && dart run build_runner build --delete-conflicting-outputs)
+          done
+      - name: Test
+        run: |
+          for dir in apps/dotto packages/dotto_design_system; do
+            (cd "$dir" && flutter test --no-pub --reporter=failures-only --dart-define=VERBOSE_TEST=false)
+          done
 
   lint:
     name: Lint
@@ -59,9 +68,18 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - uses: ./.github/actions/setup-ci
-      - run: mise run generate:build_runner
-      - run: mise run lint
-      - run: mise run format-dry-run
+      - name: Generate code
+        run: |
+          for dir in apps/dotto packages/dotto_design_system; do
+            (cd "$dir" && dart run build_runner build --delete-conflicting-outputs)
+          done
+      - name: Analyze
+        run: dart analyze apps/dotto/ packages/dotto_design_system/ scripts/
+      - name: Check format
+        run: |
+          dart fix --dry-run
+          find apps/dotto/lib apps/dotto/test packages/dotto_design_system/lib scripts -name '*.dart' ! -name '*.freezed.dart' ! -name '*.g.dart' ! -name '*.mocks.dart' -print0 \
+            | xargs -0 dart format --output=none --set-exit-if-changed
       - name: Check for diff
         run: |
           if [ -n "$(git diff --name-only -- ':!*.g.dart' ':!*.freezed.dart')" ]; then
