@@ -31,6 +31,15 @@ def ota_release_notes
   "#{commit_hash}: #{commit_message}"
 end
 
+# apps/dotto/pubspec.yaml の version (x.y.z+build) からビルド番号を取り出す共通ヘルパー。
+# ビルド番号は Release ワークフローが pubspec.yaml で一元管理し、全 OS・全環境で共通の値を使う。
+def pubspec_build_number
+  pubspec = File.read(File.expand_path('../apps/dotto/pubspec.yaml', __dir__))
+  build_number = pubspec[/^version:\s*\S+\+(\d+)\s*$/, 1]
+  UI.user_error!("pubspec.yaml の version からビルド番号を取得できません") if build_number.nil?
+  build_number.to_i
+end
+
 desc "Pre-build"
 lane :pre_build do
   # melos はワークスペースの dev_dependency なので、pub get 後に dart run で呼び出す。
@@ -42,13 +51,13 @@ end
 
 # apps/dotto で flutter build を実行する共通ヘルパー。
 # store flavor は prd と同じ本番バックエンドを参照するため dart_define に prd を渡す。
-def flutter_build(target, flavor:, dart_define: flavor, build_number: nil, extra_args: [])
+# ビルド名・ビルド番号は pubspec.yaml の version がそのまま使われる。
+def flutter_build(target, flavor:, dart_define: flavor, extra_args: [])
   args = [
     'flutter', 'build', target, '--release',
     "--flavor=#{flavor}",
     "--dart-define-from-file=dart_defines/#{dart_define}.json",
   ]
-  args << "--build-number=#{build_number}" unless build_number.nil?
   args.concat(extra_args)
   # fastlane はレーン内の sh を fastlane/ ディレクトリで実行するため、Fastfile 基準の絶対パスで移動する。
   app_dir = File.expand_path('../apps/dotto', __dir__)
