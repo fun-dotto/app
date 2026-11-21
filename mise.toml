@@ -8,7 +8,7 @@ compile = false
 [tools]
 buf = "1.75.0"
 bun = "1.4.5"
-flutter = "3.50.0"
+flutter = "3.50.1"
 gcloud = "593.0.0"
 "npm:firebase-tools" = "15.37.0"
 "npm:rulesync" = "43.11.0"
