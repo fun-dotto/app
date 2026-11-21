@@ -1,60 +1,29 @@
 platform :android do
-  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
-
-  # 各フレーバー(dev/stg/prd)の設定
-  ANDROID_OTA_FLAVORS = {
-    "dev" => {
-      firebase_app_id_env: "FIREBASE_APP_ID_ANDROID_DEV",
-    },
-    "stg" => {
-      firebase_app_id_env: "FIREBASE_APP_ID_ANDROID_STG",
-    },
-    "prd" => {
-      firebase_app_id_env: "FIREBASE_APP_ID_ANDROID_PRD",
-    },
+  # 各フレーバー(dev/stg/prd)の Firebase App ID を保持する環境変数名
+  ANDROID_OTA_FIREBASE_APP_ID_ENVS = {
+    "dev" => "FIREBASE_APP_ID_ANDROID_DEV",
+    "stg" => "FIREBASE_APP_ID_ANDROID_STG",
+    "prd" => "FIREBASE_APP_ID_ANDROID_PRD",
   }
 
-  desc "Pre-build"
-  lane :pre_build do
-    sh('melos', 'bootstrap')
-    sh('melos', 'run', 'gen:build_runner', '--no-select')
-  end
-
-  # 指定フレーバーの aab をビルドする
-  # Firebase App Distribution で AAB を配信するには、Firebase アプリと Google Play アプリの連携が必要
-  def build_android_ota_flavor(flavor, build_number)
-    sh(
-      'melos',
-      'exec',
-      '--scope=dotto',
-      '--',
-      'flutter',
-      'build',
-      'appbundle',
-      '--release',
-      "--flavor=#{flavor}",
-      "--dart-define-from-file=dart_defines/#{flavor}.json",
-      "--build-number=#{build_number}",
-    )
+  def android_ota_firebase_app_id(flavor)
+    ENV[ANDROID_OTA_FIREBASE_APP_ID_ENVS.fetch(flavor)]
   end
 
   # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、AABをビルドする
+  # Firebase App Distribution で AAB を配信するには、Firebase アプリと Google Play アプリの連携が必要
   def prepare_android_ota_flavor(flavor)
-    config = ANDROID_OTA_FLAVORS.fetch(flavor)
-    firebase_app_id = ENV[config[:firebase_app_id_env]]
-
     latest_release = firebase_app_distribution_get_latest_release(
-      app: firebase_app_id,
+      app: android_ota_firebase_app_id(flavor),
     )
     build_number = latest_release.nil? ? 1 : latest_release[:buildVersion].to_i + 1
 
-    build_android_ota_flavor(flavor, build_number)
+    flutter_build('appbundle', flavor: flavor, build_number: build_number)
   end
 
   def distribute_android_ota_flavor(flavor)
-    config = ANDROID_OTA_FLAVORS.fetch(flavor)
     firebase_app_distribution(
-      app: ENV[config[:firebase_app_id_env]],
+      app: android_ota_firebase_app_id(flavor),
       android_artifact_type: "AAB",
       android_artifact_path: "apps/dotto/build/app/outputs/bundle/#{flavor}Release/app-#{flavor}-release.aab",
       groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
@@ -64,9 +33,8 @@ platform :android do
 
   desc "Build OTA (single flavor)"
   lane :build_ota_flavor do |options|
-    flavor = options.fetch(:flavor)
     pre_build
-    prepare_android_ota_flavor(flavor)
+    prepare_android_ota_flavor(options.fetch(:flavor))
   end
 
   desc "Distribute OTA (single flavor)"
@@ -78,23 +46,17 @@ platform :android do
 
   desc "Deploy OTA (single flavor)"
   lane :deploy_ota_flavor do |options|
-    flavor = options.fetch(:flavor)
-    pre_build
-    prepare_android_ota_flavor(flavor)
-    release = distribute_android_ota_flavor(flavor)
-    append_ota_result(platform_label: "Android", flavor: flavor, release: release)
+    build_ota_flavor(options)
+    distribute_ota_flavor(options)
   end
 
   desc "Deploy OTA (dev, stg, prd)"
   lane :deploy_ota do
     pre_build
 
-    releases = ANDROID_OTA_FLAVORS.keys.map do |flavor|
+    payload = ANDROID_OTA_FIREBASE_APP_ID_ENVS.keys.to_h do |flavor|
       prepare_android_ota_flavor(flavor)
-      [flavor, distribute_android_ota_flavor(flavor)]
-    end
-
-    payload = releases.to_h do |flavor, release|
+      release = distribute_android_ota_flavor(flavor)
       [
         "Android (#{flavor})",
         "[#{release[:displayVersion]} (#{release[:buildVersion]})](#{release[:testingUri]})",
@@ -111,32 +73,19 @@ platform :android do
   ANDROID_PRODUCTION_FLAVOR = "store"
   ANDROID_PRODUCTION_AAB_PATH = "apps/dotto/build/app/outputs/bundle/#{ANDROID_PRODUCTION_FLAVOR}Release/app-#{ANDROID_PRODUCTION_FLAVOR}-release.aab"
 
-  # 本番(Google Play)向けの AAB をビルドする
-  # flavor を省略すると Gradle が全 flavor をビルドし、成果物が
-  # bundle/<flavor>Release/ 配下に出るため flutter が AAB を見つけられない
-  def build_android_production(build_number)
-    sh(
-      'melos',
-      'exec',
-      '--scope=dotto',
-      '--',
-      'flutter',
-      'build',
-      'appbundle',
-      '--release',
-      "--flavor=#{ANDROID_PRODUCTION_FLAVOR}",
-      # store flavor は prd と同じ本番バックエンドを参照するため dart define も prd を使う
-      '--dart-define-from-file=dart_defines/prd.json',
-      "--build-number=#{build_number}",
-    )
-  end
-
   # バージョンコードを Google Play の production トラック基準に揃え、AABをビルドする
   # json_key を渡さないことで supply は ADC (GOOGLE_APPLICATION_CREDENTIALS) を利用する。
   # CI では Workload Identity 連携の認証情報が入るため、サービスアカウント鍵は不要
+  # flavor を省略すると Gradle が全 flavor をビルドし、成果物が
+  # bundle/<flavor>Release/ 配下に出るため flutter が AAB を見つけられない
   def prepare_android_production
     latest_version_code = google_play_track_version_codes.first
-    build_android_production(latest_version_code.to_i + 1)
+    flutter_build(
+      'appbundle',
+      flavor: ANDROID_PRODUCTION_FLAVOR,
+      dart_define: 'prd',
+      build_number: latest_version_code.to_i + 1,
+    )
   end
 
   desc "Build Production"
@@ -159,8 +108,7 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy_google_play do
-    pre_build
-    prepare_android_production
+    build_production
     upload_google_play
   end
 end

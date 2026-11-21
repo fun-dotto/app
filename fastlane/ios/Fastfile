@@ -1,5 +1,12 @@
 platform :ios do
-  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+  IOS_APP_IDENTIFIERS = [
+    'jp.ac.fun.dotto.dev',
+    'jp.ac.fun.dotto.stg',
+    'jp.ac.fun.dotto.prd',
+    'jp.ac.fun.dotto',
+  ]
+  IOS_XCODEPROJ = "apps/dotto/ios/Runner.xcodeproj"
+  IOS_WORKSPACE = "apps/dotto/ios/Runner.xcworkspace"
 
   def get_app_store_connect_api_key
     app_store_connect_api_key(
@@ -10,97 +17,55 @@ platform :ios do
     )
   end
 
-  desc "Match Development"
-  lane :match_development do
+  # 証明書・プロビジョニングプロファイルを作成/更新する
+  def match_certificates(type)
     match(
-      type: "development",
+      type: type,
       force_for_new_devices: true,
       api_key: get_app_store_connect_api_key,
-      app_identifier: [
-        'jp.ac.fun.dotto.dev',
-        'jp.ac.fun.dotto.stg',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto',
-      ]
+      app_identifier: IOS_APP_IDENTIFIERS,
     )
+  end
+
+  # 証明書・プロビジョニングプロファイルを読み取り専用で取得する
+  def match_certificates_readonly(type)
+    setup_ci if ENV['CI']
+    match(
+      type: type,
+      force_for_new_devices: true,
+      readonly: true,
+      app_identifier: IOS_APP_IDENTIFIERS,
+    )
+  end
+
+  desc "Match Development"
+  lane :match_development do
+    match_certificates("development")
   end
 
   desc "Match Ad Hoc"
   lane :match_adhoc do
-    match(
-      type: "adhoc",
-      force_for_new_devices: true,
-      api_key: get_app_store_connect_api_key,
-      app_identifier: [
-        'jp.ac.fun.dotto.dev',
-        'jp.ac.fun.dotto.stg',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto',
-      ]
-    )
+    match_certificates("adhoc")
   end
 
   desc "Match App Store"
   lane :match_appstore do
-    match(
-      type: "appstore",
-      force_for_new_devices: true,
-      api_key: get_app_store_connect_api_key,
-      app_identifier: [
-        'jp.ac.fun.dotto.dev',
-        'jp.ac.fun.dotto.stg',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto',
-      ]
-    )
+    match_certificates("appstore")
   end
 
   desc "Fetch Development"
   lane :match_development_readonly do
-    setup_ci if ENV['CI']
-    match(
-      type: "development",
-      force_for_new_devices: true,
-      readonly: true,
-      app_identifier: [
-        'jp.ac.fun.dotto.dev',
-        'jp.ac.fun.dotto.stg',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto',
-      ]
-    )
+    match_certificates_readonly("development")
   end
 
   desc "Fetch Ad Hoc"
   lane :match_adhoc_readonly do
-    setup_ci if ENV['CI']
-    match(
-      type: "adhoc",
-      force_for_new_devices: true,
-      readonly: true,
-      app_identifier: [
-        'jp.ac.fun.dotto.dev',
-        'jp.ac.fun.dotto.stg',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto',
-      ]
-    )
+    match_certificates_readonly("adhoc")
   end
 
   desc "Fetch App Store"
   lane :match_appstore_readonly do
-    setup_ci if ENV['CI']
-    match(
-      type: "appstore",
-      force_for_new_devices: true,
-      readonly: true,
-      app_identifier: [
-        'jp.ac.fun.dotto.dev',
-        'jp.ac.fun.dotto.stg',
-        'jp.ac.fun.dotto.prd',
-        'jp.ac.fun.dotto',
-      ]
-    )
+    match_certificates_readonly("appstore")
   end
 
   desc "Register devices"
@@ -115,16 +80,7 @@ platform :ios do
 
   desc "Reset build number"
   lane :reset_build_number do
-    increment_build_number({
-      build_number: 1,
-      xcodeproj: "apps/dotto/ios/Runner.xcodeproj",
-    })
-  end
-
-  desc "Pre-build"
-  lane :pre_build do
-    sh('melos', 'bootstrap')
-    sh('melos', 'run', 'gen:build_runner', '--no-select')
+    increment_build_number(build_number: 1, xcodeproj: IOS_XCODEPROJ)
   end
 
   # 各フレーバー(dev/stg/prd)の設定
@@ -143,6 +99,10 @@ platform :ios do
     },
   }
 
+  def ios_ota_firebase_app_id(flavor)
+    ENV[IOS_OTA_FLAVORS.fetch(flavor)[:firebase_app_id_env]]
+  end
+
   # 直前の build_app で生成された dSYM を Crashlytics へアップロードする
   # SPM 構成のため upload-symbols は DerivedData 内の firebase-ios-sdk チェックアウトから探す
   def upload_dsym_to_crashlytics(firebase_dir)
@@ -156,99 +116,73 @@ platform :ios do
     )
   end
 
-  desc "Build OTA (per flavor)"
-  def build_ios_ota_flavor(flavor)
-    config = IOS_OTA_FLAVORS.fetch(flavor)
-    app_identifier = config[:app_identifier]
-    sh(
-      'melos',
-      'exec',
-      '--scope=dotto',
-      '--',
-      'flutter',
-      'build',
-      'ipa',
-      '--release',
-      "--flavor=#{flavor}",
-      "--dart-define-from-file=dart_defines/#{flavor}.json",
-    )
+  # Flutter 側は Xcode のビルド設定だけを生成し (--config-only)、アーカイブは build_app に任せる。
+  # flutter build ipa と build_app で 2 回ビルドしていた無駄を省く。
+  def build_ios_ipa(flavor:, dart_define:, output_name:, export_method:, provisioning_profiles:, firebase_dir:)
+    flutter_build('ios', flavor: flavor, dart_define: dart_define, extra_args: ['--config-only'])
     build_app(
-      workspace: "apps/dotto/ios/Runner.xcworkspace",
+      workspace: IOS_WORKSPACE,
       scheme: flavor,
       configuration: "Release-#{flavor}",
       clean: true,
       output_directory: "build",
-      output_name: "dotto-#{flavor}.ipa",
-      export_method: "ad-hoc",
+      output_name: output_name,
+      export_method: export_method,
       export_options: {
-        provisioningProfiles: {
-          app_identifier => "match AdHoc #{app_identifier}",
-        },
+        provisioningProfiles: provisioning_profiles,
       },
     )
-    upload_dsym_to_crashlytics(flavor)
+    upload_dsym_to_crashlytics(firebase_dir)
   end
 
   # 指定フレーバーのビルド番号をFirebase最新リリース基準に揃え、IPAをビルドする
   def prepare_ios_ota_flavor(flavor)
-    config = IOS_OTA_FLAVORS.fetch(flavor)
-    firebase_app_id = ENV[config[:firebase_app_id_env]]
-
     latest_release = firebase_app_distribution_get_latest_release(
-      app: firebase_app_id,
+      app: ios_ota_firebase_app_id(flavor),
     )
-    if latest_release.nil?
-      reset_build_number
-    else
-      increment_build_number(
-        build_number: latest_release[:buildVersion].to_i + 1,
-        xcodeproj: "apps/dotto/ios/Runner.xcodeproj",
-      )
-    end
+    build_number = latest_release.nil? ? 1 : latest_release[:buildVersion].to_i + 1
+    increment_build_number(build_number: build_number, xcodeproj: IOS_XCODEPROJ)
 
-    build_ios_ota_flavor(flavor)
+    app_identifier = IOS_OTA_FLAVORS.fetch(flavor)[:app_identifier]
+    build_ios_ipa(
+      flavor: flavor,
+      dart_define: flavor,
+      output_name: "dotto-#{flavor}.ipa",
+      export_method: "ad-hoc",
+      provisioning_profiles: { app_identifier => "match AdHoc #{app_identifier}" },
+      firebase_dir: flavor,
+    )
+  end
+
+  def distribute_ios_ota_flavor(flavor)
+    firebase_app_distribution(
+      app: ios_ota_firebase_app_id(flavor),
+      ipa_path: "build/dotto-#{flavor}.ipa",
+      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
+      release_notes: ota_release_notes,
+    )
   end
 
   desc "Build OTA (single flavor)"
   lane :build_ota_flavor do |options|
-    flavor = options.fetch(:flavor)
     match_development_readonly
     match_adhoc_readonly
     pre_build
-    prepare_ios_ota_flavor(flavor)
+    prepare_ios_ota_flavor(options.fetch(:flavor))
   end
 
   desc "Distribute OTA (single flavor)"
   lane :distribute_ota_flavor do |options|
     flavor = options.fetch(:flavor)
-    config = IOS_OTA_FLAVORS.fetch(flavor)
-    firebase_app_id = ENV[config[:firebase_app_id_env]]
-    release = firebase_app_distribution(
-      app: firebase_app_id,
-      ipa_path: "build/dotto-#{flavor}.ipa",
-      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-      release_notes: ota_release_notes,
-    )
+    release = distribute_ios_ota_flavor(flavor)
     append_ota_result(platform_label: "iOS", flavor: flavor, release: release)
   end
 
   desc "Deploy OTA (single flavor)"
   lane :deploy_ota_flavor do |options|
-    flavor = options.fetch(:flavor)
-    match_development_readonly
-    match_adhoc_readonly
-    pre_build
-    prepare_ios_ota_flavor(flavor)
-    config = IOS_OTA_FLAVORS.fetch(flavor)
-    firebase_app_id = ENV[config[:firebase_app_id_env]]
-    release = firebase_app_distribution(
-      app: firebase_app_id,
-      ipa_path: "build/dotto-#{flavor}.ipa",
-      groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-      release_notes: ota_release_notes,
-    )
+    build_ota_flavor(options)
+    distribute_ota_flavor(options)
     reset_build_number
-    append_ota_result(platform_label: "iOS", flavor: flavor, release: release)
   end
 
   desc "Deploy OTA (dev, stg, prd)"
@@ -257,20 +191,10 @@ platform :ios do
     match_adhoc_readonly
     pre_build
 
-    releases = IOS_OTA_FLAVORS.keys.map do |flavor|
+    payload = IOS_OTA_FLAVORS.keys.to_h do |flavor|
       prepare_ios_ota_flavor(flavor)
-      config = IOS_OTA_FLAVORS.fetch(flavor)
-      release = firebase_app_distribution(
-        app: ENV[config[:firebase_app_id_env]],
-        ipa_path: "build/dotto-#{flavor}.ipa",
-        groups: ENV["FIREBASE_APP_DISTRIBUTION_GROUPS"],
-        release_notes: ota_release_notes,
-      )
+      release = distribute_ios_ota_flavor(flavor)
       reset_build_number
-      [flavor, release]
-    end
-
-    payload = releases.to_h do |flavor, release|
       [
         "iOS (#{flavor})",
         "[#{release[:displayVersion]} (#{release[:buildVersion]})](#{release[:testingUri]})",
@@ -287,45 +211,20 @@ platform :ios do
   IOS_PRODUCTION_FLAVOR = "store"
   IOS_PRODUCTION_IPA_PATH = "build/dotto.ipa"
 
-  # 本番(App Store)向けの IPA をビルドする
-  def build_ios_production
-    sh(
-      'melos',
-      'exec',
-      '--scope=dotto',
-      '--',
-      'flutter',
-      'build',
-      'ipa',
-      '--release',
-      "--flavor=#{IOS_PRODUCTION_FLAVOR}",
-      # store flavor は prd と同じ本番バックエンドを参照するため dart define も prd を使う
-      "--dart-define-from-file=dart_defines/prd.json",
-    )
-    build_app(
-      workspace: "apps/dotto/ios/Runner.xcworkspace",
-      scheme: IOS_PRODUCTION_FLAVOR,
-      configuration: "Release-#{IOS_PRODUCTION_FLAVOR}",
-      clean: true,
-      output_directory: "build",
-      output_name: "dotto.ipa",
-      export_method: "app-store",
-      export_options: {
-        provisioningProfiles: {
-          "jp.ac.fun.dotto" => "match AppStore jp.ac.fun.dotto",
-        },
-      },
-    )
-    upload_dsym_to_crashlytics("default")
-  end
-
   # ビルド番号を TestFlight の最新ビルド基準に揃え、IPAをビルドする
   def prepare_ios_production
     increment_build_number(
       build_number: latest_testflight_build_number(api_key: get_app_store_connect_api_key) + 1,
-      xcodeproj: "apps/dotto/ios/Runner.xcodeproj",
+      xcodeproj: IOS_XCODEPROJ,
     )
-    build_ios_production
+    build_ios_ipa(
+      flavor: IOS_PRODUCTION_FLAVOR,
+      dart_define: "prd",
+      output_name: File.basename(IOS_PRODUCTION_IPA_PATH),
+      export_method: "app-store",
+      provisioning_profiles: { "jp.ac.fun.dotto" => "match AppStore jp.ac.fun.dotto" },
+      firebase_dir: "default",
+    )
   end
 
   desc "Build Production"
@@ -351,9 +250,7 @@ platform :ios do
 
   desc "Deploy to TestFlight"
   lane :deploy_to_testflight do
-    match_appstore_readonly
-    pre_build
-    prepare_ios_production
+    build_production
     upload_testflight
     reset_build_number
   end
