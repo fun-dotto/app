@@ -1,0 +1,83 @@
+name: Renew Certificates
+
+# fastlane match で管理している iOS の証明書・プロビジョニングプロファイルの有効期限を毎日確認し、
+# 期限切れ間近 (既定 7 日以内) なら作り直して fun-dotto/apple-certificates へ保存する。
+on:
+  schedule:
+    # 毎日 10:17 JST
+    - cron: 17 1 * * *
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 有効期限の何日前から更新するか
+        type: number
+        required: true
+        default: 7
+      force:
+        description: 有効期限に関係なくすべて作り直す
+        type: boolean
+        required: true
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  renew:
+    name: Renew iOS certificates
+    runs-on: xcode-27
+    timeout-minutes: 30
+    env:
+      APP_STORE_CONNECT_API_KEY_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+      DAYS: ${{ inputs.days || 7 }}
+      FORCE: ${{ inputs.force || false }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Xcode
+        run: xcodes select
+      # 証明書リポジトリへ push するため、App には apple-certificates の Contents: write 権限が必要
+      - name: Generate token to access certificates repository
+        id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ vars.DOTTO_APPLE_CERTIFICATES_USER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.DOTTO_APPLE_CERTIFICATES_USER_APP_PRIVATE_KEY }}
+          owner: fun-dotto
+          repositories: apple-certificates
+          permission-contents: write
+      - name: Set match git basic authorization
+        env:
+          TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          echo "::add-mask::$(printf 'x-access-token:%s' "$TOKEN" | base64 | tr -d '\n')"
+          echo "MATCH_GIT_BASIC_AUTHORIZATION=$(printf 'x-access-token:%s' "$TOKEN" | base64 | tr -d '\n')" >> "$GITHUB_ENV"
+      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
+        with:
+          # バージョンは .tool-versions から読み取られる
+          bundler-cache: true
+      - name: Configure git
+        run: |
+          # match が証明書リポジトリへコミットするときの作成者
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Renew certificates
+        run: bundle exec fastlane ios renew_certificates days:"$DAYS" force:"$FORCE"
+      - name: Notify failure
+        if: ${{ failure() && env.SLACK_URL != '' }}
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          payload=$(jq -n --arg url "$RUN_URL" '{text: ("Dotto iOS の証明書更新に失敗しました: " + $url)}')
+          curl -fsS -X POST -H 'Content-Type: application/json' -d "$payload" "$SLACK_URL"

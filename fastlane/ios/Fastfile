@@ -68,6 +68,131 @@ platform :ios do
     match_certificates_readonly("appstore")
   end
 
+  # match の種類ごとの、プロビジョニングプロファイル名の接頭辞と証明書の保存先ディレクトリ
+  MATCH_RENEWAL_TYPES = {
+    "development" => { profile_prefix: "match Development", cert_dir: "development" },
+    "adhoc" => { profile_prefix: "match AdHoc", cert_dir: "distribution" },
+    "appstore" => { profile_prefix: "match AppStore", cert_dir: "distribution" },
+  }
+
+  # match が管理するプロファイルを App Store Connect API で調べ、
+  # 期限切れ間近 (または存在しない・無効) なものと、その署名証明書のうち期限切れ間近なものを返す
+  # force が true のときは有効期限に関係なくすべてを対象にする
+  def find_expiring_match_assets(days, force: false)
+    threshold = Time.now + days * 24 * 60 * 60
+    expiring_types = []
+    expiring_certs = {} # cert_dir => [certificate id, ...]
+
+    MATCH_RENEWAL_TYPES.each do |type, config|
+      IOS_APP_IDENTIFIERS.each do |app_identifier|
+        name = "#{config[:profile_prefix]} #{app_identifier}"
+        profile = Spaceship::ConnectAPI::Profile.all(
+          filter: { name: name },
+          includes: "certificates",
+        ).find { |p| p.name == name }
+
+        if profile.nil?
+          UI.important("#{name}: プロファイルが見つかりません")
+          expiring_types << type
+          next
+        end
+
+        expires_at = Time.parse(profile.expiration_date)
+        UI.message("#{name}: #{profile.profile_state} / 有効期限 #{expires_at}")
+        next if !force && profile.profile_state == "ACTIVE" && expires_at > threshold
+
+        expiring_types << type
+        (profile.certificates || []).each do |cert|
+          next if !force && Time.parse(cert.expiration_date) > threshold
+
+          UI.important("証明書 #{cert.id} (#{cert.name}, 有効期限 #{cert.expiration_date}) を更新します")
+          (expiring_certs[config[:cert_dir]] ||= []) << cert.id
+        end
+      end
+    end
+
+    [expiring_types.uniq, expiring_certs.transform_values(&:uniq)]
+  end
+
+  # 期限切れ間近の証明書を match のリポジトリから取り除く。
+  # 次の match 実行時に新しい証明書が作られる。Developer Portal 上の証明書は失効させない
+  # (失効させると配布済みの Ad Hoc ビルドが起動できなくなるため、期限切れまでそのまま残す)。
+  def remove_certificates_from_match_storage(cert_dir, cert_ids)
+    require 'match'
+    params = FastlaneCore::Configuration.create(Match::Options.available_options, {
+      type: cert_dir == "development" ? "development" : "appstore",
+      readonly: false,
+      app_identifier: IOS_APP_IDENTIFIERS,
+    })
+    params.load_configuration_file("Matchfile")
+    storage = Match::Storage.from_params(params)
+    storage.download
+
+    files = cert_ids.flat_map do |id|
+      %w[cer p12].map { |ext| File.join(storage.working_directory, "certs", cert_dir, "#{id}.#{ext}") }
+    end.select { |path| File.exist?(path) }
+
+    if files.empty?
+      UI.important("certs/#{cert_dir} に削除対象の証明書がありません (#{cert_ids.join(', ')})")
+      return
+    end
+
+    files.each { |path| FileUtils.rm_f(path) }
+    storage.save_changes!(
+      files_to_delete: files,
+      custom_message: "[fastlane] Remove expiring #{cert_dir} certificates: #{cert_ids.join(', ')}",
+    )
+  ensure
+    storage&.clear_changes
+  end
+
+  desc "期限切れ間近の証明書・プロビジョニングプロファイルを更新する"
+  desc "  days: 何日前から更新するか (既定 7)"
+  desc "  force: true のとき有効期限に関係なく証明書・プロファイルをすべて作り直す"
+  lane :renew_certificates do |options|
+    days = (options[:days] || 7).to_i
+    force = options[:force].to_s == "true"
+
+    setup_ci if ENV['CI']
+    get_app_store_connect_api_key
+
+    expiring_types, expiring_certs = find_expiring_match_assets(days, force: force)
+
+    # 証明書を作り直す場合、それで署名する全種類のプロファイルも作り直す
+    expiring_certs.each_key do |cert_dir|
+      expiring_types |= MATCH_RENEWAL_TYPES.select { |_, c| c[:cert_dir] == cert_dir }.keys
+    end
+
+    if expiring_types.empty?
+      UI.success("#{days} 日以内に期限切れになる証明書・プロファイルはありません")
+      next
+    end
+
+    expiring_certs.each do |cert_dir, cert_ids|
+      remove_certificates_from_match_storage(cert_dir, cert_ids)
+    end
+
+    expiring_types.each do |type|
+      match(
+        type: type,
+        force: true,
+        api_key: get_app_store_connect_api_key,
+        app_identifier: IOS_APP_IDENTIFIERS,
+      )
+    end
+
+    summary = "証明書: #{expiring_certs.empty? ? 'なし' : expiring_certs.keys.join(', ')} / プロファイル: #{expiring_types.join(', ')}"
+    UI.success("更新しました (#{summary})")
+    if ENV["SLACK_URL"].to_s != ""
+      slack(
+        message: "Dotto iOS の証明書・プロビジョニングプロファイルを更新しました",
+        payload: { "更新内容" => summary },
+        default_payloads: [],
+        slack_url: ENV["SLACK_URL"],
+      )
+    end
+  end
+
   desc "Register devices"
   lane :register_new_devices do
     register_devices(
