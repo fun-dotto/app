@@ -213,6 +213,12 @@ final class _PersonalWeeklyTimetable extends HookConsumerWidget {
                       owner,
                       filteredRegisteredTimetableItems,
                       onTap: () async {
+                        // 登録・解除後の再取得中に時間割が作り直されて
+                        // この Widget が unmount されると ref が使えなくなるため、
+                        // シートを開く時点で notifier を取得しておく。
+                        final notifier = ref.read(
+                          courseRegistrationStateProvider.notifier,
+                        );
                         await showModalBottomSheet<void>(
                           context: context,
                           isScrollControlled: true,
@@ -222,13 +228,7 @@ final class _PersonalWeeklyTimetable extends HookConsumerWidget {
                             dayOfWeek,
                             period,
                             filteredTimetableItems,
-                            onChanged: () async {
-                              await ref
-                                  .read(
-                                    courseRegistrationStateProvider.notifier,
-                                  )
-                                  .refresh();
-                            },
+                            onChanged: notifier.refresh,
                           ),
                         );
                       },
