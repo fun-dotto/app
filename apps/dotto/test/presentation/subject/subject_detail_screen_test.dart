@@ -42,7 +42,8 @@ FakeAppApiTransport _detailTransport() => FakeAppApiTransport()
         'subject',
         name: '情報処理演習',
         syllabus: apiSyllabus(
-          id: 'lesson',
+          id: 'syllabus-uuid',
+          lessonId: 'lesson',
           fields: {'summary': 'プログラミングの基礎を学ぶ'},
         ),
       ),

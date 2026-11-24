@@ -13,7 +13,7 @@ final class SubjectReviewNewScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) =>
       switch (ref.watch(subjectDetailStateProvider(id))) {
         AsyncData(:final value) => SubjectDetailAddFeedbackScreen(
-          lessonId: value.syllabus.id,
+          lessonId: value.syllabus.lessonId,
         ),
         AsyncError() => const Scaffold(body: ErrorView()),
         _ => const Scaffold(body: LoadingView()),

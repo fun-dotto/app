@@ -32,7 +32,11 @@ import '../../helpers/fake_subject_data_source.dart';
 
 void main() {
   test('科目詳細のシラバスとローカルの過去問IDを合わせて取得する', () async {
-    final syllabus = apiSyllabus(id: '123', fields: {'summary': '授業概要'});
+    final syllabus = apiSyllabus(
+      id: 'syllabus-uuid',
+      lessonId: '123',
+      fields: {'summary': '授業概要'},
+    );
     final transport = FakeAppApiTransport()
       ..on(
         SubjectService.getSubject,

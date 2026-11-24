@@ -85,7 +85,8 @@ final class SubjectRepositoryImpl implements SubjectRepository {
       final subject = response.subject;
       final syllabus = subject.syllabus;
       final pastExamId =
-          await _dataSource.readPastExamId(syllabus.id) ?? syllabus.id;
+          await _dataSource.readPastExamId(syllabus.lessonId) ??
+          syllabus.lessonId;
       return Subject(
         id: subject.id,
         name: subject.name,
