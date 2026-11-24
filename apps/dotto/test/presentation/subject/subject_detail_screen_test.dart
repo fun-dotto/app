@@ -42,7 +42,8 @@ FakeAppApiTransport _detailTransport() => FakeAppApiTransport()
         'subject',
         name: '情報処理演習',
         syllabus: apiSyllabus(
-          id: 'lesson',
+          id: 'syllabus',
+          lessonId: 'lesson',
           fields: {'summary': 'プログラミングの基礎を学ぶ'},
         ),
       ),
@@ -245,7 +246,7 @@ void main() {
     });
   });
 
-  testWidgets('レビュー投稿画面を科目のシラバスIDで開く', (tester) async {
+  testWidgets('レビュー投稿画面を科目の授業コードで開く', (tester) async {
     final dataSource = FakeSubjectDataSource();
     await _pump(
       tester,

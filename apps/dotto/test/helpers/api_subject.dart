@@ -25,9 +25,10 @@ api.SubjectFaculty apiSubjectFaculty(String name, {bool isPrimary = false}) =>
 /// API が返すシラバスを、指定した項目以外を空文字で組み立てる。
 api.SubjectSyllabus apiSyllabus({
   required String id,
+  required String lessonId,
   Map<String, String> fields = const {},
 }) {
-  final syllabus = api.SubjectSyllabus(id: id, credit: '2');
+  final syllabus = api.SubjectSyllabus(id: id, lessonId: lessonId, credit: '2');
   final info = syllabus.info_;
   for (final entry in fields.entries) {
     final field = info.byName[entry.key];
