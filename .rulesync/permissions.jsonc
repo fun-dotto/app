@@ -390,14 +390,11 @@
     },
   },
   "claudecode": {
-    "defaultMode": "default",
     "enabledMcpjsonServers": ["dart-mcp-server", "dotto-figma", "dotto-notion"],
     "enabledPlugins": {
-      "code-review@claude-plugins-official": true,
       "codex@openai-codex": true,
       "context7@claude-plugins-official": true,
-      "firebase@firebase": true,
-      "pr-review-toolkit@claude-plugins-official": true,
+      "firebase@claude-plugins-official": true,
     },
   },
 }
