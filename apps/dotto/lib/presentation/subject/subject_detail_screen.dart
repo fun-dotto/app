@@ -81,7 +81,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
                     );
                     return;
                   }
-                  final lessonId = value.syllabus.id;
+                  final lessonId = value.syllabus.lessonId;
                   final result = await showModalBottomSheet<SubjectFeedback>(
                     context: context,
                     isScrollControlled: true,
@@ -128,7 +128,7 @@ final class SubjectDetailScreen extends HookConsumerWidget {
           },
           switch (subjectState) {
             AsyncData(:final value) => SubjectDetailFeedbackScreen(
-              lessonId: value.syllabus.id,
+              lessonId: value.syllabus.lessonId,
             ),
             AsyncError() => Center(
               child: Text(
