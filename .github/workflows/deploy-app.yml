@@ -79,7 +79,7 @@ jobs:
           # GitHub App のインストールトークンを base64 化して match の HTTPS Basic 認証に渡す
           echo "MATCH_GIT_BASIC_AUTHORIZATION=$(printf 'x-access-token:%s' '${{ steps.app-token.outputs.token }}' | base64 | tr -d '\n')" >> "$GITHUB_ENV"
       - uses: ./.github/actions/setup-flutter
-      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
+      - uses: ruby/setup-ruby@145243922b4465b78e04dd66294782c7de45901f # v1.345.0
         with:
           # バージョンは .tool-versions から読み取られる
           bundler-cache: true
@@ -136,7 +136,7 @@ jobs:
           distribution: temurin
           java-version-file: .tool-versions
           cache: gradle
-      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
+      - uses: ruby/setup-ruby@145243922b4465b78e04dd66294782c7de45901f # v1.345.0
         with:
           # バージョンは .tool-versions から読み取られる
           bundler-cache: true
