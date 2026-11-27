@@ -11,7 +11,7 @@ bun = "1.4.5"
 flutter = "3.50.0"
 gcloud = "593.0.0"
 "npm:firebase-tools" = "15.37.0"
-"npm:rulesync" = "43.12.0"
+"npm:rulesync" = "43.16.0"
 
 [tasks.bootstrap]
 description = "依存関係の取得と設定ファイルの取得を行う"
